@@ -1,0 +1,7 @@
+.DS_Store
+.godot/
+.env
+.env.*
+*.tmp
+*.swp
+*~
