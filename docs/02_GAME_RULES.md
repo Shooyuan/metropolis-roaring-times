@@ -41,7 +41,7 @@ Every new match stores a seed. The seed controls all permitted random choices, i
 
 ### 2.3 Map State
 
-- The map contains 60–80 irregular interactive plots.
+- The map contains exactly 64 irregular interactive plots.
 - Public plots are owned by the government and cannot be purchased.
 - Initial private and unowned plots are defined by the mode configuration.
 - All ownership, zoning, adjacency and building state is loaded before the first turn begins.
@@ -209,6 +209,10 @@ The final deterministic base values and district multipliers are configuration d
 - Factory: applies a negative residential-income modifier in its configured radius.
 - Department Store: benefits from residential units and suitable commercial location.
 - Public transit is prebuilt in the vertical slice and can provide adjacency bonuses; the player cannot build tram or subway infrastructure.
+- The fixed transport layer contains two bridges, six subway stations and one tram line with approximately five stops.
+- A plot within one adjacency step of an applicable transit facility receives 15% more land value and building income.
+- Configured Brooklyn Bridgehead plots receive an additional 10% land-value bonus from bridge access.
+- Multiple transit-access bonuses do not stack; only the highest applicable transit bonus is used. The separate configured bridgehead bonus may apply in addition.
 
 ### 7.4 Demolition
 

@@ -25,7 +25,7 @@ The first playable release is **Vertical Slice Test Mode**:
 - One human player versus one AI opponent.
 - Three implemented AI personalities: Tycoon, Landlady and Shark.
 - One AI personality is active in a match; opponent selection behavior will be frozen before the new-game flow is implemented.
-- 60–80 irregular, interactive plots across a stylized Manhattan and a small Brooklyn bridgehead area.
+- Exactly 64 irregular, interactive plots across a stylized Manhattan and a small Brooklyn bridgehead area.
 - A complete match from opening state to final result.
 - A Godot project that can be exported and played in a desktop browser.
 
@@ -119,6 +119,8 @@ Central Park, City Hall, the public library, major bridges and initial transit n
 - Department Store.
 
 Transit is initially represented by public infrastructure and adjacency effects. Player-built tram and subway networks are deferred from the vertical slice.
+
+The fixed transport layer contains the Brooklyn and Manhattan bridges, six subway stations and one tram line with approximately five stops. Nearby plots receive a non-stacking transit-access bonus.
 
 ### 7.3 AI Roster
 
