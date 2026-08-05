@@ -4,9 +4,9 @@ This is a disposable, dependency-free investor gameplay prototype. It is not the
 
 ## Current Implementation Status
 
-Commit `ee6eccf` is the completed original M0W build. Its current HTML still shows the earlier `Roaring Times` title, Investor Brief layout and bottom command deck and does not yet implement redevelopment, brokered sale or securities. Those are known implementation gaps, not the current specification.
+M0.1W replaces the original M0W interface and economic loop. The playable page now uses the approved title, five-page Integrated Operations Panel, top-bar `End Turn`, upward redevelopment, next-turn brokered property sale, three securities instruments and classified Investment Advice feed.
 
-The approved M0.1W revision is intentionally not started until the M0.1D documentation stage is tested, committed, reported and separately approved.
+The original M0W baseline remains recorded in commit `ee6eccf`; the M0.1D specification synchronization is recorded in commit `6c4b5a4`. This folder remains a disposable investor-explanation prototype rather than production Godot code.
 
 ## Included
 
@@ -14,9 +14,13 @@ The approved M0.1W revision is intentionally not started until the M0.1D documen
 - 18 representative plots;
 - Tycoon, Landlady and Shark rival choices;
 - property purchase and four building types;
+- strictly upward redevelopment with the 120% residual-value credit;
+- 90% brokered property sales that settle next turn;
+- bonds, industrial shares and a fictional investment trust;
 - construction delay, settlement and economy phases;
 - explicit borrowing, repayment and maturity risk;
 - simplified rival actions and zoning change;
+- five independent Operations Desk pages and classified news/activity records;
 - browser-local save/load and net-worth result.
 
 ## Not Included
@@ -26,13 +30,11 @@ The approved M0.1W revision is intentionally not started until the M0.1D documen
 - final historical event stories;
 - final AI scoring, art, audio or Godot architecture.
 
-## Approved M0.1W Revision Scope
+## Prototype Boundaries
 
-- display `Metropolis: Roaring Times`;
-- replace the fixed Investor Brief/bottom command deck with the five-tab Integrated Operations Panel and top-bar `End Turn`;
-- add strictly upward redevelopment using the approved 120% credit and zero payout floor;
-- add 90% next-turn brokered property sale;
-- add bonds, shares and an investment trust, with one existing action point per buy/sell;
-- add Investment Advice source classification and keep Auction House free of unapproved story content.
+- Debt maturity still uses the documented simplified M0 bankruptcy result; production bank takeover and emergency disposition arrive in later Godot stages.
+- The Auction House truthfully shows `No Scheduled Auctions`; owner-approved auction stories and bidder behavior have not been invented.
+- News labeled `Historical` uses institutional historical-summary wording, not fabricated newspaper attribution.
+- Save schema v2 automatically migrates the original M0 v1 browser save when one exists.
 
 Serve this folder through a local HTTP server for testing. `index.html` is the entry page.

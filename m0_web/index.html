@@ -3,21 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A playable M0 graybox prototype for Roaring Times, a historical New York property strategy game.">
-  <title>Roaring Times — M0 Web Graybox</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="A playable M0.1 graybox prototype for Metropolis: Roaring Times, a historical New York property strategy game.">
+  <title>Metropolis: Roaring Times — M0.1 Web Graybox</title>
+  <link rel="stylesheet" href="styles.css?v=m01w">
 </head>
 <body>
-  <div class="prototype-ribbon">M0 WEB GRAYBOX — NOT FINAL ART OR BALANCE</div>
+  <div class="prototype-ribbon">M0.1 WEB GRAYBOX — NOT FINAL ART, BALANCE OR HISTORICAL CONTENT</div>
 
-  <main class="game-shell" aria-label="Roaring Times M0 prototype">
+  <main class="game-shell" aria-label="Metropolis: Roaring Times M0.1 prototype">
     <header class="masthead">
       <div>
         <p class="eyebrow">New York Property Strategy · Pre-Alpha</p>
-        <h1>Roaring Times</h1>
+        <h1>Metropolis: <span>Roaring Times</span></h1>
       </div>
-      <div class="header-actions">
+      <div class="header-actions" aria-label="System actions">
         <button id="help-button" class="quiet-button" type="button">How to Play</button>
+        <button id="settings-button" class="quiet-button" type="button">Settings</button>
         <button id="save-button" class="quiet-button" type="button">Save</button>
         <button id="load-button" class="quiet-button" type="button">Load</button>
         <button id="restart-button" class="quiet-button" type="button">New Match</button>
@@ -32,181 +33,139 @@
       <div class="status-cell"><span>Credit Left</span><strong id="credit-value">—</strong></div>
       <div class="status-cell"><span>Net Worth</span><strong id="worth-value">—</strong></div>
       <div class="status-cell status-cell--ap"><span>Action Points</span><strong id="ap-value">—</strong></div>
+      <button id="end-turn-button" class="status-end-turn" type="button"><span>Current Action</span><strong>End Turn</strong><small id="turn-prompt">Start a match</small></button>
     </section>
 
     <section class="workspace">
-      <aside class="brief-panel panel">
+      <aside class="operations-panel panel" aria-label="Operations Desk">
         <div class="panel-heading">
-          <span>Investor Brief</span>
+          <span>Operations Desk</span>
           <span class="panel-number">01</span>
         </div>
-        <p class="lead-copy">Build a property empire while credit, rivals and city rules change the value of every block.</p>
-
-        <dl class="rival-card">
-          <div><dt>Rival</dt><dd id="rival-name">—</dd></div>
-          <div><dt>Style</dt><dd id="rival-style">—</dd></div>
-          <div><dt>Condition</dt><dd id="rival-condition">—</dd></div>
-          <div><dt>Rival Worth</dt><dd id="rival-worth">—</dd></div>
-        </dl>
-
-        <div id="event-card" class="event-card" aria-live="polite">
-          <strong>City Desk</strong>
-          <p>Choose a rival to begin the prototype.</p>
+        <div class="operations-tabs" role="tablist" aria-label="Operations pages">
+          <button type="button" role="tab" data-operations-tab="brief" aria-controls="tab-brief">Game<br>Brief</button>
+          <button type="button" role="tab" data-operations-tab="advice" aria-controls="tab-advice">Investment<br>Advice</button>
+          <button type="button" role="tab" data-operations-tab="bank" aria-controls="tab-bank">Bank</button>
+          <button type="button" role="tab" data-operations-tab="auction" aria-controls="tab-auction">Auction<br>House</button>
+          <button type="button" role="tab" data-operations-tab="stocks" aria-controls="tab-stocks">Stock<br>Market</button>
         </div>
 
-        <ol class="pitch-steps">
-          <li>Inspect and buy an available plot.</li>
-          <li>Build for income and location value.</li>
-          <li>Use credit without missing repayment.</li>
-          <li>Adapt when the economy and zoning change.</li>
-          <li>Finish turn 8 with the highest net worth.</li>
-        </ol>
+        <section id="tab-brief" class="operations-page" role="tabpanel" data-operations-page="brief">
+          <div class="mascot-placeholder" aria-label="Future board mascot placeholder">
+            <div class="mascot-face" aria-hidden="true">◉‿◉</div>
+            <div><strong>Board Mascot Office</strong><p>Reserved for a future rubber-hose adviser. This graybox uses deterministic text only.</p></div>
+          </div>
+          <dl class="brief-grid">
+            <div><dt>Mode</dt><dd>1v1 · M0.1</dd></div>
+            <div><dt>Ruleset</dt><dd>Standard</dd></div>
+            <div><dt>Rival</dt><dd id="rival-name">—</dd></div>
+            <div><dt>Style</dt><dd id="rival-style">—</dd></div>
+            <div><dt>Condition</dt><dd id="rival-condition">—</dd></div>
+            <div><dt>Rival Worth</dt><dd id="rival-worth">—</dd></div>
+            <div><dt>Current Law</dt><dd id="law-status">—</dd></div>
+            <div><dt>Objective</dt><dd>Lead after turn 8</dd></div>
+          </dl>
+          <ol class="pitch-steps">
+            <li>Buy and develop property for operating income.</li>
+            <li>Redevelop upward when a better legal use appears.</li>
+            <li>Use sales, banking and securities to manage liquidity.</li>
+            <li>Finish turn 8 with the highest net worth.</li>
+          </ol>
+          <p class="scope-note">Prototype: 18 representative plots and 8 compressed turns. Production target: 64 plots and 20 turns.</p>
+        </section>
 
-        <p class="scope-note">Prototype scope: 18 representative plots and 8 compressed turns. The production target remains 64 plots and 20 turns.</p>
+        <section id="tab-advice" class="operations-page" role="tabpanel" data-operations-page="advice" hidden>
+          <div id="market-brief" class="event-card" aria-live="polite"><strong>Market Brief</strong><p>Choose a rival to begin.</p></div>
+          <div class="feed-key"><span>Historical</span><span>Fictional</span><span>Rumor</span><span>Activity</span></div>
+          <ol id="news-list" class="news-list" aria-live="polite"></ol>
+        </section>
+
+        <section id="tab-bank" class="operations-page" role="tabpanel" data-operations-page="bank" hidden>
+          <p class="page-lead">Credit is available throughout Player Action. Borrowing and repayment cost no action points.</p>
+          <dl class="brief-grid bank-summary">
+            <div><dt>Available Credit</dt><dd id="bank-credit">—</dd></div>
+            <div><dt>New Loan Rate</dt><dd id="bank-rate">—</dd></div>
+            <div><dt>Term</dt><dd>6 turns</dd></div>
+          </dl>
+          <div class="stacked-actions">
+            <button id="borrow-button" class="primary-button" type="button">Borrow $10,000</button>
+            <button id="repay-button" type="button">Repay up to $10,000</button>
+          </div>
+          <h3>Loan Book</h3>
+          <ol id="loan-list" class="compact-list"></ol>
+        </section>
+
+        <section id="tab-auction" class="operations-page" role="tabpanel" data-operations-page="auction" hidden>
+          <div class="empty-docket"><span aria-hidden="true">⚖</span><h2>No Scheduled Auctions</h2><p>Auction stories and bidder content require owner approval. This graybox does not invent them.</p></div>
+          <p class="scope-note">Planned production formats: government land auctions and emergency debt auctions.</p>
+        </section>
+
+        <section id="tab-stocks" class="operations-page" role="tabpanel" data-operations-page="stocks" hidden>
+          <p class="page-lead">Each buy or sell uses 1 of the existing 3 action points. Minimum order $1,000; fee 1%.</p>
+          <label class="order-amount" for="stock-order-amount">Order value
+            <input id="stock-order-amount" type="number" min="1000" step="1000" value="1000">
+          </label>
+          <div id="stock-list" class="stock-list"></div>
+          <p class="scope-note">Prototype baskets use fictional aggregate instruments. No futures, short selling, broker margin or live prices.</p>
+        </section>
       </aside>
 
       <section class="map-panel panel" aria-label="Prototype Manhattan map">
-        <div class="panel-heading">
-          <span>Property Map</span>
-          <span id="map-hint">Select a plot</span>
-        </div>
+        <div class="panel-heading"><span>Property Map</span><span id="map-hint">Select a plot</span></div>
         <div class="map-stage" id="map-stage">
-          <div class="river-label river-label--hudson">HUDSON RIVER</div>
-          <div class="river-label river-label--east">EAST RIVER</div>
+          <div class="river-label river-label--hudson">HUDSON RIVER</div><div class="river-label river-label--east">EAST RIVER</div>
           <div class="manhattan-silhouette" aria-hidden="true"></div>
-          <div class="district-label district-label--north">CENTRAL PARK DISTRICT</div>
-          <div class="district-label district-label--mid">MIDTOWN</div>
-          <div class="district-label district-label--west">HELL'S KITCHEN</div>
-          <div class="district-label district-label--east">LOWER EAST SIDE</div>
+          <div class="district-label district-label--north">CENTRAL PARK DISTRICT</div><div class="district-label district-label--mid">MIDTOWN</div>
+          <div class="district-label district-label--west">HELL'S KITCHEN</div><div class="district-label district-label--east">LOWER EAST SIDE</div>
           <div class="district-label district-label--south">LOWER MANHATTAN</div>
           <div id="plot-layer" class="plot-layer"></div>
-          <div class="bridge-line bridge-line--one" aria-hidden="true"></div>
-          <div class="bridge-line bridge-line--two" aria-hidden="true"></div>
+          <div class="bridge-line bridge-line--one" aria-hidden="true"></div><div class="bridge-line bridge-line--two" aria-hidden="true"></div>
           <div class="bridgehead-label">BROOKLYN<br>BRIDGEHEAD</div>
         </div>
-        <div class="legend" aria-label="Map legend">
-          <span><i class="legend-key legend-key--available"></i>Available</span>
-          <span><i class="legend-key legend-key--player"></i>You</span>
-          <span><i class="legend-key legend-key--rival"></i>Rival</span>
-          <span><i class="legend-key legend-key--public"></i>Public</span>
-          <span><i class="legend-key legend-key--selected"></i>Selected</span>
-        </div>
+        <div class="legend" aria-label="Map legend"><span><i class="legend-key legend-key--available"></i>Available</span><span><i class="legend-key legend-key--player"></i>You</span><span><i class="legend-key legend-key--rival"></i>Rival</span><span><i class="legend-key legend-key--public"></i>Public</span><span><i class="legend-key legend-key--selected"></i>Selected</span></div>
       </section>
 
       <aside class="property-panel panel">
-        <div class="panel-heading">
-          <span>Property File</span>
-          <span class="panel-number">02</span>
-        </div>
+        <div class="panel-heading"><span>Property File</span><span class="panel-number">02</span></div>
         <div id="empty-property" class="empty-property">Select a plot on the map.</div>
         <div id="property-details" class="property-details" hidden>
-          <p class="plot-code" id="plot-code">—</p>
-          <h2 id="plot-name">—</h2>
+          <p class="plot-code" id="plot-code">—</p><h2 id="plot-name">—</h2>
           <dl class="property-grid">
-            <div><dt>District</dt><dd id="plot-district">—</dd></div>
-            <div><dt>Zone</dt><dd id="plot-zone">—</dd></div>
-            <div><dt>Owner</dt><dd id="plot-owner">—</dd></div>
-            <div><dt>Market</dt><dd id="plot-price">—</dd></div>
-            <div><dt>Building</dt><dd id="plot-building">—</dd></div>
-            <div><dt>Income</dt><dd id="plot-income">—</dd></div>
+            <div><dt>District</dt><dd id="plot-district">—</dd></div><div><dt>Zone</dt><dd id="plot-zone">—</dd></div>
+            <div><dt>Owner</dt><dd id="plot-owner">—</dd></div><div><dt>Market</dt><dd id="plot-price">—</dd></div>
+            <div><dt>Building</dt><dd id="plot-building">—</dd></div><div><dt>Income</dt><dd id="plot-income">—</dd></div>
           </dl>
-
-          <div class="action-section">
-            <button id="buy-button" class="primary-button" type="button">Buy Plot</button>
-          </div>
-
+          <div class="action-section"><button id="buy-button" class="primary-button" type="button">Buy Plot</button></div>
           <div class="action-section build-section">
             <label for="building-select">Build on owned empty land</label>
-            <select id="building-select">
-              <option value="standard_apartment">Standard Apartment — $8,000</option>
-              <option value="luxury_apartment">Luxury Apartment — $25,000</option>
-              <option value="factory">Factory — $15,000</option>
-              <option value="department_store">Department Store — $30,000</option>
-            </select>
+            <select id="building-select"><option value="standard_apartment">Standard Apartment — $8,000</option><option value="factory">Factory — $15,000</option><option value="luxury_apartment">Luxury Apartment — $25,000</option><option value="department_store">Department Store — $30,000</option></select>
             <button id="build-button" class="primary-button" type="button">Build</button>
           </div>
-
+          <div class="action-section redevelop-section" hidden>
+            <label for="redevelop-select">Redevelop into a higher-cost building</label>
+            <select id="redevelop-select"></select>
+            <p id="redevelop-preview" class="action-preview"></p>
+            <button id="redevelop-button" class="primary-button" type="button">Redevelop</button>
+          </div>
+          <div class="action-section sale-section" hidden>
+            <p id="sale-preview" class="action-preview"></p>
+            <button id="sell-property-button" type="button">Brokered Sale</button>
+          </div>
           <p id="property-reason" class="reason-copy" aria-live="polite"></p>
         </div>
       </aside>
     </section>
-
-    <section class="command-deck panel" aria-label="Player actions">
-      <div class="command-copy">
-        <span class="eyebrow">Finance & Turn</span>
-        <strong id="turn-prompt">Start a match to take action.</strong>
-      </div>
-      <div class="command-actions">
-        <button id="borrow-button" type="button">Borrow $10,000</button>
-        <button id="repay-button" type="button">Repay up to $10,000</button>
-        <button id="end-turn-button" class="primary-button" type="button">End Turn</button>
-      </div>
-    </section>
-
-    <section class="ledger-panel panel" aria-label="Transaction ledger">
-      <div class="panel-heading">
-        <span>City Ledger</span>
-        <span>Latest activity</span>
-      </div>
-      <ol id="ledger-list" class="ledger-list" aria-live="polite"></ol>
-    </section>
   </main>
 
-  <div id="start-modal" class="modal-backdrop is-open" role="dialog" aria-modal="true" aria-labelledby="start-title">
-    <section class="modal-card rival-modal">
-      <p class="eyebrow">Playable M0 Prototype</p>
-      <h2 id="start-title">Choose Rival</h2>
-      <p>Each rival uses the same starting value but favors a different strategy.</p>
-      <div class="rival-options">
-        <button class="rival-option" type="button" data-rival="tycoon">
-          <strong>Tycoon</strong>
-          <span>Industrial expansion and transport value.</span>
-        </button>
-        <button class="rival-option" type="button" data-rival="landlady">
-          <strong>Landlady</strong>
-          <span>Residential income and steady holdings.</span>
-        </button>
-        <button class="rival-option" type="button" data-rival="shark">
-          <strong>Shark</strong>
-          <span>Cheap land, cash reserves and opportunism.</span>
-        </button>
-      </div>
-      <button id="start-load-button" class="start-load-button" type="button" hidden>Continue Saved Match</button>
-      <p class="modal-footnote">This graybox demonstrates interaction and strategy. It is not final art, balance or historical content.</p>
-    </section>
-  </div>
+  <div id="start-modal" class="modal-backdrop is-open" role="dialog" aria-modal="true" aria-labelledby="start-title"><section class="modal-card rival-modal"><p class="eyebrow">Playable M0.1 Prototype</p><h2 id="start-title">Choose Rival</h2><p>Each rival uses the same starting value but favors a different strategy.</p><div class="rival-options"><button class="rival-option" type="button" data-rival="tycoon"><strong>Tycoon</strong><span>Industrial expansion and transport value.</span></button><button class="rival-option" type="button" data-rival="landlady"><strong>Landlady</strong><span>Residential income and steady holdings.</span></button><button class="rival-option" type="button" data-rival="shark"><strong>Shark</strong><span>Cheap land, liquidity and opportunism.</span></button></div><button id="start-load-button" class="start-load-button" type="button" hidden>Continue Saved Match</button><p class="modal-footnote">Graybox interaction only. Not final art, balance, auction content or historical writing.</p></section></div>
 
-  <div id="help-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="help-title">
-    <section class="modal-card help-modal-card">
-      <button class="modal-close" type="button" data-close-modal="help-modal" aria-label="Close help">×</button>
-      <p class="eyebrow">Three-Minute Walkthrough</p>
-      <h2 id="help-title">How to Play</h2>
-      <ol>
-        <li>Select a white plot, then buy it for one action point.</li>
-        <li>Select your plot, choose a building and build for one action point.</li>
-        <li>Construction becomes active next turn and starts producing income.</li>
-        <li>Borrowing costs no action point, but every prototype loan is due in six turns.</li>
-        <li>Watch the city desk: zoning eventually blocks new factories and stores on Residential plots.</li>
-        <li>Your rival acts after you end the turn. Highest net worth after turn 8 wins.</li>
-      </ol>
-      <p>Patterns identify ownership: double outline for you, crosshatch for the rival and dotted edges for public land.</p>
-    </section>
-  </div>
+  <div id="help-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="help-title"><section class="modal-card help-modal-card"><button class="modal-close" type="button" data-close-modal="help-modal" aria-label="Close help">×</button><p class="eyebrow">Three-Minute Walkthrough</p><h2 id="help-title">How to Play</h2><ol><li>Buy land and construct a building; each costs one action point.</li><li>Redevelop only into a higher-cost legal building. The old building contributes a 120% upgrade credit, but never pays cash back.</li><li>A brokered sale locks 90% of current property value and settles next turn.</li><li>Every securities buy or sell costs one action point and a 1% fee.</li><li>Bank borrowing and repayment cost no action points; loans mature in six turns.</li><li>Highest net worth after turn 8 wins.</li></ol></section></div>
 
-  <div id="result-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="result-title">
-    <section class="modal-card result-card">
-      <p class="eyebrow">Prototype Result</p>
-      <h2 id="result-title">Match Complete</h2>
-      <p id="result-summary"></p>
-      <div class="result-grid">
-        <div><span>Your Net Worth</span><strong id="result-player-worth">—</strong></div>
-        <div><span>Rival Net Worth</span><strong id="result-rival-worth">—</strong></div>
-      </div>
-      <button id="result-restart-button" class="primary-button" type="button">Choose Another Rival</button>
-    </section>
-  </div>
+  <div id="settings-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="settings-title"><section class="modal-card settings-card"><button class="modal-close" type="button" data-close-modal="settings-modal" aria-label="Close settings">×</button><p class="eyebrow">Prototype Settings</p><h2 id="settings-title">System</h2><dl class="brief-grid"><div><dt>Language</dt><dd>English</dd></div><div><dt>Ruleset</dt><dd>Standard</dd></div><div><dt>Motion</dt><dd>Follows device preference</dd></div><div><dt>Save</dt><dd>Browser local storage</dd></div></dl></section></div>
+
+  <div id="result-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="result-title"><section class="modal-card result-card"><p class="eyebrow">Prototype Result</p><h2 id="result-title">Match Complete</h2><p id="result-summary"></p><div class="result-grid"><div><span>Your Net Worth</span><strong id="result-player-worth">—</strong></div><div><span>Rival Net Worth</span><strong id="result-rival-worth">—</strong></div><div><span>Your Securities</span><strong id="result-player-securities">—</strong></div><div><span>Rival Securities</span><strong id="result-rival-securities">—</strong></div></div><button id="result-restart-button" class="primary-button" type="button">Choose Another Rival</button></section></div>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="app.js"></script>
+  <script src="app.js?v=m01w"></script>
 </body>
 </html>

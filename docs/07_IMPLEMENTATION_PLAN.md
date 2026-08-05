@@ -28,7 +28,7 @@ The first documentation-reconciliation stage consists of:
 | D6 | Acceptance Tests | Complete |
 | D7 | Implementation Plan | Complete after this document passes tests and is committed |
 
-The standalone M0W Web Graybox was completed in commit `ee6eccf`. It is playable but still uses the earlier title, layout and economic loop. The current M0.1D stage synchronizes the newly approved redevelopment, brokered-sale, securities/news and Integrated Operations Panel decisions before any implementation revision. `project.godot` remains a minimal configuration until M0G is explicitly resumed.
+The standalone M0W Web Graybox was completed in commit `ee6eccf`, and the M0.1D specification synchronization was completed in commit `6c4b5a4`. The approved M0.1W revision now updates the disposable Web prototype with the documented title, interface and liquidity loop. `project.godot` remains a minimal configuration until M0G is explicitly resumed.
 
 ## 3. Mandatory Stage Protocol
 
@@ -195,6 +195,8 @@ Before changing the prototype, make the project title, redevelopment, property s
 High. The 120% credit produces a money loop unless redevelopment is limited to a strictly higher original construction cost and the cash result is floored at zero. The securities scope also touches AI, save, results and tests and cannot be documented as UI-only work.
 
 ## 7B. M0.1W — Web Graybox Economic and UI Revision
+
+**Status:** Complete after the M0.1W stage commit and owner report recorded by this gate.
 
 ### Objective
 
