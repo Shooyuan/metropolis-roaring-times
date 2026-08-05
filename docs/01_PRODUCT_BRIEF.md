@@ -147,9 +147,9 @@ The visual direction combines:
 
 - Early twentieth-century New York promotional maps.
 - Art Deco geometry.
-- Cream paper, dark brown ink, salmon-orange water, verdigris and champagne gold.
+- A strict palette sampled from the supplied map: cream paper, dark brown ink, warm peach-orange water and a restrained compass red.
 - Hand-drawn architectural vignettes and slightly imperfect print registration.
-- Rubber-hose-inspired AI portraits used sparingly for bidding and reactions.
+- Original rubber-hose-inspired AI portraits with five consistent emotional states, used for rival identity, bidding and reactions.
 
 The supplied Manhattan pictorial map is a composition and style reference, not a final background asset. The playable geography, plot polygons and status layers are original structured assets.
 
