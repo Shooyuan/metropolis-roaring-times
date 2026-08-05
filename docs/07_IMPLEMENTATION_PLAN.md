@@ -1,33 +1,704 @@
-# 实施计划
+# Roaring Times — Implementation Plan
 
-## 0. 规格冻结
+> Document role: authoritative milestone sequence for the 20-turn vertical slice
+>
+> Execution model: one approved stage at a time, test/fix, save, Git commit, owner report, next-stage approval
+>
+> Scope authority: `../00_PROJECT_CONTEXT.md` and `01_PRODUCT_BRIEF.md` through `06_ACCEPTANCE_TESTS.md`
 
-- 放入并阅读两份原始 PRD 与地图参考。
-- 将具体指标、法令、区域、数值和结局写入实施规格。
-- 记录原始设计与垂直切片取舍。
+## 1. Plan Objective
 
-## 1. 项目骨架
+This plan turns the frozen product, rules, visual, architecture and acceptance documents into a recoverable sequence of Godot milestones.
 
-- 建立启动场景、基础导航、数据目录与测试入口。
-- 实现不依赖 UI 的游戏状态和回合状态机。
+The final target remains a complete English-language, browser-playable 20-turn 1v1 vertical slice. The plan also adds one explicit interim deliverable requested by the owner: a deliberately plain but fully functional investor gameplay prototype before final art production.
 
-## 2. 核心循环
+The plan does not authorize work on the full 312-turn mode or any deferred system.
 
-- 实现法令数据、条件检查、效果结算和历史记录。
-- 先以简单界面跑通 20 回合及最终结算。
+## 2. Current Baseline
 
-## 3. 地图与界面
+The documentation-reconciliation stage consists of:
 
-- 实现曼哈顿区域地图及交互状态。
-- 接入指标、法令卡、反馈、新手提示和结果页。
+| Stage | Document | Status at D7 completion |
+|---|---|---|
+| D1 | Product Brief | Complete |
+| D2 | Game Rules | Complete |
+| D3 | Vertical Slice Scope | Complete |
+| D4 | Map and Art Direction | Complete |
+| D5 | Technical Architecture | Complete |
+| D6 | Acceptance Tests | Complete |
+| D7 | Implementation Plan | Complete after this document passes tests and is committed |
 
-## 4. 内容与调优
+No playable implementation is claimed at this baseline. `project.godot` is only a minimal configuration until M0 verifies and extends it.
 
-- 填充冻结范围内的法令、局势和结局。
-- 调整数值、信息层级和反馈节奏。
+## 3. Mandatory Stage Protocol
 
-## 5. 验收与打包
+Every implementation stage follows this sequence:
 
-- 按 `06_ACCEPTANCE_TESTS.md` 执行自动与人工测试。
-- 修复阻塞问题并记录候选版本验收结果。
+1. Read `AGENTS.md`, the authoritative documents, Git status and latest commit.
+2. Report the stage objective, files, tests, risks, external actions and required owner decisions.
+3. Obtain explicit owner approval to start.
+4. Change only the approved stage scope.
+5. Run all newly applicable acceptance tests and relevant regressions.
+6. Fix every discovered blocker/serious defect and all failures required by the stage gate.
+7. Save all related files and inspect the complete Git diff.
+8. Confirm no cache, secret, proxy, personal configuration or unrelated change is included.
+9. Create the stage Git commit.
+10. Report files, evidence, commit, remaining risk and the proposed next stage.
+11. Wait for explicit approval before starting the next stage.
 
+A test failure, unsaved file or failed commit prevents stage completion. Work may remain in the worktree while a failure is being fixed, but it must be reported and cannot be called complete.
+
+### 3.1 Commit Policy
+
+- Each stage and approved substage receives its own recoverable commit.
+- The investor prototype is a separate stage and commit.
+- A commit message describes the delivered capability rather than an internal activity.
+- Existing commits are not rewritten merely to improve wording or automatic author identity.
+- The current local Git identity may remain during development. Before public release, the owner may provide the desired public name and email.
+
+### 3.2 Change Policy
+
+- A new product rule updates the relevant specification and acceptance test before code.
+- A change that expands scope requires an owner-approved trade-off.
+- Deferred controls are not added as disabled placeholders.
+- Temporary visual assets must be clearly marked and must not enter the final visual approval by accident.
+
+## 4. External Action and Tool Policy
+
+M0 first inventories the local environment. If Godot, Web export templates or a necessary tool is missing:
+
+1. stop at the discovery result;
+2. report the missing component, source, version, size/impact and alternative if any;
+3. ask the owner for installation/download approval;
+4. install only after approval;
+5. record the result in project documentation.
+
+The project does not silently install a Godot plugin, change global Git identity, write a proxy configuration, add a network service or download a third-party asset.
+
+Godot MCP is an optional development aid. Project files and command-line verification remain the fallback and source of truth.
+
+## 5. Effort and Risk Scale
+
+Before M0 there is insufficient environment evidence for calendar commitments. The plan therefore uses relative size:
+
+| Level | Meaning |
+|---|---|
+| Small | Narrow capability with limited content and dependencies |
+| Medium | Multiple connected components or one meaningful owner review |
+| Large | Major gameplay system, substantial content or broad regression surface |
+| Extra Large | Broad integration with art/export/performance or many acceptance groups |
+
+Risk levels describe uncertainty and rework exposure, not expected quality.
+
+After M0, the project manager provides a more credible forecast based on Godot availability, export-template status, test speed and tool capability. A date is not promised without owner approval.
+
+## 6. Milestone Overview
+
+| Stage | Outcome | Size | Main risk |
+|---|---|---:|---|
+| M0 | Verified Godot environment, test runner and Web smoke build | Medium | Local Godot/Web capability |
+| M1A | Owner-approved map composition prototype | Medium | Reference translation and geography |
+| M1B | Complete 64-plot data, camera and geometry validation | Large | Polygon production and input accuracy |
+| M2 | Plot interaction and responsive UI shell | Large | Screen density and state clarity |
+| M3 | Property purchase, finance, ledger and save foundation | Large | Atomic money/debt state |
+| M4 | Buildings, settlement and economy loop | Large | Formula order and turn boundaries |
+| M5 | Three deterministic AI personalities | Large | Distinct behavior without cheats |
+| M6 | Government and emergency auctions | Large | Bid flow, funding and deadlock risk |
+| M7 | Zoning law, events and full graybox rules loop | Large | Timeline/state integration |
+| G1 | Investor Graybox Web Demo | Medium | Communicating unfinished visuals honestly |
+| M8A | Owner-approved production art samples | Large | Style consistency and historical accuracy |
+| M8B | Complete production art/audio integration | Extra Large | Asset volume, licensing and Web memory |
+| M9 | Final saves, results, full QA and release Web build | Extra Large | Cross-system regression and browser storage |
+
+M1 and M8 are split because the owner must approve a sample before bulk production. Each substage is independently tested and committed.
+
+## 7. M0 — Environment and Minimum Runtime
+
+### 7.1 Objective
+
+Prove that the local machine can edit, test and export the chosen Godot project before gameplay implementation begins.
+
+### 7.2 Work
+
+- Locate and record the exact Godot executable/version.
+- Inspect available Godot MCP capabilities without making them mandatory.
+- Check Compatibility renderer and single-threaded Web export support.
+- Check whether the matching Web export templates are installed.
+- Update the project display name from the current placeholder to `Roaring Times`.
+- Establish a minimal main scene that starts and exits cleanly.
+- Establish `tests/run_all.gd` and one passing/failing assertion demonstration.
+- Establish the initial source/data/test directory skeleton only where immediately used.
+- Produce a minimal HTTP-served Web smoke export.
+- Confirm basic `user://` persistence feasibility in Chrome.
+- Record findings in `docs/MCP_CAPABILITIES.md` and the development log.
+
+### 7.3 Not Yet
+
+- No gameplay map.
+- No final UI or art.
+- No gameplay rule implementation beyond a minimal testable application shell.
+
+### 7.4 Gate and Evidence
+
+- Godot exact version recorded.
+- Headless runner exits success for passing tests and failure for an intentional isolated assertion.
+- Main scene starts/exits without a blocking error.
+- Minimal Chrome Web build loads over HTTP.
+- Missing components are either approved/installed or reported as a blocker.
+
+Primary acceptance references: `SCN-001`, `WEB-002`, `WEB-003` as applicable to the minimal shell.
+
+### 7.5 Risk
+
+High until the executable and Web templates are verified. No downstream estimate is reliable before this gate.
+
+## 8. M1A — Map Composition Prototype
+
+### 8.1 Objective
+
+Obtain owner approval for spatial composition before producing all 64 plots.
+
+### 8.2 Work
+
+- Create an original north-up Manhattan silhouette and water fields.
+- Place the five gameplay areas, Central Park, rivers, bridges and Brooklyn Bridgehead.
+- Demonstrate the reference-derived palette and map framing at target screen ratios.
+- Add a limited set of representative plot shapes only for scale and readability.
+- Show far/mid/near information-density intent.
+- Document any geographical compression and date-sensitive landmarks.
+
+### 8.3 Not Yet
+
+- No complete 64-plot dataset.
+- No final road/landmark illustration.
+- No bulk building or portrait production.
+- No rule implementation attached to prototype plots.
+
+### 8.4 Gate and Evidence
+
+- Owner approves `VIS-001` Map Composition Gate.
+- Hudson/west, East River/east and Lower Manhattan/south remain correct.
+- Hell's Kitchen and Lower East Side remain separate.
+- Strict palette and orientation review passes.
+- Prototype remains original and does not ship the reference image as a background.
+
+### 8.5 Risk
+
+High. Approval must occur before bulk plot work; otherwise geometry and decoration would be reworked together.
+
+## 9. M1B — Complete Map Data and Camera
+
+### 9.1 Objective
+
+Deliver exactly 64 data-driven, interactive-ready plot polygons plus stable pan/zoom behavior.
+
+### 9.2 Work
+
+- Define all plot IDs, polygons, districts, ownership eligibility and adjacency.
+- Define public plots and fixed transit topology.
+- Generate render/collision polygons from the same data.
+- Implement map bounds, drag threshold, primary/middle pan and fixed-factor zoom.
+- Implement zoom percentage and no-rotation input map.
+- Add geometry/content validators and headless tests.
+- Add temporary state patterns sufficient to test selection and ownership.
+
+### 9.3 Not Yet
+
+- No property purchase or income.
+- No final map decoration.
+- No final visual state family.
+
+### 9.4 Gate and Evidence
+
+- `DOC-003`, `DOC-004`, `DOC-007` pass for current map content.
+- `SCN-004`, `SCN-006`, `SCN-007`, `SCN-008` pass at stage scope.
+- Exactly 64 plots validate with no self-intersection, missing reference or unusable collision.
+- Camera cannot rotate or lose the map.
+
+### 9.5 Risk
+
+High due to geometry volume. Failed shapes are corrected individually; plot count is not reduced to protect schedule.
+
+## 10. M2 — Plot Interaction and UI Shell
+
+### 10.1 Objective
+
+Create the complete responsive interface structure and make every plot inspectable without yet implementing money-changing actions.
+
+### 10.2 Work
+
+- Build top status bar, property panel, bottom toolbar and event/ledger area.
+- Build modal and notification layers.
+- Build finance, assets, law timeline, How to Play and result-screen shells only where they can show real stage data.
+- Implement plot hover, selection, focus and owner/state view models.
+- Implement mouse flow, panel keyboard focus and blocking-modal input capture.
+- Implement target-resolution layout behavior.
+- Implement temporary English labels and error/reason presentation.
+
+### 10.3 Not Yet
+
+- Buttons for unavailable future systems remain absent rather than disabled.
+- No final Art Deco skin.
+- No real purchase, loan, auction or AI command.
+
+### 10.4 Gate and Evidence
+
+- `SCN-005`, `SCN-015`, `SCN-018`, `SCN-020`, `SCN-021` pass at current scope.
+- All 64 plots can be inspected and identified.
+- Blocking modal prevents world input.
+- Required information fits the three target resolutions.
+- Owner approves `VIS-002` interaction-state sample before the state family expands.
+
+### 10.5 Risk
+
+Medium-high. The main danger is an interface that consumes map space or requires final art before information hierarchy is proven.
+
+## 11. M3 — Property, Finance, Ledger and Save Foundation
+
+### 11.1 Objective
+
+Establish the authoritative state and transaction pipeline through real purchase and lending actions.
+
+### 11.2 Work
+
+- Implement `GameState`, command requests, validation, atomic drafts and ledger.
+- Implement participant setup and symmetric AI starting value records.
+- Implement direct plot purchase and ownership transfer.
+- Implement base credit, phase limit inputs, separate six-turn loans and locked rates.
+- Implement interest, early/partial repayment and maturity warnings.
+- Implement debt disposition state and bank takeover.
+- Establish versioned JSON manual/autosave codecs and duplicate guard.
+- Connect finance/property panels through read-only view models.
+- Add confirmation for loans and high-risk disposal.
+
+### 11.3 Deliberate Temporary Limitation
+
+Emergency auction is completed in M6. Until then, debt fixtures use the bank-takeover path and the interface does not present an emergency-auction action as available.
+
+### 11.4 Gate and Evidence
+
+- `AUT-001`, `AUT-002`, `AUT-012` through `AUT-018`, `AUT-032` through `AUT-039` pass where their dependencies exist.
+- Failed transactions change nothing.
+- Rapid duplicate requests commit once.
+- Save/load preserves the implemented authoritative state exactly.
+- No UI callback directly writes cash, debt, ownership or action points.
+
+### 11.5 Risk
+
+High. This is the financial integrity foundation; later features cannot bypass it for speed.
+
+## 12. M4 — Buildings, Settlement and Economy Loop
+
+### 12.1 Objective
+
+Deliver the repeatable buy → build → settle → revalue → continue-turn property loop.
+
+### 12.2 Work
+
+- Implement all four building types from content data.
+- Implement construction delay and next-turn activation.
+- Implement demolition and 10% refund.
+- Implement district, transit, bridgehead and factory adjacency effects.
+- Implement income, maintenance, forced-cost shortfall and market revaluation.
+- Implement action-point reset/consumption and end-turn confirmation.
+- Implement Opening, Prosperity, Overheating and Adjustment phases.
+- Implement a 20-turn state-machine path using currently available systems.
+- Extend ledger, save and deterministic tests.
+
+### 12.3 Not Yet
+
+- No final AI decision system.
+- No auction, zoning law or additional event content.
+- Temporary programmatic building shapes remain acceptable.
+
+### 12.4 Gate and Evidence
+
+- `AUT-003` through `AUT-011` pass.
+- Applicable turn, settlement, atomicity and replay tests pass.
+- A headless fixture completes 20 turns without dead phase.
+- Preview and committed settlement match.
+- New-match reset clears all implemented runtime state.
+
+### 12.5 Risk
+
+High. Modifier order and construction timing must be frozen in one rules implementation before AI begins to use them.
+
+## 13. M5 — Deterministic Rival AI
+
+### 13.1 Objective
+
+Make Tycoon, Landlady and Shark visibly different legal opponents under equal starting rules.
+
+### 13.2 Work
+
+- Implement shared AI candidate generation and legality.
+- Implement personality weights and liquidity/debt constraints.
+- Implement public-information-only zoning anticipation hooks.
+- Implement deterministic action selection and explanation records.
+- Implement public action summaries and broad financial condition.
+- Implement development-only `F1` evidence overlay.
+- Implement short skippable/accelerable AI presentation queue.
+- Run a preliminary 90-match statistical suite for the available non-auction personality metrics.
+
+### 13.3 Not Yet
+
+- AI auction behavior is added to the same planner in M6.
+- Final portraits are not required; text labels or simple black-frame placeholders are used.
+
+### 13.4 Gate and Evidence
+
+- `AUT-024` through `AUT-026` pass.
+- `SCN-011` and development portion of `SCN-012` pass.
+- All three rivals complete repeated 20-turn simulations without illegal actions.
+- Available residential, factory and liquidity metrics are recorded across the same 30-seed set per personality.
+- `AUT-027` remains explicitly pending rather than partially passed because its auction-withdrawal metric cannot run before M6.
+
+### 13.5 Risk
+
+High. A persona that differs only by label is a serious design failure even when it wins or loses normally.
+
+## 14. M6 — Government and Emergency Auctions
+
+### 14.1 Pre-Implementation Owner Gate
+
+Before auction content is committed, present the owner with:
+
+- two English government-auction story proposals;
+- proposed trigger turns and plot pools;
+- bidder roster and narrative treatment for emergency auctions;
+- any historical claim used in the story.
+
+Content implementation waits for explicit approval.
+
+### 14.2 Objective
+
+Deliver deterministic, finite English ascending auctions for both scheduled government sales and debt disposition.
+
+### 14.3 Work
+
+- Implement government auction scheduling and approved stories.
+- Implement price, increment, bid, withdrawal and maximum rounds.
+- Implement AI auction valuation and personality behavior.
+- Implement 1-action-point winning acquisition.
+- Implement emergency auction at 50% invested cost basis.
+- Complete debt disposition with repeated takeover/auction actions.
+- Implement binding-bid confirmation and gavel presentation hook.
+- Extend save, ledger, replay and rapid-input guards.
+
+### 14.4 Gate and Evidence
+
+- `AUT-019` through `AUT-023` pass.
+- Auction portions of `AUT-024` pass and the complete `AUT-027` 90-match statistical acceptance passes.
+- `SCN-010`, auction portion of `SCN-016` and `WEB-005` pass at stage scope.
+- No sale, withdrawal, rival win, human win and insufficient funding all restore the correct phase.
+- No seed produces an infinite auction.
+
+### 14.5 Risk
+
+High. Funding, action-point consumption and modal cleanup cross multiple systems; every end state requires evidence.
+
+## 15. M7 — Zoning Law, Events and Complete Graybox Rules
+
+### 15.1 Pre-Implementation Owner Gate
+
+Before additional event content is committed, present four English proposals:
+
+- two global economy events;
+- two district events;
+- trigger/eligibility, duration and numeric effect;
+- story context and any historical claim.
+
+Implementation waits for explicit approval.
+
+### 15.2 Objective
+
+Complete every core vertical-slice gameplay system before production art begins.
+
+### 15.3 Work
+
+- Implement zoning warnings on turns 10 and 12.
+- Implement enactment on turn 14, transition on 15–16 and penalties from 17.
+- Implement construction restriction, existing noncompliance and 30% income penalty.
+- Implement law timeline, plot/property communication and ledger entries.
+- Implement the four approved economy events.
+- Complete result calculation and temporary result presentation needed for full runs.
+- Run all domain simulations across AI, auctions, loans, law and events.
+
+### 15.4 Gate and Evidence
+
+- `AUT-028` through `AUT-031` pass.
+- `SCN-013` passes with temporary but clear visual patterns.
+- `AUT-035`, `AUT-036`, `AUT-040` through `AUT-042` pass.
+- A complete 20-turn match can reach every approved result without final art.
+- No core rule remains represented only by a mock button or scripted video.
+
+### 15.5 Risk
+
+High. Law/event transitions touch valuation, legality, income, AI and save state simultaneously.
+
+## 16. G1 — Investor Graybox Web Demo
+
+### 16.1 Purpose
+
+Package the real M7 gameplay as a presentation-ready pre-alpha prototype before final art and audio. This is a separate owner-requested deliverable, not the final vertical slice.
+
+### 16.2 Visual Rule
+
+The prototype may deliberately use:
+
+- white or light-paper backgrounds;
+- black or dark-ink outlines;
+- plain text labels and rectangular panels;
+- simple geometric building shapes;
+- simple pattern/icon ownership states;
+- no generated character portrait.
+
+This temporary exception exists only for the investor prototype. It does not alter the approved final palette/art direction and cannot pass M8 or final visual gates.
+
+### 16.3 Required Gameplay
+
+The investor build must use the real implementation for:
+
+- the 64-plot map and camera;
+- 1v1 rival selection;
+- purchase, construction, demolition and settlement;
+- loans, repayment and debt consequences;
+- economy phases;
+- AI actions;
+- government/emergency auctions;
+- zoning warnings and penalties;
+- 20-turn result and save/load.
+
+No investor-only fake outcome, hidden rule shortcut or pre-recorded interaction is allowed.
+
+### 16.4 Deliverables
+
+- `build/investor_graybox/` browser build;
+- a visible `Pre-Alpha Gameplay Prototype` label;
+- `docs/INVESTOR_DEMO_GUIDE.md` with a concise 3–5 minute walkthrough;
+- a clearly separated list of implemented, temporary and forthcoming presentation work;
+- one approved stage Git commit.
+
+The guide must describe what the prototype proves and must not present temporary visuals as final quality.
+
+### 16.5 Gate and Evidence
+
+- Full representative Chrome playthrough of the investor route.
+- Safari smoke test has no blocker/serious defect.
+- Browser save survives reload.
+- No blocker/serious gameplay defect remains.
+- Every retained medium defect is reported to and accepted by the owner before investor use.
+- Owner approves the build and walkthrough before it is shown externally.
+
+### 16.6 Risk
+
+Medium-high. The main risk is expectation management: the build must look intentionally provisional while still being stable enough to demonstrate actual strategy.
+
+## 17. M8A — Production Art Samples
+
+### 17.1 Objective
+
+Approve the production asset language before bulk generation or illustration.
+
+### 17.2 Work
+
+- Produce one top-down sample for each building category.
+- Produce one neutral rival portrait and two emotion samples in the approved original rubber-hose direction.
+- Produce one event-card illustration.
+- Produce one Art Deco panel/button family.
+- Integrate samples into actual map/UI scale.
+- Record source, tool/prompt, dimensions, license/provenance and import settings.
+- Review period correctness and strict palette conversion.
+
+### 17.3 Gate and Evidence
+
+- Owner approves `VIS-003` and the sample portion of `VIS-004`.
+- Samples remain legible at final on-screen size.
+- No sample copies a recognizable protected character or embeds generated text.
+- Asset-manifest records are complete.
+
+### 17.4 Risk
+
+High. Style drift, inconsistent identity, perspective error and post-period detail must be caught before batch work.
+
+## 18. M8B — Full Art and Audio Integration
+
+### 18.1 Objective
+
+Replace investor-graybox presentation with the complete approved visual and audio package.
+
+### 18.2 Work
+
+- Complete 12 top-down building assets.
+- Complete 15 consistent rival emotion portraits.
+- Complete original map ornament, road, transit, landmark and state art.
+- Complete Art Deco UI, tutorial and result presentation.
+- Complete required event/news presentation art within approved content.
+- Add one loopable music track and five required sound effects.
+- Add independent music/SFX volume, mute and reduced-motion behavior.
+- Remove or replace every temporary asset presented as gameplay art.
+- Complete asset manifest and license/provenance review.
+- Profile texture memory and browser presentation.
+
+### 18.3 Gate and Evidence
+
+- `VIS-004` final portrait set, `VIS-005` and `VIS-006` pass.
+- `AUD-001` through `AUD-003` pass.
+- `SCN-019` through `SCN-022` pass with final presentation.
+- No placeholder block or default Godot control remains as final art.
+- Owner completes final integrated visual approval.
+
+### 18.4 Risk
+
+Extra high due to asset count and iterative owner review. Samples are never bulk-expanded before M8A approval.
+
+## 19. M9 — Final Save, Results, QA and Web Release
+
+### 19.1 Objective
+
+Produce the final browser-deliverable vertical slice and complete evidence package.
+
+### 19.2 Work
+
+- Finalize manual/autosave, migrations and browser persistence.
+- Finalize every terminal result and ledger-derived summary.
+- Complete final Chrome and Safari matrices.
+- Run the full automated suite, including at least 90 AI statistical simulations.
+- Run reference performance, memory, rapid-input and offline tests.
+- Remove development-only debug paths from release export.
+- Audit English content, deferred controls, credentials and asset provenance.
+- Produce `build/web/` release output and final reports.
+- Update architecture, implemented-rules, decisions, test, Web export and known-limitations reports.
+
+### 19.3 Gate and Evidence
+
+- Every applicable acceptance ID in `06_ACCEPTANCE_TESTS.md` passes.
+- Chrome full acceptance passes.
+- Safari smoke contains no blocker/serious defect.
+- `PERF-001` through `PERF-003` pass.
+- Browser manual/autosave survives reload.
+- Zero blocker and serious defects remain.
+- Every retained medium defect is owner-approved.
+- Final Web export, source, reports and assets are saved and committed.
+
+### 19.4 Risk
+
+Extra high because this is the only stage where all systems, final assets, persistence and browser constraints are exercised together. It is not treated as a late bug-catching substitute for earlier milestone testing.
+
+## 20. Test Progression
+
+Tests activate cumulatively:
+
+```text
+M0       startup + headless runner + Web smoke
+M1A      composition owner review
+M1B      content/geometry + camera
+M2       interaction + UI/layout
+M3       transactions + finance + save foundation
+M4       buildings + settlement + economy + turn loop
+M5       AI legality/personality/determinism
+M6       auctions + complete debt disposition
+M7       law/events + full rules simulation
+G1       investor browser/playthrough gate
+M8A      art sample owner gates
+M8B      final visual/audio/accessibility gates
+M9       complete regression + browser + performance + release
+```
+
+An earlier passing test is rerun whenever a later stage changes its inputs or boundary. For example, save and replay tests expand at every new serializable system.
+
+## 21. Required Owner Gates
+
+Development pauses for owner decisions at:
+
+1. each stage start;
+2. any missing-tool installation/download;
+3. M1A map composition;
+4. M2 interaction-state sample;
+5. M6 government/emergency auction stories;
+6. M7 four additional event stories/effects;
+7. G1 investor build and walkthrough;
+8. M8A building/portrait/event/UI samples;
+9. M8B final integrated art;
+10. every medium defect proposed for release retention;
+11. M9 final release acceptance.
+
+An unanswered gate is pending, not implicit approval.
+
+## 22. Living Risk Register
+
+| Risk | Level | Control | Earliest proof point |
+|---|---|---|---|
+| Godot/Web tools unavailable | High | M0 inventory before implementation; owner-approved installation only | M0 |
+| Godot MCP unreliable | High | Files/CLI remain authoritative fallback | M0 |
+| Map composition creates bulk rework | High | M1A approval before M1B | M1A |
+| 64 polygons produce input defects | High | Shared render/collision data and validators | M1B |
+| UI hides map or critical finance state | High | Resolution and interaction gates before rules expansion | M2 |
+| Financial duplication/corruption | High | Atomic transactions, ledger, duplicate guard, save tests | M3 |
+| Economy formulas are hard to balance | High | One rule engine and deterministic simulation | M4 |
+| AI personalities become cosmetic | High | 90-match relative behavior thresholds and debug evidence | M5 |
+| Auction creates a deadlock | High | Maximum rounds and every exit-state test | M6 |
+| Story/history content misleads | Medium-high | Owner approval and source review before implementation | M6–M7 |
+| Investor mistakes prototype for final art | Medium-high | Visible pre-alpha label and guide | G1 |
+| Generated art drifts or copies known work | High | M8A samples, original prompts, owner review, provenance | M8A |
+| Asset volume harms Web memory | High | On-screen sizing, import review and profiling | M8B |
+| Browser storage loses progress | High | Early proof in M0/M3 and full Chrome/Safari tests in M9 | M0–M9 |
+| AI acceptance thresholds prove misleading | Medium | Report simulation evidence; owner-approved spec change only | M5 |
+| Automatic local Git identity is unsuitable publicly | Low now | Keep history stable; set owner-approved identity before public release | Before public release |
+
+Risk changes are reported immediately. A higher risk does not silently reduce scope or acceptance standards.
+
+## 23. Deferred Work Protection
+
+The milestones do not include:
+
+- the full 312-turn Classic implementation;
+- playable Extreme or Roaring modes;
+- seven later laws;
+- listed property exchange or sealed owner sales;
+- hostile acquisition or poison pill;
+- private AI negotiation;
+- player-built transit, ticket revenue or toll ownership;
+- multiplayer, accounts, cloud saves or leaderboards;
+- controller, touch, mobile or console support;
+- dynamic day/night, pedestrians, vehicles, cinematics or voice acting.
+
+Future-facing IDs and clean boundaries may exist, but no working-time estimate, visible control or implementation is created for these systems without an approved scope change.
+
+## 24. Recovery Procedure
+
+After reconnecting:
+
+```text
+Read the current project, AGENTS.md, 00_PROJECT_CONTEXT.md, Git status and latest commit.
+Summarize completed work and continue from the first unfinished approved task.
+Do not rebuild the project from scratch and do not overwrite existing files.
+```
+
+The recovery report must identify:
+
+- current branch;
+- clean or modified worktree;
+- last completed stage and commit;
+- last recorded test evidence;
+- current blocking risk or owner gate;
+- exact next approved action.
+
+Chat memory, editor tabs and MCP state are never substitutes for the repository.
+
+## 25. Approved D7 Decisions
+
+The owner approved:
+
+1. the M0–M9 implementation sequence with the refinements in this document;
+2. separate M1A composition and M1B complete-map stages/commits;
+3. separate M8A art-sample and M8B full-integration stages/commits;
+4. prior approval for any missing-tool download or installation;
+5. clearly marked temporary visuals during functional development;
+6. owner approval of auction and event stories before implementation;
+7. relative effort/risk planning before M0 rather than an unsupported calendar promise;
+8. a separate G1 investor Web prototype using basic white/light backgrounds, black/dark frames and real M7 gameplay before production art.
+
+The owner did not make a Git-identity decision during D7. The safe operational default is to leave existing commit identity/history unchanged and ask again before any public release; this default is not recorded as owner approval.
+
+Changing these decisions requires an owner-approved documentation update before execution.
