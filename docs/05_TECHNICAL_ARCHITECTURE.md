@@ -1,4 +1,4 @@
-# Roaring Times — Technical Architecture
+# Metropolis: Roaring Times — Technical Architecture
 
 > Document role: authoritative implementation architecture for the vertical slice
 >
@@ -15,8 +15,10 @@ The architecture must support a complete, deterministic 20-turn property-strateg
 It must make the following safe and independently testable:
 
 - exactly 64 irregular plots and fixed public transit;
-- property purchase, construction, demolition and revaluation;
+- property purchase, construction, redevelopment, demolition, brokered sale and revaluation;
 - participant cash, credit, separate loans and maturity disposition;
+- deterministic bonds, shares and investment-trust trading using the existing action-point budget;
+- a provenance-aware news feed and five-tab Integrated Operations Panel;
 - three selectable AI personalities in separate 1v1 matches;
 - government and emergency auctions;
 - the compressed economy cycle and 1916 zoning law;
@@ -33,7 +35,7 @@ The design favors explicit state, small domain services and data-driven content 
 | Language | GDScript with static type annotations for core code |
 | Renderer | Compatibility |
 | Web model | Single-threaded export first; no runtime networking |
-| Content format | JSON for modes, plots, buildings, economy, laws, AI and events |
+| Content format | JSON for modes, plots, buildings, economy, laws, AI, auctions, securities, news sources and events |
 | Scenes | Godot `.tscn` scenes |
 | Scripts | English `snake_case` `.gd` files and stable English class/ID names |
 | Save format | Versioned JSON in `user://`; `ConfigFile` only for local settings |
@@ -89,7 +91,12 @@ res://
 │   ├── ui/
 │   │   ├── match_hud.tscn
 │   │   ├── property_panel.tscn
-│   │   ├── finance_panel.tscn
+│   │   ├── integrated_operations_panel.tscn
+│   │   ├── game_brief_tab.tscn
+│   │   ├── investment_advice_tab.tscn
+│   │   ├── bank_tab.tscn
+│   │   ├── auction_house_tab.tscn
+│   │   ├── stock_market_tab.tscn
 │   │   ├── asset_overview.tscn
 │   │   ├── law_timeline.tscn
 │   │   ├── auction_modal.tscn
@@ -116,6 +123,8 @@ res://
 │   ├── transit.json
 │   ├── ai_personalities.json
 │   ├── economy_phases.json
+│   ├── securities.json
+│   ├── news_sources.json
 │   ├── auctions.json
 │   └── events.json
 ├── assets/
@@ -151,9 +160,13 @@ Main
 │   └── MapCamera
 ├── UILayer
 │   ├── MatchHUD
+│   ├── IntegratedOperationsPanel
+│   │   ├── GameBriefTab
+│   │   ├── InvestmentAdviceTab
+│   │   ├── BankTab
+│   │   ├── AuctionHouseTab
+│   │   └── StockMarketTab
 │   ├── PropertyPanel
-│   ├── BottomToolbar
-│   ├── EventAndLedgerLog
 │   ├── ModalLayer
 │   └── NotificationLayer
 └── DebugLayer
@@ -207,16 +220,20 @@ MatchState
 ├── buildings
 ├── loans
 ├── construction_queue
+├── pending_brokered_sales
+├── securities_market_state
+├── securities_holdings
 ├── economy_state
 ├── law_state
 ├── event_state
+├── news_state
 ├── auction_state
 ├── deterministic_stream_states
 ├── ledger
 └── result_state
 ```
 
-Participant state includes cash, reputation, action points, owned plot IDs, loan IDs and bankruptcy state. AI-private scoring data is transient diagnostic output and is not part of the player-facing view model.
+Participant state includes cash, reputation, action points, owned plot IDs, loan IDs, securities holdings and bankruptcy state. AI-private scoring data is transient diagnostic output and is not part of the player-facing view model.
 
 ### 6.1 Stable IDs
 
@@ -228,7 +245,7 @@ Participant state includes cash, reputation, action points, owned plot IDs, loan
 
 ### 6.2 Derived Values
 
-Available credit, market value, expected income, compliance, adjacency effects and net worth are calculated from authoritative inputs. They are cached only when profiling shows a need, and every cache has an explicit invalidation trigger.
+Available credit, property market value, securities portfolio value, expected income, compliance, adjacency effects and net worth are calculated from authoritative inputs. They are cached only when profiling shows a need, and every cache has an explicit invalidation trigger.
 
 Derived display values are never written back into authority merely because the UI rounded or formatted them.
 
@@ -250,6 +267,8 @@ TURN_START
 → AUTOSAVE
 → TURN_END
 ```
+
+`TURN_START` first settles brokered property sales submitted on the preceding turn. Ownership transfers before income and maintenance, so a sold property cannot pay the former owner one extra settlement.
 
 `DEBT_MATURITY`, `PLAYER_ACTION` and `AUCTION_RESOLUTION` may open a blocking subflow. A subflow must resolve or explicitly cancel before the controller advances.
 
@@ -318,9 +337,9 @@ The request contains intent, not client-calculated costs. Domain services look u
 A draft includes every planned change before commit:
 
 - expected preconditions;
-- cash, debt, reputation and action-point deltas;
+- cash, debt, reputation, securities and action-point deltas;
 - ownership/building/law changes;
-- construction or auction changes;
+- construction, redevelopment, pending-sale or auction changes;
 - ledger reason and applied modifier IDs;
 - public and private result payloads.
 
@@ -364,6 +383,7 @@ Each service accepts state/content inputs and returns validation results, transa
 - purchases eligible plots;
 - transfers ownership through approved acquisition paths;
 - calculates invested cost basis components;
+- submits 90%-of-market brokered sales, locks the price and settles transfer at the next `TURN_START`;
 - stages bank takeovers and acquired-property results.
 
 ### 9.4 `BuildingService`
@@ -372,6 +392,7 @@ Each service accepts state/content inputs and returns validation results, transa
 - starts one-turn construction;
 - activates completed construction at the correct boundary;
 - demolishes buildings and calculates the 10% construction-cost refund;
+- validates strictly upward redevelopment, applies the 120% old-original-cost credit with a zero cash-cost floor and starts replacement construction;
 - never uses visual variant ID to change rules.
 
 ### 9.5 `FinanceService`
@@ -389,6 +410,15 @@ Each service accepts state/content inputs and returns validation results, transa
 - resolves transport, bridgehead, pollution and district effects;
 - applies economy and law modifiers in a documented order;
 - uses the same rounding function for simulation, UI preview and ledger.
+
+### 9.6A `SecuritiesService`
+
+- owns the three approved instrument definitions, turn prices and participant holdings;
+- validates `$1,000` minimum order, available cash/holdings, one-action-point cost and `1%` fee;
+- prohibits short selling, broker margin, commodity futures and extra financial-action tokens;
+- settles orders atomically at the displayed turn price;
+- reprices once during `MARKET_REVALUATION` from named deterministic economy/event inputs;
+- assigns securities zero property-collateral value and exposes portfolio components to results.
 
 ### 9.7 `LawService`
 
@@ -427,6 +457,14 @@ The three personalities share one rules implementation. Personality data changes
 - applies global/district modifiers through the transaction pipeline;
 - records event duration and expiry explicitly.
 
+### 9.10A `NewsService`
+
+- builds the `Investment Advice` feed from historical, fictional, government-source and activity records;
+- requires source date/citation fields for real-newspaper attribution;
+- uses `Sources familiar with the New York State Government` for player-facing government rumors;
+- never allows a fictional event to masquerade under a real masthead;
+- exposes read-only affected-system and expiry explanations.
+
 ### 9.11 `ResultService`
 
 - evaluates bankruptcy immediately;
@@ -446,6 +484,7 @@ The three personalities share one rules implementation. Personality data changes
 - valid polygon coordinates and district assignment;
 - economy/law schedules covering turns 1–20;
 - valid building, transit, AI and event references;
+- valid security instruments, availability windows, news-source classes and citations required by historical items;
 - numeric ranges, positive costs and legal multipliers;
 - player-facing English text keys or fallback text.
 
@@ -456,6 +495,8 @@ A fatal content error stops match creation with a clear diagnostic. It must not 
 - `vertical_slice.json` selects the active schedules and quantities.
 - Plot geometry and topology live in `plots.json`, not scene collision edits.
 - Buildings provide costs, upkeep, income inputs, legal tags and art variant IDs.
+- Securities provide opening price, availability, economy/event modifier IDs and volatility bounds, never executable pricing code.
+- News records separate source identity, authenticity, headline, summary, affected systems and optional citation.
 - Personality records provide weights and thresholds, not scripted cheats.
 - Law records provide dates, warnings and named modifiers.
 - Event records provide eligibility and modifier IDs.
@@ -523,6 +564,10 @@ The overlay must not mutate state. Any later debug mutation command must be isol
 
 ## 13. UI, Input and Confirmation Architecture
 
+The left-side panel is named `IntegratedOperationsPanel` internally and shown as `Operations Desk` in English. Its tab order is fixed: `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`. Each tab owns an independent scroll container; no shared fixed Game Brief is rendered above the other pages.
+
+`Game Brief` reserves a presentation slot for a future rubber-hose board mascot. The slot consumes a read-only match-summary view model and has a text fallback. It cannot mutate state or require a live model/network connection in the vertical slice.
+
 ### 13.1 View Models
 
 Panels consume purpose-built read-only view models. A view model contains formatted labels, enabled states and reason codes derived from authoritative state; it never contains a writable pointer to `GameState`.
@@ -535,6 +580,9 @@ The following actions require an explicit confirmation showing their consequence
 
 - taking a loan;
 - demolishing a building;
+- redevelopment, showing old building, target, 120% credit, cash cost and construction delay;
+- brokered sale, showing locked 90% price and next-turn settlement;
+- securities buy/sell, showing instrument, gross amount, 1% fee, action-point cost and post-trade cash/holding;
 - submitting a final/committing auction bid when required by the auction flow;
 - bank takeover or emergency disposal of an asset;
 - ending a turn while action points remain.
@@ -614,6 +662,9 @@ Representative public events:
 - `transaction_committed`;
 - `plot_state_changed`;
 - `participant_finance_changed`;
+- `pending_sale_changed`;
+- `securities_market_changed`;
+- `news_feed_changed`;
 - `blocking_flow_changed`;
 - `auction_state_changed`;
 - `law_state_changed`;
@@ -678,7 +729,7 @@ Test layers:
 
 1. Unit tests for formulas, validators, rounding and modifiers.
 2. Transaction tests for atomicity, ledger evidence and duplicate guards.
-3. Service tests for loans, construction, auction, law and AI behavior.
+3. Service tests for loans, construction, redevelopment, brokered sales, securities, auction, news provenance, law and AI behavior.
 4. State-machine tests for legal/illegal phase transitions and blocking flows.
 5. Save/load tests for exact restoration and migration rejection.
 6. Deterministic simulation tests for full turns 1–20 and multiple AI seeds.
@@ -704,10 +755,12 @@ The vertical slice does not build working UI or complete services for:
 
 - the full 312-turn Classic mode;
 - additional active laws;
-- listed-property exchange or sealed owner bids;
+- full listed-property exchange beyond brokered sale or sealed owner bids;
 - hostile acquisition and poison-pill response;
 - private AI negotiation;
 - player-built transit, ticketing or tolls;
+- individual-company securities, commodity futures, broker margin, options or short selling;
+- live-network mascot conversation or real-time market data;
 - multiplayer, accounts, cloud saves or leaderboards;
 - controller, touch, mobile or console support.
 
@@ -718,13 +771,17 @@ Stable IDs, versioned data and domain boundaries should permit later extension, 
 The following D5 decisions are fixed for the vertical slice:
 
 1. AI results are presented in short skippable/accelerable action sequences after deterministic computation.
-2. Loans, demolition, committing bids, emergency asset disposal and ending with unused action points require confirmation.
+2. Loans, demolition, redevelopment, brokered sale, securities orders, committing bids, emergency asset disposal and ending with unused action points require confirmation.
 3. Committed ledger transactions have no undo; save loading is the rollback path.
 4. Exact AI finances and scoring are hidden from the player and visible only in development debug mode.
 5. The first release supports mouse and keyboard, not controller or touch.
 6. Map navigation targets stable 60 FPS at `1366×768` on a normal desktop-class computer.
 7. `F1` diagnostics are development-only and disabled or absent in the final Web build.
 8. Technical data, save and test implementation follows the decisions in this document without changing approved game rules.
+9. The player-facing title is `Metropolis: Roaring Times`.
+10. The Integrated Operations Panel uses the approved five-tab order and there is no fixed bottom action toolbar.
+11. Securities orders consume one of the existing three action points; borrowing and repayment continue to consume zero.
+12. Redevelopment uses the exact 120% credit formula only for strictly higher-cost targets and never pays a negative difference.
 
 Any change to these decisions requires an owner-approved documentation update before implementation.
 

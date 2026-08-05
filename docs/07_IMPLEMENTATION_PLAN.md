@@ -1,4 +1,4 @@
-# Roaring Times — Implementation Plan
+# Metropolis: Roaring Times — Implementation Plan
 
 > Document role: authoritative milestone sequence for the 20-turn vertical slice
 >
@@ -16,7 +16,7 @@ The plan does not authorize work on the full 312-turn mode or any deferred syste
 
 ## 2. Current Baseline
 
-The documentation-reconciliation stage consists of:
+The first documentation-reconciliation stage consists of:
 
 | Stage | Document | Status at D7 completion |
 |---|---|---|
@@ -28,7 +28,7 @@ The documentation-reconciliation stage consists of:
 | D6 | Acceptance Tests | Complete |
 | D7 | Implementation Plan | Complete after this document passes tests and is committed |
 
-No playable implementation is claimed at this baseline. `project.godot` is only a minimal configuration until M0 verifies and extends it.
+The standalone M0W Web Graybox was completed in commit `ee6eccf`. It is playable but still uses the earlier title, layout and economic loop. The current M0.1D stage synchronizes the newly approved redevelopment, brokered-sale, securities/news and Integrated Operations Panel decisions before any implementation revision. `project.godot` remains a minimal configuration until M0G is explicitly resumed.
 
 ## 3. Mandatory Stage Protocol
 
@@ -97,6 +97,8 @@ After M0, the project manager provides a more credible forecast based on Godot a
 | Stage | Outcome | Size | Main risk |
 |---|---|---:|---|
 | M0W | Immediate plain Web gameplay prototype for investor explanation | Medium | Prototype/production boundary |
+| M0.1D | Synchronize approved M0.1 rules through every authoritative document | Medium | Cross-document contradiction |
+| M0.1W | Revise the plain Web prototype for the new economic loop and five-tab Integrated Operations Panel | Large | Prototype scope expansion and balance |
 | M0G | Verified Godot environment, test runner and Web smoke build (postponed) | Medium | Local Godot/Web capability |
 | M1A | Owner-approved map composition prototype | Medium | Reference translation and geography |
 | M1B | Complete 64-plot data, camera and geometry validation | Large | Polygon production and input accuracy |
@@ -104,6 +106,7 @@ After M0, the project manager provides a more credible forecast based on Godot a
 | M3 | Property purchase, finance, ledger and save foundation | Large | Atomic money/debt state |
 | M4 | Buildings, settlement and economy loop | Large | Formula order and turn boundaries |
 | M5 | Three deterministic AI personalities | Large | Distinct behavior without cheats |
+| M5F | Securities market, Investment Advice and news provenance | Large | Financial dominance, leverage and historical attribution |
 | M6 | Government and emergency auctions | Large | Bid flow, funding and deadlock risk |
 | M7 | Zoning law, events and full graybox rules loop | Large | Timeline/state integration |
 | G1 | Investor Graybox Web Demo | Medium | Communicating unfinished visuals honestly |
@@ -164,6 +167,61 @@ Government/emergency auctions are not faked in M0W because their story and bidde
 
 Medium-high. The prototype creates temporary duplicate rule code. To contain rework, it stays dependency-free, isolated in `m0_web/` and is never imported into the later Godot implementation.
 
+## 7A. M0.1D — Cross-Document Rule Synchronization
+
+### Objective
+
+Before changing the prototype, make the project title, redevelopment, property sale, securities, news provenance and Integrated Operations Panel one consistent specification across the root authority and every implementation document.
+
+### Work
+
+- Rename the player-facing product to `Metropolis: Roaring Times` without renaming the repository directory.
+- Define strictly upward redevelopment using `max(0, new_cost - 120% × old_original_cost)` and prohibit negative payouts.
+- Define the 90% next-turn brokered property sale.
+- Add the three-instrument stock market, one-action-point orders, `$1,000` minimum, `1%` fee and no extra `Financial Order` resource.
+- Define historical, fictional, government-source and activity news provenance.
+- Replace the old left/bottom UI description with the five-tab Integrated Operations Panel and top-bar `End Turn`.
+- Update rules, scope, art/UI, architecture, acceptance, milestones, development log and prototype README.
+
+### Gate and Evidence
+
+- Markdown structure and local-link checks pass.
+- Global searches find no active specification that still requires `Roaring Times` as the standalone title, a fixed bottom toolbar, stock trading as deferred, ranged old building income or a separate financial-action resource.
+- Original reference PRDs remain untouched.
+- The complete document diff is saved and committed as one M0.1D commit.
+
+### Risk
+
+High. The 120% credit produces a money loop unless redevelopment is limited to a strictly higher original construction cost and the cash result is floored at zero. The securities scope also touches AI, save, results and tests and cannot be documented as UI-only work.
+
+## 7B. M0.1W — Web Graybox Economic and UI Revision
+
+### Objective
+
+Revise the existing standalone Web prototype, after separate owner approval, so investors can experience the newly documented liquidity loop without starting Godot production.
+
+### Work
+
+- Apply the `Metropolis: Roaring Times` title.
+- Replace the fixed left Investor Brief and bottom command deck with the five-tab Integrated Operations Panel, top-bar `End Turn` and right-side property actions.
+- Implement redevelopment, brokered property sale and the approved opening land/income rebalance.
+- Implement the three-instrument stock market with action-point cost, fee, deterministic revaluation, holdings and result value.
+- Implement Investment Advice source badges and data structure; use only verified historical items and approved fictional/government wording.
+- Preserve three total action points, zero-action bank borrowing/repayment and the prototype's local save/load.
+- Keep `Auction House` honest with `No scheduled auctions` until owner-approved stories are supplied.
+
+### Gate and Evidence
+
+- The updated prototype completes a legal eight-turn match without a dead turn.
+- Redevelopment, pending sale, securities, save/load, restart and result calculations pass focused browser tests.
+- The title, tab order, independent scrolling and absence of a bottom action bar pass at `1366×768`.
+- Rapid duplicate input cannot duplicate money, holdings, ownership or action-point consumption.
+- Files are saved and committed as a separate M0.1W stage.
+
+### Risk
+
+High. This is a substantial disposable-prototype revision. It must not be mistaken for completion of the production Godot services, the 20-turn balance or the story-driven auction system.
+
 ## 8. M0G — Godot Environment and Minimum Runtime (Postponed)
 
 ### 8.1 Objective
@@ -176,7 +234,7 @@ Prove that the local machine can edit, test and export the chosen Godot project 
 - Inspect available Godot MCP capabilities without making them mandatory.
 - Check Compatibility renderer and single-threaded Web export support.
 - Check whether the matching Web export templates are installed.
-- Update the project display name from the current placeholder to `Roaring Times`.
+- Update the project display name from the current placeholder to `Metropolis: Roaring Times`.
 - Establish a minimal main scene that starts and exits cleanly.
 - Establish `tests/run_all.gd` and one passing/failing assertion demonstration.
 - Establish the initial source/data/test directory skeleton only where immediately used.
@@ -279,9 +337,10 @@ Create the complete responsive interface structure and make every plot inspectab
 
 ### 11.2 Work
 
-- Build top status bar, property panel, bottom toolbar and event/ledger area.
+- Build the top status bar with `End Turn`, the right property panel and the left Integrated Operations Panel.
+- Build the Integrated Operations Panel tabs in exact order: `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`; give each page an independent scroll region and reserve the Game Brief mascot area.
 - Build modal and notification layers.
-- Build finance, assets, law timeline, How to Play and result-screen shells only where they can show real stage data.
+- Build assets, law information, How to Play and result-screen shells only where they can show real stage data.
 - Implement plot hover, selection, focus and owner/state view models.
 - Implement mouse flow, panel keyboard focus and blocking-modal input capture.
 - Implement target-resolution layout behavior.
@@ -320,7 +379,8 @@ Establish the authoritative state and transaction pipeline through real purchase
 - Implement interest, early/partial repayment and maturity warnings.
 - Implement debt disposition state and bank takeover.
 - Establish versioned JSON manual/autosave codecs and duplicate guard.
-- Connect finance/property panels through read-only view models.
+- Connect bank/property panels through read-only view models.
+- Implement brokered-sale submission, locked 90% value, pending state and next-turn settlement.
 - Add confirmation for loans and high-risk disposal.
 
 ### 12.3 Deliberate Temporary Limitation
@@ -343,13 +403,15 @@ High. This is the financial integrity foundation; later features cannot bypass i
 
 ### 13.1 Objective
 
-Deliver the repeatable buy → build → settle → revalue → continue-turn property loop.
+Deliver the repeatable buy → build/redevelop/sell → settle → revalue → continue-turn property loop.
 
 ### 13.2 Work
 
 - Implement all four building types from content data.
 - Implement construction delay and next-turn activation.
 - Implement demolition and 10% refund.
+- Implement strictly upward redevelopment with the approved 120% old-cost credit and zero payout floor.
+- Apply the approved opening land-price bands and deterministic building-income baselines.
 - Implement district, transit, bridgehead and factory adjacency effects.
 - Implement income, maintenance, forced-cost shortfall and market revaluation.
 - Implement action-point reset/consumption and end-turn confirmation.
@@ -365,7 +427,7 @@ Deliver the repeatable buy → build → settle → revalue → continue-turn pr
 
 ### 13.4 Gate and Evidence
 
-- `AUT-003` through `AUT-011` pass.
+- `AUT-003` through `AUT-011`, including `AUT-005A` and `AUT-005B`, pass.
 - Applicable turn, settlement, atomicity and replay tests pass.
 - A headless fixture completes 20 turns without dead phase.
 - Preview and committed settlement match.
@@ -408,6 +470,37 @@ Make Tycoon, Landlady and Shark visibly different legal opponents under equal st
 ### 14.5 Risk
 
 High. A persona that differs only by label is a serious design failure even when it wins or loses normally.
+
+## 14A. M5F — Securities Market, Investment Advice and News Provenance
+
+### 14A.1 Objective
+
+Add a compact historical finance layer that gives liquid-cash decisions without replacing the property loop.
+
+### 14A.2 Work
+
+- Implement Municipal & Railroad Bonds, Industrial Shares and Metropolitan Investment Trust from validated content.
+- Implement `$1,000` minimum orders, `1%` fee, one existing action point per buy/sell and deterministic once-per-turn prices.
+- Include holdings in save, ledger, AI planning and results while assigning them zero property-credit collateral value.
+- Implement the `Investment Advice` feed with historical, fictional, government-source and activity provenance.
+- Require verified source date/citation for any real-newspaper item; use `Sources familiar with the New York State Government` for law rumors.
+- Extend AI, simulation and balance evidence so securities do not dominate well-selected operating property.
+
+### 14A.3 Not Yet
+
+- No individual real-company simulation, commodity futures, options, short selling, broker margin or live prices.
+- The Game Brief mascot remains a layout reservation with fallback text; no live-network conversation.
+
+### 14A.4 Gate and Evidence
+
+- `AUT-020A` through `AUT-020C` and `AUT-031A` pass.
+- Save/load, atomicity, duplicate submission, net worth and AI legality regressions pass with securities holdings.
+- Strategy simulations report property, cash and securities allocation by rival and phase and reveal no deterministic risk-free borrowing loop.
+- The five-tab Integrated Operations Panel remains usable at every target resolution.
+
+### 14A.5 Risk
+
+High. Securities can become a parallel main game, invite leveraged arbitrage or create false historical attribution. Action-point cost, fees, collateral exclusion, bounded content and provenance tests are mandatory controls.
 
 ## 15. M6 — Government and Emergency Auctions
 
@@ -514,6 +607,7 @@ The investor build must use the real implementation for:
 - the 64-plot map and camera;
 - 1v1 rival selection;
 - purchase, construction, demolition and settlement;
+- redevelopment, normal brokered sale and the approved three-instrument stock market;
 - loans, repayment and debt consequences;
 - economy phases;
 - AI actions;
@@ -643,6 +737,8 @@ Tests activate cumulatively:
 
 ```text
 M0W      standalone Web prototype + short gameplay browser test
+M0.1D    cross-document consistency + Markdown/static checks
+M0.1W    revised standalone Web economic loop + five-tab UI browser tests
 M0G      startup + headless runner + Web smoke
 M1A      composition owner review
 M1B      content/geometry + camera
@@ -650,6 +746,7 @@ M2       interaction + UI/layout
 M3       transactions + finance + save foundation
 M4       buildings + settlement + economy + turn loop
 M5       AI legality/personality/determinism
+M5F      securities/news provenance + allocation/balance simulation
 M6       auctions + complete debt disposition
 M7       law/events + full rules simulation
 G1       investor browser/playthrough gate
@@ -666,16 +763,18 @@ Development pauses for owner decisions at:
 
 1. each stage start;
 2. resuming M0G Godot work after M0W;
-3. any missing-tool installation/download;
-4. M1A map composition;
-5. M2 interaction-state sample;
-6. M6 government/emergency auction stories;
-7. M7 four additional event stories/effects;
-8. G1 investor build and walkthrough;
-9. M8A building/portrait/event/UI samples;
-10. M8B final integrated art;
-11. every medium defect proposed for release retention;
-12. M9 final release acceptance.
+3. starting M0.1W implementation after the M0.1D document commit;
+4. any missing-tool installation/download;
+5. M1A map composition;
+6. M2 interaction-state and Integrated Operations Panel sample;
+7. M5F verified historical items and fictional newspaper mastheads;
+8. M6 government/emergency auction stories;
+9. M7 four additional event stories/effects;
+10. G1 investor build and walkthrough;
+11. M8A building/portrait/event/UI samples;
+12. M8B final integrated art;
+13. every medium defect proposed for release retention;
+14. M9 final release acceptance.
 
 An unanswered gate is pending, not implicit approval.
 
@@ -684,6 +783,7 @@ An unanswered gate is pending, not implicit approval.
 | Risk | Level | Control | Earliest proof point |
 |---|---|---|---|
 | M0W prototype is mistaken for final technology or balance | High | Visible provisional label, isolated dependency-free code and explicit guide | M0W |
+| M0.1 prototype expansion is mistaken for Godot production progress | High | Separate M0.1W stage, provisional label and no code reuse claim | M0.1W |
 | Godot/Web tools unavailable | High | M0G inventory before production implementation; owner-approved installation only | M0G |
 | Godot MCP unreliable | High | Files/CLI remain authoritative fallback | M0G |
 | Map composition creates bulk rework | High | M1A approval before M1B | M1A |
@@ -691,9 +791,12 @@ An unanswered gate is pending, not implicit approval.
 | UI hides map or critical finance state | High | Resolution and interaction gates before rules expansion | M2 |
 | Financial duplication/corruption | High | Atomic transactions, ledger, duplicate guard, save tests | M3 |
 | Economy formulas are hard to balance | High | One rule engine and deterministic simulation | M4 |
+| 120% redevelopment credit creates downgrade/cash-generation exploit | High | Strictly higher original-cost targets, zero payout floor and atomic tests | M4 |
 | AI personalities become cosmetic | High | 90-match relative behavior thresholds and debug evidence | M5 |
 | Auction creates a deadlock | High | Maximum rounds and every exit-state test | M6 |
 | Story/history content misleads | Medium-high | Owner approval and source review before implementation | M6–M7 |
+| Real newspaper attribution becomes misinformation | High | Source type/date/citation schema, no invented quotations and provenance acceptance | M5F |
+| Securities dominate property or reward cheap leverage | High | Existing AP cost, 1% fee, no margin, zero collateral and allocation simulation | M5F |
 | Investor mistakes prototype for final art | Medium-high | Visible pre-alpha label and guide | G1 |
 | Generated art drifts or copies known work | High | M8A samples, original prompts, owner review, provenance | M8A |
 | Asset volume harms Web memory | High | On-screen sizing, import review and profiling | M8B |
@@ -710,13 +813,15 @@ The milestones do not include:
 - the full 312-turn Classic implementation;
 - playable Extreme or Roaring modes;
 - seven later laws;
-- listed property exchange or sealed owner sales;
+- full listed property exchange beyond brokered sale or sealed owner sales;
 - hostile acquisition or poison pill;
 - private AI negotiation;
 - player-built transit, ticket revenue or toll ownership;
 - multiplayer, accounts, cloud saves or leaderboards;
 - controller, touch, mobile or console support;
-- dynamic day/night, pedestrians, vehicles, cinematics or voice acting.
+- dynamic day/night, pedestrians, vehicles, cinematics or voice acting;
+- individual-company shares, commodity futures, options, short selling and broker margin;
+- live-network mascot conversation or real-time market data.
 
 Future-facing IDs and clean boundaries may exist, but no working-time estimate, visible control or implementation is created for these systems without an approved scope change.
 
@@ -752,7 +857,13 @@ The owner approved:
 5. clearly marked temporary visuals during functional development;
 6. owner approval of auction and event stories before implementation;
 7. relative effort/risk planning before M0 rather than an unsupported calendar promise;
-8. a separate G1 investor Web prototype using basic white/light backgrounds, black/dark frames and real M7 gameplay before production art.
+8. a separate G1 investor Web prototype using basic white/light backgrounds, black/dark frames and real M7 gameplay before production art;
+9. the player-facing title `Metropolis: Roaring Times`;
+10. the five-tab Integrated Operations Panel in the order `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`, with no fixed bottom action bar;
+11. strictly upward redevelopment at `max(0, new_cost - 120% × old_original_cost)` with no negative payout;
+12. a 90%-of-market brokered sale that consumes one action point and settles next turn;
+13. three securities instruments whose buy/sell orders consume one of the existing three action points; no separate financial-order resource;
+14. verified-real, fictional, government-source and activity news provenance rules.
 
 The owner did not make a Git-identity decision during D7. The safe operational default is to leave existing commit identity/history unchanged and ask again before any public release; this default is not recorded as owner approval.
 

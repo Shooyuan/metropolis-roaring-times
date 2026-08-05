@@ -1,4 +1,30 @@
-# Roaring Times — Development Log
+# Metropolis: Roaring Times — Development Log
+
+## M0.1D — Economic Loop and Interface Specification Sync
+
+### Owner Decisions Incorporated
+
+- player-facing title changed to `Metropolis: Roaring Times`;
+- the left-side system container is named the Integrated Operations Panel and uses tabs in exact order: `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`;
+- `Game Brief` is an independent page and reserves space for a future rubber-hose-style conversational board mascot;
+- no fixed bottom action toolbar; `End Turn` moves to the top status bar;
+- redevelopment uses `max(0, new_cost - 120% × old_original_cost)`, only for strictly higher original-cost targets and never pays a negative difference;
+- ordinary brokered sale consumes one action point, locks 90% of current market value and settles next turn;
+- the stock market contains bonds, shares and an investment trust, while futures and broker margin remain deferred;
+- every securities buy/sell consumes one of the existing three action points; no separate financial-order resource is added;
+- Investment Advice distinguishes verified historical reporting, fictional city news, New York State government rumors and ledger activity.
+
+### Risk Control
+
+The owner supplied the 120% redevelopment credit. Project management added the strictly-higher-cost target rule and zero-payout floor to prevent downgrade or repeat-conversion cash generation while preserving the approved formula. This interpretation remains subject to owner correction before M0.1W implementation.
+
+### Documentation Scope
+
+The root authority, product brief, game rules, vertical-slice scope, art/UI direction, technical architecture, acceptance tests, implementation plan, development log, prototype README and reference-directory README were synchronized before code changes. The original PRD and map reference files remain unchanged.
+
+### Next Gate
+
+After this documentation stage passes checks and is committed, report the evidence and request explicit approval before starting M0.1W implementation.
 
 ## M0W — Standalone Web Graybox
 
@@ -48,6 +74,6 @@ The owner postponed Godot M0 and requested an immediate plain Web gameplay proto
 - Map pan/zoom, final art, portraits, audio, production save schema and final accessibility work are not included.
 - Save data is local to the current browser/site storage.
 
-### Next Gate
+### Superseded Next Gate
 
-The owner reviews the local M0W page. Godot M0G remains postponed until explicit approval.
+The original M0W review led to the M0.1D decisions above. Godot M0G remains postponed; the next proposed implementation stage is M0.1W and still requires explicit approval.

@@ -1,4 +1,4 @@
-# Roaring Times — Game Rules
+# Metropolis: Roaring Times — Game Rules
 
 > Document role: authoritative gameplay rules for the 20-turn vertical slice
 >
@@ -50,7 +50,7 @@ Every new match stores a seed. The seed controls all permitted random choices, i
 
 ### 3.1 Cash
 
-Liquid money used for purchases, construction, maintenance, repayment and auction settlement.
+Liquid money used for purchases, construction, redevelopment, securities trading, maintenance, repayment and auction settlement.
 
 ### 3.2 Outstanding Principal
 
@@ -97,6 +97,10 @@ It excludes:
 
 Cost basis is used for forced bank takeover and emergency-auction starting price. Market value is used for portfolio display, AI evaluation and final ranking.
 
+### 3.8 Securities Portfolio Value
+
+`securities_value` is the sum of each held instrument's quantity multiplied by its current authoritative turn price. Securities are liquid assets in final net asset value, but they do not increase the property-backed credit limit.
+
 ## 4. Turn State Machine
 
 Each turn follows one authoritative sequence:
@@ -115,6 +119,8 @@ Each turn follows one authoritative sequence:
 12. `TURN_END`
 
 The UI cannot skip, reorder or independently reproduce a phase. A phase transition is legal only when the current phase has completed or entered an explicitly defined interruption state.
+
+At `TURN_START`, brokered property sales submitted on the preceding turn settle before income. The seller therefore receives neither maintenance nor income from a property transferred at that boundary.
 
 ### 4.1 Income Settlement
 
@@ -163,6 +169,9 @@ The UI cannot skip, reorder or independently reproduce a phase. A phase transiti
 | Buy an eligible plot directly | 1 | Payment and ownership transfer are atomic |
 | Start construction | 1 | Building becomes operational next turn |
 | Demolish a building | 1 | Refunds 10% of original construction cost |
+| Redevelop a building | 1 | Only into a legal building with strictly higher original construction cost |
+| Submit a brokered property sale | 1 | Settles next turn at 90% of locked submission-time market value |
+| Buy or sell one securities instrument | 1 | Minimum $1,000 order and 1% fee; no separate financial action resource |
 | Enter a scheduled government auction | 0 | Winning and acquiring the plot consumes 1 point |
 | Borrow money | 0 | Allowed only in interactive borrowing states |
 | Repay money | 0 | Partial and full repayment are allowed |
@@ -181,18 +190,37 @@ If the player wins a government auction without one remaining action point, the 
 - A successful purchase deducts cash, transfers ownership, records acquisition cost basis, consumes one action point and creates one ledger transaction.
 - If any part fails, no cash, ownership or action point changes.
 
+### 6.1 Opening Land-Price Distribution
+
+The vertical-slice balance target divides purchasable opening plots into three bands:
+
+- entry: `$6,000–$10,000`, approximately one third;
+- middle: `$11,000–$18,000`, approximately one half;
+- premium: `$19,000–$26,000`, the remaining plots.
+
+Exact plot prices are deterministic content data. The distribution must let a player complete an entry purchase plus Standard Apartment while retaining meaningful liquidity.
+
+### 6.2 Brokered Property Sale
+
+- An owned property outside debt disposition may be listed through `Brokered Sale`.
+- Submission consumes one action point and locks a gross sale price equal to `90% × current_market_value` using the shared rounding rule.
+- The property becomes `sale_pending` and cannot be demolished, redeveloped, pledged to a new action or entered into another auction.
+- Settlement occurs at the next `TURN_START`, before income and costs; cash and ownership transfer atomically.
+- The locked 10% liquidity discount prevents cost-free same-turn arbitrage.
+- Brokered sale cannot resolve a debt already due because that blocking phase cannot advance to the next turn. Debt disposition uses bank takeover or emergency auction instead.
+
 ## 7. Buildings
 
 ### 7.1 Core Building Types
 
-| Type | Construction cost | Maintenance | Base income range |
-|---|---:|---:|---:|
-| Standard Apartment | `$8,000` | `$200` | `$600–$1,200` |
-| Luxury Apartment | `$25,000` | `$800` | `$2,000–$4,000` |
-| Factory | `$15,000` | `$500` | `$1,000–$2,500` |
-| Department Store | `$30,000` | `$1,000` | `$1,500–$5,000` |
+| Type | Construction cost | Maintenance | Opening base gross income | Opening base net income |
+|---|---:|---:|---:|---:|
+| Standard Apartment | `$8,000` | `$200` | `$1,400` | `$1,200` |
+| Luxury Apartment | `$25,000` | `$800` | `$3,800` | `$3,000` |
+| Factory | `$15,000` | `$500` | `$2,900` | `$2,400` |
+| Department Store | `$30,000` | `$1,000` | `$5,200` | `$4,200` |
 
-The final deterministic base values and district multipliers are configuration data. Runtime income cannot be chosen by an unseeded roll inside the displayed range.
+These are the first approved balance baselines before district, transit, pollution, economy, event and law modifiers. They remain centralized configuration values and require simulation calibration; runtime income cannot be selected by an unseeded roll.
 
 ### 7.2 Construction
 
@@ -222,6 +250,26 @@ The final deterministic base values and district multipliers are configuration d
 - The demolished building and its construction cost are removed from current invested cost basis.
 - The plot remains owned and becomes empty.
 - A building cannot be demolished during an unresolved auction, settlement or debt-disposition transaction.
+
+### 7.5 Redevelopment
+
+- Redevelopment requires ownership, one action point, stable `PLAYER_ACTION`, enough cash and a legal target building.
+- The target building's original construction cost must be strictly greater than the current building's original construction cost. Same-cost replacement and downgrade are illegal.
+- The cash cost is:
+
+```text
+redevelopment_cash_cost = max(
+  0,
+  new_building_original_cost - 1.20 * old_building_original_cost
+)
+```
+
+- A negative difference never grants cash. The 120% amount is an upgrade credit used only inside the atomic redevelopment transaction, not a separately withdrawable resale value.
+- The old building stops operating immediately and its cost leaves current invested cost basis.
+- The replacement enters `under_construction`, adds its full original construction cost to current invested cost basis and becomes operational next turn.
+- The property earns no income and pays no building maintenance while the replacement is under construction.
+- A non-compliant building whose law state prohibits upgrade cannot redevelop.
+- Redevelopment is unavailable while the property is `sale_pending` or involved in an unresolved auction, settlement or debt-disposition transaction.
 
 ## 8. Lending and Repayment
 
@@ -328,7 +376,46 @@ The participant may dispose of multiple eligible assets. Normal buying, construc
 
 If mandatory non-loan costs cannot be paid, the same asset-disposition tools may be used before bankruptcy. This does not change loan maturity dates or permit new borrowing during disposition.
 
-## 10. Economy Phases
+## 10. Financial System and Stock Market
+
+The Financial System is one architecture boundary with three player-facing tabs: `Bank`, `Auction House` and `Stock Market`. The tabs share participant cash, debt, action points, deterministic timing and ledger transactions, but each service keeps its own rules.
+
+### 10.1 Vertical-Slice Instruments
+
+| Stable ID | Player-facing name | Role | Availability |
+|---|---|---|---|
+| `municipal_railroad_bonds` | Municipal & Railroad Bonds | Low-volatility liquidity reserve; after fees it must not create risk-free borrowing arbitrage | Opening onward |
+| `industrial_shares` | Industrial Shares | Economy-sensitive equity basket with medium/high volatility | Opening onward |
+| `metropolitan_investment_trust` | Metropolitan Investment Trust | Leveraged-theme high-risk pooled security with severe downside events | Prosperity onward |
+
+These are fictional aggregate instruments shaped by historical market behavior. The vertical slice does not simulate individual real companies, live prices or a real exchange feed.
+
+### 10.2 Securities Orders
+
+- Every buy or sell is a normal state-changing action that consumes one of the participant's three action points.
+- There is no separate `Financial Order` point, token or per-turn resource.
+- Minimum gross order value is `$1,000`.
+- Every buy and sell charges `1%` of gross order value using the shared currency rounding rule.
+- A buy must be fully covered by cash; no silent bank loan or broker margin is created.
+- Short selling, broker margin, options, commodity futures and same-instrument intraturn price movement are not implemented.
+- A failed or duplicate order changes no cash, holding, action point or ledger state.
+
+### 10.3 Pricing and Settlement
+
+- Each instrument has one authoritative price per turn.
+- Orders during `PLAYER_ACTION` settle immediately at the displayed turn price plus or minus the transaction fee.
+- Prices change once during `MARKET_REVALUATION` from configured economy, event and deterministic-stream inputs.
+- The same instrument cannot offer a guaranteed after-fee return above the corresponding new-loan rate.
+- Securities remain more liquid but have lower risk-adjusted expected return than a well-selected operational property.
+- Securities have zero weight in property-backed credit-limit calculations.
+
+### 10.4 AI and Results
+
+- The AI may trade the same instruments through the same legality, action-point, fee and information rules.
+- AI personalities may use different portfolio weights but receive no hidden price or future-news information.
+- Current securities value is included in net asset value; unrealized gains and losses are shown separately from property value and cash.
+
+## 11. Economy Phases
 
 | Turns | Phase | Credit multiplier | New-loan rate | Intended pressure |
 |---|---|---:|---:|---|
@@ -339,7 +426,7 @@ If mandatory non-loan costs cannot be paid, the same asset-disposition tools may
 
 Land-price, income and event multipliers remain configuration data and require simulation calibration. Economy phase changes never retroactively alter a loan's fixed rate.
 
-## 11. Property Revaluation
+## 12. Property Revaluation
 
 Revaluation is centralized in the rule engine and considers at least:
 
@@ -355,7 +442,7 @@ Revaluation is centralized in the rule engine and considers at least:
 
 The map view never calculates authoritative value. It displays the result and the major contributing modifiers.
 
-## 12. Government Auctions
+## 13. Government Auctions
 
 - At least two government plot auctions occur in a match.
 - Trigger turn and eligible plot pool come from mode data.
@@ -373,16 +460,16 @@ The map view never calculates authoritative value. It displays the result and th
 
 Government-auction stories and emergency-debt-auction stories are separate content categories.
 
-## 13. AI Rules
+## 14. AI Rules
 
-### 13.1 Shared Rules
+### 14.1 Shared Rules
 
-- AI uses the same action points, prices, construction delay, lending terms, maturity rules and bankruptcy conditions as the player.
+- AI uses the same action points, prices, construction/redevelopment delay, brokered-sale timing, securities rules, lending terms, maturity rules and bankruptcy conditions as the player.
 - AI does not call an online model.
 - Every decision is reproducible from state and seed.
 - AI cannot use law information that has not been publicly foreshadowed.
 
-### 13.2 Personality Priorities
+### 14.2 Personality Priorities
 
 - Tycoon weights factories, transit adjacency, clusters and mid-game expansion.
 - Landlady weights apartments, premium residential location, compliance and stable income.
@@ -390,7 +477,7 @@ Government-auction stories and emergency-debt-auction stories are separate conte
 
 Personality differences must be expressed through documented weights and constraints, not only names, portraits or dialogue.
 
-### 13.3 Debug Evidence
+### 14.3 Debug Evidence
 
 For every evaluated state, development tools can expose:
 
@@ -402,9 +489,9 @@ For every evaluated state, development tools can expose:
 - selected action and rejected alternatives;
 - final score explanation.
 
-## 14. Compressed 1916 Zoning Law
+## 15. Compressed 1916 Zoning Law
 
-### 14.1 Timeline
+### 15.1 Timeline
 
 - Turn 10: first public warning.
 - Turn 12: second public warning.
@@ -412,7 +499,7 @@ For every evaluated state, development tools can expose:
 - Turns 15–16: transition warnings.
 - Turn 17 onward: full penalties.
 
-### 14.2 Enactment Effects
+### 15.2 Enactment Effects
 
 - Every plot receives `Residential`, `Business` or `Unrestricted` legal zoning.
 - Residential zoning blocks new Factory and Department Store construction.
@@ -424,16 +511,33 @@ For every evaluated state, development tools can expose:
 
 Setback, coverage and property-exchange discount rules are future modifiers and have no fake current implementation.
 
-## 15. Manual Save and Autosave
+## 16. News and Investment Advice
+
+### 16.1 Source Types
+
+Every visible item stores `turn_or_date`, `source_name`, `source_type`, `authenticity`, `headline`, `summary`, `affected_systems`, `expiry` and an optional verified source citation.
+
+- `historical_newspaper`: only a verified historical event attributed to a real newspaper active on that date; displayed with `Historical`.
+- `fictional_newspaper`: fictional city reporting using an approved fictional masthead; displayed with `Fictional`.
+- `government_source`: zoning or law information attributed in player-facing English to `Sources familiar with the New York State Government`; displayed with `Rumor` until officially enacted.
+- `activity`: ledger-derived player, AI and market activity; never presented as a historical newspaper report.
+
+No invented quotation or unverified headline may be placed under a real newspaper name. Historical content keeps a source date and citation in content data even when the player-facing summary is a paraphrase.
+
+### 16.2 Presentation
+
+`Investment Advice` is a standalone, scrolling tab in the Integrated Operations Panel. It may filter `Headlines` and `Activity`, but `Game Brief` is a separate tab and is never pinned above the feed.
+
+## 17. Manual Save and Autosave
 
 - The vertical slice provides one manual save slot and one autosave slot.
 - Manual save is allowed only in a stable interactive state with no unresolved transaction or modal.
 - Autosave occurs after law/economy checks and before turn completion.
-- Save data includes schema version, mode, seed, turn, phase, participant state, loans, plots, buildings, construction, economy, laws, events, auction state where permitted and ledger.
+- Save data includes schema version, mode, seed, turn, phase, participant state, loans, plots, buildings, construction/redevelopment, pending brokered sales, securities holdings and prices, economy, laws, news/events, auction state where permitted and ledger.
 - Loading must reproduce the saved state exactly.
 - Loading never replays an already committed transaction.
 
-## 16. Ledger and Atomicity
+## 18. Ledger and Atomicity
 
 Every state-changing transaction receives a stable ID and records:
 
@@ -446,9 +550,9 @@ Every state-changing transaction receives a stable ID and records:
 - action points before and after;
 - reason and rule modifiers.
 
-Purchase, construction, demolition, loan, repayment, takeover, auction, income, maintenance, law penalty and bankruptcy operations are atomic. A failed operation changes nothing.
+Purchase, construction, demolition, redevelopment, brokered-sale submission/settlement, securities order, loan, repayment, takeover, auction, income, maintenance, law penalty and bankruptcy operations are atomic. A failed operation changes nothing.
 
-## 17. Victory and Defeat
+## 19. Victory and Defeat
 
 Final net asset value is:
 
@@ -456,6 +560,7 @@ Final net asset value is:
 cash
 + current market value of owned plots
 + current market value of owned buildings and permanent improvements
++ current market value of securities holdings
 - all outstanding principal
 - all accrued interest
 ```
@@ -466,7 +571,7 @@ cash
 - AI bankruptcy is an immediate human victory in the vertical slice.
 - The original `$500,000` three-turn victory countdown is not implemented in this mode.
 
-## 18. Randomness and Rounding
+## 20. Randomness and Rounding
 
 - All randomness uses the match seed and named deterministic streams.
 - Currency is stored as integer dollars unless implementation evidence proves cents are required.
@@ -474,15 +579,17 @@ cash
 - UI formatting never changes authoritative values.
 - The same version, seed, initial state and action sequence must produce identical final state and ledger.
 
-## 19. Deferred Rules
+## 21. Deferred Rules
 
 The following original-PRD systems are not active in the vertical slice:
 
-- listed property sales;
+- a full listed-property exchange beyond the fixed-price brokered sale;
 - sealed bids initiated by property owners;
 - hostile acquisitions and poison-pill responses;
 - private AI negotiation;
 - player-built tram and subway systems;
+- individual-company shares, commodity futures, options, short selling and broker margin;
+- a live-network conversational mascot or real-time market feed;
 - old-law tenement lifecycle;
 - the remaining seven historical law milestones;
 - full Classic, Extreme and Roaring modes.

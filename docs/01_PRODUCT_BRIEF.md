@@ -1,8 +1,8 @@
-# Roaring Times — Product Brief
+# Metropolis: Roaring Times — Product Brief
 
 > Document role: approved product summary for the current vertical slice
 >
-> Product title: **Roaring Times**
+> Product title: **Metropolis: Roaring Times**
 >
 > Chinese reference title: 《大都会：咆哮年代》
 >
@@ -12,7 +12,7 @@
 
 ## 1. Product Definition
 
-Roaring Times is a single-player, turn-based property strategy game set in a stylized historical New York. The player buys land, develops buildings, manages cash and credit, reacts to economic cycles and regulation, and competes with a personality-driven AI opponent for the most valuable real-estate portfolio.
+Metropolis: Roaring Times is a single-player, turn-based property strategy game set in a stylized historical New York. The player buys, develops, redevelops and sells property; manages cash, credit and a compact securities portfolio; reacts to economic cycles, news and regulation; and competes with a personality-driven AI opponent for the most valuable resilient portfolio.
 
 The map is not a decorative backdrop. It is the main decision surface: location, zoning, nearby infrastructure, pollution, public landmarks and ownership all affect the value of a plot.
 
@@ -39,6 +39,8 @@ The player should feel like a bold New York property operator who reads the city
 - Decide whether to build stable housing, profitable commerce or disruptive industry.
 - Borrow aggressively during expansion without becoming fragile before a downturn.
 - Contest a story-driven government auction against a recognizable rival.
+- Use the bank, auction house and stock market to manage liquidity without abandoning the property strategy.
+- Redevelop an existing holding when a more valuable legal use becomes available.
 - Read public warning signs before a law changes what can be built.
 - Finish the match with a portfolio whose value reflects a chain of visible decisions.
 
@@ -47,7 +49,7 @@ The player should feel like a bold New York property operator who reads the city
 ```text
 Read the map and market
 → choose up to three actions
-→ buy, build, demolish or bid
+→ buy, build, redevelop, sell, trade securities or bid
 → resolve the AI opponent
 → settle income, costs and credit
 → revalue land and buildings
@@ -83,12 +85,21 @@ The compressed 1916 zoning milestone is announced before it takes effect. Prepar
 
 Money, ownership, income, costs, land value and compliance changes are recorded in an auditable ledger. The player and the development team can understand why a result occurred.
 
+### 5.7 Finance Supports Property
+
+Banking, auctions and securities provide liquidity, risk management and historical atmosphere. Their expected value, action-point cost and volatility must not make passive stock trading stronger than well-chosen property development.
+
+### 5.8 Information Has Provenance
+
+Historical reporting, fictional city news and government-source rumors are visibly distinguished. A real newspaper name is used only for a verified historical event and never as a cover for invented copy.
+
 ## 6. Match Structure
 
 - The human player starts with `$50,000` cash, `$100,000` opening credit and `0` reputation.
 - The player starts without owned property.
 - The AI opponent starts with a small personality-appropriate portfolio; exact assets are frozen during balance design.
 - Each turn gives the player three action points.
+- Redevelopment, brokered property sale and each securities trade consume one of those existing action points; no separate financial-action resource exists.
 - At least two government auctions occur during the match.
 - Every auction must have a narrative reason for the land release or forced sale. Story details are not invented until the owner approves the auction content brief.
 - The economy moves through opening, prosperity, overheating and adjustment.
@@ -141,6 +152,28 @@ The vertical slice implements only the compressed 1916 Zoning Resolution:
 
 Setback, floor coverage and exchange-price penalties remain future law modifiers; they are not represented by fake UI in the current release.
 
+### 7.5 Financial System
+
+The vertical slice groups three connected services under one Financial System:
+
+- **Bank**: borrowing, repayment, maturity warnings and guaranteed emergency takeover.
+- **Auction House**: scheduled government auctions and debt-emergency auctions using owner-approved stories.
+- **Stock Market**: Municipal & Railroad Bonds, Industrial Shares and a Metropolitan Investment Trust.
+
+Securities trade in minimum `$1,000` increments, charge a `1%` transaction fee and reprice once per turn. Each buy or sell consumes one existing action point. Commodity futures, broker margin and an extra `Financial Order` resource are excluded.
+
+### 7.6 Information System
+
+The left-side **Integrated Operations Panel** contains five tabs in fixed order:
+
+1. `Game Brief`.
+2. `Investment Advice`.
+3. `Bank`.
+4. `Auction House`.
+5. `Stock Market`.
+
+`Game Brief` is its own page, showing mode, `Standard` ruleset, rival, objective, turn, economy and current law. It reserves a future presentation area for a conversational rubber-hose-style board mascot. `Investment Advice` is a scrolling news and activity page; it is not a fixed header above the other tabs.
+
 ## 8. Visual and Audio Identity
 
 The visual direction combines:
@@ -150,6 +183,7 @@ The visual direction combines:
 - A strict palette sampled from the supplied map: cream paper, dark brown ink, warm peach-orange water and a restrained compass red.
 - Hand-drawn architectural vignettes and slightly imperfect print registration.
 - Original rubber-hose-inspired AI portraits with five consistent emotional states, used for rival identity, bidding and reactions.
+- A future rubber-hose-style board mascot area inside `Game Brief`; the vertical slice may reserve the layout without shipping a live conversational character.
 
 The supplied Manhattan pictorial map is a composition and style reference, not a final background asset. The playable geography, plot polygons and status layers are original structured assets.
 
@@ -169,7 +203,8 @@ Audio supports interaction and atmosphere through restrained period-inspired mus
 - Full 312-turn Classic Mode content.
 - The remaining seven historical law milestones.
 - Extreme Mode and Roaring Mode as playable modes.
-- Property listing, sealed bids, hostile takeovers and poison-pill responses.
+- A full player-to-player property-listing exchange, sealed bids, hostile takeovers and poison-pill responses; the approved fixed brokered-sale action remains in scope.
+- Commodity futures, broker margin, individual-company simulation and real-time financial data.
 - Private negotiation with AI.
 - Player-built tram and subway networks.
 - The complete old-law tenement lifecycle.
@@ -185,6 +220,8 @@ The architecture should support, without pretending to implement now:
 - Eight historical law milestones and the full old-law tenement lifecycle.
 - Extreme and Roaring modes.
 - Property exchange and hostile acquisition systems.
+- A broader securities market, commodity futures and broker-margin mechanics after the property loop is proven.
+- A state-driven conversational board mascot in `Game Brief`; any runtime online language model requires a separate scope, privacy and operating-cost decision.
 - Longer economic cycles, additional transport systems and additional cities.
 
 ## 12. Product Success Criteria
@@ -192,7 +229,7 @@ The architecture should support, without pretending to implement now:
 The vertical slice succeeds when:
 
 - A new player can start and finish a 20-turn match without developer guidance.
-- Buying, building, bidding and ending a turn are understandable.
+- Buying, building, redevelopment, brokered sale, securities trading, bidding and ending a turn are understandable.
 - The AI opponent creates pressure consistent with the selected personality.
 - The economic adjustment and zoning law both change sensible player behavior.
 - The final result explains the portfolio, ranking and major turning points.
@@ -204,6 +241,9 @@ The vertical slice succeeds when:
 - Sixty to eighty plots plus three complete AI personalities remain a medium-sized vertical slice.
 - The economy can become unreadable if formulas are exposed before they are calibrated.
 - A narrative auction can become cosmetic if its story is not connected to the plot, price and rival behavior.
+- Securities can overpower the property loop or create borrowing arbitrage unless action cost, fees, collateral treatment and simulations are enforced.
+- A 120% old-building credit can generate money if downgrades or negative cash costs are allowed; redevelopment is therefore limited to strictly higher construction cost and never pays a negative difference.
+- Real newspaper attribution can become misinformation unless every historical item stores a verified source and date.
 - Generated art can drift in period, perspective and character identity.
 - Historical housing policy requires careful framing and must not be reduced to celebratory bonuses.
 

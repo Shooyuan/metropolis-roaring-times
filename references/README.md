@@ -1,5 +1,7 @@
 # 原始设计参考
 
+当前项目正式名称为 **Metropolis: Roaring Times**。本目录中的原始 PRD 保留旧工作名是历史资料状态，不代表当前产品标题或实施范围。
+
 本目录保存设计依据，不是唯一实施规格。当前收录以下原始文件：
 
 - `manhattan_map_reference.jpg`

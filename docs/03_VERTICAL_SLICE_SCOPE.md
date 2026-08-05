@@ -1,4 +1,4 @@
-# Roaring Times — Vertical Slice Scope
+# Metropolis: Roaring Times — Vertical Slice Scope
 
 > Document role: binding content and feature boundary for the first playable release
 >
@@ -20,7 +20,8 @@ The release must prove the complete loop:
 inspect property
 → finance a plan
 → buy or bid
-→ construct or demolish
+→ construct, redevelop, demolish or sell
+→ optionally trade a compact securities market
 → settle income and debt
 → respond to economy and zoning
 → survive loan maturity
@@ -100,6 +101,8 @@ Required behavior:
 - deterministic income;
 - district, transit, pollution, economy and compliance modifiers;
 - demolition with a 10% construction-cost refund;
+- redevelopment only into a legal building with strictly higher original construction cost;
+- redevelopment cash cost `max(0, new_cost - 120% × old_original_cost)`, with no negative payout;
 - owned, under-construction, operational and non-compliant states.
 
 Required visual quantity:
@@ -125,6 +128,7 @@ All three must support:
 - plot valuation;
 - direct purchase;
 - construction and demolition decisions;
+- redevelopment, brokered-sale and securities-trading decisions;
 - borrowing and repayment;
 - loan-maturity response;
 - government-auction bidding;
@@ -162,8 +166,14 @@ Required systems:
 - opening, prosperity, overheating and adjustment phases;
 - centralized property revaluation;
 - auditable transaction ledger.
+- normal brokered property sale at 90% of submission-time market value, consuming one action point and settling next turn;
+- Municipal & Railroad Bonds, Industrial Shares and Metropolitan Investment Trust;
+- one action point per securities buy or sell, with no extra financial-action resource;
+- `$1,000` minimum securities order and `1%` fee;
+- deterministic once-per-turn securities pricing and portfolio valuation;
+- securities excluded from property-backed credit capacity.
 
-The exact land-value, income and event multipliers remain balance data, not scope ambiguity.
+The opening land-price bands are `$6,000–$10,000`, `$11,000–$18,000` and `$19,000–$26,000`. The first building-income baselines are fixed in `02_GAME_RULES.md`; economy, district and event multipliers remain balance data requiring simulation.
 
 ## 7. Fixed Auction Scope
 
@@ -221,7 +231,11 @@ Requirements:
 - the same event cannot apply twice unless its definition explicitly permits stacking;
 - event themes and final numbers are frozen during content and balance work.
 
-The four events must not introduce a new system such as unions, stock trading or citizen simulation.
+The four events may modify the three approved securities through explicit data, but must not introduce additional instruments, commodity futures, unions or citizen simulation.
+
+Every news item declares one of four source classes: verified historical newspaper, fictional newspaper, New York State government source or ledger activity. A real newspaper name can appear only with a verified historical event and source date. Government-law rumors use `Sources familiar with the New York State Government` in the English interface.
+
+Non-mechanical city/news flavor items do not count against the four economy-event limit. Any item that changes a rule value must be one of the approved zoning warnings, auction stories or four configured economy events; the feed cannot silently introduce additional gameplay events.
 
 ## 10. Fixed Onboarding Scope
 
@@ -233,6 +247,9 @@ Required English onboarding:
 - first construction prompt;
 - first loan warning;
 - first auction prompt;
+- first redevelopment prompt;
+- first brokered-sale prompt;
+- first securities-trade prompt;
 - tooltips for all primary buttons, resources, zoning and loan terms.
 
 There is no separate tutorial campaign, voiced tutorial or forced step-by-step tutorial level.
@@ -258,7 +275,13 @@ Temporary silence does not block early rules milestones, but the required audio 
 
 - All player-facing text is English.
 - Internal IDs and file names use English `snake_case`.
-- Top status bar, map, property panel, bottom toolbar, event/ledger log, law timeline, finance panel, asset overview, auction modal, help page and result screen are required.
+- The top status bar contains the title `Metropolis: Roaring Times`, turn/economy/finance/action status, `End Turn`, save/help and settings actions.
+- The left-side Integrated Operations Panel is required and contains tabs in exact order: `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`.
+- `Game Brief` is a standalone page showing mode, `Standard` ruleset, rival, objective, turn, economy and current law; it reserves space for a future rubber-hose-style conversational board mascot.
+- `Investment Advice` is a standalone scrolling news/activity page and is not a fixed block above the other tabs.
+- Bank, auction and securities controls appear inside their corresponding tabs; property purchase, construction, redevelopment and sale remain in the right property panel.
+- No fixed bottom action toolbar is included. `End Turn` is in the top status bar.
+- Map, right property panel, law information, asset overview, auction modal, help page and result screen are required.
 - Debt disposition has a dedicated blocking interface.
 - AI debug information is development-only and can be toggled.
 - Required desktop targets: 1920×1080, 1440×900 and 1366×768.
@@ -278,7 +301,7 @@ Required:
 - human bankruptcy defeat;
 - AI bankruptcy victory;
 - final net asset ranking and tie-break explanation;
-- summary of major purchases, construction, auctions, loans and zoning consequences.
+- summary of major purchases, construction, redevelopment, brokered sales, securities trades, auctions, loans and zoning consequences.
 
 ## 14. Quality Requirements
 
@@ -295,7 +318,7 @@ Required:
 - Full 312-turn Classic Mode.
 - Playable Extreme and Roaring modes.
 - Seven later law milestones.
-- Listed property exchange.
+- Full listed property exchange beyond the approved brokered-sale action.
 - Owner-initiated sealed bids.
 - Hostile acquisition and poison-pill response.
 - Private AI negotiation.
@@ -306,6 +329,8 @@ Required:
 - Multiplayer, online accounts, cloud saves and leaderboards.
 - Mobile, console and unlisted platform work.
 - Complex character animation, cinematics, voice acting and citizen simulation.
+- Commodity futures, broker margin, short selling, options and individual real-company simulation.
+- A live-network conversational mascot; only a future layout reservation and state-driven extension point are in scope.
 
 Deferred systems must not appear as non-functional controls.
 

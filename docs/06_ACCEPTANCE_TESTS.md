@@ -1,4 +1,4 @@
-# Roaring Times — Acceptance Tests
+# Metropolis: Roaring Times — Acceptance Tests
 
 > Document role: authoritative acceptance and release-gate specification for the vertical slice
 >
@@ -107,6 +107,8 @@ The repository provides stable fixtures for:
 - active and nearly mature loans;
 - government auction states;
 - debt disposition with multiple assets;
+- redevelopment paths, pending brokered sales and each securities instrument;
+- historical, fictional, government-source and activity news records;
 - zoning warning, enactment, transition and penalty states;
 - turn 20 result and each bankruptcy result;
 - valid, old-version, missing-field and corrupted saves.
@@ -138,21 +140,27 @@ Pass when content validation confirms:
 - two approved government-auction stories;
 - four additional economy events: two global and two district;
 - six subway stations, approximately five tram stops on one line and two bridges;
-- one compressed zoning law with the approved turn schedule.
+- one compressed zoning law with the approved turn schedule;
+- exactly three securities instruments with the approved availability and no futures/margin product;
+- the five Integrated Operations Panel tabs in the approved order.
 
 ### `DOC-005` English Player Content
 
 Pass when all player-facing labels, buttons, errors, events, tutorials, tooltips, rival profiles and result text are English. Internal content IDs and file names use stable English `snake_case`.
 
+The product title must appear as `Metropolis: Roaring Times`. Government-source rumors use `Sources familiar with the New York State Government`.
+
 ### `DOC-006` Deferred-Control Audit
 
-Pass when there is no non-functional visible control for property exchange, sealed owner bid, hostile acquisition, poison pill, private negotiation, player-built transit, multiplayer or other deferred system.
+Pass when there is no non-functional visible control for the full property exchange, sealed owner bid, hostile acquisition, poison pill, private negotiation, player-built transit, commodity futures, broker margin, multiplayer or other deferred system. `Auction House` may truthfully show `No scheduled auctions`; the reserved Game Brief mascot area must have a clear non-conversational fallback rather than a fake working chat.
 
 ## 7. Startup and Match Setup
 
 ### `SCN-001` Project Startup
 
 Open `project.godot` and run the main project. Pass when it reaches the title/start flow without a blocking error and can exit normally.
+
+The window/browser title and primary masthead use `Metropolis: Roaring Times`.
 
 ### `SCN-002` Choose Rival
 
@@ -252,6 +260,20 @@ Pass when Luxury Apartment reputation/adjacency restrictions, factory residentia
 
 Pass when demolition consumes one action point, charges no separate fee, refunds exactly 10% of original construction cost under the shared rounding rule, removes the building, retains ownership of empty land and removes demolished investment from current cost basis.
 
+### `AUT-005A` Redevelopment
+
+For every legal higher-cost building transition, pass when redevelopment consumes one action point and charges exactly:
+
+```text
+max(0, new_original_cost - 1.20 * old_original_cost)
+```
+
+The old building stops operating, leaves current cost basis and is replaced by an under-construction target whose full original cost enters current basis. It becomes operational next turn. Same-cost targets, lower-cost targets, illegal zoning, non-compliant upgrade prohibition, pending sale and insufficient cash all reject atomically. No path can pay cash to the participant from a negative difference.
+
+### `AUT-005B` Brokered Property Sale
+
+Pass when a legal submission consumes one action point, locks exactly 90% of current market value, marks the asset `sale_pending` and transfers ownership/cash once at the next `TURN_START` before income and maintenance. Verify that the pending asset cannot be redeveloped, demolished, resold or auctioned and that brokered sale is unavailable as an immediate resolution for already-mature debt.
+
 ### `AUT-006` Transit and Bridgehead
 
 Pass when:
@@ -287,7 +309,7 @@ Illegal phase jumps and duplicate end-turn requests must change nothing.
 
 ### `AUT-008` Action Points
 
-Pass when the player receives three action points per turn and purchase, construction, demolition and winning acquisition consume the approved amounts. Borrowing, repayment and entering a scheduled government auction consume zero. No action can reduce action points below zero.
+Pass when the player receives exactly three action points per turn and purchase, construction, demolition, redevelopment, brokered-sale submission, each securities buy/sell and winning auction acquisition consume one. Borrowing, repayment, inspection and entering a scheduled government auction consume zero. There is no separate `Financial Order` resource, and no action can reduce action points below zero.
 
 ### `SCN-009` End-Turn Confirmation
 
@@ -372,7 +394,21 @@ Cover at least these cases:
 
 Pass when cases 1–4 resume at the documented state and case 5 produces immediate human bankruptcy defeat. Normal actions and new borrowing remain unavailable throughout disposition.
 
-## 12. Government Auction Acceptance
+## 12. Stock Market Acceptance
+
+### `AUT-020A` Securities Instruments and Availability
+
+Pass when the market contains only `municipal_railroad_bonds`, `industrial_shares` and `metropolitan_investment_trust`; the first two are available from Opening and the trust from Prosperity. No individual real company, commodity future, option, short or broker-margin instrument is exposed.
+
+### `AUT-020B` Securities Orders
+
+For each instrument, test buy and sell. Pass when each successful order uses the displayed authoritative turn price, enforces the `$1,000` minimum, charges exactly `1%`, consumes one action point and creates one atomic ledger record. Insufficient cash/holding, unavailable instrument, duplicate request and zero remaining action points change nothing.
+
+### `AUT-020C` Securities Revaluation and Credit Separation
+
+Pass when prices change exactly once during `MARKET_REVALUATION` from named deterministic economy/event inputs, replay identically from the same seed and never change because a UI panel opens. Securities value appears in portfolio and results but contributes zero to property-backed available credit. Configured guaranteed bond return after fees cannot exceed the applicable new-loan rate.
+
+## 13. Government Auction Acceptance
 
 ### `AUT-021` Scheduled Auctions
 
@@ -400,7 +436,7 @@ Every end state restores the correct turn flow and records a single result. Cosm
 
 Pass when a binding bid confirmation or auction commit step shows current price, increment, resulting funding position and action-point consequence. Rapid repeated input cannot submit the same bid twice.
 
-## 13. AI Acceptance
+## 14. AI Acceptance
 
 ### `AUT-024` Shared Legality
 
@@ -444,7 +480,7 @@ Pass when visible AI actions are shown in short `0.6–1.2` second sequences, ma
 
 In a development build, `F1` displays the required AI/rules evidence without mutating state. In the final Web build, the overlay and exact private AI data are disabled or absent.
 
-## 14. Zoning Law and Event Acceptance
+## 15. Zoning Law and Event Acceptance
 
 ### `AUT-028` Zoning Timeline
 
@@ -474,11 +510,15 @@ Pass when warning, enactment, transition and violation are distinguishable on th
 
 Pass when the two global and two district events respect eligibility, duration, scope, non-duplication and deterministic event-stream behavior. Their previews and committed modifier IDs match.
 
-## 15. Ledger, Atomicity and Determinism
+### `AUT-031A` News Provenance
+
+Pass when every Investment Advice item declares source name/type, authenticity, turn/date, headline, summary, affected systems and expiry. A real newspaper item requires a verified source date and citation and cannot contain invented quoted copy. Fictional city items use only approved fictional mastheads. Government-law rumors use `Sources familiar with the New York State Government` and display `Rumor`; activity items are ledger-derived and never presented as historical reporting.
+
+## 16. Ledger, Atomicity and Determinism
 
 ### `AUT-032` Transaction Evidence
 
-For purchase, construction, demolition, loan, repayment, takeover, auction, income, maintenance, law penalty and bankruptcy, pass when each ledger entry includes the required turn, phase, actor, before/after financial and ownership values, action-point changes and modifier reasons.
+For purchase, construction, demolition, redevelopment, brokered-sale submission/settlement, securities order/revaluation, loan, repayment, takeover, auction, income, maintenance, law penalty and bankruptcy, pass when each ledger entry includes the required turn, phase, actor, before/after financial and ownership/holding values, action-point changes and modifier reasons.
 
 ### `AUT-033` Atomic Failure
 
@@ -496,11 +536,11 @@ For the same build/rules version, seed, initial content and ordered action list,
 
 Repeat a deterministic run with animation skipped, reduced motion enabled and different frame timing. Pass when authoritative results remain identical.
 
-## 16. Save, Load and Recovery
+## 17. Save, Load and Recovery
 
 ### `AUT-037` Manual Round Trip
 
-At a stable interactive state, save and load. Pass when turn, phase, participants, loans, plots, buildings, construction, economy, law, events, ledger, deterministic streams and transaction guard restore exactly.
+At a stable interactive state, save and load. Pass when turn, phase, participants, loans, plots, buildings, construction/redevelopment, pending brokered sales, security prices/holdings, economy, law, news/events, ledger, deterministic streams and transaction guard restore exactly.
 
 ### `AUT-038` Autosave Boundary
 
@@ -526,19 +566,21 @@ In Chrome and the Safari smoke run, repeat the following sequence separately for
 
 Pass when the exact state returns and no transaction is duplicated. Clearing browser site storage is permitted to delete saves and is documented as platform behavior, not an in-game failure.
 
-## 17. UI, Input, Tutorial and Accessibility
+## 18. UI, Input, Tutorial and Accessibility
 
 ### `SCN-015` Required Interface
 
-Pass when the top status bar, map, property panel, bottom toolbar, event/ledger log, law timeline, finance panel, asset overview, auction modal, debt disposition, How to Play page and result screen are all present and functional.
+Pass when the top status bar shows `Metropolis: Roaring Times`, status values, `End Turn`, save/help and settings; the map and right property panel remain usable; and the left Integrated Operations Panel contains exactly this tab order: `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`.
+
+Each tab is an independent page with its own scroll behavior. `Game Brief` is not pinned above the other pages, shows mode/`Standard` ruleset/rival/objective/turn/economy/law and includes the reserved mascot area with fallback. `Investment Advice` scrolls news/activity. Bank, auction and securities actions appear only in their relevant tabs. No fixed bottom action toolbar exists.
 
 ### `SCN-016` High-Risk Confirmations
 
-Pass when taking a loan, demolishing, submitting the required binding-bid commit, surrendering/auctioning an asset and ending with unused action points require clear confirmation. Cancel changes nothing. Routine selection and inspection require no confirmation.
+Pass when taking a loan, demolishing, redevelopment, brokered sale, securities order, submitting the required binding-bid commit, surrendering/auctioning an asset and ending with unused action points require clear confirmation. Redevelopment shows the 120% credit and zero-floor cost; sale shows 90% locked value and delay; securities show gross, 1% fee and action-point cost. Cancel changes nothing. Routine selection and inspection require no confirmation.
 
 ### `SCN-017` Mouse Completion
 
-Pass when the complete match can be played with a mouse, including map navigation, property actions, finance, auctions, save/load and results.
+Pass when the complete match can be played with a mouse, including map navigation, property purchase/redevelopment/sale, banking, securities, auctions, save/load and results.
 
 ### `SCN-018` Keyboard Panel Navigation
 
@@ -546,7 +588,7 @@ Pass when required non-map controls have visible focus, logical tab order and ke
 
 ### `SCN-019` First-Use Guidance
 
-Pass when an English static How to Play page explains the core loop and first-use prompts/tooltips cover purchase, construction, finance, auction, zoning and end turn without creating a separate tutorial campaign.
+Pass when an English static How to Play page explains the core loop and first-use prompts/tooltips cover purchase, construction, redevelopment, brokered sale, bank, stock market, auction, zoning and end turn without creating a separate tutorial campaign.
 
 ### `SCN-020` Layout Targets
 
@@ -560,7 +602,7 @@ Pass when ownership, selection, auction, construction, compliance, transition, v
 
 Pass when reduced motion shortens/removes nonessential motion without hiding required results or changing rule timing.
 
-## 18. Visual and Asset Acceptance
+## 19. Visual and Asset Acceptance
 
 ### `VIS-001` Map Composition Gate
 
@@ -572,7 +614,7 @@ Owner approves a sample plot in unowned, human, rival, government, selected, auc
 
 ### `VIS-003` Building and UI Gate
 
-Owner approves one top-down sample from each of the four building categories plus one Art Deco panel/button family before all variants are produced.
+Owner approves one top-down sample from each of the four building categories plus one Art Deco panel/button family and one five-tab Integrated Operations Panel sample before all variants are produced.
 
 ### `VIS-004` Rival Portrait Gate
 
@@ -604,7 +646,7 @@ Owner approves the final integrated build only when:
 - identifiable content passes period/date review;
 - decoration does not obscure plot boundaries or state.
 
-## 19. Audio Acceptance
+## 20. Audio Acceptance
 
 ### `AUD-001` Required Assets
 
@@ -618,7 +660,7 @@ Pass when music and sound effects have independent volume controls and mute work
 
 Pass when each cue plays once for its committed result, does not play for rejected/cancelled transactions and does not become an input to rule timing.
 
-## 20. Performance and Web Acceptance
+## 21. Performance and Web Acceptance
 
 ### `PERF-001` Reference Camera Run
 
@@ -655,7 +697,7 @@ After the build has loaded, disable network access and start/continue a match. P
 
 Pass when changing browser focus, returning to the tab and rapidly clicking a pending action cannot duplicate a command, skip a blocking flow or corrupt input state.
 
-## 21. Complete Match and Results
+## 22. Complete Match and Results
 
 ### `AUT-040` Headless 20-Turn Simulation
 
@@ -663,7 +705,7 @@ For each rival and required fixed seeds, pass when the match reaches a legal ter
 
 ### `SCN-023` Human 20-Turn Playthrough
 
-Complete one representative match through the actual interface. Pass when property, construction, lending, at least one auction, economy change, zoning timeline, save/load and final result are exercised without a blocking defect.
+Complete one representative match through the actual interface. Pass when property purchase, construction, redevelopment, brokered sale, lending, securities trading, at least one auction, economy change, zoning timeline, save/load and final result are exercised without a blocking defect.
 
 ### `AUT-041` Net Worth and Tie-Breaks
 
@@ -673,6 +715,7 @@ Pass when turn-20 ranking uses:
 cash
 + current market value of owned plots
 + current market value of owned buildings and permanent improvements
++ current market value of securities holdings
 - all outstanding principal
 - all accrued interest
 ```
@@ -691,9 +734,9 @@ Cover and pass:
 
 ### `SCN-024` Result Summary
 
-Pass when the English result screen shows ranking, net-worth components, tie-break explanation where applicable and a ledger-derived summary of major purchases, construction, auctions, loans and zoning consequences.
+Pass when the English result screen shows ranking, cash/property/securities/debt components, tie-break explanation where applicable and a ledger-derived summary of major purchases, construction, redevelopment, brokered sales, securities trades, auctions, loans and zoning consequences.
 
-## 22. Required Commands and Evidence
+## 23. Required Commands and Evidence
 
 The baseline headless command is:
 
@@ -715,7 +758,7 @@ Every candidate report records:
 
 Screenshots and videos support visual/browser evidence but do not replace the runnable project, automated output or Web export.
 
-## 23. Milestone Test Rule
+## 24. Milestone Test Rule
 
 For each development milestone:
 
@@ -729,7 +772,7 @@ For each development milestone:
 
 The final release candidate must run the full applicable set regardless of earlier milestone results.
 
-## 24. Approved D6 Decisions
+## 25. Approved D6 Decisions
 
 The owner approved the following acceptance policy:
 
@@ -741,5 +784,8 @@ The owner approved the following acceptance policy:
 6. The match must be mouse-completable and panels keyboard accessible; keyboard-only plot selection is not required.
 7. Manual/autosave persistence and corrupt-load safety require explicit browser and automated tests.
 8. Blocker/serious defects cannot ship; every retained medium defect requires owner approval.
+9. Redevelopment, brokered sale and securities trading require automated atomicity, save/load and action-point coverage.
+10. The Integrated Operations Panel, title, fixed tab order and absence of a bottom toolbar are release acceptance requirements.
+11. Historical news provenance is tested content, not optional editorial polish.
 
 Changing these acceptance decisions requires an owner-approved documentation update.

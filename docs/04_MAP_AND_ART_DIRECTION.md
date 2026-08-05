@@ -1,4 +1,4 @@
-# Roaring Times — Map and Art Direction
+# Metropolis: Roaring Times — Map and Art Direction
 
 > Document role: authoritative visual, map-interaction and asset-direction specification
 >
@@ -66,7 +66,7 @@ The following sRGB values were sampled and visually cross-checked against the su
 
 Tycoon, Landlady and Shark are rival personalities, not difficulty levels and not separate ownership factions.
 
-The opponent-selection screen uses the heading `Choose Rival`. The vertical slice has one shared rules difficulty; no control is labeled `Difficulty`.
+The opponent-selection screen uses the heading `Choose Rival`. The vertical slice has one `Standard` ruleset and no difficulty system; no control is labeled `Difficulty`.
 
 ### 4.1 Ownership
 
@@ -219,6 +219,8 @@ Variants share category silhouette language and differ through roof plan, courty
 ### 10.3 State Treatment
 
 - Under construction: lightweight scaffold/roof-work overlay.
+- Redevelopment: the old building is removed and the replacement uses the same construction overlay until next turn.
+- Pending brokered sale: small contract/document icon and `Sale Pending` label without hiding ownership.
 - Non-compliant: warning hatch and legal icon, not a replacement building image.
 - Demolished: building disappears and the owned empty plot remains.
 - Economy effects use overlays and UI explanation, not recolored building sprites that obscure category identity.
@@ -257,6 +259,12 @@ Identity consistency requirements:
 - expressions readable at auction-panel size;
 - transparent edges free from halos.
 
+### 11.4 Future Game Brief Mascot
+
+`Game Brief` reserves a portrait/dialogue area for one original rubber-hose-style board mascot that can later comment on current state and accept player dialogue choices. This mascot is not Tycoon, Landlady or Shark, does not change difficulty, and does not make authoritative game decisions.
+
+The vertical slice requires only the stable layout reservation and fallback text state. Final mascot art, dialogue corpus and any runtime conversational technology require a later owner gate. The preferred offline-compatible direction is deterministic state-driven dialogue; a network language model is not implied by the reserved space.
+
 ## 12. UI Direction
 
 - UI framing uses restrained Art Deco geometry derived from the reference border.
@@ -267,6 +275,16 @@ Identity consistency requirements:
 - `Choose Rival` presents Tycoon, Landlady and Shark as strategy/personality profiles.
 - The vertical slice has no difficulty selector.
 - Destructive, debt and violation actions use `warning_deep` plus explicit English labels and symbols.
+- The left panel is consistently named the **Integrated Operations Panel** in specifications and `Operations Desk` in player-facing English.
+- Its tabs appear in the exact order `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`.
+- Every tab is an independent page with its own scroll region. `Game Brief` is not a fixed header above another page.
+- `Game Brief` shows mode, `Standard` ruleset, rival, objective, turn, economy and law state, plus the reserved mascot region.
+- `Investment Advice` uses newspaper-card hierarchy for verified history, fictional city reporting, government rumors and activity. `Historical`, `Fictional`, `Rumor` and `Activity` badges must remain visible without relying on color.
+- The top status bar carries `Metropolis: Roaring Times`, the primary status values, `End Turn`, help, save and settings.
+- The right property panel carries purchase, construction, redevelopment and brokered-sale actions.
+- There is no fixed bottom action bar. Bank, auction and securities actions live in their corresponding Integrated Operations Panel tabs.
+
+The `Stock Market` page uses compact period-inspired quotation rows rather than a modern candlestick terminal. The `Auction House` page can show `No scheduled auctions` until owner-approved stories exist; it must not invent placeholder narrative presented as final content.
 
 Fonts must be bundled, licensed for the intended distribution and readable in the Web export. A period-appropriate display face may be used for headings; body and numeric text prioritize readability.
 
@@ -351,6 +369,7 @@ Before generating all variants, owner review approves:
 - one top-down building from each category;
 - one rival neutral portrait and two emotion variations;
 - one event-card illustration;
+- one Integrated Operations Panel sample containing all five tab labels and the reserved Game Brief mascot area;
 - one Art Deco panel and button family.
 
 ### Gate D — Final Integration
