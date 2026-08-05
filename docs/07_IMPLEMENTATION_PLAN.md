@@ -96,7 +96,8 @@ After M0, the project manager provides a more credible forecast based on Godot a
 
 | Stage | Outcome | Size | Main risk |
 |---|---|---:|---|
-| M0 | Verified Godot environment, test runner and Web smoke build | Medium | Local Godot/Web capability |
+| M0W | Immediate plain Web gameplay prototype for investor explanation | Medium | Prototype/production boundary |
+| M0G | Verified Godot environment, test runner and Web smoke build (postponed) | Medium | Local Godot/Web capability |
 | M1A | Owner-approved map composition prototype | Medium | Reference translation and geography |
 | M1B | Complete 64-plot data, camera and geometry validation | Large | Polygon production and input accuracy |
 | M2 | Plot interaction and responsive UI shell | Large | Screen density and state clarity |
@@ -112,13 +113,64 @@ After M0, the project manager provides a more credible forecast based on Godot a
 
 M1 and M8 are split because the owner must approve a sample before bulk production. Each substage is independently tested and committed.
 
-## 7. M0 — Environment and Minimum Runtime
+## 7. M0W — Immediate Web Graybox Prototype
 
 ### 7.1 Objective
 
+Before any Godot work, deliver a deliberately plain standalone Web prototype that lets the owner explain the core property-strategy idea to investors.
+
+### 7.2 Fixed Prototype Boundary
+
+M0W uses local HTML, CSS and JavaScript with no runtime network, login, database or required external framework. It is a disposable communication prototype, not the production codebase and not evidence that the final 64-plot vertical slice is complete.
+
+The first version uses:
+
+- basic white/light backgrounds and black/dark frames;
+- English player-facing text;
+- a compressed representative Manhattan plot layout;
+- a short eight-turn demonstration rather than the final 20-turn mode;
+- one selected rival from Tycoon, Landlady or Shark;
+- purchase, four building choices, borrowing/repayment, income, AI competition, a compressed economy shift and a zoning warning/effect;
+- a simple net-worth result and local browser save;
+- a visible `M0 WEB GRAYBOX — NOT FINAL ART` label.
+
+Government/emergency auctions are not faked in M0W because their story and bidder content still requires later owner approval. They enter the production sequence at M6 and the full investor build at G1.
+
+### 7.3 Work
+
+- Add a self-contained `m0_web/` site inside the repository.
+- Build an investor-readable single-screen game layout.
+- Implement clickable irregular representative plots and clear ownership patterns.
+- Implement a deterministic short match with three action points per turn.
+- Implement simple but real purchase, construction, loan, repayment, income and rival actions.
+- Implement first-use instructions, event/transaction log, restart and local save/load.
+- Keep all values labeled as prototype tuning rather than final balance.
+- Validate the page through a local HTTP server and browser interaction.
+- Update the plan and development record so reconnects do not mistake M0W for Godot M0.
+
+### 7.4 Gate and Evidence
+
+- Page loads without a blocking console error.
+- Rival selection works for Tycoon, Landlady and Shark.
+- A user can buy, build, borrow/repay, end turns and reach the turn-eight result.
+- Rival actions change according to the selected personality at a demonstrable level.
+- Repeated rapid input cannot commit the same player action twice.
+- Save/load and restart preserve or reset the intended prototype state.
+- Required content remains usable at `1366×768`.
+- The page is clearly labeled as provisional and contains no claim of final art or final balance.
+- Files are tested, saved and committed as one M0W stage.
+
+### 7.5 Risk
+
+Medium-high. The prototype creates temporary duplicate rule code. To contain rework, it stays dependency-free, isolated in `m0_web/` and is never imported into the later Godot implementation.
+
+## 8. M0G — Godot Environment and Minimum Runtime (Postponed)
+
+### 8.1 Objective
+
 Prove that the local machine can edit, test and export the chosen Godot project before gameplay implementation begins.
 
-### 7.2 Work
+### 8.2 Work
 
 - Locate and record the exact Godot executable/version.
 - Inspect available Godot MCP capabilities without making them mandatory.
@@ -132,13 +184,13 @@ Prove that the local machine can edit, test and export the chosen Godot project 
 - Confirm basic `user://` persistence feasibility in Chrome.
 - Record findings in `docs/MCP_CAPABILITIES.md` and the development log.
 
-### 7.3 Not Yet
+### 8.3 Not Yet
 
 - No gameplay map.
 - No final UI or art.
 - No gameplay rule implementation beyond a minimal testable application shell.
 
-### 7.4 Gate and Evidence
+### 8.4 Gate and Evidence
 
 - Godot exact version recorded.
 - Headless runner exits success for passing tests and failure for an intentional isolated assertion.
@@ -148,17 +200,17 @@ Prove that the local machine can edit, test and export the chosen Godot project 
 
 Primary acceptance references: `SCN-001`, `WEB-002`, `WEB-003` as applicable to the minimal shell.
 
-### 7.5 Risk
+### 8.5 Risk
 
 High until the executable and Web templates are verified. No downstream estimate is reliable before this gate.
 
-## 8. M1A — Map Composition Prototype
+## 9. M1A — Map Composition Prototype
 
-### 8.1 Objective
+### 9.1 Objective
 
 Obtain owner approval for spatial composition before producing all 64 plots.
 
-### 8.2 Work
+### 9.2 Work
 
 - Create an original north-up Manhattan silhouette and water fields.
 - Place the five gameplay areas, Central Park, rivers, bridges and Brooklyn Bridgehead.
@@ -167,14 +219,14 @@ Obtain owner approval for spatial composition before producing all 64 plots.
 - Show far/mid/near information-density intent.
 - Document any geographical compression and date-sensitive landmarks.
 
-### 8.3 Not Yet
+### 9.3 Not Yet
 
 - No complete 64-plot dataset.
 - No final road/landmark illustration.
 - No bulk building or portrait production.
 - No rule implementation attached to prototype plots.
 
-### 8.4 Gate and Evidence
+### 9.4 Gate and Evidence
 
 - Owner approves `VIS-001` Map Composition Gate.
 - Hudson/west, East River/east and Lower Manhattan/south remain correct.
@@ -182,17 +234,17 @@ Obtain owner approval for spatial composition before producing all 64 plots.
 - Strict palette and orientation review passes.
 - Prototype remains original and does not ship the reference image as a background.
 
-### 8.5 Risk
+### 9.5 Risk
 
 High. Approval must occur before bulk plot work; otherwise geometry and decoration would be reworked together.
 
-## 9. M1B — Complete Map Data and Camera
+## 10. M1B — Complete Map Data and Camera
 
-### 9.1 Objective
+### 10.1 Objective
 
 Deliver exactly 64 data-driven, interactive-ready plot polygons plus stable pan/zoom behavior.
 
-### 9.2 Work
+### 10.2 Work
 
 - Define all plot IDs, polygons, districts, ownership eligibility and adjacency.
 - Define public plots and fixed transit topology.
@@ -202,30 +254,30 @@ Deliver exactly 64 data-driven, interactive-ready plot polygons plus stable pan/
 - Add geometry/content validators and headless tests.
 - Add temporary state patterns sufficient to test selection and ownership.
 
-### 9.3 Not Yet
+### 10.3 Not Yet
 
 - No property purchase or income.
 - No final map decoration.
 - No final visual state family.
 
-### 9.4 Gate and Evidence
+### 10.4 Gate and Evidence
 
 - `DOC-003`, `DOC-004`, `DOC-007` pass for current map content.
 - `SCN-004`, `SCN-006`, `SCN-007`, `SCN-008` pass at stage scope.
 - Exactly 64 plots validate with no self-intersection, missing reference or unusable collision.
 - Camera cannot rotate or lose the map.
 
-### 9.5 Risk
+### 10.5 Risk
 
 High due to geometry volume. Failed shapes are corrected individually; plot count is not reduced to protect schedule.
 
-## 10. M2 — Plot Interaction and UI Shell
+## 11. M2 — Plot Interaction and UI Shell
 
-### 10.1 Objective
+### 11.1 Objective
 
 Create the complete responsive interface structure and make every plot inspectable without yet implementing money-changing actions.
 
-### 10.2 Work
+### 11.2 Work
 
 - Build top status bar, property panel, bottom toolbar and event/ledger area.
 - Build modal and notification layers.
@@ -235,13 +287,13 @@ Create the complete responsive interface structure and make every plot inspectab
 - Implement target-resolution layout behavior.
 - Implement temporary English labels and error/reason presentation.
 
-### 10.3 Not Yet
+### 11.3 Not Yet
 
 - Buttons for unavailable future systems remain absent rather than disabled.
 - No final Art Deco skin.
 - No real purchase, loan, auction or AI command.
 
-### 10.4 Gate and Evidence
+### 11.4 Gate and Evidence
 
 - `SCN-005`, `SCN-015`, `SCN-018`, `SCN-020`, `SCN-021` pass at current scope.
 - All 64 plots can be inspected and identified.
@@ -249,17 +301,17 @@ Create the complete responsive interface structure and make every plot inspectab
 - Required information fits the three target resolutions.
 - Owner approves `VIS-002` interaction-state sample before the state family expands.
 
-### 10.5 Risk
+### 11.5 Risk
 
 Medium-high. The main danger is an interface that consumes map space or requires final art before information hierarchy is proven.
 
-## 11. M3 — Property, Finance, Ledger and Save Foundation
+## 12. M3 — Property, Finance, Ledger and Save Foundation
 
-### 11.1 Objective
+### 12.1 Objective
 
 Establish the authoritative state and transaction pipeline through real purchase and lending actions.
 
-### 11.2 Work
+### 12.2 Work
 
 - Implement `GameState`, command requests, validation, atomic drafts and ledger.
 - Implement participant setup and symmetric AI starting value records.
@@ -271,11 +323,11 @@ Establish the authoritative state and transaction pipeline through real purchase
 - Connect finance/property panels through read-only view models.
 - Add confirmation for loans and high-risk disposal.
 
-### 11.3 Deliberate Temporary Limitation
+### 12.3 Deliberate Temporary Limitation
 
 Emergency auction is completed in M6. Until then, debt fixtures use the bank-takeover path and the interface does not present an emergency-auction action as available.
 
-### 11.4 Gate and Evidence
+### 12.4 Gate and Evidence
 
 - `AUT-001`, `AUT-002`, `AUT-012` through `AUT-018`, `AUT-032` through `AUT-039` pass where their dependencies exist.
 - Failed transactions change nothing.
@@ -283,17 +335,17 @@ Emergency auction is completed in M6. Until then, debt fixtures use the bank-tak
 - Save/load preserves the implemented authoritative state exactly.
 - No UI callback directly writes cash, debt, ownership or action points.
 
-### 11.5 Risk
+### 12.5 Risk
 
 High. This is the financial integrity foundation; later features cannot bypass it for speed.
 
-## 12. M4 — Buildings, Settlement and Economy Loop
+## 13. M4 — Buildings, Settlement and Economy Loop
 
-### 12.1 Objective
+### 13.1 Objective
 
 Deliver the repeatable buy → build → settle → revalue → continue-turn property loop.
 
-### 12.2 Work
+### 13.2 Work
 
 - Implement all four building types from content data.
 - Implement construction delay and next-turn activation.
@@ -305,13 +357,13 @@ Deliver the repeatable buy → build → settle → revalue → continue-turn pr
 - Implement a 20-turn state-machine path using currently available systems.
 - Extend ledger, save and deterministic tests.
 
-### 12.3 Not Yet
+### 13.3 Not Yet
 
 - No final AI decision system.
 - No auction, zoning law or additional event content.
 - Temporary programmatic building shapes remain acceptable.
 
-### 12.4 Gate and Evidence
+### 13.4 Gate and Evidence
 
 - `AUT-003` through `AUT-011` pass.
 - Applicable turn, settlement, atomicity and replay tests pass.
@@ -319,17 +371,17 @@ Deliver the repeatable buy → build → settle → revalue → continue-turn pr
 - Preview and committed settlement match.
 - New-match reset clears all implemented runtime state.
 
-### 12.5 Risk
+### 13.5 Risk
 
 High. Modifier order and construction timing must be frozen in one rules implementation before AI begins to use them.
 
-## 13. M5 — Deterministic Rival AI
+## 14. M5 — Deterministic Rival AI
 
-### 13.1 Objective
+### 14.1 Objective
 
 Make Tycoon, Landlady and Shark visibly different legal opponents under equal starting rules.
 
-### 13.2 Work
+### 14.2 Work
 
 - Implement shared AI candidate generation and legality.
 - Implement personality weights and liquidity/debt constraints.
@@ -340,12 +392,12 @@ Make Tycoon, Landlady and Shark visibly different legal opponents under equal st
 - Implement short skippable/accelerable AI presentation queue.
 - Run a preliminary 90-match statistical suite for the available non-auction personality metrics.
 
-### 13.3 Not Yet
+### 14.3 Not Yet
 
 - AI auction behavior is added to the same planner in M6.
 - Final portraits are not required; text labels or simple black-frame placeholders are used.
 
-### 13.4 Gate and Evidence
+### 14.4 Gate and Evidence
 
 - `AUT-024` through `AUT-026` pass.
 - `SCN-011` and development portion of `SCN-012` pass.
@@ -353,13 +405,13 @@ Make Tycoon, Landlady and Shark visibly different legal opponents under equal st
 - Available residential, factory and liquidity metrics are recorded across the same 30-seed set per personality.
 - `AUT-027` remains explicitly pending rather than partially passed because its auction-withdrawal metric cannot run before M6.
 
-### 13.5 Risk
+### 14.5 Risk
 
 High. A persona that differs only by label is a serious design failure even when it wins or loses normally.
 
-## 14. M6 — Government and Emergency Auctions
+## 15. M6 — Government and Emergency Auctions
 
-### 14.1 Pre-Implementation Owner Gate
+### 15.1 Pre-Implementation Owner Gate
 
 Before auction content is committed, present the owner with:
 
@@ -370,11 +422,11 @@ Before auction content is committed, present the owner with:
 
 Content implementation waits for explicit approval.
 
-### 14.2 Objective
+### 15.2 Objective
 
 Deliver deterministic, finite English ascending auctions for both scheduled government sales and debt disposition.
 
-### 14.3 Work
+### 15.3 Work
 
 - Implement government auction scheduling and approved stories.
 - Implement price, increment, bid, withdrawal and maximum rounds.
@@ -385,7 +437,7 @@ Deliver deterministic, finite English ascending auctions for both scheduled gove
 - Implement binding-bid confirmation and gavel presentation hook.
 - Extend save, ledger, replay and rapid-input guards.
 
-### 14.4 Gate and Evidence
+### 15.4 Gate and Evidence
 
 - `AUT-019` through `AUT-023` pass.
 - Auction portions of `AUT-024` pass and the complete `AUT-027` 90-match statistical acceptance passes.
@@ -393,13 +445,13 @@ Deliver deterministic, finite English ascending auctions for both scheduled gove
 - No sale, withdrawal, rival win, human win and insufficient funding all restore the correct phase.
 - No seed produces an infinite auction.
 
-### 14.5 Risk
+### 15.5 Risk
 
 High. Funding, action-point consumption and modal cleanup cross multiple systems; every end state requires evidence.
 
-## 15. M7 — Zoning Law, Events and Complete Graybox Rules
+## 16. M7 — Zoning Law, Events and Complete Graybox Rules
 
-### 15.1 Pre-Implementation Owner Gate
+### 16.1 Pre-Implementation Owner Gate
 
 Before additional event content is committed, present four English proposals:
 
@@ -410,11 +462,11 @@ Before additional event content is committed, present four English proposals:
 
 Implementation waits for explicit approval.
 
-### 15.2 Objective
+### 16.2 Objective
 
 Complete every core vertical-slice gameplay system before production art begins.
 
-### 15.3 Work
+### 16.3 Work
 
 - Implement zoning warnings on turns 10 and 12.
 - Implement enactment on turn 14, transition on 15–16 and penalties from 17.
@@ -424,7 +476,7 @@ Complete every core vertical-slice gameplay system before production art begins.
 - Complete result calculation and temporary result presentation needed for full runs.
 - Run all domain simulations across AI, auctions, loans, law and events.
 
-### 15.4 Gate and Evidence
+### 16.4 Gate and Evidence
 
 - `AUT-028` through `AUT-031` pass.
 - `SCN-013` passes with temporary but clear visual patterns.
@@ -432,17 +484,17 @@ Complete every core vertical-slice gameplay system before production art begins.
 - A complete 20-turn match can reach every approved result without final art.
 - No core rule remains represented only by a mock button or scripted video.
 
-### 15.5 Risk
+### 16.5 Risk
 
 High. Law/event transitions touch valuation, legality, income, AI and save state simultaneously.
 
-## 16. G1 — Investor Graybox Web Demo
+## 17. G1 — Investor Graybox Web Demo
 
-### 16.1 Purpose
+### 17.1 Purpose
 
 Package the real M7 gameplay as a presentation-ready pre-alpha prototype before final art and audio. This is a separate owner-requested deliverable, not the final vertical slice.
 
-### 16.2 Visual Rule
+### 17.2 Visual Rule
 
 The prototype may deliberately use:
 
@@ -455,7 +507,7 @@ The prototype may deliberately use:
 
 This temporary exception exists only for the investor prototype. It does not alter the approved final palette/art direction and cannot pass M8 or final visual gates.
 
-### 16.3 Required Gameplay
+### 17.3 Required Gameplay
 
 The investor build must use the real implementation for:
 
@@ -471,7 +523,7 @@ The investor build must use the real implementation for:
 
 No investor-only fake outcome, hidden rule shortcut or pre-recorded interaction is allowed.
 
-### 16.4 Deliverables
+### 17.4 Deliverables
 
 - `build/investor_graybox/` browser build;
 - a visible `Pre-Alpha Gameplay Prototype` label;
@@ -481,7 +533,7 @@ No investor-only fake outcome, hidden rule shortcut or pre-recorded interaction 
 
 The guide must describe what the prototype proves and must not present temporary visuals as final quality.
 
-### 16.5 Gate and Evidence
+### 17.5 Gate and Evidence
 
 - Full representative Chrome playthrough of the investor route.
 - Safari smoke test has no blocker/serious defect.
@@ -490,17 +542,17 @@ The guide must describe what the prototype proves and must not present temporary
 - Every retained medium defect is reported to and accepted by the owner before investor use.
 - Owner approves the build and walkthrough before it is shown externally.
 
-### 16.6 Risk
+### 17.6 Risk
 
 Medium-high. The main risk is expectation management: the build must look intentionally provisional while still being stable enough to demonstrate actual strategy.
 
-## 17. M8A — Production Art Samples
+## 18. M8A — Production Art Samples
 
-### 17.1 Objective
+### 18.1 Objective
 
 Approve the production asset language before bulk generation or illustration.
 
-### 17.2 Work
+### 18.2 Work
 
 - Produce one top-down sample for each building category.
 - Produce one neutral rival portrait and two emotion samples in the approved original rubber-hose direction.
@@ -510,24 +562,24 @@ Approve the production asset language before bulk generation or illustration.
 - Record source, tool/prompt, dimensions, license/provenance and import settings.
 - Review period correctness and strict palette conversion.
 
-### 17.3 Gate and Evidence
+### 18.3 Gate and Evidence
 
 - Owner approves `VIS-003` and the sample portion of `VIS-004`.
 - Samples remain legible at final on-screen size.
 - No sample copies a recognizable protected character or embeds generated text.
 - Asset-manifest records are complete.
 
-### 17.4 Risk
+### 18.4 Risk
 
 High. Style drift, inconsistent identity, perspective error and post-period detail must be caught before batch work.
 
-## 18. M8B — Full Art and Audio Integration
+## 19. M8B — Full Art and Audio Integration
 
-### 18.1 Objective
+### 19.1 Objective
 
 Replace investor-graybox presentation with the complete approved visual and audio package.
 
-### 18.2 Work
+### 19.2 Work
 
 - Complete 12 top-down building assets.
 - Complete 15 consistent rival emotion portraits.
@@ -540,7 +592,7 @@ Replace investor-graybox presentation with the complete approved visual and audi
 - Complete asset manifest and license/provenance review.
 - Profile texture memory and browser presentation.
 
-### 18.3 Gate and Evidence
+### 19.3 Gate and Evidence
 
 - `VIS-004` final portrait set, `VIS-005` and `VIS-006` pass.
 - `AUD-001` through `AUD-003` pass.
@@ -548,17 +600,17 @@ Replace investor-graybox presentation with the complete approved visual and audi
 - No placeholder block or default Godot control remains as final art.
 - Owner completes final integrated visual approval.
 
-### 18.4 Risk
+### 19.4 Risk
 
 Extra high due to asset count and iterative owner review. Samples are never bulk-expanded before M8A approval.
 
-## 19. M9 — Final Save, Results, QA and Web Release
+## 20. M9 — Final Save, Results, QA and Web Release
 
-### 19.1 Objective
+### 20.1 Objective
 
 Produce the final browser-deliverable vertical slice and complete evidence package.
 
-### 19.2 Work
+### 20.2 Work
 
 - Finalize manual/autosave, migrations and browser persistence.
 - Finalize every terminal result and ledger-derived summary.
@@ -570,7 +622,7 @@ Produce the final browser-deliverable vertical slice and complete evidence packa
 - Produce `build/web/` release output and final reports.
 - Update architecture, implemented-rules, decisions, test, Web export and known-limitations reports.
 
-### 19.3 Gate and Evidence
+### 20.3 Gate and Evidence
 
 - Every applicable acceptance ID in `06_ACCEPTANCE_TESTS.md` passes.
 - Chrome full acceptance passes.
@@ -581,16 +633,17 @@ Produce the final browser-deliverable vertical slice and complete evidence packa
 - Every retained medium defect is owner-approved.
 - Final Web export, source, reports and assets are saved and committed.
 
-### 19.4 Risk
+### 20.4 Risk
 
 Extra high because this is the only stage where all systems, final assets, persistence and browser constraints are exercised together. It is not treated as a late bug-catching substitute for earlier milestone testing.
 
-## 20. Test Progression
+## 21. Test Progression
 
 Tests activate cumulatively:
 
 ```text
-M0       startup + headless runner + Web smoke
+M0W      standalone Web prototype + short gameplay browser test
+M0G      startup + headless runner + Web smoke
 M1A      composition owner review
 M1B      content/geometry + camera
 M2       interaction + UI/layout
@@ -607,30 +660,32 @@ M9       complete regression + browser + performance + release
 
 An earlier passing test is rerun whenever a later stage changes its inputs or boundary. For example, save and replay tests expand at every new serializable system.
 
-## 21. Required Owner Gates
+## 22. Required Owner Gates
 
 Development pauses for owner decisions at:
 
 1. each stage start;
-2. any missing-tool installation/download;
-3. M1A map composition;
-4. M2 interaction-state sample;
-5. M6 government/emergency auction stories;
-6. M7 four additional event stories/effects;
-7. G1 investor build and walkthrough;
-8. M8A building/portrait/event/UI samples;
-9. M8B final integrated art;
-10. every medium defect proposed for release retention;
-11. M9 final release acceptance.
+2. resuming M0G Godot work after M0W;
+3. any missing-tool installation/download;
+4. M1A map composition;
+5. M2 interaction-state sample;
+6. M6 government/emergency auction stories;
+7. M7 four additional event stories/effects;
+8. G1 investor build and walkthrough;
+9. M8A building/portrait/event/UI samples;
+10. M8B final integrated art;
+11. every medium defect proposed for release retention;
+12. M9 final release acceptance.
 
 An unanswered gate is pending, not implicit approval.
 
-## 22. Living Risk Register
+## 23. Living Risk Register
 
 | Risk | Level | Control | Earliest proof point |
 |---|---|---|---|
-| Godot/Web tools unavailable | High | M0 inventory before implementation; owner-approved installation only | M0 |
-| Godot MCP unreliable | High | Files/CLI remain authoritative fallback | M0 |
+| M0W prototype is mistaken for final technology or balance | High | Visible provisional label, isolated dependency-free code and explicit guide | M0W |
+| Godot/Web tools unavailable | High | M0G inventory before production implementation; owner-approved installation only | M0G |
+| Godot MCP unreliable | High | Files/CLI remain authoritative fallback | M0G |
 | Map composition creates bulk rework | High | M1A approval before M1B | M1A |
 | 64 polygons produce input defects | High | Shared render/collision data and validators | M1B |
 | UI hides map or critical finance state | High | Resolution and interaction gates before rules expansion | M2 |
@@ -642,13 +697,13 @@ An unanswered gate is pending, not implicit approval.
 | Investor mistakes prototype for final art | Medium-high | Visible pre-alpha label and guide | G1 |
 | Generated art drifts or copies known work | High | M8A samples, original prompts, owner review, provenance | M8A |
 | Asset volume harms Web memory | High | On-screen sizing, import review and profiling | M8B |
-| Browser storage loses progress | High | Early proof in M0/M3 and full Chrome/Safari tests in M9 | M0–M9 |
+| Browser storage loses progress | High | Prototype proof in M0W, production proof in M0G/M3 and full Chrome/Safari tests in M9 | M0W–M9 |
 | AI acceptance thresholds prove misleading | Medium | Report simulation evidence; owner-approved spec change only | M5 |
 | Automatic local Git identity is unsuitable publicly | Low now | Keep history stable; set owner-approved identity before public release | Before public release |
 
 Risk changes are reported immediately. A higher risk does not silently reduce scope or acceptance standards.
 
-## 23. Deferred Work Protection
+## 24. Deferred Work Protection
 
 The milestones do not include:
 
@@ -665,7 +720,7 @@ The milestones do not include:
 
 Future-facing IDs and clean boundaries may exist, but no working-time estimate, visible control or implementation is created for these systems without an approved scope change.
 
-## 24. Recovery Procedure
+## 25. Recovery Procedure
 
 After reconnecting:
 
@@ -686,7 +741,7 @@ The recovery report must identify:
 
 Chat memory, editor tabs and MCP state are never substitutes for the repository.
 
-## 25. Approved D7 Decisions
+## 26. Approved Decisions and M0W Override
 
 The owner approved:
 
@@ -702,3 +757,5 @@ The owner approved:
 The owner did not make a Git-identity decision during D7. The safe operational default is to leave existing commit identity/history unchanged and ask again before any public release; this default is not recorded as owner approval.
 
 Changing these decisions requires an owner-approved documentation update before execution.
+
+After D7, the owner explicitly postponed Godot M0 and directed the project to build the standalone M0W Web Graybox first. M0G remains in the roadmap but cannot begin until a later owner approval.

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A playable M0 graybox prototype for Roaring Times, a historical New York property strategy game.">
+  <title>Roaring Times — M0 Web Graybox</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="prototype-ribbon">M0 WEB GRAYBOX — NOT FINAL ART OR BALANCE</div>
+
+  <main class="game-shell" aria-label="Roaring Times M0 prototype">
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">New York Property Strategy · Pre-Alpha</p>
+        <h1>Roaring Times</h1>
+      </div>
+      <div class="header-actions">
+        <button id="help-button" class="quiet-button" type="button">How to Play</button>
+        <button id="save-button" class="quiet-button" type="button">Save</button>
+        <button id="load-button" class="quiet-button" type="button">Load</button>
+        <button id="restart-button" class="quiet-button" type="button">New Match</button>
+      </div>
+    </header>
+
+    <section class="status-strip" aria-label="Match status">
+      <div class="status-cell"><span>Turn</span><strong id="turn-value">—</strong></div>
+      <div class="status-cell"><span>Economy</span><strong id="economy-value">—</strong></div>
+      <div class="status-cell"><span>Cash</span><strong id="cash-value">—</strong></div>
+      <div class="status-cell"><span>Debt</span><strong id="debt-value">—</strong></div>
+      <div class="status-cell"><span>Credit Left</span><strong id="credit-value">—</strong></div>
+      <div class="status-cell"><span>Net Worth</span><strong id="worth-value">—</strong></div>
+      <div class="status-cell status-cell--ap"><span>Action Points</span><strong id="ap-value">—</strong></div>
+    </section>
+
+    <section class="workspace">
+      <aside class="brief-panel panel">
+        <div class="panel-heading">
+          <span>Investor Brief</span>
+          <span class="panel-number">01</span>
+        </div>
+        <p class="lead-copy">Build a property empire while credit, rivals and city rules change the value of every block.</p>
+
+        <dl class="rival-card">
+          <div><dt>Rival</dt><dd id="rival-name">—</dd></div>
+          <div><dt>Style</dt><dd id="rival-style">—</dd></div>
+          <div><dt>Condition</dt><dd id="rival-condition">—</dd></div>
+          <div><dt>Rival Worth</dt><dd id="rival-worth">—</dd></div>
+        </dl>
+
+        <div id="event-card" class="event-card" aria-live="polite">
+          <strong>City Desk</strong>
+          <p>Choose a rival to begin the prototype.</p>
+        </div>
+
+        <ol class="pitch-steps">
+          <li>Inspect and buy an available plot.</li>
+          <li>Build for income and location value.</li>
+          <li>Use credit without missing repayment.</li>
+          <li>Adapt when the economy and zoning change.</li>
+          <li>Finish turn 8 with the highest net worth.</li>
+        </ol>
+
+        <p class="scope-note">Prototype scope: 18 representative plots and 8 compressed turns. The production target remains 64 plots and 20 turns.</p>
+      </aside>
+
+      <section class="map-panel panel" aria-label="Prototype Manhattan map">
+        <div class="panel-heading">
+          <span>Property Map</span>
+          <span id="map-hint">Select a plot</span>
+        </div>
+        <div class="map-stage" id="map-stage">
+          <div class="river-label river-label--hudson">HUDSON RIVER</div>
+          <div class="river-label river-label--east">EAST RIVER</div>
+          <div class="manhattan-silhouette" aria-hidden="true"></div>
+          <div class="district-label district-label--north">CENTRAL PARK DISTRICT</div>
+          <div class="district-label district-label--mid">MIDTOWN</div>
+          <div class="district-label district-label--west">HELL'S KITCHEN</div>
+          <div class="district-label district-label--east">LOWER EAST SIDE</div>
+          <div class="district-label district-label--south">LOWER MANHATTAN</div>
+          <div id="plot-layer" class="plot-layer"></div>
+          <div class="bridge-line bridge-line--one" aria-hidden="true"></div>
+          <div class="bridge-line bridge-line--two" aria-hidden="true"></div>
+          <div class="bridgehead-label">BROOKLYN<br>BRIDGEHEAD</div>
+        </div>
+        <div class="legend" aria-label="Map legend">
+          <span><i class="legend-key legend-key--available"></i>Available</span>
+          <span><i class="legend-key legend-key--player"></i>You</span>
+          <span><i class="legend-key legend-key--rival"></i>Rival</span>
+          <span><i class="legend-key legend-key--public"></i>Public</span>
+          <span><i class="legend-key legend-key--selected"></i>Selected</span>
+        </div>
+      </section>
+
+      <aside class="property-panel panel">
+        <div class="panel-heading">
+          <span>Property File</span>
+          <span class="panel-number">02</span>
+        </div>
+        <div id="empty-property" class="empty-property">Select a plot on the map.</div>
+        <div id="property-details" class="property-details" hidden>
+          <p class="plot-code" id="plot-code">—</p>
+          <h2 id="plot-name">—</h2>
+          <dl class="property-grid">
+            <div><dt>District</dt><dd id="plot-district">—</dd></div>
+            <div><dt>Zone</dt><dd id="plot-zone">—</dd></div>
+            <div><dt>Owner</dt><dd id="plot-owner">—</dd></div>
+            <div><dt>Market</dt><dd id="plot-price">—</dd></div>
+            <div><dt>Building</dt><dd id="plot-building">—</dd></div>
+            <div><dt>Income</dt><dd id="plot-income">—</dd></div>
+          </dl>
+
+          <div class="action-section">
+            <button id="buy-button" class="primary-button" type="button">Buy Plot</button>
+          </div>
+
+          <div class="action-section build-section">
+            <label for="building-select">Build on owned empty land</label>
+            <select id="building-select">
+              <option value="standard_apartment">Standard Apartment — $8,000</option>
+              <option value="luxury_apartment">Luxury Apartment — $25,000</option>
+              <option value="factory">Factory — $15,000</option>
+              <option value="department_store">Department Store — $30,000</option>
+            </select>
+            <button id="build-button" class="primary-button" type="button">Build</button>
+          </div>
+
+          <p id="property-reason" class="reason-copy" aria-live="polite"></p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="command-deck panel" aria-label="Player actions">
+      <div class="command-copy">
+        <span class="eyebrow">Finance & Turn</span>
+        <strong id="turn-prompt">Start a match to take action.</strong>
+      </div>
+      <div class="command-actions">
+        <button id="borrow-button" type="button">Borrow $10,000</button>
+        <button id="repay-button" type="button">Repay up to $10,000</button>
+        <button id="end-turn-button" class="primary-button" type="button">End Turn</button>
+      </div>
+    </section>
+
+    <section class="ledger-panel panel" aria-label="Transaction ledger">
+      <div class="panel-heading">
+        <span>City Ledger</span>
+        <span>Latest activity</span>
+      </div>
+      <ol id="ledger-list" class="ledger-list" aria-live="polite"></ol>
+    </section>
+  </main>
+
+  <div id="start-modal" class="modal-backdrop is-open" role="dialog" aria-modal="true" aria-labelledby="start-title">
+    <section class="modal-card rival-modal">
+      <p class="eyebrow">Playable M0 Prototype</p>
+      <h2 id="start-title">Choose Rival</h2>
+      <p>Each rival uses the same starting value but favors a different strategy.</p>
+      <div class="rival-options">
+        <button class="rival-option" type="button" data-rival="tycoon">
+          <strong>Tycoon</strong>
+          <span>Industrial expansion and transport value.</span>
+        </button>
+        <button class="rival-option" type="button" data-rival="landlady">
+          <strong>Landlady</strong>
+          <span>Residential income and steady holdings.</span>
+        </button>
+        <button class="rival-option" type="button" data-rival="shark">
+          <strong>Shark</strong>
+          <span>Cheap land, cash reserves and opportunism.</span>
+        </button>
+      </div>
+      <button id="start-load-button" class="start-load-button" type="button" hidden>Continue Saved Match</button>
+      <p class="modal-footnote">This graybox demonstrates interaction and strategy. It is not final art, balance or historical content.</p>
+    </section>
+  </div>
+
+  <div id="help-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <section class="modal-card help-modal-card">
+      <button class="modal-close" type="button" data-close-modal="help-modal" aria-label="Close help">×</button>
+      <p class="eyebrow">Three-Minute Walkthrough</p>
+      <h2 id="help-title">How to Play</h2>
+      <ol>
+        <li>Select a white plot, then buy it for one action point.</li>
+        <li>Select your plot, choose a building and build for one action point.</li>
+        <li>Construction becomes active next turn and starts producing income.</li>
+        <li>Borrowing costs no action point, but every prototype loan is due in six turns.</li>
+        <li>Watch the city desk: zoning eventually blocks new factories and stores on Residential plots.</li>
+        <li>Your rival acts after you end the turn. Highest net worth after turn 8 wins.</li>
+      </ol>
+      <p>Patterns identify ownership: double outline for you, crosshatch for the rival and dotted edges for public land.</p>
+    </section>
+  </div>
+
+  <div id="result-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="result-title">
+    <section class="modal-card result-card">
+      <p class="eyebrow">Prototype Result</p>
+      <h2 id="result-title">Match Complete</h2>
+      <p id="result-summary"></p>
+      <div class="result-grid">
+        <div><span>Your Net Worth</span><strong id="result-player-worth">—</strong></div>
+        <div><span>Rival Net Worth</span><strong id="result-rival-worth">—</strong></div>
+      </div>
+      <button id="result-restart-button" class="primary-button" type="button">Choose Another Rival</button>
+    </section>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
