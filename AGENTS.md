@@ -15,3 +15,17 @@
 11. 每个阶段必须先完成实现、运行测试并修复错误，再保存全部相关文件并创建一次 Git commit；测试失败或提交失败时不得宣布阶段完成。
 12. 进入下一阶段前必须向老板报告计划、行动、风险、测试和需要决策的事项，并获得明确批准。
 13. 重连后先读取本文件、`00_PROJECT_CONTEXT.md`、Git 状态和最近提交，从未完成任务续作；不得重新搭建或覆盖已有文件。
+
+[CODEX] **Codex–DeepSeek 协作规则**
+
+[CODEX] 14. DeepSeek/Trae 必须在独立 Git worktree 和 `deepseek/DS-xxx` 分支工作，不得直接编辑 Codex 主工作区或 `main`。
+
+[CODEX] 15. DeepSeek 在任何任务开始前必须完整读取根目录 `DEEPSEEK_OFFICE.md` 与 `docs/COLLABORATION_PROTOCOL.md`，并严格遵守活动任务单的允许路径。
+
+[CODEX] 16. DeepSeek 默认只可修改任务单授权的 `scripts/domain/`、`tests/domain/` 与相邻 `*.gd.uid`；其他文件只读，除非老板先批准协议变更。
+
+[CODEX] 17. 跨 Agent 协作说明实行逐条作者标记：Codex 新写的每个非空说明行以 `[CODEX]` 开头，DeepSeek 新写的每个非空说明行以 `[DEEPSEEK]` 开头；无标记说明没有实施权威。
+
+[CODEX] 18. DeepSeek 不得自行改变规格、数值、接口、场景、项目设置或验收标准；需要越界时先停止并提交带 `[DEEPSEEK]` 标记的问题。
+
+[CODEX] 19. DeepSeek 分支交付只有在 Codex 完整审查、复测并集成后才进入项目事实；主分支阶段提交仍由 Codex 负责。
