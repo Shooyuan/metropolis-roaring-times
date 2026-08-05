@@ -1,37 +1,745 @@
-# 验收测试
+# Roaring Times — Acceptance Tests
 
-## 完成定义
+> Document role: authoritative acceptance and release-gate specification for the vertical slice
+>
+> Player-facing language: English
+>
+> Scope authority: `../00_PROJECT_CONTEXT.md` and `01_PRODUCT_BRIEF.md` through `05_TECHNICAL_ARCHITECTURE.md`
 
-只有以下必测项全部通过，20 回合垂直切片才算完成。
+## 1. Completion Definition
 
-## 启动与主流程
+The 20-turn vertical slice is complete only when:
 
-1. 使用 Godot 打开 `project.godot`，项目无阻塞错误并可进入主界面。
-2. 开始新游戏后，回合显示为 1/20，地图、指标、局势和可选法令可见。
-3. 合法选择只结算一次，回合推进一次；快速重复输入不会造成重复效果。
-4. 连续完成 20 回合后进入结果页，显示最终指标、结局与关键决策摘要。
-5. 结果页可开始新一局，所有运行态恢复到定义的初始值。
+1. all required automated tests pass at the candidate commit;
+2. all required Godot scene and desktop checks pass;
+3. the full Chrome Web acceptance set passes;
+4. the Safari smoke set has no blocker or serious defect;
+5. all owner visual-review gates are approved;
+6. there are zero open blocker or serious defects;
+7. every open medium defect has been reported to and explicitly accepted by the owner;
+8. the exact tested files are saved and committed to Git;
+9. the release report identifies versions, seeds, evidence and known limitations.
 
-## 规则与数据
+Passing this documentation stage does not mean the game already passes these future product tests. Each implementation milestone runs the subset applicable to it; the final candidate runs the complete set.
 
-6. 不满足条件的法令不可提交，并能说明原因。
-7. 法令预览与实际即时结算一致；延迟效果在指定回合触发且只触发一次。
-8. 指标边界、区域状态与胜负条件符合 `02_GAME_RULES.md` 的冻结版本。
-9. 使用同一固定种子和同一行动序列时，结果完全一致。
+## 2. Test Types and IDs
 
-## 地图与反馈
+| Prefix | Type | Purpose |
+|---|---|---|
+| `DOC` | Document/static check | Markdown, file, schema and content consistency |
+| `AUT` | Automated headless test | Deterministic domain rules and simulation |
+| `SCN` | Godot scene/runtime check | Scene wiring, input and local application behavior |
+| `WEB` | Browser test | Export, storage, browser input, audio and console |
+| `PERF` | Performance test | Frame rate, stalls, memory and responsiveness |
+| `VIS` | Owner visual review | Composition, art style, readability and final polish |
+| `AUD` | Audio review | Playback, controls, balance and required cues |
 
-10. 所有可交互区域均可辨识，并具有默认、悬停、选中和受影响反馈。
-11. 法令结算后，相关地图区域和指标在同一反馈序列中更新。
-12. 仅依靠颜色无法辨识状态的情形，有图标、描边、纹理或文字作为补充。
+Every failed case receives a defect ID and severity. A case cannot be marked passed by explanation alone; the recorded evidence must demonstrate the expected result.
 
-## 基本质量
+## 3. Required Test Environments
 
-13. 1280×720 下关键文本不裁切，核心操作无需滚动到不可见区域。
-14. 从开始到结束无阻塞异常、死循环、无法关闭的界面或回合卡死。
-15. 原始 PRD 和地图参考保留在 `references/`，实施不直接依赖对其运行时解析。
+### 3.1 Godot Environment
 
-## 验收记录
+Record for every candidate:
 
-每次候选版本记录：Godot 版本、提交标识、测试日期、固定种子、通过/失败项及问题链接。
+- Godot exact version;
+- renderer and export mode;
+- operating system version;
+- candidate Git commit;
+- whether the run is editor, headless, desktop or Web;
+- content/rules version and relevant seed.
 
+The implementation uses a Godot 4.x stable release and Compatibility renderer. A version change requires rerunning startup, save and Web smoke checks.
+
+### 3.2 Primary Web Environment
+
+Full Web acceptance uses:
+
+- the latest stable Google Chrome installed on the test date;
+- the owner's current MacBook Air as the reference machine;
+- a local HTTP server, never `file://`;
+- `1366×768` for the performance run;
+- `1366×768`, `1440×900` and `1920×1080` for layout review.
+
+The exact Chrome and macOS versions are recorded in the release report.
+
+### 3.3 Safari Smoke Environment
+
+The latest stable Safari installed on the same Mac is a smoke target. Safari must:
+
+- load the Web build;
+- start a new match;
+- render and navigate the map;
+- complete purchase and construction interactions;
+- advance at least three turns;
+- save, reload the page and restore both the manual and autosave slots in separate checks;
+- start audio after user interaction and allow mute;
+- avoid blocker and serious defects.
+
+Minor Safari-only visual differences may be recorded. A crash, inability to start, lost/corrupt save, duplicate transaction, dead turn or unusable core interface is not an acceptable “minor difference.”
+
+## 4. Defect Severity and Release Gate
+
+### 4.1 Severity
+
+| Severity | Definition | Examples |
+|---|---|---|
+| Blocker | Candidate cannot be meaningfully tested or completed | build will not start, unavoidable crash, no playable map |
+| Serious | Core result is wrong or progress/data can be lost | duplicated money, incorrect debt failure, corrupt save, auction/turn deadlock |
+| Medium | Significant defect with a reliable workaround or limited scope | one panel obscures information at one target resolution |
+| Minor | Cosmetic or low-impact defect that does not mislead the player | small alignment issue, brief harmless visual pop |
+
+### 4.2 Gate
+
+- Blocker defects: zero open.
+- Serious defects: zero open.
+- Medium defects: fixed, or listed with impact/workaround and explicitly accepted by the owner.
+- Minor defects: listed and prioritized; owner approval is required only if their combined effect prevents final visual approval.
+- A test marked “not run” is not a pass.
+- A deferred feature is not a defect only when it has no visible non-functional control and is explicitly out of scope.
+
+## 5. Test Data and Reproducibility
+
+The repository provides stable fixtures for:
+
+- a new human-versus-each-rival match;
+- each economy phase;
+- active and nearly mature loans;
+- government auction states;
+- debt disposition with multiple assets;
+- zoning warning, enactment, transition and penalty states;
+- turn 20 result and each bankruptcy result;
+- valid, old-version, missing-field and corrupted saves.
+
+Automated tests must print their seed and failing assertion. Random seeds generated during exploratory testing must be recorded so the failure can be replayed.
+
+## 6. Project, Build and Content Validation
+
+### `DOC-001` Required Project Files
+
+Pass when `project.godot`, all authoritative documents, required source/content directories and final delivery reports exist at their documented paths. No committed scene or script depends on a developer's absolute local path.
+
+### `DOC-002` Repository Hygiene
+
+Pass when the candidate contains no secret, proxy setting, `.env`, `.godot/` cache, editor cache, personal configuration or unintended temporary/export file.
+
+### `DOC-003` Content Parse
+
+Pass when every required JSON file parses, uses a supported schema, contains unique stable IDs and resolves all references.
+
+### `DOC-004` Vertical-Slice Quantities
+
+Pass when content validation confirms:
+
+- exactly 64 interactive plots;
+- five gameplay areas with Hell's Kitchen and Lower East Side spatially separate;
+- four building categories and three art variants per category;
+- Tycoon, Landlady and Shark personalities;
+- two approved government-auction stories;
+- four additional economy events: two global and two district;
+- six subway stations, approximately five tram stops on one line and two bridges;
+- one compressed zoning law with the approved turn schedule.
+
+### `DOC-005` English Player Content
+
+Pass when all player-facing labels, buttons, errors, events, tutorials, tooltips, rival profiles and result text are English. Internal content IDs and file names use stable English `snake_case`.
+
+### `DOC-006` Deferred-Control Audit
+
+Pass when there is no non-functional visible control for property exchange, sealed owner bid, hostile acquisition, poison pill, private negotiation, player-built transit, multiplayer or other deferred system.
+
+## 7. Startup and Match Setup
+
+### `SCN-001` Project Startup
+
+Open `project.godot` and run the main project. Pass when it reaches the title/start flow without a blocking error and can exit normally.
+
+### `SCN-002` Choose Rival
+
+Pass when the setup screen uses `Choose Rival`, presents Tycoon, Landlady and Shark as personalities/strategies, and contains no difficulty selector.
+
+### `AUT-001` Symmetric Starting Value
+
+For each rival, pass when:
+
+- the human starts with `$50,000`, base credit `$100,000`, reputation `0` and no property;
+- the rival has the same total starting net worth;
+- the rival starts with two personality-fitting properties paid for by converting its cash;
+- no personality receives a hidden rules or difficulty bonus.
+
+### `SCN-003` New Match Reset
+
+After leaving a completed or partially played match, start a new one. Pass when the new match has a new valid session and no cash, property, loan, law, auction, selection or transient modal state leaks from the previous game.
+
+## 8. Map, Plot and Camera Acceptance
+
+### `DOC-007` Geometry Integrity
+
+Pass when each plot polygon:
+
+- has at least three valid vertices;
+- is not self-intersecting;
+- has a matching collision polygon derived from the same coordinates;
+- has a valid area, owner eligibility, adjacency list and district;
+- has no unapproved overlap or unusably thin clickable shape.
+
+### `SCN-004` Geographic Legibility
+
+Pass when the north-up map preserves the approved relative arrangement of Manhattan, the two rivers, five gameplay areas, Central Park, the two bridges and Brooklyn Bridgehead. Manhattan must not rotate sideways.
+
+### `SCN-005` Plot Interaction
+
+At minimum, test an unowned, human, rival, government, selected, auction, construction, warning and violation plot. Pass when ownership and state are clear and click/hover/selection use the authoritative plot ID.
+
+### `SCN-006` Pan
+
+Pass when:
+
+- primary drag on empty map space pans;
+- middle drag pans;
+- a plot click below the movement threshold selects rather than pans;
+- map bounds prevent losing the entire map;
+- a blocking modal prevents map input.
+
+### `SCN-007` Fixed Zoom
+
+Pass when:
+
+- default zoom is `100%`;
+- each zoom-in target is current target × `1.25`;
+- each zoom-out target is current target × `0.80`;
+- the target clamps near `50%` and at `200%`;
+- wheel and visible controls use the same calculation;
+- zoom remains pointer-anchored where possible;
+- the rounded percentage is displayed;
+- there is no rotation or tilt control.
+
+### `SCN-008` Information Density
+
+Pass when far, middle and near zoom levels show the information tiers defined by the art-direction document, and the minimum interactive plot remains usable at the farthest allowed zoom.
+
+## 9. Property and Building Rules
+
+### `AUT-002` Direct Purchase
+
+For an eligible unowned plot, pass when one atomic purchase:
+
+- validates phase, ownership and funds;
+- deducts the authoritative price once;
+- transfers ownership once;
+- consumes one action point;
+- updates invested cost basis;
+- writes one complete ledger transaction.
+
+Repeat with insufficient cash and no explicit loan. Pass when the purchase fails with no state change and no silent borrowing.
+
+### `AUT-003` Construction
+
+For each of the four building categories, pass when construction:
+
+- validates plot ownership, legal category, adjacency requirements and funds;
+- deducts the configured cost and consumes one action point once;
+- enters under-construction state during the current turn;
+- becomes operational at the approved next-turn boundary;
+- cannot earn income before operation;
+- writes one atomic transaction.
+
+### `AUT-004` Building Constraints
+
+Pass when Luxury Apartment reputation/adjacency restrictions, factory residential effects and Department Store location inputs use the same rule implementation for preview, AI and settlement.
+
+### `AUT-005` Demolition
+
+Pass when demolition consumes one action point, charges no separate fee, refunds exactly 10% of original construction cost under the shared rounding rule, removes the building, retains ownership of empty land and removes demolished investment from current cost basis.
+
+### `AUT-006` Transit and Bridgehead
+
+Pass when:
+
+- one ordinary adjacency step to any fixed transit asset gives `+15%` land value and building income;
+- multiple ordinary transit assets do not stack;
+- configured Brooklyn Bridgehead plots receive the additional `+10%` land-value bonus;
+- the bridgehead bonus may stack with one ordinary transit bonus;
+- public transit cannot be purchased or constructed by the player.
+
+## 10. Turn Flow, Action Points and Economy
+
+### `AUT-007` Phase Order
+
+Pass when every turn advances exactly through:
+
+```text
+TURN_START
+→ INCOME_SETTLEMENT
+→ COST_SETTLEMENT
+→ DEBT_MATURITY
+→ EVENT_RESOLUTION
+→ PLAYER_ACTION
+→ AI_ACTION
+→ AUCTION_RESOLUTION
+→ MARKET_REVALUATION
+→ LAW_AND_ECONOMY_CHECK
+→ AUTOSAVE
+→ TURN_END
+```
+
+Illegal phase jumps and duplicate end-turn requests must change nothing.
+
+### `AUT-008` Action Points
+
+Pass when the player receives three action points per turn and purchase, construction, demolition and winning acquisition consume the approved amounts. Borrowing, repayment and entering a scheduled government auction consume zero. No action can reduce action points below zero.
+
+### `SCN-009` End-Turn Confirmation
+
+Pass when ending with unused action points requires confirmation and the confirmation shows the number being abandoned. Ending with zero action points does not require the unused-action warning.
+
+### `AUT-009` Economy Schedule
+
+Pass when turns map exactly to:
+
+- Opening: `1–4`;
+- Prosperity: `5–10`;
+- Overheating: `11–15`;
+- Adjustment: `16–20`.
+
+Changing phase updates configured market, credit and new-loan-rate inputs once at the correct boundary.
+
+### `AUT-010` Income and Costs
+
+Pass when operational buildings settle configured income and maintenance once per turn, with district, building, transit, pollution, economy, event and law modifiers applied in one documented order. Preview, ledger and committed total must match.
+
+### `AUT-011` Ordinary Forced-Cost Shortfall
+
+Pass when an ordinary mandatory-cost shortfall opens emergency liquidation before bankruptcy, prevents unrelated actions during resolution and declares bankruptcy only if legal liquidation cannot cover the obligation.
+
+## 11. Credit, Loans and Debt Disposition
+
+### `AUT-012` Credit Limits
+
+With base credit `$100,000`, pass when phase limits are exactly:
+
+- Opening: `$100,000`;
+- Prosperity: `$110,000`;
+- Overheating: `$80,000`;
+- Adjustment: `$60,000`.
+
+Available credit equals the current limit minus all outstanding principal, clamped to zero for new borrowing. A phase drop below existing principal creates no immediate margin call but prohibits additional borrowing.
+
+### `AUT-013` Loan Creation
+
+For each economy phase, pass when an allowed player request creates a separate six-turn loan, deposits the requested principal once and locks the per-turn rate at:
+
+- Opening: `0.25%`;
+- Prosperity: `0.25%`;
+- Overheating: `0.60%`;
+- Adjustment: `0.75%`.
+
+Borrowing is rejected during settlement, AI action, debt disposition and other prohibited phases. Loan confirmation is required and shows principal, locked rate, due turn and projected obligation.
+
+### `AUT-014` Interest Accrual
+
+Pass when each active loan accrues its locked rate exactly once per eligible turn, never adopts a later phase rate and uses the shared currency rounding rule.
+
+### `AUT-015` Early and Partial Repayment
+
+Pass when repayment consumes no action point, may be partial or full, pays accrued interest before principal and never creates a negative balance. Repeat across multiple independent loans to prove the selected loan is updated correctly.
+
+### `AUT-016` Maturity Warnings
+
+Pass when each loan produces clear warnings at exactly three, two and one turns before due, without duplicate warning after save/load.
+
+### `AUT-017` Maturity Payment
+
+Pass when sufficient cash pays principal plus accrued interest at maturity, closes the correct loan once and records complete before/after values.
+
+### `AUT-018` Bank Takeover
+
+In debt disposition, pass when the player can surrender multiple eligible assets. Each takeover pays exactly 70% of that asset's current invested cost basis under the shared rounding rule, transfers/removes the asset atomically and applies proceeds to the obligation through normal finance transactions.
+
+### `AUT-019` Emergency Auction
+
+Pass when an eligible asset begins at exactly 50% of invested cost basis, cannot use new borrowing, ends within the configured maximum rounds and handles sale/no-sale without trapping the debt flow. Bidder narrative and roster must match owner-approved content.
+
+### `AUT-020` Debt Resolution and Bankruptcy
+
+Cover at least these cases:
+
+1. cash alone covers maturity;
+2. one takeover covers maturity;
+3. multiple disposals cover maturity;
+4. emergency auction covers maturity;
+5. all legal disposals remain insufficient.
+
+Pass when cases 1–4 resume at the documented state and case 5 produces immediate human bankruptcy defeat. Normal actions and new borrowing remain unavailable throughout disposition.
+
+## 12. Government Auction Acceptance
+
+### `AUT-021` Scheduled Auctions
+
+Pass when at least two government auctions occur on configured turns, use configured eligible plots and display only owner-approved English stories.
+
+### `AUT-022` Ascending Bid Rules
+
+Pass when current bid, minimum increment, legal funding and withdrawal are enforced; entry costs no action point, while winning acquisition consumes one action point.
+
+### `AUT-023` Auction End States
+
+Cover and pass:
+
+- human win;
+- rival win;
+- human withdrawal;
+- rival withdrawal;
+- no sale;
+- insufficient funds at a validating boundary;
+- maximum-round protection.
+
+Every end state restores the correct turn flow and records a single result. Cosmetic timers and skipped animation cannot change the winner or price.
+
+### `SCN-010` Bid Confirmation and Clarity
+
+Pass when a binding bid confirmation or auction commit step shows current price, increment, resulting funding position and action-point consequence. Rapid repeated input cannot submit the same bid twice.
+
+## 13. AI Acceptance
+
+### `AUT-024` Shared Legality
+
+For all three personalities, pass when the AI uses the same purchase, construction, finance, law and auction legality as the player, has no hidden money or valuation bonus and cannot act with unavailable funds/action points.
+
+### `AUT-025` Public Knowledge Only
+
+Pass when AI evaluation before turns 10 and 12 cannot read unpublished law warnings or later event outcomes. After public warning, the same public information may affect its score.
+
+### `AUT-026` Deterministic Decision Evidence
+
+For a fixed version, seed and state, pass when candidate actions, chosen command, valuation and reason codes reproduce exactly. Development output must explain rejected and selected actions.
+
+### `AUT-027` Personality Statistical Run
+
+Run the same set of at least 30 fixed seeds for each personality, for at least 90 complete simulations. Use the same content version and deterministic human test policy, discard no seed, and report every denominator.
+
+For this test:
+
+- residential-building share is completed Standard/Luxury Apartments divided by all completed income buildings;
+- factory-oriented action share is completed Factory construction divided by all completed income buildings;
+- uncommitted-liquidity ratio is cash divided by cash plus current owned-property/building market value, sampled at the start of each AI action phase;
+- post-bid withdrawal rate is withdrawals divided by auctions in which that AI made at least one legal bid.
+
+Pass when:
+
+- all simulations end legally without a dead turn or infinite auction;
+- Landlady's residential-building share is at least 60% and at least 15 percentage points above Tycoon's;
+- Tycoon's factory-oriented action share is at least 10 percentage points above Landlady's;
+- Shark's median uncommitted-liquidity ratio is at least 10 percentage points above Tycoon's;
+- Shark's rate of withdrawing after at least one legal auction bid is at least 10 percentage points above Landlady's;
+- no personality's signature result depends on a starting-value or rules advantage.
+
+If balancing work demonstrates that a metric produces misleading behavior, changing the threshold requires an owner-approved update to this document before acceptance.
+
+### `SCN-011` AI Presentation
+
+Pass when visible AI actions are shown in short `0.6–1.2` second sequences, may be skipped or accelerated and still produce the same state/ledger. Normal player UI shows only actions and broad financial condition, not exact AI cash, valuation ceiling or utility score.
+
+### `SCN-012` Development Debug Separation
+
+In a development build, `F1` displays the required AI/rules evidence without mutating state. In the final Web build, the overlay and exact private AI data are disabled or absent.
+
+## 14. Zoning Law and Event Acceptance
+
+### `AUT-028` Zoning Timeline
+
+Pass when:
+
+- turn 10 publishes the first warning;
+- turn 12 publishes the second warning;
+- turn 14 enacts the law;
+- turns 15–16 present transition state;
+- turn 17 activates full existing-building penalties.
+
+Each transition occurs once and remains correct across save/load.
+
+### `AUT-029` New Construction Restriction
+
+From enactment, pass when Residential plots reject new Factory and Department Store construction with a clear reason. Business and Unrestricted behavior must follow configured rules.
+
+### `AUT-030` Existing Noncompliance
+
+Pass when a pre-enactment noncompliant building remains standing, receives the correct warning/transition state, loses exactly 30% income from turn 17 and cannot upgrade. No deferred setback, coverage or property-exchange discount is falsely applied.
+
+### `SCN-013` Law Communication
+
+Pass when warning, enactment, transition and violation are distinguishable on the timeline, plot, property panel and ledger using text/icon/pattern as well as color.
+
+### `AUT-031` Additional Events
+
+Pass when the two global and two district events respect eligibility, duration, scope, non-duplication and deterministic event-stream behavior. Their previews and committed modifier IDs match.
+
+## 15. Ledger, Atomicity and Determinism
+
+### `AUT-032` Transaction Evidence
+
+For purchase, construction, demolition, loan, repayment, takeover, auction, income, maintenance, law penalty and bankruptcy, pass when each ledger entry includes the required turn, phase, actor, before/after financial and ownership values, action-point changes and modifier reasons.
+
+### `AUT-033` Atomic Failure
+
+Force validation failure at every state-changing operation. Pass when cash, debt, ownership, building, action points, phase and ledger remain unchanged.
+
+### `AUT-034` Duplicate Submission Guard
+
+Submit the same request rapidly and again after save/load. Pass when it commits once and returns the original result or a structured duplicate rejection thereafter.
+
+### `AUT-035` Fixed Replay
+
+For the same build/rules version, seed, initial content and ordered action list, run at least three times. Pass when every turn-boundary signature, final state and ledger are identical.
+
+### `AUT-036` Visual Independence
+
+Repeat a deterministic run with animation skipped, reduced motion enabled and different frame timing. Pass when authoritative results remain identical.
+
+## 16. Save, Load and Recovery
+
+### `AUT-037` Manual Round Trip
+
+At a stable interactive state, save and load. Pass when turn, phase, participants, loans, plots, buildings, construction, economy, law, events, ledger, deterministic streams and transaction guard restore exactly.
+
+### `AUT-038` Autosave Boundary
+
+Pass when one autosave is written after law/economy checks, before turn end, and only after any transaction completes. It must not replay the completed turn boundary when loaded.
+
+### `SCN-014` Save Availability
+
+Pass when one manual slot and one autosave slot are visible, manual save is disabled during unresolved transactions/blocking flows with an English reason, and no undo control is offered for committed transactions.
+
+### `AUT-039` Failed and Corrupt Load
+
+Attempt missing-field, unsupported-version, invalid-reference and corrupt JSON loads. Pass when each is rejected clearly, the currently running valid match remains unchanged and the existing usable save is not overwritten.
+
+### `WEB-001` Browser Persistence
+
+In Chrome and the Safari smoke run, repeat the following sequence separately for the manual slot and autosave slot:
+
+1. create or trigger the target save;
+2. record its turn and key state;
+3. close or reload the page;
+4. reopen the build;
+5. load the slot.
+
+Pass when the exact state returns and no transaction is duplicated. Clearing browser site storage is permitted to delete saves and is documented as platform behavior, not an in-game failure.
+
+## 17. UI, Input, Tutorial and Accessibility
+
+### `SCN-015` Required Interface
+
+Pass when the top status bar, map, property panel, bottom toolbar, event/ledger log, law timeline, finance panel, asset overview, auction modal, debt disposition, How to Play page and result screen are all present and functional.
+
+### `SCN-016` High-Risk Confirmations
+
+Pass when taking a loan, demolishing, submitting the required binding-bid commit, surrendering/auctioning an asset and ending with unused action points require clear confirmation. Cancel changes nothing. Routine selection and inspection require no confirmation.
+
+### `SCN-017` Mouse Completion
+
+Pass when the complete match can be played with a mouse, including map navigation, property actions, finance, auctions, save/load and results.
+
+### `SCN-018` Keyboard Panel Navigation
+
+Pass when required non-map controls have visible focus, logical tab order and keyboard activation. Full keyboard-only geographic plot selection is not required for the vertical slice.
+
+### `SCN-019` First-Use Guidance
+
+Pass when an English static How to Play page explains the core loop and first-use prompts/tooltips cover purchase, construction, finance, auction, zoning and end turn without creating a separate tutorial campaign.
+
+### `SCN-020` Layout Targets
+
+At `1920×1080`, `1440×900` and `1366×768`, pass when required text and controls remain readable/reachable, blocking modals fit, no essential value is clipped and the map retains usable space.
+
+### `SCN-021` Non-Color State
+
+Pass when ownership, selection, auction, construction, compliance, transition, violation, disabled and debt-warning states remain distinguishable using approved patterns, icons, outlines or labels when viewed without color cues.
+
+### `SCN-022` Reduced Motion
+
+Pass when reduced motion shortens/removes nonessential motion without hiding required results or changing rule timing.
+
+## 18. Visual and Asset Acceptance
+
+### `VIS-001` Map Composition Gate
+
+Owner approves island orientation/proportion, five-area placement, bridgehead, main landmarks and strict reference-derived paper/ink/water appearance before all 64 plots are finalized.
+
+### `VIS-002` Interaction-State Gate
+
+Owner approves a sample plot in unowned, human, rival, government, selected, auction, transition-warning and violation states before UI expansion.
+
+### `VIS-003` Building and UI Gate
+
+Owner approves one top-down sample from each of the four building categories plus one Art Deco panel/button family before all variants are produced.
+
+### `VIS-004` Rival Portrait Gate
+
+Owner approves one neutral rival portrait and two emotional samples before the full set. Final pass requires 15 consistent transparent portraits: neutral, confident, hesitant, angry and auction withdrawal for each of Tycoon, Landlady and Shark.
+
+### `VIS-005` Palette Audit
+
+Pass when production map/UI art uses the approved palette and documented tonal/opacity variants:
+
+- `paper_base #E5D3AE`;
+- `paper_highlight #F1E3BF`;
+- `ink_primary #433E3A`;
+- `ink_secondary #716658`;
+- `water_warm #DEB080`;
+- `border_peach #E1B686`;
+- `compass_red #C54543`;
+- `warning_deep #964940`.
+
+Any additional hue requires prior owner approval.
+
+### `VIS-006` Final Integration Gate
+
+Owner approves the final integrated build only when:
+
+- no placeholder block or default Godot control is presented as final art;
+- all gameplay buildings use direct top-down views;
+- rival portraits are original rubber-hose-style designs rather than copies of a known character;
+- the reference image is not shipped as the playable background;
+- identifiable content passes period/date review;
+- decoration does not obscure plot boundaries or state.
+
+## 19. Audio Acceptance
+
+### `AUD-001` Required Assets
+
+Pass when the final build includes one loopable period-inspired music track and sounds for purchase, construction, income, warning and auction gavel.
+
+### `AUD-002` Playback and Controls
+
+Pass when music and sound effects have independent volume controls and mute works. The Web build starts audio only after a valid browser user interaction and does not produce repeated start errors.
+
+### `AUD-003` Cue Correctness
+
+Pass when each cue plays once for its committed result, does not play for rejected/cancelled transactions and does not become an input to rule timing.
+
+## 20. Performance and Web Acceptance
+
+### `PERF-001` Reference Camera Run
+
+On the owner's MacBook Air in stable Chrome at `1366×768`:
+
+1. load a populated representative/final map;
+2. alternate continuous pan, zoom and plot selection for 60 seconds;
+3. keep required HUD and map state layers visible;
+4. record the measurement method and result.
+
+Pass when average frame rate is at least 58 FPS, there is no continuous one-second interval below 45 FPS and no input stall over 100 ms outside documented load/scene transitions.
+
+### `PERF-002` Event-Driven Map Updates
+
+Pass when inactive plots do not perform independent per-frame economy polling and a mass revaluation/state refresh completes without a dead frame sequence that violates `PERF-001`.
+
+### `PERF-003` Full-Match Stability
+
+Complete or simulate a 20-turn match while monitoring errors and memory trend. Pass when there is no unbounded growth attributable to repeated turns, modals, auctions, plot views or portrait changes.
+
+### `WEB-002` Export and HTTP Load
+
+Pass when `build/web/index.html` and required export files load through local HTTP using the Compatibility renderer and single-threaded path, without requiring runtime internet access.
+
+### `WEB-003` Chrome Console
+
+During the full Chrome acceptance run, pass when there is no persistent JavaScript, WebGL, Godot, storage or audio error. A one-time browser informational warning must be recorded and shown not to affect behavior before it is excluded.
+
+### `WEB-004` Offline Runtime
+
+After the build has loaded, disable network access and start/continue a match. Pass when gameplay, AI, rules and local save continue without a remote service.
+
+### `WEB-005` Focus and Rapid Input
+
+Pass when changing browser focus, returning to the tab and rapidly clicking a pending action cannot duplicate a command, skip a blocking flow or corrupt input state.
+
+## 21. Complete Match and Results
+
+### `AUT-040` Headless 20-Turn Simulation
+
+For each rival and required fixed seeds, pass when the match reaches a legal terminal state with no dead phase, infinite auction, unresolved modal dependency or out-of-range action point.
+
+### `SCN-023` Human 20-Turn Playthrough
+
+Complete one representative match through the actual interface. Pass when property, construction, lending, at least one auction, economy change, zoning timeline, save/load and final result are exercised without a blocking defect.
+
+### `AUT-041` Net Worth and Tie-Breaks
+
+Pass when turn-20 ranking uses:
+
+```text
+cash
++ current market value of owned plots
++ current market value of owned buildings and permanent improvements
+- all outstanding principal
+- all accrued interest
+```
+
+Ties resolve by reputation, then cash, then configured strategic plots. Exact component values and tie-break reason appear in the structured result.
+
+### `AUT-042` Terminal Results
+
+Cover and pass:
+
+- human turn-20 victory;
+- human turn-20 defeat;
+- human bankruptcy defeat;
+- AI bankruptcy human victory;
+- each tie-break level.
+
+### `SCN-024` Result Summary
+
+Pass when the English result screen shows ranking, net-worth components, tie-break explanation where applicable and a ledger-derived summary of major purchases, construction, auctions, loans and zoning consequences.
+
+## 22. Required Commands and Evidence
+
+The baseline headless command is:
+
+```text
+godot --headless --path . --script res://tests/run_all.gd
+```
+
+Every candidate report records:
+
+- candidate Git commit and whether the worktree was clean;
+- Godot, OS, Chrome and Safari versions;
+- automated command and full pass/fail count;
+- fixed and exploratory seeds;
+- Chrome, Safari and performance results;
+- owner visual-gate decisions;
+- defects fixed during the candidate cycle;
+- all remaining defects with severity and owner decision;
+- Web build location and checksum/signature where practical.
+
+Screenshots and videos support visual/browser evidence but do not replace the runnable project, automated output or Web export.
+
+## 23. Milestone Test Rule
+
+For each development milestone:
+
+1. identify the acceptance IDs newly made applicable;
+2. run them before the milestone commit;
+3. run relevant regression tests from earlier milestones;
+4. fix failures or report a blocker before continuing;
+5. save all files and create one recoverable Git commit;
+6. report evidence, commit, risks and remaining non-applicable tests to the owner;
+7. obtain approval before beginning the next milestone.
+
+The final release candidate must run the full applicable set regardless of earlier milestone results.
+
+## 24. Approved D6 Decisions
+
+The owner approved the following acceptance policy:
+
+1. Chrome is the complete primary Web target; Safari receives the defined smoke test and cannot retain blocker/serious defects.
+2. The reference performance run uses the owner's MacBook Air and the thresholds in `PERF-001`.
+3. Each AI personality receives at least 30 fixed-seed statistical simulations.
+4. Loan rates, partial repayment, maturity disposition, repeated asset disposal and bankruptcy boundaries require automated coverage.
+5. Map, state treatment, building samples, rival portraits and final UI require staged owner visual approval.
+6. The match must be mouse-completable and panels keyboard accessible; keyboard-only plot selection is not required.
+7. Manual/autosave persistence and corrupt-load safety require explicit browser and automated tests.
+8. Blocker/serious defects cannot ship; every retained medium defect requires owner approval.
+
+Changing these acceptance decisions requires an owner-approved documentation update.
