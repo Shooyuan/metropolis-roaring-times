@@ -1,5 +1,45 @@
 # Metropolis: Roaring Times — Development Log
 
+## M0G — Godot Environment and Minimum Runtime
+
+### Owner Decisions and Collaboration Boundary
+
+- the owner approved resuming Godot work after the M0.1W Web prototype;
+- the owner chose the Steam installation of Godot rather than a Codex-managed download;
+- Codex remains project manager, integration owner and sole writer to the main worktree;
+- DeepSeek receives a separate detached worktree and may edit only an explicitly assigned domain task packet;
+- `DEEPSEEK_OFFICE.md`, `docs/COLLABORATION_PROTOCOL.md` and the corresponding `AGENTS.md` rules were committed as `0885c3f`;
+- no DeepSeek task is active during M0G.
+
+### Delivered Scope
+
+- verified the Steam Godot executable as `4.7.1.stable.steam.a13da4feb`;
+- verified matching Steam-bundled Web templates, including single-thread release/debug templates;
+- confirmed that no Godot MCP capability is exposed in the current Codex tool surface and retained files plus CLI as the authoritative path;
+- set the project display name and main scene to `Metropolis: Roaring Times`;
+- retained the Compatibility renderer and added a single-thread Web export preset;
+- added a minimal English runtime shell that visibly distinguishes native/Web startup and increments a `user://` persistence probe;
+- added the first headless test runner with four configuration/resource assertions and an isolated intentional-failure mode;
+- excluded generated Web output, reference material, prototype files and tests from the release package where applicable;
+- recorded environment findings in `MCP_CAPABILITIES.md`.
+
+### Verification Performed
+
+- passing headless run printed `M0G_TESTS_PASS count=4` and exited `0`;
+- isolated intentional failure printed `M0G_TESTS_FAIL count=1` and exited `1`;
+- native headless startup printed `M0G_RUNTIME_READY` and persisted visit counts `1`, then `2`;
+- release Web export generated HTML, JavaScript, WASM and PCK files with the Steam-bundled template;
+- the HTTP-served build started in a real browser with Godot 4.7.1, Compatibility/WebGL 2 and a single-thread Emscripten configuration;
+- browser console contained the expected runtime-ready record and no blocking error;
+- browser persistence incremented from visit `1` to visit `2` after reload.
+
+### Remaining Risks and Next Gate
+
+- this is an environment shell only; it contains no production map, rules loop, final interface or art;
+- the current browser proof covers the available in-app browser surface, not the full Chrome/Safari release matrix reserved for M9;
+- future Steam engine updates may change the executable or templates and require the M0G smoke checks to be rerun;
+- M1A map composition is not authorized until the owner reviews this completed stage and explicitly approves the next gate.
+
 ## M0.1W — Web Graybox Economic and Interface Revision
 
 ### Delivered Scope
@@ -38,11 +78,11 @@
 - This prototype deliberately uses the simplified M0 maturity-failure result; production bank takeover and emergency auction remain later Godot work.
 - Auction stories and bidder behavior still require owner approval and are not represented as working content.
 - The 18-plot/eight-turn deterministic tuning demonstrates decisions but does not validate the production 64-plot/20-turn balance.
-- Godot, final map interaction, final art, portraits, audio and production accessibility remain unstarted.
+- Final map interaction, final art, portraits, audio and production accessibility remain unstarted. The minimal Godot environment shell is now established by M0G.
 
 ### Next Gate
 
-After the M0.1W files pass final review and are committed, stop and request explicit owner approval before any later stage. Godot M0G remains postponed unless the owner changes that decision.
+M0.1W was completed in commit `baef8ea`; the owner later approved and started M0G.
 
 ## M0.1D — Economic Loop and Interface Specification Sync
 
@@ -68,7 +108,7 @@ The root authority, product brief, game rules, vertical-slice scope, art/UI dire
 
 ### Next Gate
 
-Completed in commit `6c4b5a4`; the owner then approved M0.1W implementation.
+Completed in commit `0cd57f4`; the owner then approved M0.1W implementation.
 
 ## M0W — Standalone Web Graybox
 
@@ -120,4 +160,4 @@ The owner postponed Godot M0 and requested an immediate plain Web gameplay proto
 
 ### Superseded Next Gate
 
-The original M0W review led to the M0.1D decisions above. M0.1W was subsequently approved and implemented; Godot M0G remains postponed and still requires separate owner approval.
+The original M0W review led to the M0.1D decisions above. M0.1W and M0G were subsequently approved and implemented in sequence.

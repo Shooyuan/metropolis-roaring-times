@@ -5,7 +5,8 @@ config_version=5
 
 [application]
 
-config/name="Roaring Age"
+config/name="Metropolis: Roaring Times"
+run/main_scene="res://scenes/main/main.tscn"
 
 [display]
 
@@ -18,4 +19,3 @@ window/size/window_height_override=720
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-

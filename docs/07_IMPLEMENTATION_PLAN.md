@@ -28,7 +28,7 @@ The first documentation-reconciliation stage consists of:
 | D6 | Acceptance Tests | Complete |
 | D7 | Implementation Plan | Complete after this document passes tests and is committed |
 
-The standalone M0W Web Graybox was completed in commit `ee6eccf`, and the M0.1D specification synchronization was completed in commit `6c4b5a4`. The approved M0.1W revision now updates the disposable Web prototype with the documented title, interface and liquidity loop. `project.godot` remains a minimal configuration until M0G is explicitly resumed.
+The standalone M0W Web Graybox was completed in commit `ee6eccf`, the M0.1D specification synchronization was completed in commit `0cd57f4`, and the M0.1W revision was completed in commit `baef8ea`. The Codex/DeepSeek collaboration boundary was committed as `0885c3f`. The owner subsequently approved M0G, which now establishes the verified production Godot baseline without beginning gameplay implementation.
 
 ## 3. Mandatory Stage Protocol
 
@@ -99,7 +99,7 @@ After M0, the project manager provides a more credible forecast based on Godot a
 | M0W | Immediate plain Web gameplay prototype for investor explanation | Medium | Prototype/production boundary |
 | M0.1D | Synchronize approved M0.1 rules through every authoritative document | Medium | Cross-document contradiction |
 | M0.1W | Revise the plain Web prototype for the new economic loop and five-tab Integrated Operations Panel | Large | Prototype scope expansion and balance |
-| M0G | Verified Godot environment, test runner and Web smoke build (postponed) | Medium | Local Godot/Web capability |
+| M0G | Verified Godot environment, test runner and Web smoke build (complete) | Medium | Local Godot/Web capability |
 | M1A | Owner-approved map composition prototype | Medium | Reference translation and geography |
 | M1B | Complete 64-plot data, camera and geometry validation | Large | Polygon production and input accuracy |
 | M2 | Plot interaction and responsive UI shell | Large | Screen density and state clarity |
@@ -224,7 +224,9 @@ Revise the existing standalone Web prototype, after separate owner approval, so 
 
 High. This is a substantial disposable-prototype revision. It must not be mistaken for completion of the production Godot services, the 20-turn balance or the story-driven auction system.
 
-## 8. M0G — Godot Environment and Minimum Runtime (Postponed)
+## 8. M0G — Godot Environment and Minimum Runtime
+
+**Status:** Complete after the M0G stage commit and owner report recorded by this gate.
 
 ### 8.1 Objective
 
@@ -262,7 +264,7 @@ Primary acceptance references: `SCN-001`, `WEB-002`, `WEB-003` as applicable to 
 
 ### 8.5 Risk
 
-High until the executable and Web templates are verified. No downstream estimate is reliable before this gate.
+The original high environment risk is now reduced: the Steam executable, matching Web templates, Compatibility renderer, single-thread export, headless tests and browser persistence have been verified. Godot MCP is unavailable in the current tool surface, so project files and the command-line runner remain authoritative.
 
 ## 9. M1A — Map Composition Prototype
 
@@ -764,7 +766,7 @@ An earlier passing test is rerun whenever a later stage changes its inputs or bo
 Development pauses for owner decisions at:
 
 1. each stage start;
-2. resuming M0G Godot work after M0W;
+2. resuming M0G Godot work after M0W (satisfied by owner approval before M0G);
 3. starting M0.1W implementation after the M0.1D document commit;
 4. any missing-tool installation/download;
 5. M1A map composition;
@@ -786,8 +788,8 @@ An unanswered gate is pending, not implicit approval.
 |---|---|---|---|
 | M0W prototype is mistaken for final technology or balance | High | Visible provisional label, isolated dependency-free code and explicit guide | M0W |
 | M0.1 prototype expansion is mistaken for Godot production progress | High | Separate M0.1W stage, provisional label and no code reuse claim | M0.1W |
-| Godot/Web tools unavailable | High | M0G inventory before production implementation; owner-approved installation only | M0G |
-| Godot MCP unreliable | High | Files/CLI remain authoritative fallback | M0G |
+| Godot/Web tools become unavailable or version-drifts | Low after M0G proof | Record exact Steam version/templates and rerun M0G smoke checks after any engine update | M0G and every update |
+| Godot MCP unavailable | Low for current work | Files/CLI are the verified authoritative path; reassess only if MCP is later introduced | M0G |
 | Map composition creates bulk rework | High | M1A approval before M1B | M1A |
 | 64 polygons produce input defects | High | Shared render/collision data and validators | M1B |
 | UI hides map or critical finance state | High | Resolution and interaction gates before rules expansion | M2 |
@@ -871,4 +873,4 @@ The owner did not make a Git-identity decision during D7. The safe operational d
 
 Changing these decisions requires an owner-approved documentation update before execution.
 
-After D7, the owner explicitly postponed Godot M0 and directed the project to build the standalone M0W Web Graybox first. M0G remains in the roadmap but cannot begin until a later owner approval.
+After D7, the owner explicitly postponed Godot M0 and directed the project to build the standalone M0W Web Graybox first. After completing M0.1W, the owner approved M0G. That approval applies only to M0G; M1A still requires a new owner gate.

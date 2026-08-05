@@ -6,7 +6,7 @@ This is a disposable, dependency-free investor gameplay prototype. It is not the
 
 M0.1W replaces the original M0W interface and economic loop. The playable page now uses the approved title, five-page Integrated Operations Panel, top-bar `End Turn`, upward redevelopment, next-turn brokered property sale, three securities instruments and classified Investment Advice feed.
 
-The original M0W baseline remains recorded in commit `ee6eccf`; the M0.1D specification synchronization is recorded in commit `6c4b5a4`. This folder remains a disposable investor-explanation prototype rather than production Godot code.
+The original M0W baseline remains recorded in commit `ee6eccf`; the M0.1D specification synchronization is recorded in commit `0cd57f4`; the completed M0.1W revision is recorded in commit `baef8ea`. This folder remains a disposable investor-explanation prototype rather than production Godot code, even after M0G established the separate minimal Godot runtime.
 
 ## Included
 
