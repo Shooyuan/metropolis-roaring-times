@@ -181,6 +181,10 @@ After leaving a completed or partially played match, start a new one. Pass when 
 
 ## 8. Map, Plot and Camera Acceptance
 
+### `DOC-007A` Owner Figma Handoff Integrity
+
+Before M1A implementation, pass when the owner package contains the versioned `.fig`, `4474 × 5904` base PNG, district SVG with `width="4474"`, `height="5904"` and `viewBox="0 0 4474 5904"`, `4474 × 5904` district-mask PNG, alignment preview and owner notes. The six stable district layer names must be present, all shapes must be closed and in frame, Hell's Kitchen and Lower East Side must remain separate, and SVG/mask overlays must align with the base. A missing or ambiguous asset fails intake; Codex may not replace it with invented geometry.
+
 ### `DOC-007` Geometry Integrity
 
 Pass when each plot polygon:
@@ -193,7 +197,7 @@ Pass when each plot polygon:
 
 ### `SCN-004` Geographic Legibility
 
-Pass when the north-up map preserves the approved relative arrangement of Manhattan, the two rivers, five gameplay areas, Central Park, the two bridges and Brooklyn Bridgehead. Manhattan must not rotate sideways.
+Pass when the north-up Godot map matches the owner-approved Figma alignment preview and preserves the approved relative arrangement of Manhattan, the two rivers, five gameplay areas, Central Park, the two bridges and Brooklyn Bridgehead. Manhattan must not rotate sideways, and any conversion difference requires owner review.
 
 ### `SCN-005` Plot Interaction
 
@@ -614,7 +618,7 @@ Pass when reduced motion shortens/removes nonessential motion without hiding req
 
 ### `VIS-001` Map Composition Gate
 
-Owner approves island orientation/proportion, five-area placement, bridgehead, main landmarks and strict reference-derived paper/ink/water appearance before all 64 plots are finalized.
+Owner approves the submitted Figma source, base PNG, district SVG/mask alignment, island orientation/proportion, placement of five gameplay groupings represented by six separate district vectors, bridgehead, main landmarks and strict reference-derived paper/ink/water appearance before Codex integrates district interaction or finalizes any of the 64 plots.
 
 ### `VIS-002` Interaction-State Gate
 
@@ -651,7 +655,7 @@ Owner approves the final integrated build only when:
 - all gameplay buildings use direct top-down views;
 - rival portraits are original rubber-hose-style designs rather than copies of a known character;
 - the reference image is not shipped as the playable background;
-- the supplied reference is absent from the runtime/export package, and production map layers have recorded AI/Figma provenance;
+- the supplied reference is absent from the runtime/export package, and production map layers record the owner Figma revision and source checksums;
 - public and private building illustrations remain separate from the base map and obey the same approved near-zoom threshold;
 - identifiable content passes period/date review;
 - decoration does not obscure plot boundaries or state.

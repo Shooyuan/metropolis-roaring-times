@@ -42,6 +42,7 @@ Every new match stores a seed. The seed controls all permitted random choices, i
 ### 2.3 Map State
 
 - The map contains exactly 64 irregular interactive plots.
+- District identity and boundaries come only from the owner-approved Figma handoff and its authoritative district SVG; gameplay code cannot create substitute geography.
 - Public plots are owned by the government and cannot be purchased.
 - Initial private and unowned plots are defined by the mode configuration.
 - All ownership, zoning, adjacency and building state is loaded before the first turn begins.

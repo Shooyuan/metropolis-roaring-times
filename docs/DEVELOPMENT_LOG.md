@@ -1,12 +1,45 @@
 # Metropolis: Roaring Times — Development Log
 
-## M1A-D — Map Foundation and LOD Specification Correction
+## M1A-F — Owner-Authored Figma Handoff Correction
+
+### Management Failure Report
+
+- Codex incorrectly treated the absence of owner district assets as permission to draw provisional district polygons and present them as an M1A visual candidate;
+- the owner rejected that interpretation and confirmed that both the production base and district geometry will be submitted from the owner's Figma work;
+- the incorrect M1A implementation, preview scene, test data and screenshots were never committed and were removed completely;
+- the verified M0G runtime remains the implementation baseline.
+
+### Corrected Authority
+
+- the owner authors and approves one `4474 × 5904` Figma master containing the production base and district vectors;
+- the required delivery contains `.fig`, base PNG, authoritative district SVG, district-mask PNG, alignment preview and owner notes;
+- Codex may preserve, validate, convert and integrate the package but may not invent, redraw, smooth, simplify or silently repair district geometry;
+- missing or invalid assets stop M1A and are reported to the owner;
+- the owner-facing management sequence and decision gates are recorded in `OWNER_PROJECT_REVIEW.md`.
+
+### Current Gate
+
+This is a documentation and process-correction stage. After its tests and Git commit, work pauses for owner review. Actual M1A remains blocked on both owner approval of this process and receipt of the minimum Figma delivery package.
+
+### Verification
+
+- `git diff --check` passes;
+- Markdown relative-link validation passes;
+- acceptance-test heading IDs contain no duplicates;
+- targeted authority/count scans confirm the active documents consistently define owner-authored Figma geometry, five gameplay groupings and six separate district vectors;
+- the rejected provisional M1A data, scene, scripts, notes and tests are absent;
+- the unchanged M0G headless suite passes with `M0G_TESTS_PASS count=4` under Godot `4.7.1.stable.steam.a13da4feb`;
+- Godot emits the known non-blocking macOS system-CA access warning in the restricted test environment; no project test fails because of it.
+
+## M1A-D — Map Foundation and LOD Specification Correction (Superseded in Part)
+
+> Historical note: the interaction/LOD decisions remain active, but any wording that allowed Codex to establish map composition or district geometry is superseded by M1A-F and `MAP_ASSET_PIPELINE.md`.
 
 ### Owner Decision and Corrective Action
 
 - the owner rejected the unapproved freehand/programmatic Manhattan composition and required development to proceed from the supplied 1939 reference as an art and spatial guide;
 - the rejected M1A implementation was never committed and has been removed in full, restoring the verified M0G runtime shell;
-- the historical image is reference material only, while the production map will be reconstructed in named layers with AI-assisted art and/or Figma;
+- the historical image is reference material only; under the superseding M1A-F decision, the owner reconstructs the production map in named Figma layers and Codex has no authority to substitute generated art or geometry;
 - district/plot geometry, interaction borders, building anchors and gameplay overlays remain independent structured data in normalized map coordinates;
 - the Godot editor's standard 4.7 project metadata update is preserved as an editor-generated compatibility change;
 - newly supplied reference files remain untouched and untracked until provenance and asset intake are reviewed.
@@ -29,7 +62,7 @@
 - Markdown relative-link validation, duplicate acceptance-ID detection, Git whitespace checks and targeted legacy-wording scans pass;
 - the unchanged M0G headless suite passes with `M0G_TESTS_PASS count=4` under Godot `4.7.1.stable.steam.a13da4feb`;
 - the unchanged M0G native scene starts with `M0G_RUNTIME_READY` and a successful `user://` persistence increment when run with normal local permissions;
-- the next implementation gate is corrected M1A: registered reference-led composition and a limited district/LOD interaction proof. It requires owner approval after this documentation commit.
+- the next implementation gate is governed by M1A-F: first receive and validate the owner-authored Figma package, then integrate an exact district overlay. Codex may not create substitute geography.
 
 ## M0G — Godot Environment and Minimum Runtime
 

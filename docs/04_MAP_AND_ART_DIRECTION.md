@@ -35,18 +35,20 @@ The supplied pictorial Manhattan map is the primary reference for:
 - limited red accent use;
 - aged print texture and imperfect registration.
 
-It is an art reference and development-only alignment guide, not a shippable background texture. The production map is rebuilt in named layers with AI-assisted art and/or Figma; it must not be a direct copy baked into the exported game.
+It is an art reference and development-only alignment guide, not a shippable background texture. The owner rebuilds the production map and district geometry in Figma; Codex may not substitute its own composition or district boundaries.
 
-The reconstructed production map must use reviewed coastline, road, landmark and frame assets. The reference contains buildings and a 1939 visual context that can fall outside the game's 1910–1935 period; any identifiable landmark included in production requires a date and design review. Dynamic public and private buildings remain separate assets rather than being painted into the base.
+The owner-approved production map must use reviewed coastline, road, landmark and frame assets. The reference contains buildings and a 1939 visual context that can fall outside the game's 1910–1935 period; any identifiable landmark included in production requires a date and design review. Dynamic public and private buildings remain separate assets rather than being painted into the base.
 
 ### 2.1 Coordinate Registration and Art Handoff
 
-- Map-space positions use normalized coordinates independent of texture pixel dimensions.
-- Every approved base-map revision declares the same crop, aspect ratio and registration landmarks in `map_manifest.json`.
-- A replacement texture may change resolution but may not change the registered crop or aspect ratio without an owner-reviewed geometry migration.
-- District boundaries are delivered as named closed vectors, preferably SVG or GeoJSON during authoring, then converted to validated runtime JSON.
+- The owner uses one `4474 × 5904`, north-up Figma master frame for the base, district geometry, mask and alignment preview.
+- Map-space positions are normalized from that frame and remain independent of runtime texture scaling.
+- Every approved base-map revision declares the same crop, aspect ratio, owner revision and registration landmarks in `map_manifest.json`.
+- A replacement texture may change runtime resolution but may not change the registered crop or aspect ratio without an owner-reviewed geometry migration.
+- The owner delivers the editable `.fig`, base PNG, named district SVG, technical district-mask PNG and alignment preview. The SVG is authoritative; Codex converts it to validated runtime JSON without changing geometry.
+- Codex must stop and report missing, open, overlapping, misnamed or misaligned district shapes instead of correcting them independently.
 - Public and private buildings are separate transparent illustration assets placed at data-driven normalized anchors.
-- A flattened preview is review material only; it is not sufficient as a production handoff.
+- A flattened preview is review material only; it is not sufficient without the complete owner delivery package.
 - The full intake contract is defined in `MAP_ASSET_PIPELINE.md`.
 
 ## 3. Approved Reference-Derived Palette
@@ -367,7 +369,7 @@ Motion respects a reduced-motion setting where practical.
 Before producing all 64 plots, owner review approves:
 
 - island orientation and proportions;
-- five-area placement;
+- placement of five gameplay groupings represented by six separate district vectors;
 - bridgehead location;
 - major public landmarks;
 - paper, ink and water appearance.

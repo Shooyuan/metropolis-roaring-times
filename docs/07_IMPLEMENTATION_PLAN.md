@@ -100,7 +100,7 @@ After M0, the project manager provides a more credible forecast based on Godot a
 | M0.1D | Synchronize approved M0.1 rules through every authoritative document | Medium | Cross-document contradiction |
 | M0.1W | Revise the plain Web prototype for the new economic loop and five-tab Integrated Operations Panel | Large | Prototype scope expansion and balance |
 | M0G | Verified Godot environment, test runner and Web smoke build (complete) | Medium | Local Godot/Web capability |
-| M1A | Owner-approved map composition prototype | Medium | Reference translation and geography |
+| M1A | Validate the owner Figma package and integrate an owner-approved map overlay | Medium | Input completeness and conversion fidelity |
 | M1B | Complete 64-plot data, camera and geometry validation | Large | Polygon production and input accuracy |
 | M2 | Plot interaction and responsive UI shell | Large | Screen density and state clarity |
 | M3 | Property purchase, finance, ledger and save foundation | Large | Atomic money/debt state |
@@ -270,40 +270,42 @@ The original high environment risk is now reduced: the Steam executable, matchin
 
 ### 9.1 Objective
 
-Obtain owner approval for a reference-led, registered map foundation before producing all 64 plots. The previously rejected freehand Manhattan composition is not a project baseline.
+Validate and integrate the owner-authored Figma map package, then obtain owner approval for an exact Godot overlay before producing any of the 64 plots. Codex does not create the base composition or district boundaries.
 
 ### 9.2 Work
 
-- Register an approved crop and aspect ratio in a normalized coordinate system, using the supplied 1939 map only as a development/editor alignment guide.
-- Establish named production layers for a later AI- and/or Figma-reconstructed base; do not bake dynamic public/private buildings into the base.
-- Place and review the five gameplay areas, Central Park, rivers, bridges and Brooklyn Bridgehead against the reference-led composition.
-- Demonstrate the approved palette and framing at target screen ratios.
-- Add a small representative district/plot geometry sample only for scale and readability.
+- Wait for the complete owner Figma handoff defined by `MAP_ASSET_PIPELINE.md`; missing inputs are a dependency, not authorization for placeholders.
+- Preserve the `.fig`, base PNG, district SVG, mask PNG, alignment preview and owner notes unchanged in `references/incoming/`.
+- Verify filenames, dimensions, SVG viewBox/layer IDs, registration, checksums, closed shapes, overlap/gap conditions and base/mask/SVG alignment.
+- Produce an intake report and return every ambiguity to the owner without editing source geography.
+- After owner accepts intake, convert the submitted SVG coordinates reproducibly to normalized runtime JSON without smoothing, deleting or moving vertices.
+- Render the owner base and derived boundaries in Godot and compare them with the owner alignment preview at target screen ratios.
 - Demonstrate one district's hover border, locked selection and detail-page handoff.
 - Demonstrate far/middle district summary intent and the shared near-zoom building visibility threshold with temporary assets.
-- Document geographical compression, registration landmarks and date-sensitive landmarks.
+- Record the owner revision, source checksums, deliberate geographic compression and date-sensitive landmarks.
 
 ### 9.3 Not Yet
 
 - No complete 64-plot dataset.
-- No final reconstructed base, road or landmark illustration.
+- No Codex-authored or substitute base/district geometry.
 - No bulk building or portrait production.
 - No rule implementation attached to prototype plots.
 - No finalized prosperity formula, weights, labels or bands.
 
 ### 9.4 Gate and Evidence
 
-- Owner approves `VIS-001` Map Composition Gate.
+- `DOC-007A` passes before map code begins.
+- Owner approves `VIS-001` Map Composition Gate for the submitted Figma package and its exact Godot overlay.
 - Hudson/west, East River/east and Lower Manhattan/south remain correct.
 - Hell's Kitchen and Lower East Side remain separate.
 - Strict palette and orientation review passes.
-- Normalized registration survives a replacement texture resolution without moving sample geometry.
-- Reference-derived development alignment is visible only in editor/debug evidence; the reference is absent from runtime/export output.
+- Normalized registration matches the owner SVG/mask and survives a replacement runtime texture resolution without moving geometry.
+- The historical reference and owner source package remain absent from runtime/export output; only approved production derivatives ship.
 - Owner approves the sample district border/detail and far/middle-versus-near LOD intent.
 
 ### 9.5 Risk
 
-High. Crop/aspect drift would move every later polygon and anchor; approval must occur before bulk geometry. The rejected freehand composition has been removed and the verified M0G shell remains the runtime baseline.
+High. Missing/misaligned owner assets or unauthorized Codex correction would corrupt every later polygon and anchor. Intake and owner overlay approval occur before map implementation; the verified M0G shell remains the runtime baseline while assets are pending.
 
 ## 10. M1B — Complete Map Data and Camera
 
@@ -313,9 +315,9 @@ Deliver exactly 64 data-driven, interactive-ready plot polygons plus stable pan/
 
 ### 10.2 Work
 
-- Define all plot IDs, polygons, districts, ownership eligibility and adjacency.
+- Define all plot IDs, polygons, ownership eligibility and adjacency against the approved owner districts.
 - Add `map_manifest.json` with normalized registration, declared layer assets and owner-approved LOD threshold data.
-- Define district polygons, district summary anchors and building anchors independently of raster art.
+- Import the district polygons derived from the approved owner SVG; propose summary/building anchors separately for owner review.
 - Define public plots and fixed transit topology.
 - Generate render/collision polygons from the same data.
 - Implement map bounds, drag threshold, primary/middle pan and fixed-factor zoom.
@@ -801,6 +803,8 @@ An unanswered gate is pending, not implicit approval.
 | Godot/Web tools become unavailable or version-drifts | Low after M0G proof | Record exact Steam version/templates and rerun M0G smoke checks after any engine update | M0G and every update |
 | Godot MCP unavailable | Low for current work | Files/CLI are the verified authoritative path; reassess only if MCP is later introduced | M0G |
 | Map crop/aspect or registration changes after geometry begins | High | Normalized coordinates, registration landmarks and M1A approval before M1B | M1A |
+| Codex starts map work before receiving complete owner Figma assets | High | Hard M1A intake gate; missing package stops implementation and permits no placeholder geography | Before M1A |
+| Derived runtime districts differ from owner SVG | High | Reproducible conversion, checksum/provenance record and owner overlay approval | M1A |
 | 64 polygons produce input defects | High | Shared render/collision data and validators | M1B |
 | Near-zoom plot/building targets conflict with district selection | High | Explicit input priority plus district hover/selection scene tests | M1A–M1B |
 | LOD switch hides required information or overloads the map | High | One data-driven threshold, far/middle summary contract and owner visual gate | M1A–M1B |

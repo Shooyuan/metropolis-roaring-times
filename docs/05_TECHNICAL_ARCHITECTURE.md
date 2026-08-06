@@ -181,7 +181,7 @@ Main
 
 `DebugLayer` is instantiated only in development builds. It is absent or forcibly disabled in the final Web export.
 
-The map base, district polygons, plot polygons and building anchors use one normalized coordinate system registered by `map_manifest.json`. The supplied historical reference may be enabled only as an editor/development alignment guide and is excluded from exports.
+The owner-submitted Figma base, district SVG, mask and preview share one `4474 × 5904` registration. `map_manifest.json` records that owner revision and the normalized conversion. The supplied historical reference may be enabled only as an editor/development alignment guide and is excluded from exports. Codex does not author substitute district polygons.
 
 ### 5.2 District Views and Level of Detail
 
@@ -509,8 +509,9 @@ The three personalities share one rules implementation. Personality data changes
 - required keys and supported schema version;
 - unique IDs and valid references;
 - exactly 64 plots for the vertical-slice mode;
+- a recorded owner Figma revision plus source filenames/checksums for the base PNG, district SVG, mask PNG and alignment preview;
 - a valid normalized map registration, crop, aspect ratio and declared LOD thresholds;
-- valid closed district polygons and in-bounds district summary/building anchors;
+- normalized district polygons that match the owner-submitted SVG without unauthorized smoothing or vertex deletion, plus in-bounds summary/building anchors;
 - valid polygon coordinates and district assignment;
 - economy/law schedules covering turns 1–20;
 - valid building, transit, AI and event references;
@@ -523,8 +524,8 @@ A fatal content error stops match creation with a clear diagnostic. It must not 
 ### 10.2 Content Separation
 
 - `vertical_slice.json` selects the active schedules and quantities.
-- `map_manifest.json` declares the normalized coordinate contract, approved crop/aspect registration, layer assets and LOD thresholds.
-- District polygon geometry and summary anchors live in `districts.json`; rendered border pixels never define interaction.
+- `map_manifest.json` declares the owner delivery revision, source checksums, normalized coordinate contract, approved crop/aspect registration, layer assets and LOD thresholds.
+- District polygon geometry in `districts.json` is a derived copy of the owner-authoritative SVG. Conversion is reproducible and may not change geometry without owner approval; rendered border pixels never define interaction.
 - Plot geometry and topology live in `plots.json`, not scene collision edits.
 - Buildings provide costs, upkeep, income inputs, legal tags and art variant IDs.
 - Securities provide opening price, availability, economy/event modifier IDs and volatility bounds, never executable pricing code.
@@ -782,7 +783,7 @@ No test relies on animation timing, uncontrolled system time or unseeded randomn
 - JSON content is treated as local untrusted input and validated before use.
 - Runtime cannot evaluate downloaded code or arbitrary expressions from content.
 - Every final third-party or generated asset is recorded in `docs/ASSET_MANIFEST.md` with source and license/provenance.
-- The supplied historical reference remains a development/editor alignment guide only and is explicitly excluded from release exports. Production AI/Figma reconstructions and generated assets still require provenance and owner approval.
+- The supplied historical reference remains a development/editor alignment guide only and is explicitly excluded from release exports. Production map assets record the owner-authored Figma revision, checksums and approval; any auxiliary generated asset still requires provenance and owner approval.
 - `.godot/`, temporary exports, editor caches and personal settings stay out of Git.
 
 ## 20. Deferred Architecture

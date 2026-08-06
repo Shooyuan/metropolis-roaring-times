@@ -112,7 +112,7 @@
 
 [CODEX] Codex completes M0G environment, runtime, test-runner and Web-export foundations before delegating production domain logic.
 
-[CODEX] M1A map composition remains Codex-owned because it is a visual approval stage.
+[CODEX] M1A map art and district geometry remain owner-authored in Figma. Codex owns only intake validation, format conversion, Godot integration and test evidence; neither Codex nor DeepSeek may invent or redraw district boundaries.
 
 [CODEX] The first expected DeepSeek production task is an M1B pure geometry or content-validation service after Codex defines its contract and fixtures.
 

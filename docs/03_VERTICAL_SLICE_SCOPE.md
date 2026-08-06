@@ -86,9 +86,9 @@ Required non-purchasable assets:
 
 ### 3.5 Map Presentation and District Detail
 
-- Map art, district geometry, plot geometry, building anchors and gameplay overlays share one normalized coordinate system registered to an approved crop and aspect ratio.
-- The supplied 1939 map is a development reference only. The production base is reconstructed in layers with AI-assisted art and/or Figma and must not embed dynamic public or private buildings.
-- District boundaries are closed vector polygons and define interaction; raster colors or painted border pixels do not define hit areas.
+- Map art, district geometry, plot geometry, building anchors and gameplay overlays share one normalized coordinate system derived from the owner's `4474 × 5904` Figma master frame.
+- The supplied 1939 map is a development reference only. The owner authors and approves the production Figma base, which must not embed dynamic public or private buildings.
+- District boundaries are closed vector shapes authored by the owner and delivered in the authoritative district SVG. Codex converts them to runtime polygons without redrawing, smoothing or changing vertices; the companion mask PNG verifies pixel alignment.
 - Hovering uncovered district space displays an indicative district border. Clicking locks the border and opens the district detail page until another district is selected or the selection is explicitly closed.
 - At near zoom, a plot or building hit target takes priority over the underlying district.
 - Far and middle zoom hide all individual public and private building illustrations and show a district summary in this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities, district prosperity.

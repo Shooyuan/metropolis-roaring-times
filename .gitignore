@@ -1,6 +1,7 @@
 .DS_Store
 .godot/
 /build/
+references/*.png.import
 .env
 .env.*
 *.tmp
