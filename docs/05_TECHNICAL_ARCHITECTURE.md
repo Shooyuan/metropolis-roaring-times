@@ -87,10 +87,12 @@ res://
 │   │   └── main.tscn
 │   ├── map/
 │   │   ├── map_view.tscn
+│   │   ├── district_view.tscn
 │   │   └── plot_view.tscn
 │   ├── ui/
 │   │   ├── match_hud.tscn
 │   │   ├── property_panel.tscn
+│   │   ├── district_detail_panel.tscn
 │   │   ├── integrated_operations_panel.tscn
 │   │   ├── game_brief_tab.tscn
 │   │   ├── investment_advice_tab.tscn
@@ -118,6 +120,7 @@ res://
 │   ├── laws/
 │   │   └── 1916_zoning.json
 │   ├── districts.json
+│   ├── map_manifest.json
 │   ├── plots.json
 │   ├── buildings.json
 │   ├── transit.json
@@ -151,9 +154,12 @@ Main
 │   │   ├── CoastlineLayer
 │   │   ├── RoadLayer
 │   │   ├── DistrictLayer
+│   │   ├── DistrictInteractionLayer
+│   │   ├── DistrictSummaryLayer
 │   │   ├── PlotLayer
 │   │   ├── TransitLayer
-│   │   ├── BuildingLayer
+│   │   ├── PublicBuildingLayer
+│   │   ├── PrivateBuildingLayer
 │   │   ├── PropertyStateLayer
 │   │   ├── LandmarkLayer
 │   │   └── AtmosphereLayer
@@ -167,6 +173,7 @@ Main
 │   │   ├── AuctionHouseTab
 │   │   └── StockMarketTab
 │   ├── PropertyPanel
+│   ├── DistrictDetailPanel
 │   ├── ModalLayer
 │   └── NotificationLayer
 └── DebugLayer
@@ -174,7 +181,20 @@ Main
 
 `DebugLayer` is instantiated only in development builds. It is absent or forcibly disabled in the final Web export.
 
-### 5.2 Plot Views
+The map base, district polygons, plot polygons and building anchors use one normalized coordinate system registered by `map_manifest.json`. The supplied historical reference may be enabled only as an editor/development alignment guide and is excluded from exports.
+
+### 5.2 District Views and Level of Detail
+
+Each district view is generated from authoritative closed polygon geometry and owns only presentation and hit testing. It provides:
+
+- hover and locked-selection borders derived from the same polygon;
+- a normalized anchor for the far/middle district summary;
+- a read-only district detail request carrying the stable `district_id`;
+- data-driven visibility switching at the approved near-zoom threshold.
+
+The `DistrictSummaryViewModel` derives its six ordered fields from authoritative state: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities and prosperity. Public and private building art share one near-zoom visibility threshold. At near zoom, plot/building hit areas have priority over their district.
+
+### 5.3 Plot Views
 
 Each interactive plot may use `Area2D`, `CollisionPolygon2D` and one or more `Polygon2D` or draw-command layers. The render polygon and collision polygon must be generated from the same normalized source coordinate list.
 
@@ -187,7 +207,7 @@ A plot view is responsible only for:
 
 It cannot calculate rent, apply law penalties, transfer ownership or independently poll the economy each frame.
 
-### 5.3 Autoload Policy
+### 5.4 Autoload Policy
 
 Autoloads are limited to process-wide services that genuinely survive scene changes:
 
@@ -465,6 +485,14 @@ The three personalities share one rules implementation. Personality data changes
 - never allows a fictional event to masquerade under a real masthead;
 - exposes read-only affected-system and expiry explanations.
 
+### 9.10B `DistrictProsperityService`
+
+- derives district prosperity from owner-approved human and active-AI development inputs without mutating participant or property records;
+- guarantees `50.0 <= prosperity_score < 100.0` and supplies a one-decimal display value;
+- remains distinct from the global economy phase named `Prosperity`;
+- uses only owner-approved weights, bands and labels loaded from validated content;
+- does not infer a transit contribution merely because transit appears in the district summary.
+
 ### 9.11 `ResultService`
 
 - evaluates bankruptcy immediately;
@@ -481,6 +509,8 @@ The three personalities share one rules implementation. Personality data changes
 - required keys and supported schema version;
 - unique IDs and valid references;
 - exactly 64 plots for the vertical-slice mode;
+- a valid normalized map registration, crop, aspect ratio and declared LOD thresholds;
+- valid closed district polygons and in-bounds district summary/building anchors;
 - valid polygon coordinates and district assignment;
 - economy/law schedules covering turns 1–20;
 - valid building, transit, AI and event references;
@@ -493,6 +523,8 @@ A fatal content error stops match creation with a clear diagnostic. It must not 
 ### 10.2 Content Separation
 
 - `vertical_slice.json` selects the active schedules and quantities.
+- `map_manifest.json` declares the normalized coordinate contract, approved crop/aspect registration, layer assets and LOD thresholds.
+- District polygon geometry and summary anchors live in `districts.json`; rendered border pixels never define interaction.
 - Plot geometry and topology live in `plots.json`, not scene collision edits.
 - Buildings provide costs, upkeep, income inputs, legal tags and art variant IDs.
 - Securities provide opening price, availability, economy/event modifier IDs and volatility bounds, never executable pricing code.
@@ -572,6 +604,8 @@ The left-side panel is named `IntegratedOperationsPanel` internally and shown as
 
 Panels consume purpose-built read-only view models. A view model contains formatted labels, enabled states and reason codes derived from authoritative state; it never contains a writable pointer to `GameState`.
 
+`DistrictSummaryViewModel` preserves the approved six-field order and one-decimal prosperity display. `DistrictDetailViewModel` supplies the selected district page. Both are rebuilt from authoritative state rather than saved as mutable duplicates.
+
 Domain events identify what changed. The presentation coordinator then refreshes only affected map layers and panels.
 
 ### 13.2 Confirmations
@@ -595,6 +629,8 @@ Confirmation data captures a command summary, but the domain command is revalida
 
 - `MapInputController` distinguishes click from drag using a configured movement threshold.
 - Primary-drag on empty map space and middle-drag pan the map.
+- At near zoom, plot and building hit targets consume selection before the underlying district; district labels and uncovered polygon space may select a district.
+- District hover is transient. A district click creates a locked selection that persists until another district is selected or the selection is explicitly closed.
 - Mouse wheel and visible buttons request the same fixed-factor zoom function.
 - Camera rotation and tilt have no actions in the input map.
 - Blocking modals capture input and disable world interaction.
@@ -746,7 +782,7 @@ No test relies on animation timing, uncontrolled system time or unseeded randomn
 - JSON content is treated as local untrusted input and validated before use.
 - Runtime cannot evaluate downloaded code or arbitrary expressions from content.
 - Every final third-party or generated asset is recorded in `docs/ASSET_MANIFEST.md` with source and license/provenance.
-- Reference material remains outside the shipped playable map unless explicit rights and usage are approved.
+- The supplied historical reference remains a development/editor alignment guide only and is explicitly excluded from release exports. Production AI/Figma reconstructions and generated assets still require provenance and owner approval.
 - `.godot/`, temporary exports, editor caches and personal settings stay out of Git.
 
 ## 20. Deferred Architecture

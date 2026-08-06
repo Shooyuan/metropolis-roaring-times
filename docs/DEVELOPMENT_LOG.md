@@ -1,5 +1,36 @@
 # Metropolis: Roaring Times — Development Log
 
+## M1A-D — Map Foundation and LOD Specification Correction
+
+### Owner Decision and Corrective Action
+
+- the owner rejected the unapproved freehand/programmatic Manhattan composition and required development to proceed from the supplied 1939 reference as an art and spatial guide;
+- the rejected M1A implementation was never committed and has been removed in full, restoring the verified M0G runtime shell;
+- the historical image is reference material only, while the production map will be reconstructed in named layers with AI-assisted art and/or Figma;
+- district/plot geometry, interaction borders, building anchors and gameplay overlays remain independent structured data in normalized map coordinates;
+- the Godot editor's standard 4.7 project metadata update is preserved as an editor-generated compatibility change;
+- newly supplied reference files remain untouched and untracked until provenance and asset intake are reviewed.
+
+### Specification Decisions Incorporated
+
+- map texture resolution is independent from map-space geometry, but every revision must preserve an approved crop, aspect ratio and registration landmarks;
+- districts use closed vector polygons, not raster border colors, for hit testing and selection;
+- hover shows an indicative `border_peach`/`ink_primary` border; click locks the border and opens the district detail page until another selection or explicit close;
+- near-zoom plot/building targets take priority over their underlying district;
+- far and middle zoom hide all individual public/private building illustrations and display the exact ordered district summary;
+- all public and private building illustrations appear at the same owner-approved near-zoom threshold;
+- district prosperity combines human and active-AI development, ranges from `50.0` to strictly below `100.0`, and displays one decimal place;
+- the prosperity formula, weights, English labels/bands and precise LOD threshold remain future owner approval gates.
+
+### Verification and Next Gate
+
+- all active product, rules, scope, art, architecture, acceptance and implementation-plan documents are synchronized through this correction;
+- the new asset handoff contract is recorded in `MAP_ASSET_PIPELINE.md`;
+- Markdown relative-link validation, duplicate acceptance-ID detection, Git whitespace checks and targeted legacy-wording scans pass;
+- the unchanged M0G headless suite passes with `M0G_TESTS_PASS count=4` under Godot `4.7.1.stable.steam.a13da4feb`;
+- the unchanged M0G native scene starts with `M0G_RUNTIME_READY` and a successful `user://` persistence increment when run with normal local permissions;
+- the next implementation gate is corrected M1A: registered reference-led composition and a limited district/LOD interaction proof. It requires owner approval after this documentation commit.
+
 ## M0G — Godot Environment and Minimum Runtime
 
 ### Owner Decisions and Collaboration Boundary

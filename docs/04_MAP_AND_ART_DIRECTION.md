@@ -35,9 +35,19 @@ The supplied pictorial Manhattan map is the primary reference for:
 - limited red accent use;
 - aged print texture and imperfect registration.
 
-It is not a shippable background texture and must not be traced or copied as a complete composition.
+It is an art reference and development-only alignment guide, not a shippable background texture. The production map is rebuilt in named layers with AI-assisted art and/or Figma; it must not be a direct copy baked into the exported game.
 
-The production map must use original coastline, plot, road, landmark and frame assets. The reference contains buildings and a 1939 visual context that can fall outside the game's 1910–1935 period; any identifiable landmark included in production requires a date and design review.
+The reconstructed production map must use reviewed coastline, road, landmark and frame assets. The reference contains buildings and a 1939 visual context that can fall outside the game's 1910–1935 period; any identifiable landmark included in production requires a date and design review. Dynamic public and private buildings remain separate assets rather than being painted into the base.
+
+### 2.1 Coordinate Registration and Art Handoff
+
+- Map-space positions use normalized coordinates independent of texture pixel dimensions.
+- Every approved base-map revision declares the same crop, aspect ratio and registration landmarks in `map_manifest.json`.
+- A replacement texture may change resolution but may not change the registered crop or aspect ratio without an owner-reviewed geometry migration.
+- District boundaries are delivered as named closed vectors, preferably SVG or GeoJSON during authoring, then converted to validated runtime JSON.
+- Public and private buildings are separate transparent illustration assets placed at data-driven normalized anchors.
+- A flattened preview is review material only; it is not sufficient as a production handoff.
+- The full intake contract is defined in `MAP_ASSET_PIPELINE.md`.
 
 ## 3. Approved Reference-Derived Palette
 
@@ -132,13 +142,16 @@ Back to front:
 2. `water_layer` — warm water fill, minimal wave hatching and ferry decoration.
 3. `coastline_layer` — primary coastline ink.
 4. `road_layer` — simplified major road hierarchy.
-5. `district_layer` — district labels and low-opacity tonal fields.
-6. `plot_layer` — exactly 64 interactive polygons.
-7. `transit_layer` — bridges, six subway stations and one tram line with about five stops.
-8. `building_layer` — top-down building assets.
-9. `property_state_layer` — ownership, selection, auction, compliance and value overlays.
-10. `landmark_layer` — non-interactive public landmarks and restrained vignettes.
-11. `atmosphere_layer` — subtle print/paper effects only.
+5. `district_layer` — labels and low-opacity tonal fields.
+6. `district_interaction_layer` — hover and locked-selection borders generated from district polygons.
+7. `district_summary_layer` — far/middle summaries anchored independently from the base texture.
+8. `plot_layer` — exactly 64 interactive polygons.
+9. `transit_layer` — bridges, six subway stations and one tram line with about five stops.
+10. `public_building_layer` — separate public-building illustrations, visible only at the shared near threshold.
+11. `private_building_layer` — separate private-property illustrations, visible only at the shared near threshold.
+12. `property_state_layer` — ownership, selection, auction, compliance and value overlays.
+13. `landmark_layer` — non-building public landmarks and restrained vignettes.
+14. `atmosphere_layer` — subtle print/paper effects only.
 
 Each interactive polygon and collision shape is generated from the same source coordinates. Decorative art never defines the clickable boundary.
 
@@ -173,10 +186,19 @@ Each interactive polygon and collision shape is generated from the same source c
 
 ### 7.4 Information Density
 
-- Far view: district names, broad value pattern, ownership and public landmarks.
-- Mid view: roads, plots, transit, buildings and zoning icons.
-- Near view: plot name, building state, income indicator, compliance and construction details.
+- Far and middle view: individual public and private building illustrations are hidden. Each district shows, in order, human-purchasable plot count, human-owned apartment count, human-owned Factory count, human-owned Department Store count, major transit facilities and prosperity level.
+- Standard and Luxury Apartments are combined in the apartment count.
+- Near view: at and above one owner-approved threshold, all individual public and private building illustrations appear together with plot name, building state, income indicator, compliance and construction details.
+- The threshold and any short crossfade are data-driven and require owner approval during the complete-map milestone.
 - HUD text and action icons remain screen-space readable instead of shrinking with the map.
+
+### 7.5 District Hover, Selection and Detail
+
+- Hovering uncovered district space draws a wide `border_peach` outer band with a thin `ink_primary` inner line.
+- Clicking a district locks this border and opens its district detail page.
+- The locked selection remains until another district is selected or the current selection is explicitly closed.
+- At near zoom, plot and building hit targets take priority over the district beneath them; district labels and uncovered district space remain district-selection targets.
+- The district border is an interaction state, not an ownership color, and must not use `compass_red` as its sole encoding.
 
 ## 8. Plot and Road Art
 
@@ -202,6 +224,7 @@ Each interactive polygon and collision shape is generated from the same source c
 ### 10.1 View and Readability
 
 - All gameplay buildings are top-down.
+- Public buildings and transit-associated building illustrations use the same near-zoom visibility threshold as private buildings.
 - Roof silhouette and footprint communicate building category before small details.
 - Buildings remain within their plot polygon and cannot obscure adjacent clickable boundaries.
 - A subtle ink shadow may separate a building from the paper, but it cannot create a 3D camera angle.

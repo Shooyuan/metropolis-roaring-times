@@ -122,6 +122,12 @@ Five gameplay groupings organize the map:
 
 Central Park, City Hall, the public library, major bridges and initial transit nodes are public assets and cannot be purchased.
 
+The supplied 1939 Manhattan map is an art and composition reference only. Production uses a separately reconstructed, layered map base made with AI-assisted art and/or Figma, plus independent district geometry, plot geometry, state overlays and building anchors. Replacing the rendered map texture must not move gameplay geometry.
+
+At far and middle zoom, individual public and private building illustrations are hidden. Each district instead presents, in this exact order: plots currently purchasable by the human player; human-owned apartment buildings; human-owned factories; human-owned department stores; major transit facilities present; and district prosperity level. Standard and Luxury Apartments are combined in the apartment count.
+
+At the approved near-zoom threshold, all public and private individual building illustrations become visible. Hovering a district reveals an indicative border; selecting it locks that border and opens the district detail page until another district is selected or the selection is explicitly closed.
+
 ### 7.2 Core Buildings
 
 - Standard Apartment.
@@ -185,7 +191,7 @@ The visual direction combines:
 - Original rubber-hose-inspired AI portraits with five consistent emotional states, used for rival identity, bidding and reactions.
 - A future rubber-hose-style board mascot area inside `Game Brief`; the vertical slice may reserve the layout without shipping a live conversational character.
 
-The supplied Manhattan pictorial map is a composition and style reference, not a final background asset. The playable geography, plot polygons and status layers are original structured assets.
+The supplied Manhattan pictorial map is a composition and style reference, not a final background asset. The production map is reconstructed as layered AI- and/or Figma-authored art registered to normalized coordinates. Playable district and plot geometry, building anchors and status layers remain independent structured assets.
 
 Audio supports interaction and atmosphere through restrained period-inspired music and tactile cues such as typewriters, telephones, printing presses, cash registers and an auction gavel. Audio polish is not allowed to delay core-rule completion.
 

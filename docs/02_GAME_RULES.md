@@ -101,6 +101,23 @@ Cost basis is used for forced bank takeover and emergency-auction starting price
 
 `securities_value` is the sum of each held instrument's quantity multiplied by its current authoritative turn price. Securities are liquid assets in final net asset value, but they do not increase the property-backed credit limit.
 
+### 3.9 District Summary and Prosperity
+
+The district summary is a deterministic derived view of authoritative plot, building, transit and participant state. It does not store a second editable copy of those facts.
+
+At far and middle zoom it displays these fields in this exact order:
+
+1. plots currently purchasable by the human player;
+2. human-owned apartment building count, combining Standard and Luxury Apartments;
+3. human-owned Factory count;
+4. human-owned Department Store count;
+5. major transit facilities present;
+6. district prosperity level.
+
+District prosperity is jointly determined by owner-approved development inputs from the human player and the active AI opponent. Its authoritative numeric score satisfies `50.0 <= prosperity_score < 100.0` and is displayed to one decimal place. It can approach `100.0` but can never equal it.
+
+District prosperity is distinct from the global economy phase named `Prosperity`. The formula, weights, display labels and level bands require a separate owner-approved balance proposal before implementation. Major transit appears in the summary but must not silently affect prosperity unless that approved formula explicitly includes it.
+
 ## 4. Turn State Machine
 
 Each turn follows one authoritative sequence:

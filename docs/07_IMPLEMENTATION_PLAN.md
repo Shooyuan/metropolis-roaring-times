@@ -270,23 +270,26 @@ The original high environment risk is now reduced: the Steam executable, matchin
 
 ### 9.1 Objective
 
-Obtain owner approval for spatial composition before producing all 64 plots.
+Obtain owner approval for a reference-led, registered map foundation before producing all 64 plots. The previously rejected freehand Manhattan composition is not a project baseline.
 
 ### 9.2 Work
 
-- Create an original north-up Manhattan silhouette and water fields.
-- Place the five gameplay areas, Central Park, rivers, bridges and Brooklyn Bridgehead.
-- Demonstrate the reference-derived palette and map framing at target screen ratios.
-- Add a limited set of representative plot shapes only for scale and readability.
-- Show far/mid/near information-density intent.
-- Document any geographical compression and date-sensitive landmarks.
+- Register an approved crop and aspect ratio in a normalized coordinate system, using the supplied 1939 map only as a development/editor alignment guide.
+- Establish named production layers for a later AI- and/or Figma-reconstructed base; do not bake dynamic public/private buildings into the base.
+- Place and review the five gameplay areas, Central Park, rivers, bridges and Brooklyn Bridgehead against the reference-led composition.
+- Demonstrate the approved palette and framing at target screen ratios.
+- Add a small representative district/plot geometry sample only for scale and readability.
+- Demonstrate one district's hover border, locked selection and detail-page handoff.
+- Demonstrate far/middle district summary intent and the shared near-zoom building visibility threshold with temporary assets.
+- Document geographical compression, registration landmarks and date-sensitive landmarks.
 
 ### 9.3 Not Yet
 
 - No complete 64-plot dataset.
-- No final road/landmark illustration.
+- No final reconstructed base, road or landmark illustration.
 - No bulk building or portrait production.
 - No rule implementation attached to prototype plots.
+- No finalized prosperity formula, weights, labels or bands.
 
 ### 9.4 Gate and Evidence
 
@@ -294,11 +297,13 @@ Obtain owner approval for spatial composition before producing all 64 plots.
 - Hudson/west, East River/east and Lower Manhattan/south remain correct.
 - Hell's Kitchen and Lower East Side remain separate.
 - Strict palette and orientation review passes.
-- Prototype remains original and does not ship the reference image as a background.
+- Normalized registration survives a replacement texture resolution without moving sample geometry.
+- Reference-derived development alignment is visible only in editor/debug evidence; the reference is absent from runtime/export output.
+- Owner approves the sample district border/detail and far/middle-versus-near LOD intent.
 
 ### 9.5 Risk
 
-High. Approval must occur before bulk plot work; otherwise geometry and decoration would be reworked together.
+High. Crop/aspect drift would move every later polygon and anchor; approval must occur before bulk geometry. The rejected freehand composition has been removed and the verified M0G shell remains the runtime baseline.
 
 ## 10. M1B — Complete Map Data and Camera
 
@@ -309,10 +314,14 @@ Deliver exactly 64 data-driven, interactive-ready plot polygons plus stable pan/
 ### 10.2 Work
 
 - Define all plot IDs, polygons, districts, ownership eligibility and adjacency.
+- Add `map_manifest.json` with normalized registration, declared layer assets and owner-approved LOD threshold data.
+- Define district polygons, district summary anchors and building anchors independently of raster art.
 - Define public plots and fixed transit topology.
 - Generate render/collision polygons from the same data.
 - Implement map bounds, drag threshold, primary/middle pan and fixed-factor zoom.
 - Implement zoom percentage and no-rotation input map.
+- Implement district hover/locked selection, district detail handoff and near-zoom plot/building input priority.
+- Implement far/middle district-summary view models and near-threshold placeholder building visibility.
 - Add geometry/content validators and headless tests.
 - Add temporary state patterns sufficient to test selection and ownership.
 
@@ -325,7 +334,7 @@ Deliver exactly 64 data-driven, interactive-ready plot polygons plus stable pan/
 ### 10.4 Gate and Evidence
 
 - `DOC-003`, `DOC-004`, `DOC-007` pass for current map content.
-- `SCN-004`, `SCN-006`, `SCN-007`, `SCN-008` pass at stage scope.
+- `SCN-004`, `SCN-005A`, `SCN-006`, `SCN-007`, `SCN-008` and `AUT-040` pass at stage scope, except that prosperity uses an owner-approved formula fixture before production balancing.
 - Exactly 64 plots validate with no self-intersection, missing reference or unusable collision.
 - Camera cannot rotate or lose the map.
 
@@ -346,6 +355,7 @@ Create the complete responsive interface structure and make every plot inspectab
 - Build modal and notification layers.
 - Build assets, law information, How to Play and result-screen shells only where they can show real stage data.
 - Implement plot hover, selection, focus and owner/state view models.
+- Complete the district detail page and production presentation of the ordered district summary.
 - Implement mouse flow, panel keyboard focus and blocking-modal input capture.
 - Implement target-resolution layout behavior.
 - Implement temporary English labels and error/reason presentation.
@@ -577,7 +587,7 @@ Complete every core vertical-slice gameplay system before production art begins.
 
 - `AUT-028` through `AUT-031` pass.
 - `SCN-013` passes with temporary but clear visual patterns.
-- `AUT-035`, `AUT-036`, `AUT-040` through `AUT-042` pass.
+- `AUT-035`, `AUT-036`, `AUT-041` through `AUT-043` pass.
 - A complete 20-turn match can reach every approved result without final art.
 - No core rule remains represented only by a mock button or scripted video.
 
@@ -790,8 +800,10 @@ An unanswered gate is pending, not implicit approval.
 | M0.1 prototype expansion is mistaken for Godot production progress | High | Separate M0.1W stage, provisional label and no code reuse claim | M0.1W |
 | Godot/Web tools become unavailable or version-drifts | Low after M0G proof | Record exact Steam version/templates and rerun M0G smoke checks after any engine update | M0G and every update |
 | Godot MCP unavailable | Low for current work | Files/CLI are the verified authoritative path; reassess only if MCP is later introduced | M0G |
-| Map composition creates bulk rework | High | M1A approval before M1B | M1A |
+| Map crop/aspect or registration changes after geometry begins | High | Normalized coordinates, registration landmarks and M1A approval before M1B | M1A |
 | 64 polygons produce input defects | High | Shared render/collision data and validators | M1B |
+| Near-zoom plot/building targets conflict with district selection | High | Explicit input priority plus district hover/selection scene tests | M1A–M1B |
+| LOD switch hides required information or overloads the map | High | One data-driven threshold, far/middle summary contract and owner visual gate | M1A–M1B |
 | UI hides map or critical finance state | High | Resolution and interaction gates before rules expansion | M2 |
 | Financial duplication/corruption | High | Atomic transactions, ledger, duplicate guard, save tests | M3 |
 | Economy formulas are hard to balance | High | One rule engine and deterministic simulation | M4 |

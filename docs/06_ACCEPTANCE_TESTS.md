@@ -199,6 +199,10 @@ Pass when the north-up map preserves the approved relative arrangement of Manhat
 
 At minimum, test an unowned, human, rival, government, selected, auction, construction, warning and violation plot. Pass when ownership and state are clear and click/hover/selection use the authoritative plot ID.
 
+### `SCN-005A` District Hover, Selection and Detail
+
+Pass when hovering uncovered district space shows the approved indicative border without changing ownership presentation; clicking locks the border and opens the matching district detail page; the selection persists until another district is selected or explicitly closed; and at near zoom a plot/building hit target takes priority over its underlying district.
+
 ### `SCN-006` Pan
 
 Pass when:
@@ -224,7 +228,11 @@ Pass when:
 
 ### `SCN-008` Information Density
 
-Pass when far, middle and near zoom levels show the information tiers defined by the art-direction document, and the minimum interactive plot remains usable at the farthest allowed zoom.
+Pass when far and middle zoom hide every individual public and private building illustration and show each district summary in this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities and prosperity. At and above the approved near threshold, all public and private individual building illustrations appear. Standard and Luxury Apartments combine into the apartment count, the switch/crossfade follows data rather than texture resolution, and the minimum interactive target remains usable at the farthest allowed zoom.
+
+### `AUT-040` District Summary and Prosperity Contract
+
+For representative district fixtures, pass when the summary is derived from authoritative state and updates after relevant human/AI purchases, construction, transfer and demolition without a writable duplicate. The numeric prosperity score must include both participants' owner-approved development inputs, satisfy `50.0 <= score < 100.0`, display one decimal place and never equal `100.0`. The implementation must distinguish district prosperity from the global `Prosperity` economy phase and must not include transit in the formula unless the owner-approved formula explicitly does so.
 
 ## 9. Property and Building Rules
 
@@ -643,6 +651,8 @@ Owner approves the final integrated build only when:
 - all gameplay buildings use direct top-down views;
 - rival portraits are original rubber-hose-style designs rather than copies of a known character;
 - the reference image is not shipped as the playable background;
+- the supplied reference is absent from the runtime/export package, and production map layers have recorded AI/Figma provenance;
+- public and private building illustrations remain separate from the base map and obey the same approved near-zoom threshold;
 - identifiable content passes period/date review;
 - decoration does not obscure plot boundaries or state.
 
@@ -699,7 +709,7 @@ Pass when changing browser focus, returning to the tab and rapidly clicking a pe
 
 ## 22. Complete Match and Results
 
-### `AUT-040` Headless 20-Turn Simulation
+### `AUT-041` Headless 20-Turn Simulation
 
 For each rival and required fixed seeds, pass when the match reaches a legal terminal state with no dead phase, infinite auction, unresolved modal dependency or out-of-range action point.
 
@@ -707,7 +717,7 @@ For each rival and required fixed seeds, pass when the match reaches a legal ter
 
 Complete one representative match through the actual interface. Pass when property purchase, construction, redevelopment, brokered sale, lending, securities trading, at least one auction, economy change, zoning timeline, save/load and final result are exercised without a blocking defect.
 
-### `AUT-041` Net Worth and Tie-Breaks
+### `AUT-042` Net Worth and Tie-Breaks
 
 Pass when turn-20 ranking uses:
 
@@ -722,7 +732,7 @@ cash
 
 Ties resolve by reputation, then cash, then configured strategic plots. Exact component values and tie-break reason appear in the structured result.
 
-### `AUT-042` Terminal Results
+### `AUT-043` Terminal Results
 
 Cover and pass:
 

@@ -84,6 +84,17 @@ Required non-purchasable assets:
 - Multiple ordinary transit bonuses do not stack; only the highest applicable bonus is used.
 - The separate bridgehead bonus may apply in addition to one ordinary transit bonus.
 
+### 3.5 Map Presentation and District Detail
+
+- Map art, district geometry, plot geometry, building anchors and gameplay overlays share one normalized coordinate system registered to an approved crop and aspect ratio.
+- The supplied 1939 map is a development reference only. The production base is reconstructed in layers with AI-assisted art and/or Figma and must not embed dynamic public or private buildings.
+- District boundaries are closed vector polygons and define interaction; raster colors or painted border pixels do not define hit areas.
+- Hovering uncovered district space displays an indicative district border. Clicking locks the border and opens the district detail page until another district is selected or the selection is explicitly closed.
+- At near zoom, a plot or building hit target takes priority over the underlying district.
+- Far and middle zoom hide all individual public and private building illustrations and show a district summary in this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities, district prosperity.
+- At and above one owner-approved near-zoom threshold, all individual public and private building illustrations appear.
+- District prosperity is derived jointly from human and active-AI development, is clamped to `50.0 <= score < 100.0`, and is displayed to one decimal place. Its formula and English level bands are a later owner approval gate.
+
 ## 4. Fixed Building Scope
 
 Four rule-bearing building types:
