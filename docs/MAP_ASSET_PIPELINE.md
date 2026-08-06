@@ -1,44 +1,44 @@
-# Metropolis: Roaring Times — Figma Map Handoff and Asset Pipeline
+# 《Metropolis: Roaring Times》Figma 地图交付与素材流程
 
-> Document role: authoritative owner-to-Codex map handoff contract
+> 文档用途：老板向 Codex 交付地图素材时必须遵守的权威合同
 >
-> Source author: Owner in Figma
+> 源文件作者：老板（使用 Figma）
 >
-> Integration owner: Codex after owner delivery
+> 接入负责人：老板交付后由 Codex 负责
 >
-> Player-facing language: English
+> 玩家可见语言：英文；本开发文档：中文
 
-## 1. Authority and Non-Negotiable Boundary
+## 一、权责与不可违反的边界
 
-The owner authors and approves both the production map art and district geometry in Figma. Codex may validate, convert, optimize and integrate those submitted assets, but must not invent, redraw, approximate or silently correct district boundaries.
+正式底图美术和分区几何都由老板在 Figma 中创作并批准。Codex 可以检查、转换、优化和接入老板提交的素材，但不得自行发明、重画、近似或暗中修正分区边界。
 
-The supplied 1939 Manhattan image is a locked visual reference. It is not the production base and is never exported in the game.
+老板提供的 1939 年曼哈顿图片是锁定的视觉参考，不是正式底图，也不得被打包进游戏发布版本。
 
-No M1A map implementation begins until the owner submits the minimum package in section 7 and Codex completes an intake report. Missing assets create a reported dependency; they do not authorize placeholder geography.
+老板提交第七节规定的最低交付包，并且 Codex 完成素材接收报告之前，不得开始 M1A 地图实现。缺少素材属于必须向老板报告的依赖，不代表 Codex 获得制作占位地理的许可。
 
-## 2. Figma Master Dimensions
+## 二、Figma 主画框尺寸
 
-Use one master frame for every map-related page:
+所有地图相关页面使用同一个主画框：
 
-| Setting | Required value |
+| 设置项 | 必须使用的值 |
 |---|---|
-| Frame name | `MAP_MASTER_4474x5904` |
-| Width | `4474 px` |
-| Height | `5904 px` |
-| Aspect ratio | `0.7577913279132791` |
-| Orientation | Portrait, north-up |
-| Coordinate origin | Top-left `(0, 0)` |
-| Rotation | `0°` |
-| Color space for exported PNG | sRGB |
-| Pixel ratio | Export at `1×` unless Codex requests a test derivative |
+| 画框名称 | `MAP_MASTER_4474x5904` |
+| 宽度 | `4474 px` |
+| 高度 | `5904 px` |
+| 宽高比 | `0.7577913279132791` |
+| 方向 | 竖版，北向朝上 |
+| 坐标原点 | 左上角 `(0, 0)` |
+| 旋转 | `0°` |
+| PNG 导出色彩空间 | sRGB |
+| 像素倍率 | 默认以 `1×` 导出；只有 Codex 明确要求测试衍生文件时才例外 |
 
-These dimensions register the current reference crop. They do not limit in-game zoom. Camera zoom changes how much of the registered map the player sees; it does not change district positions.
+这个尺寸只用于登记当前参考图的裁切范围，不会限制游戏里的放大和缩小。镜头缩放只改变玩家看到的地图范围，不会改变分区位置。
 
-Every master frame must remain exactly `4474 × 5904`. Do not crop, resize, rotate, add an outer margin or move the content inside one page without applying the identical change to every map page and obtaining owner approval.
+每个主画框必须始终保持 `4474 × 5904`。未经老板批准，不得单独裁切、缩放、旋转、增加外边距或移动某个页面中的内容。确需变更时，所有地图页面必须进行完全相同的变更。
 
-## 3. Required Figma Pages
+## 三、Figma 必备页面
 
-Create these pages in this exact order:
+按照以下固定顺序建立页面：
 
 ```text
 00_README
@@ -49,44 +49,46 @@ Create these pages in this exact order:
 05_FUTURE_BUILDING_ANCHORS
 ```
 
-### `00_README`
+页面名保持英文是为了稳定导出和程序识别，页面说明使用中文。
 
-Contains:
+### `00_README`（项目说明）
 
-- project name and map revision;
-- `4474 × 5904` canvas lock;
-- north-up requirement;
-- export filenames from section 7;
-- current author/date;
-- change notes;
-- a warning that buildings and gameplay-state colors do not belong in the base map.
+应当写明：
 
-### `01_REFERENCE`
+- 项目名称和地图版本；
+- `4474 × 5904` 画框锁定要求；
+- 北向朝上的要求；
+- 第七节规定的导出文件名；
+- 当前作者和日期；
+- 修改记录；
+- “建筑和游戏状态颜色不得画入底图”的警告。
 
-- Contains the supplied historical reference inside `MAP_MASTER_4474x5904`.
-- The reference image is locked.
-- No production export is generated from this page.
-- Any crop/alignment guide is locked and named `registration_guide_do_not_export`.
+### `01_REFERENCE`（历史参考）
 
-### `02_MAP_BASE`
+- 将老板提供的历史参考图放在 `MAP_MASTER_4474x5904` 内。
+- 锁定参考图。
+- 此页面不得产生任何正式游戏导出素材。
+- 所有裁切或对齐辅助线必须锁定，并命名为 `registration_guide_do_not_export`。
 
-Contains the production art seen by the player. It uses the layer structure in section 4 and excludes every public/private building illustration and dynamic gameplay state.
+### `02_MAP_BASE`（正式底图）
 
-### `03_DISTRICT_GEOMETRY`
+放置玩家实际看到的正式地图美术。使用第四节的图层结构，不得包含任何公共或私人建筑插画，也不得包含会随游戏变化的状态。
 
-Contains the owner-authored district shapes on the same `4474 × 5904` frame. Each district is an editable, closed vector shape with the stable name in section 5.
+### `03_DISTRICT_GEOMETRY`（分区几何）
 
-### `04_ALIGNMENT_REVIEW`
+在相同的 `4474 × 5904` 画框中放置老板绘制的分区。每个分区都必须是可编辑、闭合的矢量形状，并使用第五节规定的稳定名称。
 
-Contains a review-only overlay of the production base plus district outlines and English district labels. It lets the owner and Codex confirm that art and geometry occupy the same positions.
+### `04_ALIGNMENT_REVIEW`（对齐审查）
 
-### `05_FUTURE_BUILDING_ANCHORS`
+仅用于审查：将正式底图、分区轮廓和英文分区名叠加在一起，供老板和 Codex 确认美术与几何位于同一位置。
 
-Reserved for a later approved stage. It remains empty during the initial map handoff unless the owner deliberately supplies anchors. Codex must not treat this empty page as permission to place buildings.
+### `05_FUTURE_BUILDING_ANCHORS`（未来建筑锚点）
 
-## 4. `02_MAP_BASE` Layer Structure
+留给以后经过批准的阶段。第一次地图交付时应保持为空，除非老板主动提交建筑锚点。Codex 不得因为页面为空就自行放置建筑。
 
-Inside `MAP_MASTER_4474x5904`, use this exact top-level order from back to front:
+## 四、`02_MAP_BASE` 图层结构
+
+在 `MAP_MASTER_4474x5904` 内，按照从后到前的顺序建立以下顶层图层：
 
 ```text
 00_REGISTRATION_DO_NOT_EXPORT
@@ -102,19 +104,19 @@ Inside `MAP_MASTER_4474x5904`, use this exact top-level order from back to front
 10_PRINT_TEXTURE
 ```
 
-Rules:
+图层名保持英文是为了稳定导出和程序识别。具体规则如下：
 
-- `00_REGISTRATION_DO_NOT_EXPORT` contains locked corner marks and alignment guides only.
-- `01_PAPER` through `10_PRINT_TEXTURE` remain editable in Figma.
-- Static paper, water, roads and ornament may be flattened only in the exported base PNG, never in the Figma master.
-- Public and private building illustrations are excluded from every base layer.
-- City Hall, the public library and other buildings are delivered later as separate building assets, even when government-owned.
-- Ownership, hover, selection, plot borders, prosperity, legal warnings and construction states are never painted into the base.
-- Player-facing map colors follow `04_MAP_AND_ART_DIRECTION.md`; technical district ID colors are not player-facing palette additions.
+- `00_REGISTRATION_DO_NOT_EXPORT` 只能放置锁定的角点标记和对齐辅助线。
+- `01_PAPER` 至 `10_PRINT_TEXTURE` 在 Figma 源文件中必须保持可编辑。
+- 静态纸张、水域、道路和装饰只能在导出的底图 PNG 中合并，不能在 Figma 主文件中永久合并。
+- 所有底图图层都不得包含公共或私人建筑插画。
+- 市政厅、公共图书馆等建筑即使属于政府，也要在后续作为独立建筑素材交付。
+- 所有权、悬停、选择、地块边界、繁荣度、法律警告和施工状态不得画入底图。
+- 玩家看到的地图颜色遵守 `04_MAP_AND_ART_DIRECTION.md`；分区识别用的技术色不是游戏配色的一部分。
 
-## 5. `03_DISTRICT_GEOMETRY` Layer Structure
+## 五、`03_DISTRICT_GEOMETRY` 图层结构
 
-Inside `MAP_MASTER_4474x5904`:
+在 `MAP_MASTER_4474x5904` 内使用以下结构：
 
 ```text
 00_REGISTRATION_DO_NOT_EXPORT
@@ -129,24 +131,24 @@ Inside `MAP_MASTER_4474x5904`:
 03_LABELS_DO_NOT_EXPORT
 ```
 
-Each item under `02_DISTRICTS_EXPORT` must:
+`02_DISTRICTS_EXPORT` 下的每一项都必须：
 
-- be authored and approved by the owner;
-- be a closed vector shape or a named group of closed shapes;
-- use no blur, shadow, texture, mask or image fill;
-- have no stroke in the production SVG export;
-- use a flat technical fill color;
-- remain inside the master frame;
-- not overlap another district unless the owner intentionally documents an exception;
-- preserve the exact stable layer name.
+- 由老板绘制并批准；
+- 是闭合矢量形状，或由多个闭合形状组成并使用统一名称的组；
+- 不使用模糊、阴影、纹理、蒙版或图片填充；
+- 在正式 SVG 导出中不带描边；
+- 使用单一的技术填充色；
+- 完整位于主画框之内；
+- 不与其他分区意外重叠；如有意重叠，必须由老板在说明文件中记录；
+- 保持上述稳定图层名完全不变。
 
-Hell's Kitchen and Lower East Side remain separate vector shapes even though they share one gameplay category.
+Hell's Kitchen 与 Lower East Side 虽然共享同一个玩法类别，但必须保持为两个独立矢量形状。因此项目中是五个玩法分组、六个独立分区几何。
 
-## 6. Technical District Colors
+## 六、分区技术色
 
-These colors exist only for the mask and alignment audit:
+以下颜色只用于分区蒙版和对齐检查，不会作为游戏画面的实际分区颜色：
 
-| District layer | Technical color |
+| 分区图层 | 技术色 |
 |---|---|
 | `district_central_park` | `#0000FF` |
 | `district_midtown` | `#00FF00` |
@@ -154,13 +156,13 @@ These colors exist only for the mask and alignment audit:
 | `district_lower_east_side` | `#FF00FF` |
 | `district_lower_manhattan` | `#FF0000` |
 | `district_brooklyn_bridgehead` | `#00FFFF` |
-| Outside all districts | `#000000` |
+| 所有分区以外 | `#000000` |
 
-The SVG is the authoritative district geometry. The color mask is a pixel-alignment cross-check and fallback source, not permission for Codex to redraw boundaries.
+分区 SVG 是边界几何的唯一权威。纯色蒙版只用于逐像素核对和备用验证，不能成为 Codex 重画边界的理由。
 
-## 7. Required Delivery Package
+## 七、必须交付的文件包
 
-The owner submits one versioned folder:
+老板提交一个带版本号的文件夹：
 
 ```text
 metropolis_map_v001/
@@ -174,66 +176,66 @@ metropolis_map_v001/
 └── OWNER_NOTES.md
 ```
 
-Required files:
+必须包含：
 
-1. **Figma source (`.fig`)** — editable authority and revision history snapshot.
-2. **Base PNG** — `4474 × 5904`, 1×, opaque sRGB PNG, no reference layer, buildings or gameplay states.
-3. **District SVG** — `width="4474"`, `height="5904"`, `viewBox="0 0 4474 5904"`; contains only the six owner-authored district shapes.
-4. **District mask PNG** — `4474 × 5904`, one technical color per district, black outside, no labels/effects. It must align pixel-for-pixel with the base PNG.
-5. **Alignment preview PNG** — `4474 × 5904`; base art plus visible district outlines and English names for human review only.
-6. **Owner notes** — revision, creator, delivery date, known unfinished areas and any deliberate geographic distortion.
+1. **Figma 源文件（`.fig`）**：可编辑的权威源文件和版本快照。
+2. **底图 PNG**：`4474 × 5904`、1×、不透明 sRGB PNG；不含参考图层、建筑或游戏状态。
+3. **分区 SVG**：`width="4474"`、`height="5904"`、`viewBox="0 0 4474 5904"`；只包含老板绘制的六个分区形状。
+4. **分区蒙版 PNG**：`4474 × 5904`；每个分区使用一种技术色，分区外为黑色，不含文字和效果；必须与底图逐像素对齐。
+5. **对齐预览 PNG**：`4474 × 5904`；显示底图、清晰分区轮廓和英文分区名，只供人工审查。
+6. **老板说明 `OWNER_NOTES.md`**：记录版本、作者、交付日期、已知未完成区域和任何有意进行的地理变形。
 
-If a live Figma link is supplied, the `.fig` snapshot is still required before the package becomes a committed project dependency.
+即使老板提供了在线 Figma 链接，在该素材包成为正式项目依赖前，仍必须提供 `.fig` 快照。
 
-## 8. How Position Matching Works
+## 八、底图与分区为什么能够准确对位
 
-The base PNG, district SVG and mask PNG share the same frame and origin. A point at `(x, y)` therefore means the same map location in all three files.
+底图 PNG、分区 SVG 和分区蒙版 PNG 使用相同画框和相同原点。因此，三个文件中的 `(x, y)` 都代表地图上的同一个位置。
 
-At runtime, Codex converts submitted SVG coordinates into normalized map coordinates:
+接入游戏时，Codex 将老板提交的 SVG 坐标换算为归一化地图坐标：
 
 ```text
 normalized_x = svg_x / 4474
 normalized_y = svg_y / 5904
 ```
 
-Zooming and dragging only transform the camera. They do not change these normalized positions. Replacing the base art is safe only when the replacement keeps the approved crop and aspect ratio.
+游戏中的放大、缩小和拖拽只会改变镜头，不会改变这些归一化位置。只有新底图继续使用已经批准的裁切范围和宽高比，替换底图才不会导致分区错位。
 
-## 9. Codex Intake Procedure
+## 九、Codex 接收素材后的固定流程
 
-After the owner submits the package, Codex must perform these steps in order:
+老板提交文件包后，Codex 必须依次执行：
 
-1. Preserve the submitted package unchanged in `references/incoming/`.
-2. Record filenames, dimensions, checksums, source author and date.
-3. Verify all four exports are `4474 × 5904` or use the exact SVG viewBox.
-4. Overlay the SVG and mask on the base and produce an alignment report.
-5. Check for open paths, overlaps, gaps, duplicate/missing stable names and out-of-frame geometry.
-6. Compare the alignment preview with the authoritative source; do not correct geography independently.
-7. Report every defect or ambiguity to the owner.
-8. Wait for corrected assets or explicit owner acceptance.
-9. Convert the approved SVG to normalized runtime JSON without changing vertices.
-10. Add derived files to `assets/`/`data/`, record provenance and run export-exclusion tests.
-11. Present the first Godot overlay to the owner before implementing 64 plots.
+1. 将提交包原样保存在 `references/incoming/`，不修改源文件。
+2. 记录文件名、尺寸、校验值、源文件作者和日期。
+3. 检查四个导出文件是否为 `4474 × 5904`，SVG 是否使用完全一致的画框。
+4. 将 SVG 和蒙版叠加到底图上，制作对齐报告。
+5. 检查未闭合路径、意外重叠、空隙、重名、缺名和超出画框的几何。
+6. 将对齐预览与权威源文件比较，不得自行修正地理。
+7. 把每一项缺陷或歧义报告给老板。
+8. 等待老板提交修正版，或者明确接受某项有意差异。
+9. 将批准后的 SVG 转为归一化运行时 JSON，不改变任何顶点。
+10. 把派生文件加入 `assets/` 或 `data/`，记录来源，并测试源文件没有进入游戏发布包。
+11. 在制作 64 个地块之前，先向老板展示第一次 Godot 对齐结果。
 
-No automatic simplification, smoothing or vertex deletion is allowed unless Codex shows the before/after result and receives owner approval.
+未经老板看到修改前后对比并明确批准，禁止自动简化、平滑或删除顶点。
 
-## 10. Building and LOD Boundary
+## 十、建筑与缩放层级的边界
 
-- The initial map handoff contains no individual building illustration in the base.
-- Public and private building art will be submitted as separate transparent assets in a later package.
-- Both categories use the same future owner-approved near-zoom threshold.
-- Far/middle district summaries and prosperity remain program-generated interface layers.
-- Codex may later propose building anchors, but the owner must approve them before bulk placement.
+- 第一次地图交付的底图中不包含任何独立建筑插画。
+- 公共建筑和私人建筑以后作为独立透明素材交付。
+- 两类建筑使用同一个由老板批准的近景显示阈值。
+- 远景和中景的分区摘要、建筑数量和繁荣度由程序界面生成。
+- Codex 后续可以提出建筑锚点方案，但批量放置前必须由老板批准。
 
-## 11. Rejection Conditions
+## 十一、必须拒收并停止的情况
 
-Codex must stop intake and report a blocker when:
+出现以下任意情况时，Codex 必须停止接入并向老板报告阻塞问题：
 
-- any required file is missing;
-- dimensions, crop, orientation or SVG viewBox do not match;
-- district layer names are missing or changed;
-- district shapes are open, overlapping unexpectedly or outside the frame;
-- the base contains baked public/private buildings or gameplay states;
-- the reference image appears in the production base export;
-- Codex cannot prove the base, SVG and mask share one coordinate registration.
+- 缺少任何必备文件；
+- 尺寸、裁切、方向或 SVG 画框不一致；
+- 分区图层名称缺失或被修改；
+- 分区形状未闭合、意外重叠或超出画框；
+- 底图中已经画入公共/私人建筑或游戏状态；
+- 正式底图导出中出现历史参考图；
+- Codex 无法证明底图、SVG 和蒙版使用同一套坐标登记。
 
-Rejected intake files remain preserved and are never silently overwritten.
+被拒收的文件仍然保持原样保存，绝不暗中覆盖。

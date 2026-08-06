@@ -1,5 +1,36 @@
 # Metropolis: Roaring Times — Development Log
 
+## DOC-L0 — 老板审查文档语言纠偏
+
+### 问题
+
+- 项目把“面向英语玩家”错误扩大成了“开发文档使用英文”；
+- 老板当前需要审查的地图交付规范使用英文，导致审查成本和误解风险上升；
+- `01_PRODUCT_BRIEF.md` 至 `07_IMPLEMENTATION_PLAN.md` 等历史权威规格也仍以英文为主。
+
+### 本阶段纠正
+
+- 将 `MAP_ASSET_PIPELINE.md` 完整改为中文，同时原样保留尺寸、颜色、文件名、Figma 页面/图层名、公式和稳定分区 ID；
+- 明确 `OWNER_PROJECT_REVIEW.md` 是中文老板审查入口，并清理非必要英文管理用语；
+- 在总纲和 `AGENTS.md` 中冻结语言边界：玩家内容英文，老板审查与团队实施文档中文，稳定技术标识保留英文；
+- 新增 `DOCUMENT_LANGUAGE_MIGRATION.md`，把其余英文规格分成四个受控翻译批次；
+- 本阶段不改变玩法、数值、代码和 M1A 地图门禁。
+
+### 当前门禁
+
+完成静态检查、Godot 基线测试和独立 Git 提交后停止。老板决定后续优先完成全部文档中文化，还是将翻译批次与后续里程碑交替安排；未获批准前不开始 M1A。
+
+### 验证结果
+
+- `git diff --check` 通过；
+- Markdown 相对链接检查通过；
+- 地图规范翻译前后的反引号技术标识完整性检查通过；
+- `4474 × 5904`、宽高比、SVG 画框、文件名、坐标公式和七种技术色的定向常量检查通过；
+- 三份当前老板审查/语言治理文档均以中文字符为主；
+- 未发现旧的“项目文档可以使用中文”宽松规则残留；
+- 未修改代码的 M0G 基线在 Godot `4.7.1.stable.steam.a13da4feb` 下通过，输出 `M0G_TESTS_PASS count=4`；
+- 受限测试环境仍产生已知的 macOS 系统 CA 读取警告，但没有项目测试因此失败。
+
 ## M1A-F — Owner-Authored Figma Handoff Correction
 
 ### Management Failure Report
