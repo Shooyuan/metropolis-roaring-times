@@ -1,5 +1,21 @@
 # Metropolis: Roaring Times — Development Log
 
+## TOOL-FIGMA-03 — Figma 主线程 UTF-8 兼容修复
+
+### 问题与决定
+
+- 真实 Figma 桌面版在开始导出结构 JSON 时报告 `'TextEncoder' is not defined`；
+- 原因是插件主线程不是普通浏览器页面，不能假定存在浏览器全局 `TextEncoder`；这与老板的地图图层或素材内容无关；
+- 改为插件内置 UTF-8 编码器，避免依赖该浏览器全局对象，继续支持中英文和 emoji 文本。
+
+### 风险与验证
+
+- 插件界面中的 ZIP 生成仍运行在浏览器式 UI 沙箱，保留其原生 `TextEncoder`；本次只替换 Figma 主线程中的不兼容调用；
+- 自动测试已在明确没有 `TextEncoder` 的主线程模拟环境中通过，并逐字节对照标准 UTF-8 编码；JavaScript 语法、ZIP 生成、系统解压和无网络权限检查也均通过；
+- 真实文件当前被识别为 `10334 × 14101`、6 个顶层图层，而非规范中的 `4474 × 5904`、7 层；这不会再阻止导出，但 ZIP 会保留尺寸警告，且缺少的 `00_BRAND` 只能使用老板已单独提供的 Brand 文件处理；
+- M0G 回归测试通过，Godot `4.7.1.stable.steam.a13da4feb` 输出 `M0G_TESTS_PASS count=4`；测试环境仍有既有 macOS 系统 CA 读取警告，但不影响项目测试；
+- 本阶段仍需老板重新运行插件完成一次真实 ZIP 导出，才能结束现场验收。
+
 ## TOOL-FIGMA-02 — 并列 Group 自动识别修复
 
 ### 问题与决定

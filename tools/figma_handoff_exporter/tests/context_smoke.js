@@ -55,9 +55,14 @@ const figma = {
   on() {},
   closePlugin() {}
 };
-const context = { figma, __html__: "", TextEncoder, console, Set, Date, Number, Math };
+const context = { figma, __html__: "", Uint8Array, console, Set, Date, Number, Math };
 vm.createContext(context);
 vm.runInContext(source, context, { filename: "code.js" });
+
+context.utf8Sample = "Metropolis 中文 🗽";
+const actualUtf8 = Buffer.from(vm.runInContext("utf8Encode(utf8Sample)", context));
+const expectedUtf8 = Buffer.from(context.utf8Sample, "utf8");
+if (!actualUtf8.equals(expectedUtf8)) throw new Error("插件自带 UTF-8 编码与标准结果不一致");
 
 const loose = vm.runInContext("selectedContext()", context);
 if (!loose || loose.kind !== "LOOSE_LAYERS") throw new Error("未识别并列顶层 Group");
