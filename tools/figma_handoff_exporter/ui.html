@@ -30,11 +30,11 @@
 </head>
 <body>
   <h1>Metropolis 一键交付</h1>
-  <p class="subtitle">选中地图主画框，然后一次导出图层关系、精确位置、颜色、矢量、原始图片和网页制作素材。</p>
+  <p class="subtitle">选中地图主画框，或七个顶层图层中的任意一层，然后一次导出图层关系、精确位置、颜色、矢量、原始图片和网页制作素材。</p>
 
   <section class="card status">
     <span id="status-dot" class="dot"></span>
-    <div><strong id="status-title">等待选择地图主画框</strong><p id="status-detail">请选择一个 Frame，或将主画框命名为 MAP_MASTER_4474x5904。</p></div>
+    <div><strong id="status-title">等待识别地图图层</strong><p id="status-detail">请选择 MAP_MASTER_4474x5904，或 06_FRAME 等任意一个规定顶层图层。</p></div>
   </section>
 
   <section class="card">
@@ -144,10 +144,10 @@
       if (message.type === 'ready') {
         masterReady = Boolean(message.master);
         document.getElementById('status-dot').classList.toggle('ok', masterReady);
-        document.getElementById('status-title').textContent = masterReady ? `已找到：${message.master.name}` : '等待选择地图主画框';
+        document.getElementById('status-title').textContent = masterReady ? `已找到：${message.master.name}` : '等待识别地图图层';
         document.getElementById('status-detail').textContent = masterReady
-          ? `${message.master.width} × ${message.master.height} · ${message.master.layerCount} 个顶层图层`
-          : '请选择一个 Frame，或将主画框命名为 MAP_MASTER_4474x5904。';
+          ? `${message.master.width} × ${message.master.height} · ${message.master.layerCount} 个顶层图层 · ${message.master.sourceKind === 'FRAME' ? '外层 Frame' : '并列图层模式'}`
+          : '请选择 MAP_MASTER_4474x5904，或 06_FRAME 等任意一个规定顶层图层。';
         button.disabled = !masterReady || busy;
       } else if (message.type === 'reset') {
         files.length = 0;

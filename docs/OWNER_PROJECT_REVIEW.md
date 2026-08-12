@@ -61,7 +61,7 @@
 老板在 Figma 中建立 `4474 × 5904 px`、北向朝上的主画框。为了减少手工工作，只需：
 
 1. 使用 `File → Save local copy…` 保存一份版本化 `.fig`。
-2. 选中主画框并运行项目插件 `Metropolis Handoff Exporter`。
+2. 选中主画框并运行项目插件 `Metropolis Handoff Exporter`；如果当前七个顶层图层是并列 Group，则选中其中任意一层，插件会自动使用虚拟主画框。
 3. 点击“一键导出 ZIP”。
 4. 把 `.fig` 和 ZIP 交给 Codex。
 

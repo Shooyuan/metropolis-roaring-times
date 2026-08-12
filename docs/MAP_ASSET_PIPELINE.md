@@ -165,7 +165,7 @@ Hell's Kitchen 与 Lower East Side 虽然共享同一个玩法类别，但必须
 tools/figma_handoff_exporter/
 ```
 
-老板在 Figma 桌面版选中 `MAP_MASTER_4474x5904`，运行 `Metropolis Handoff Exporter` 并点击“一键导出 ZIP”。插件自动生成底图、分区、对齐预览、Brand、逐层 SVG、原始图片和完整结构 JSON；老板不再需要手工完成多次导出。详细安装说明见该目录 `README.md`。
+老板在 Figma 桌面版选中 `MAP_MASTER_4474x5904`；如果七个规定顶层图层没有被外层 Frame 包裹，则选中其中任意一层即可。运行 `Metropolis Handoff Exporter` 并点击“一键导出 ZIP”。插件在后一种结构下自动建立不写回原稿的虚拟主画框，并生成底图、分区、对齐预览、Brand、逐层 SVG、原始图片和完整结构 JSON；老板不再需要手工完成多次导出。详细安装说明见该目录 `README.md`。
 
 插件 ZIP 保存网页接入需要的图层关系、位置、颜色、矢量和图片，但不能保存 Figma 版本历史、评论和协作信息，因此老板仍需另行保存一个 `.fig` 本地副本。
 

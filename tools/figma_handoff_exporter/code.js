@@ -7,6 +7,15 @@ const MASTER_WIDTH = 4474;
 const MASTER_HEIGHT = 5904;
 const DISTRICT_LAYER = "03_DISTRICT_GEOMETRY";
 const BRAND_LAYER = "00_BRAND";
+const EXPECTED_LAYER_NAMES = [
+  "06_FRAME",
+  "05_NON_BUILDING_ORNAMENT",
+  "04_ROADS",
+  DISTRICT_LAYER,
+  "02_COASTLINE",
+  "01_WATER",
+  BRAND_LAYER
+];
 
 function normalizeName(value) {
   return String(value || "unnamed")
@@ -168,37 +177,157 @@ function progress(message, current, total) {
   figma.ui.postMessage({ type: "progress", message, current, total });
 }
 
-function selectedMaster() {
-  const selected = figma.currentPage.selection;
-  if (selected.length === 1 && selected[0].type === "FRAME") {
-    const frame = selected[0];
-    if (frame.name === MASTER_NAME || (Math.round(frame.width) === MASTER_WIDTH && Math.round(frame.height) === MASTER_HEIGHT)) return frame;
+function nodeBounds(node) {
+  const bounds = safeProperty(node, "absoluteBoundingBox");
+  if (!bounds || typeof bounds !== "object") return null;
+  if (![bounds.x, bounds.y, bounds.width, bounds.height].every((value) => typeof value === "number" && Number.isFinite(value))) return null;
+  return bounds;
+}
+
+function expectedSiblings(node) {
+  if (!node || !node.parent || !("children" in node.parent)) return [];
+  return node.parent.children.filter((child) => EXPECTED_LAYER_NAMES.includes(child.name));
+}
+
+function exactCanvasNode(layers) {
+  const priority = ["01_WATER", "06_FRAME", ...EXPECTED_LAYER_NAMES];
+  for (const name of priority) {
+    const node = layers.find((candidate) => candidate.name === name);
+    const bounds = node ? nodeBounds(node) : null;
+    if (bounds && Math.round(bounds.width) === MASTER_WIDTH && Math.round(bounds.height) === MASTER_HEIGHT) return node;
   }
-  const exact = figma.currentPage.findOne((node) => node.type === "FRAME" && node.name === MASTER_NAME);
-  if (exact && exact.type === "FRAME") return exact;
   return null;
 }
 
-function findLayer(master, name) {
-  const direct = master.children.find((child) => child.name === name);
-  if (direct) return direct;
-  return master.findOne((node) => node.name === name);
+function unionBounds(layers) {
+  const bounds = layers.map(nodeBounds).filter(Boolean);
+  if (!bounds.length) return null;
+  const left = Math.min(...bounds.map((item) => item.x));
+  const top = Math.min(...bounds.map((item) => item.y));
+  const right = Math.max(...bounds.map((item) => item.x + item.width));
+  const bottom = Math.max(...bounds.map((item) => item.y + item.height));
+  return { x: left, y: top, width: right - left, height: bottom - top };
 }
 
-function findBrandNode(master) {
-  return findLayer(master, BRAND_LAYER) || figma.currentPage.findOne((node) => node.name === BRAND_LAYER);
+function looseContext(layers, parent) {
+  if (layers.length < 3) return null;
+  const canvasNode = exactCanvasNode(layers) || layers.find((node) => node.name === "06_FRAME") || layers.find((node) => node.name === "01_WATER");
+  const bounds = (canvasNode && nodeBounds(canvasNode)) || unionBounds(layers);
+  if (!bounds) return null;
+  return {
+    kind: "LOOSE_LAYERS",
+    id: `virtual:${parent.id}`,
+    name: MASTER_NAME,
+    parent,
+    masterNode: null,
+    layers,
+    bounds,
+    width: bounds.width,
+    height: bounds.height,
+    rotation: 0
+  };
+}
+
+function selectedContext() {
+  const selected = figma.currentPage.selection;
+  if (selected.length === 1 && selected[0].type === "FRAME") {
+    const frame = selected[0];
+    if (frame.name === MASTER_NAME || (Math.round(frame.width) === MASTER_WIDTH && Math.round(frame.height) === MASTER_HEIGHT)) {
+      const bounds = nodeBounds(frame) || { x: frame.x, y: frame.y, width: frame.width, height: frame.height };
+      return {
+        kind: "FRAME",
+        id: frame.id,
+        name: frame.name,
+        parent: frame,
+        masterNode: frame,
+        layers: Array.from(frame.children),
+        bounds,
+        width: frame.width,
+        height: frame.height,
+        rotation: frame.rotation
+      };
+    }
+  }
+  if (selected.length === 1 && EXPECTED_LAYER_NAMES.includes(selected[0].name)) {
+    const context = looseContext(expectedSiblings(selected[0]), selected[0].parent);
+    if (context) return context;
+  }
+  const exact = figma.currentPage.findOne((node) => node.type === "FRAME" && node.name === MASTER_NAME);
+  if (exact && exact.type === "FRAME") {
+    const bounds = nodeBounds(exact) || { x: exact.x, y: exact.y, width: exact.width, height: exact.height };
+    return {
+      kind: "FRAME",
+      id: exact.id,
+      name: exact.name,
+      parent: exact,
+      masterNode: exact,
+      layers: Array.from(exact.children),
+      bounds,
+      width: exact.width,
+      height: exact.height,
+      rotation: exact.rotation
+    };
+  }
+  const pageLayers = figma.currentPage.children.filter((node) => EXPECTED_LAYER_NAMES.includes(node.name));
+  const pageContext = looseContext(pageLayers, figma.currentPage);
+  if (pageContext) return pageContext;
+  return null;
+}
+
+function findLayer(context, name) {
+  const direct = context.layers.find((child) => child.name === name);
+  if (direct) return direct;
+  if (context.masterNode && "findOne" in context.masterNode) return context.masterNode.findOne((node) => node.name === name);
+  return null;
+}
+
+function findBrandNode(context) {
+  return findLayer(context, BRAND_LAYER) || figma.currentPage.findOne((node) => node.name === BRAND_LAYER);
 }
 
 function setTopVisibility(frame, predicate) {
   for (const child of frame.children) child.visible = predicate(child);
 }
 
-async function exportClone(master, mode, format) {
-  const clone = master.clone();
+function relativeTransformFor(node, bounds) {
+  const transform = safeProperty(node, "absoluteTransform");
+  if (!Array.isArray(transform) || transform.length !== 2) return null;
+  return [
+    [transform[0][0], transform[0][1], transform[0][2] - bounds.x],
+    [transform[1][0], transform[1][1], transform[1][2] - bounds.y]
+  ];
+}
+
+function createContextClone(context, name) {
+  if (context.kind === "FRAME") {
+    const clone = context.masterNode.clone();
+    clone.name = name;
+    clone.x = context.bounds.x + context.width + 2048;
+    clone.y = context.bounds.y;
+    figma.currentPage.appendChild(clone);
+    return clone;
+  }
+  const frame = figma.createFrame();
+  frame.name = name;
+  frame.resizeWithoutConstraints(context.width, context.height);
+  frame.fills = [];
+  frame.strokes = [];
+  frame.effects = [];
+  frame.clipsContent = true;
+  frame.x = context.bounds.x + context.width + 2048;
+  frame.y = context.bounds.y;
+  for (const layer of context.layers) {
+    const clone = layer.clone();
+    const transform = relativeTransformFor(layer, context.bounds);
+    frame.appendChild(clone);
+    if (transform) clone.relativeTransform = transform;
+  }
+  return frame;
+}
+
+async function exportContext(context, mode, format) {
+  const clone = createContextClone(context, `__handoff_${mode}__`);
   clone.name = `__handoff_${mode}__`;
-  clone.x = master.x + master.width + 2048;
-  clone.y = master.y;
-  figma.currentPage.appendChild(clone);
   try {
     if (mode === "map_base") {
       setTopVisibility(clone, (child) => child.name !== DISTRICT_LAYER && child.name !== BRAND_LAYER);
@@ -207,11 +336,11 @@ async function exportClone(master, mode, format) {
       clone.strokes = [];
       clone.effects = [];
       setTopVisibility(clone, (child) => child.name === DISTRICT_LAYER);
-      const district = findLayer(clone, DISTRICT_LAYER);
+      const district = clone.findOne((node) => node.name === DISTRICT_LAYER);
       if (district) district.visible = true;
     } else if (mode === "alignment_preview") {
       setTopVisibility(clone, (child) => child.name !== BRAND_LAYER);
-      const district = findLayer(clone, DISTRICT_LAYER);
+      const district = clone.findOne((node) => node.name === DISTRICT_LAYER);
       if (district) district.visible = true;
     }
     const settings = format === "SVG"
@@ -223,18 +352,20 @@ async function exportClone(master, mode, format) {
   }
 }
 
-async function exportLayerOnMasterCanvas(master, layer) {
+async function exportLayerOnMasterCanvas(context, layer) {
   const frame = figma.createFrame();
   frame.name = `__handoff_layer_${normalizeName(layer.name)}__`;
-  frame.resizeWithoutConstraints(master.width, master.height);
+  frame.resizeWithoutConstraints(context.width, context.height);
   frame.fills = [];
   frame.strokes = [];
   frame.effects = [];
   frame.clipsContent = true;
-  frame.x = master.x + master.width + 2048;
-  frame.y = master.y;
+  frame.x = context.bounds.x + context.width + 2048;
+  frame.y = context.bounds.y;
   const clone = layer.clone();
+  const transform = relativeTransformFor(layer, context.bounds);
   frame.appendChild(clone);
+  if (transform) clone.relativeTransform = transform;
   try {
     return await frame.exportAsync({ format: "SVG", svgIdAttribute: true, svgOutlineText: false, svgSimplifyStroke: false });
   } finally {
@@ -242,14 +373,14 @@ async function exportLayerOnMasterCanvas(master, layer) {
   }
 }
 
-async function exportBrand(master) {
-  const brand = findBrandNode(master);
+async function exportBrand(context) {
+  const brand = findBrandNode(context);
   if (!brand || !("exportAsync" in brand)) return null;
   const clone = brand.clone();
   if ("visible" in clone) clone.visible = true;
   clone.name = "__handoff_brand__";
-  clone.x = master.x + master.width + 2048;
-  clone.y = master.y;
+  clone.x = context.bounds.x + context.width + 2048;
+  clone.y = context.bounds.y;
   figma.currentPage.appendChild(clone);
   try {
     const svg = await clone.exportAsync({ format: "SVG", svgIdAttribute: true, svgOutlineText: false, svgSimplifyStroke: false });
@@ -261,15 +392,31 @@ async function exportBrand(master) {
 }
 
 async function runExport(options) {
-  const master = selectedMaster();
-  if (!master) throw new Error(`请选中地图主画框，或将主画框命名为 ${MASTER_NAME}。`);
+  const context = selectedContext();
+  if (!context) throw new Error(`请选择 ${MASTER_NAME}，或七个规定顶层图层中的任意一层。`);
   const warnings = [];
-  if (Math.round(master.width) !== MASTER_WIDTH || Math.round(master.height) !== MASTER_HEIGHT) {
-    warnings.push(`主画框当前为 ${master.width} × ${master.height}，不是规定的 ${MASTER_WIDTH} × ${MASTER_HEIGHT}。`);
+  if (Math.round(context.width) !== MASTER_WIDTH || Math.round(context.height) !== MASTER_HEIGHT) {
+    warnings.push(`识别到的地图画布为 ${context.width} × ${context.height}，不是规定的 ${MASTER_WIDTH} × ${MASTER_HEIGHT}。`);
   }
-  const masterBounds = master.absoluteBoundingBox || { x: master.x, y: master.y, width: master.width, height: master.height };
+  const masterBounds = context.bounds;
   const timestamp = new Date().toISOString();
-  const topLayers = master.children.map((node, index) => ({ index, id: node.id, name: node.name, type: node.type, visible: node.visible }));
+  const topLayers = context.layers.map((node, index) => ({ index, id: node.id, name: node.name, type: node.type, visible: node.visible }));
+  const tree = context.masterNode
+    ? serializeNode(context.masterNode, masterBounds)
+    : {
+        id: context.id,
+        name: context.name,
+        type: "VIRTUAL_FRAME",
+        parentId: context.parent.id,
+        siblingIndex: null,
+        properties: {
+          width: context.width,
+          height: context.height,
+          rotation: 0,
+          absoluteBoundingBox: toPlain(masterBounds, new Set(), 0)
+        },
+        children: context.layers.map((node) => serializeNode(node, masterBounds))
+      };
   const manifest = {
     format: "metropolis_figma_handoff",
     formatVersion: 1,
@@ -277,38 +424,39 @@ async function runExport(options) {
     fileName: figma.root.name,
     page: { id: figma.currentPage.id, name: figma.currentPage.name },
     master: {
-      id: master.id,
-      name: master.name,
-      width: master.width,
-      height: master.height,
-      rotation: master.rotation,
+      id: context.id,
+      name: context.name,
+      sourceKind: context.kind,
+      width: context.width,
+      height: context.height,
+      rotation: context.rotation,
       absoluteBoundingBox: toPlain(masterBounds, new Set(), 0)
     },
     topLayers,
     warnings,
     pages: figma.root.children.map((page) => ({ id: page.id, name: page.name, type: page.type })),
-    tree: serializeNode(master, masterBounds),
+    tree,
     currentPageTree: figma.currentPage.children.map((node) => serializeNode(node, masterBounds))
   };
 
-  const total = 7 + master.children.length;
+  const total = 7 + context.layers.length;
   let step = 0;
   progress("保存完整图层树和样式", ++step, total);
   postText("handoff/figma_document.json", JSON.stringify(manifest, null, 2));
 
   progress("导出完整主画框 SVG", ++step, total);
-  postFile("export/master_full.svg", await master.exportAsync({ format: "SVG", svgIdAttribute: true, svgOutlineText: false, svgSimplifyStroke: false }));
+  postFile("export/master_full.svg", await exportContext(context, "full", "SVG"));
 
   progress("导出网页地图底图 PNG", ++step, total);
-  postFile("export/metropolis_map_base.png", await exportClone(master, "map_base", "PNG"));
+  postFile("export/metropolis_map_base.png", await exportContext(context, "map_base", "PNG"));
 
   progress("导出分区几何 SVG", ++step, total);
-  postFile("export/metropolis_district_geometry.svg", await exportClone(master, "district_geometry", "SVG"));
+  postFile("export/metropolis_district_geometry.svg", await exportContext(context, "district_geometry", "SVG"));
 
   progress("导出地图对齐预览 PNG", ++step, total);
-  postFile("export/metropolis_alignment_preview.png", await exportClone(master, "alignment_preview", "PNG"));
+  postFile("export/metropolis_alignment_preview.png", await exportContext(context, "alignment_preview", "PNG"));
 
-  const brand = await exportBrand(master);
+  const brand = await exportBrand(context);
   progress("导出独立 Brand", ++step, total);
   if (brand) {
     postFile("export/metropolis_brand_logo.svg", brand.svg);
@@ -318,11 +466,11 @@ async function runExport(options) {
   }
 
   if (options.includeLayerSvg) {
-    for (let index = 0; index < master.children.length; index += 1) {
-      const layer = master.children[index];
+    for (let index = 0; index < context.layers.length; index += 1) {
+      const layer = context.layers[index];
       progress(`导出独立图层：${layer.name}`, ++step, total);
       const prefix = String(index).padStart(2, "0");
-      postFile(`layers/${prefix}_${normalizeName(layer.name)}.svg`, await exportLayerOnMasterCanvas(master, layer));
+      postFile(`layers/${prefix}_${normalizeName(layer.name)}.svg`, await exportLayerOnMasterCanvas(context, layer));
     }
   }
 
@@ -342,7 +490,8 @@ async function runExport(options) {
     "",
     `导出时间：${timestamp}`,
     `Figma 文件：${figma.root.name}`,
-    `主画框：${master.name} (${master.width} × ${master.height})`,
+    `地图画布：${context.name} (${context.width} × ${context.height})`,
+    `识别方式：${context.kind === "FRAME" ? "外层 Frame" : "并列顶层图层（虚拟主画框）"}`,
     "",
     "handoff/figma_document.json 保存完整图层树、父子关系、顺序、位置、尺寸、变换、颜色、填充、描边、效果、文字和矢量路径。",
     "export/ 保存网页制作直接使用的地图、分区、对齐预览和 Brand。",
@@ -353,15 +502,22 @@ async function runExport(options) {
     warnings.length ? `\n警告：\n- ${warnings.join("\n- ")}` : "\n检查未产生警告。"
   ].join("\n");
   postText("README_ZH_CN.txt", readme);
-  postText("handoff/export_summary.json", JSON.stringify({ warnings, imageCount: hashes.size, topLayerCount: master.children.length }, null, 2));
+  postText("handoff/export_summary.json", JSON.stringify({ warnings, imageCount: hashes.size, topLayerCount: context.layers.length, sourceKind: context.kind }, null, 2));
   figma.ui.postMessage({ type: "complete", warnings, fileName: `metropolis_handoff_${Date.now()}.zip` });
 }
 
 function sendReady() {
-  const master = selectedMaster();
+  const context = selectedContext();
   figma.ui.postMessage({
     type: "ready",
-    master: master ? { id: master.id, name: master.name, width: master.width, height: master.height, layerCount: master.children.length } : null,
+    master: context ? {
+      id: context.id,
+      name: context.name,
+      width: context.width,
+      height: context.height,
+      layerCount: context.layers.length,
+      sourceKind: context.kind
+    } : null,
     selectionCount: figma.currentPage.selection.length
   });
 }

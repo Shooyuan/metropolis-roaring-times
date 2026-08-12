@@ -29,14 +29,16 @@
 
 ## 每次导出
 
-1. 选中地图最外层主画框。
-2. 主画框应命名为 `MAP_MASTER_4474x5904`，尺寸应为 `4474 × 5904`。
+1. 选中地图最外层主画框；如果七个地图图层像当前文件一样直接并列，则选中 `06_FRAME`、`05_NON_BUILDING_ORNAMENT`、`04_ROADS`、`03_DISTRICT_GEOMETRY`、`02_COASTLINE`、`01_WATER` 或 `00_BRAND` 中任意一层即可。
+2. 插件优先读取名为 `MAP_MASTER_4474x5904` 的外层 Frame；没有外层 Frame 时，会按同级图层的位置和顺序临时建立 `4474 × 5904` 虚拟主画框，不会改变原稿。
 3. 运行 `Metropolis Handoff Exporter`。
 4. 确认插件显示正确尺寸和顶层图层数量。
 5. 点击“一键导出 ZIP”。
 6. 将下载的 ZIP 文件放入项目或直接交给 Codex 检查。
 
 不需要手工隐藏图层，不需要分别导出 PNG/SVG，也不需要截图解释位置。
+
+如果插件仍显示“等待识别地图图层”，先关闭插件窗口，再从 `Plugins → Development → Metropolis Handoff Exporter` 重新运行，以载入最新代码。
 
 ## ZIP 内容
 
