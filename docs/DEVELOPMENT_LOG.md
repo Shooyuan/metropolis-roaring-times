@@ -1,5 +1,28 @@
 # Metropolis: Roaring Times — Development Log
 
+## M1A-BRAND-D — Brand 标题、署名与独立导出决策
+
+### 老板决定
+
+- 正式 Brand 必须使用完整标题 `Metropolis: Roaring Times`，保留冒号；
+- 公开保留署名 `designed and drawn by GatChive`；
+- Brand 从地图底图拆出，作为独立素材导出和运行时放置；
+- Figma 地图顶层遮挡顺序以老板批准的 `06_FRAME`、`05_NON_BUILDING_ORNAMENT`、`04_ROADS`、`03_DISTRICT_GEOMETRY`、`02_COASTLINE`、`01_WATER`、`00_BRAND` 为准。
+
+### 已收素材的只读检查
+
+- `00_BRAND.svg` 是合法 SVG，画框 `2450 × 2538`，透明背景正常，文字已转矢量路径；
+- 文件包含一张 `2280 × 930` 的内嵌 PNG、11 个蒙版和 3 个滤镜，正式 Godot Web 接入前仍需进行 SVG/透明 PNG 视觉对照；
+- 当前导出标题缺少冒号，底部约有 `88 px` 透明余量，因此仍等待老板从 Figma 重新导出修正版；
+- 本次文档决策阶段不修改、移动或提交老板的 `.fig` 和 SVG 源素材。
+
+### 验证结果
+
+- Git 空白检查与 Markdown 相对链接检查通过；
+- 标题、署名、独立 Brand 和老板批准的七层遮挡顺序已同步到总纲、产品、美术、验收、计划与素材流程；
+- 未修改代码的 M0G 基线在 Godot `4.7.1.stable.steam.a13da4feb` 下通过，输出 `M0G_TESTS_PASS count=4`；
+- 受限测试环境仍产生已知的 macOS 系统 CA 读取警告，但没有项目测试因此失败。
+
 ## DOC-L0 — 老板审查文档语言纠偏
 
 ### 问题

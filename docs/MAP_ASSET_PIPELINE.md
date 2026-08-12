@@ -86,29 +86,26 @@
 
 留给以后经过批准的阶段。第一次地图交付时应保持为空，除非老板主动提交建筑锚点。Codex 不得因为页面为空就自行放置建筑。
 
-## 四、`02_MAP_BASE` 图层结构
+## 四、老板批准的地图图层结构
 
-在 `MAP_MASTER_4474x5904` 内，按照从后到前的顺序建立以下顶层图层：
+在地图 Figma 源文件中，按照面板从上到下使用以下固定顺序。该顺序是老板根据实际遮挡结果批准的生产顺序，不得为了通用模板重新排序：
 
 ```text
-00_REGISTRATION_DO_NOT_EXPORT
-01_PAPER
-02_WATER
-03_COASTLINE
+06_FRAME
+05_NON_BUILDING_ORNAMENT
 04_ROADS
-05_DISTRICT_TONE
-06_TRANSIT_LINES_AND_BRIDGES
-07_LABELS
-08_NON_BUILDING_ORNAMENT
-09_FRAME
-10_PRINT_TEXTURE
+03_DISTRICT_GEOMETRY
+02_COASTLINE
+01_WATER
+00_BRAND
 ```
 
 图层名保持英文是为了稳定导出和程序识别。具体规则如下：
 
-- `00_REGISTRATION_DO_NOT_EXPORT` 只能放置锁定的角点标记和对齐辅助线。
-- `01_PAPER` 至 `10_PRINT_TEXTURE` 在 Figma 源文件中必须保持可编辑。
-- 静态纸张、水域、道路和装饰只能在导出的底图 PNG 中合并，不能在 Figma 主文件中永久合并。
+- 七个顶层图层在 Figma 源文件中保持独立可编辑。
+- `06_FRAME`、`05_NON_BUILDING_ORNAMENT`、`04_ROADS`、`02_COASTLINE` 和 `01_WATER` 可以合并到正式底图 PNG，但不得在 Figma 主文件中永久合并。
+- `03_DISTRICT_GEOMETRY` 只用于权威分区几何、蒙版和对齐审查，导出正式底图 PNG 时必须隐藏。
+- `00_BRAND` 是独立 Logo 图层，导出正式底图 PNG 时必须隐藏并单独导出；其正式标题必须为 `Metropolis: Roaring Times`，并保留老板批准的公开署名 `designed and drawn by GatChive`。
 - 所有底图图层都不得包含公共或私人建筑插画。
 - 市政厅、公共图书馆等建筑即使属于政府，也要在后续作为独立建筑素材交付。
 - 所有权、悬停、选择、地块边界、繁荣度、法律警告和施工状态不得画入底图。
@@ -184,6 +181,7 @@ metropolis_map_v001/
 4. **分区蒙版 PNG**：`4474 × 5904`；每个分区使用一种技术色，分区外为黑色，不含文字和效果；必须与底图逐像素对齐。
 5. **对齐预览 PNG**：`4474 × 5904`；显示底图、清晰分区轮廓和英文分区名，只供人工审查。
 6. **老板说明 `OWNER_NOTES.md`**：记录版本、作者、交付日期、已知未完成区域和任何有意进行的地理变形。
+7. **独立 Brand 素材**：保留可编辑源层，并导出不带地图底图的透明 Logo；标题与署名必须符合第四节。
 
 即使老板提供了在线 Figma 链接，在该素材包成为正式项目依赖前，仍必须提供 `.fig` 快照。
 

@@ -664,6 +664,7 @@ Approve the production asset language before bulk generation or illustration.
 
 ### 18.2 Work
 
+- Integrate the owner-approved Brand as a separate asset using the exact title `Metropolis: Roaring Times` and retained public credit `designed and drawn by GatChive`; do not bake it into the map base.
 - Produce one top-down sample for each building category.
 - Produce one neutral rival portrait and two emotion samples in the approved original rubber-hose direction.
 - Produce one event-card illustration.

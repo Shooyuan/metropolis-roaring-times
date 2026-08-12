@@ -292,6 +292,9 @@ The vertical slice requires only the stable layout reservation and fallback text
 
 ## 12. UI Direction
 
+- The approved Brand/Logo displays the exact title `Metropolis: Roaring Times`, including the colon, and retains the public credit `designed and drawn by GatChive`.
+- The Brand remains a separate asset from the map base so UI placement and scaling do not alter map registration.
+
 - UI framing uses restrained Art Deco geometry derived from the reference border.
 - Panels use paper surfaces and ink edges; no glassmorphism, neon glow or modern blue dashboard styling.
 - Primary text uses `ink_primary`; secondary text uses `ink_secondary` only when contrast remains readable.
@@ -337,6 +340,8 @@ Motion respects a reduced-motion setting where practical.
 
 ## 14. Asset Production Rules
 
+- The Figma source keeps the owner-approved top-to-bottom stacking order `06_FRAME`, `05_NON_BUILDING_ORNAMENT`, `04_ROADS`, `03_DISTRICT_GEOMETRY`, `02_COASTLINE`, `01_WATER`, `00_BRAND`; actual visual occlusion takes precedence over the superseded generic layer template.
+- `00_BRAND` exports separately and is excluded from the flattened map-base export.
 - Programmatic geometry owns coastline, roads, plots, collision, ownership and rule overlays.
 - SVG is preferred for icons, ornaments and simple line art that Godot imports reliably.
 - Transparent raster assets use lossless PNG during editing; optimized Web variants require visual comparison before replacement.

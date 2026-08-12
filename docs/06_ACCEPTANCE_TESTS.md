@@ -150,6 +150,8 @@ Pass when all player-facing labels, buttons, errors, events, tutorials, tooltips
 
 The product title must appear as `Metropolis: Roaring Times`. Government-source rumors use `Sources familiar with the New York State Government`.
 
+The Brand/Logo passes only when it includes the colon in `Metropolis: Roaring Times`, visibly retains the owner-approved credit `designed and drawn by GatChive`, remains a separate asset from the map base and introduces no unintended opaque background.
+
 ### `DOC-006` Deferred-Control Audit
 
 Pass when there is no non-functional visible control for the full property exchange, sealed owner bid, hostile acquisition, poison pill, private negotiation, player-built transit, commodity futures, broker margin, multiplayer or other deferred system. `Auction House` may truthfully show `No scheduled auctions`; the reserved Game Brief mascot area must have a clear non-conversational fallback rather than a fake working chat.

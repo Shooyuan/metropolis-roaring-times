@@ -7,6 +7,8 @@
 > Chinese reference title: 《大都会：咆哮年代》
 >
 > Player-facing language: **English**
+
+The approved player-facing brand must retain the exact punctuation `Metropolis: Roaring Times` and the public credit `designed and drawn by GatChive`.
 >
 > Authoritative scope: `../00_PROJECT_CONTEXT.md`
 
