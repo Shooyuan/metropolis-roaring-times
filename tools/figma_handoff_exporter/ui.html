@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Metropolis Handoff Exporter</title>
+  <style>
+    :root { color-scheme: light dark; font-family: Inter, system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 18px; color: var(--figma-color-text); background: var(--figma-color-bg); }
+    h1 { margin: 0 0 5px; font-size: 18px; }
+    .subtitle { margin: 0 0 16px; color: var(--figma-color-text-secondary); font-size: 12px; line-height: 1.45; }
+    .card { margin-bottom: 12px; padding: 12px; border: 1px solid var(--figma-color-border); border-radius: 8px; background: var(--figma-color-bg-secondary); }
+    .status { display: flex; align-items: flex-start; gap: 9px; }
+    .dot { flex: 0 0 10px; width: 10px; height: 10px; margin-top: 4px; border-radius: 50%; background: #d84b4b; }
+    .dot.ok { background: #2e9b63; }
+    .status strong { display: block; margin-bottom: 3px; font-size: 13px; }
+    .status p { margin: 0; color: var(--figma-color-text-secondary); font-size: 11px; line-height: 1.45; }
+    label { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; line-height: 1.4; }
+    input { margin-top: 2px; }
+    button { width: 100%; min-height: 38px; border: 0; border-radius: 7px; color: white; background: #a63c32; font-weight: 700; cursor: pointer; }
+    button:hover:not(:disabled) { background: #873129; }
+    button:disabled { cursor: not-allowed; opacity: .45; }
+    progress { width: 100%; height: 8px; margin: 12px 0 5px; accent-color: #a63c32; }
+    #progress-text { min-height: 32px; margin: 0; color: var(--figma-color-text-secondary); font-size: 11px; line-height: 1.4; }
+    .note { margin: 12px 0 0; color: var(--figma-color-text-secondary); font-size: 10px; line-height: 1.45; }
+    .error { color: #d84b4b !important; }
+    .success { color: #2e9b63 !important; }
+  </style>
+</head>
+<body>
+  <h1>Metropolis 一键交付</h1>
+  <p class="subtitle">选中地图主画框，然后一次导出图层关系、精确位置、颜色、矢量、原始图片和网页制作素材。</p>
+
+  <section class="card status">
+    <span id="status-dot" class="dot"></span>
+    <div><strong id="status-title">等待选择地图主画框</strong><p id="status-detail">请选择一个 Frame，或将主画框命名为 MAP_MASTER_4474x5904。</p></div>
+  </section>
+
+  <section class="card">
+    <label><input id="layer-svg" type="checkbox" checked> <span>同时导出每个顶层图层的全画框 SVG。文件更大，但最方便网页制作和检查位置。</span></label>
+  </section>
+
+  <button id="export-button" type="button" disabled>一键导出 ZIP</button>
+  <progress id="progress" value="0" max="1"></progress>
+  <p id="progress-text">尚未开始。</p>
+  <p class="note">插件不会联网，也不会保存密钥。导出期间会创建临时副本并立即删除，原始画面不会被改写。ZIP 不能替代 Figma 的版本历史，因此仍应保留 `.fig` 本地副本。</p>
+
+  <script>
+    const files = [];
+    let masterReady = false;
+    let busy = false;
+    const button = document.getElementById('export-button');
+    const progressBar = document.getElementById('progress');
+    const progressText = document.getElementById('progress-text');
+
+    function crcTable() {
+      const table = new Uint32Array(256);
+      for (let n = 0; n < 256; n += 1) {
+        let c = n;
+        for (let k = 0; k < 8; k += 1) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+        table[n] = c >>> 0;
+      }
+      return table;
+    }
+    const CRC_TABLE = crcTable();
+
+    function crc32(bytes) {
+      let crc = 0xffffffff;
+      for (let i = 0; i < bytes.length; i += 1) crc = CRC_TABLE[(crc ^ bytes[i]) & 0xff] ^ (crc >>> 8);
+      return (crc ^ 0xffffffff) >>> 0;
+    }
+
+    function u16(value) {
+      return new Uint8Array([value & 255, (value >>> 8) & 255]);
+    }
+
+    function u32(value) {
+      return new Uint8Array([value & 255, (value >>> 8) & 255, (value >>> 16) & 255, (value >>> 24) & 255]);
+    }
+
+    function zipDate(date) {
+      const year = Math.max(1980, date.getFullYear());
+      return {
+        time: (date.getHours() << 11) | (date.getMinutes() << 5) | Math.floor(date.getSeconds() / 2),
+        date: ((year - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate()
+      };
+    }
+
+    function buildZip(entries) {
+      const encoder = new TextEncoder();
+      const localParts = [];
+      const centralParts = [];
+      const now = zipDate(new Date());
+      let offset = 0;
+      for (const entry of entries) {
+        const name = encoder.encode(entry.path);
+        const data = entry.bytes instanceof Uint8Array ? entry.bytes : new Uint8Array(entry.bytes);
+        const crc = crc32(data);
+        const local = [
+          u32(0x04034b50), u16(20), u16(0x0800), u16(0), u16(now.time), u16(now.date),
+          u32(crc), u32(data.length), u32(data.length), u16(name.length), u16(0), name
+        ];
+        localParts.push(...local, data);
+        const central = [
+          u32(0x02014b50), u16(20), u16(20), u16(0x0800), u16(0), u16(now.time), u16(now.date),
+          u32(crc), u32(data.length), u32(data.length), u16(name.length), u16(0), u16(0),
+          u16(0), u16(0), u32(0), u32(offset), name
+        ];
+        centralParts.push(...central);
+        offset += local.reduce((sum, part) => sum + part.length, 0) + data.length;
+      }
+      const centralSize = centralParts.reduce((sum, part) => sum + part.length, 0);
+      const end = [u32(0x06054b50), u16(0), u16(0), u16(entries.length), u16(entries.length), u32(centralSize), u32(offset), u16(0)];
+      return new Blob([...localParts, ...centralParts, ...end], { type: 'application/zip' });
+    }
+
+    function downloadZip(name) {
+      const blob = buildZip(files);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = name;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+    }
+
+    button.addEventListener('click', () => {
+      if (!masterReady || busy) return;
+      busy = true;
+      files.length = 0;
+      button.disabled = true;
+      progressBar.value = 0;
+      progressText.className = '';
+      progressText.textContent = '正在准备导出…';
+      parent.postMessage({ pluginMessage: { type: 'export', includeLayerSvg: document.getElementById('layer-svg').checked } }, '*');
+    });
+
+    window.onmessage = (event) => {
+      const message = event.data.pluginMessage;
+      if (!message) return;
+      if (message.type === 'ready') {
+        masterReady = Boolean(message.master);
+        document.getElementById('status-dot').classList.toggle('ok', masterReady);
+        document.getElementById('status-title').textContent = masterReady ? `已找到：${message.master.name}` : '等待选择地图主画框';
+        document.getElementById('status-detail').textContent = masterReady
+          ? `${message.master.width} × ${message.master.height} · ${message.master.layerCount} 个顶层图层`
+          : '请选择一个 Frame，或将主画框命名为 MAP_MASTER_4474x5904。';
+        button.disabled = !masterReady || busy;
+      } else if (message.type === 'reset') {
+        files.length = 0;
+      } else if (message.type === 'file') {
+        files.push({ path: message.path, bytes: new Uint8Array(message.bytes) });
+      } else if (message.type === 'progress') {
+        progressBar.max = Math.max(1, message.total || 1);
+        progressBar.value = message.current || 0;
+        progressText.textContent = message.message;
+      } else if (message.type === 'complete') {
+        downloadZip(message.fileName);
+        busy = false;
+        button.disabled = !masterReady;
+        progressBar.value = progressBar.max;
+        progressText.className = message.warnings.length ? '' : 'success';
+        progressText.textContent = message.warnings.length
+          ? `ZIP 已下载，但有 ${message.warnings.length} 项警告，请查看包内 README_ZH_CN.txt。`
+          : `完成：已下载 ${files.length} 个文件组成的 ZIP。`;
+      } else if (message.type === 'error') {
+        busy = false;
+        button.disabled = !masterReady;
+        progressText.className = 'error';
+        progressText.textContent = `导出失败：${message.message}`;
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 # Metropolis: Roaring Times — Vertical Slice Scope
 
+> 当前前置交付：在 Godot M1A 之前，先用老板的正式 Figma 地图升级现有 `m0_web`，形成制作人可观看和操作的 M1W 地图网页 Demo。该前置网页只验证地图、Brand、缩放拖拽、分区悬停/选择和详情呈现，不授权提前制作 64 个正式地块或 Godot 地图。
+
 > Document role: binding content and feature boundary for the first playable release
 >
 > Mode: `vertical_slice`

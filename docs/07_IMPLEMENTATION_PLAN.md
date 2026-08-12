@@ -100,6 +100,7 @@ After M0, the project manager provides a more credible forecast based on Godot a
 | M0.1D | Synchronize approved M0.1 rules through every authoritative document | Medium | Cross-document contradiction |
 | M0.1W | Revise the plain Web prototype for the new economic loop and five-tab Integrated Operations Panel | Large | Prototype scope expansion and balance |
 | M0G | Verified Godot environment, test runner and Web smoke build (complete) | Medium | Local Godot/Web capability |
+| M1W | 将老板 Figma 地图接入现有 M0 网页，形成制作人地图交互 Demo | Medium | Figma 交付完整性、SVG 坐标与浏览器性能 |
 | M1A | Validate the owner Figma package and integrate an owner-approved map overlay | Medium | Input completeness and conversion fidelity |
 | M1B | Complete 64-plot data, camera and geometry validation | Large | Polygon production and input accuracy |
 | M2 | Plot interaction and responsive UI shell | Large | Screen density and state clarity |
@@ -266,7 +267,40 @@ Primary acceptance references: `SCN-001`, `WEB-002`, `WEB-003` as applicable to 
 
 The original high environment risk is now reduced: the Steam executable, matching Web templates, Compatibility renderer, single-thread export, headless tests and browser persistence have been verified. Godot MCP is unavailable in the current tool surface, so project files and the command-line runner remain authoritative.
 
+## 8A. M1W — 制作人地图网页 Demo
+
+### 目标
+
+使用 `Metropolis Handoff Exporter` 从老板 Figma 主画框生成的一键交付 ZIP，升级现有 `m0_web`，让制作人能够在浏览器中看到正式 Brand 和地图，并操作拖拽、固定倍率缩放、分区悬停、点击保持与分区详情。
+
+### 工作范围
+
+- 校验 `.fig` 本地副本与插件 ZIP 的尺寸、图层树、图片、SVG 画框和位置关系；
+- 从 ZIP 中提取网页专用衍生素材，不覆盖老板源文件；
+- 保留现有 M0 网页的状态栏、综合操作栏、金融/地产玩法说明和右侧详情结构；
+- 用正式地图替换占位曼哈顿轮廓；
+- 接入独立 Brand；
+- 实现禁止旋转的地图拖拽、固定倍率缩放、边界限制；
+- 实现现有分区的悬停边框、点击保持和英文详情样板；
+- 在 Chrome 中完成可视、交互、分辨率和性能检查。
+
+### 不在本阶段
+
+- 不启动 Godot 地图实现；
+- 不擅自创建 64 个正式地块；
+- 不实现正式建筑插画、完整 AI 地图决策或最终经济平衡；
+- 不改变老板提交的分区边界。
+
+### 门禁
+
+- `DOC-007B` 通过；
+- 老板审查网页中的地图对齐、Brand、缩放和分区交互；
+- 浏览器测试通过并创建独立 Git 提交；
+- 提交后停止，重新请求是否进入 Godot M1A。
+
 ## 9. M1A — Map Composition Prototype
+
+> 顺序调整：老板已明确当前先完成 M1W 制作人地图网页，暂不进入 Godot。M1W 验收并提交后，M1A 才重新请求授权。
 
 ### 9.1 Objective
 

@@ -81,6 +81,7 @@ Metropolis: Roaring Times 是一款以纽约为舞台的单机回合制地产策
 - 渲染器：Compatibility。
 - 开发辅助：Codex + 可用的 Godot MCP。
 - 第一交付平台：浏览器 Web 导出。
+- 当前最近目标不是 Godot 地图接入，而是先将老板完成的 Figma 地图接入现有 `m0_web`，制作可供制作人观看和操作的地图网页 Demo；该网页验收前不得启动 Godot M1A。
 - 玩家可见标题统一为 `Metropolis: Roaring Times`；仓库目录继续使用 `roaring-age`。
 - 正式 Brand/Logo 同样必须完整显示 `Metropolis: Roaring Times`，不得省略冒号；老板批准公开保留署名 `designed and drawn by GatChive`。
 - Web 导出：单线程优先，入口文件为 `index.html`，通过本地 HTTP 服务验证。
@@ -423,6 +424,8 @@ AI 不调用大语言模型实时决策，采用固定种子下可测试的效�
 现有 1939 曼哈顿地图只作构图、色彩、线条密度、装饰节奏和插画语言的美术参考，不进入最终运行时。老板使用 Figma 创作并批准正式底图和分区边界；Codex 不拥有地图创作权，只负责交付检查、格式转换、运行时接入和测试。
 
 Figma 地图统一使用 `4474 × 5904 px`、北向朝上、左上角为原点的主画框。老板交付 `.fig` 源文件、底图 PNG、分区 SVG、分区蒙版 PNG 和对齐预览 PNG；五种文件必须来自同一画框。分区 SVG 是边界权威，Codex 不得自行平滑、删点或改变形状。完整规范见 `docs/MAP_ASSET_PIPELINE.md`。
+
+为减少老板手工切换图层和导出错误，项目提供 `tools/figma_handoff_exporter/` 本地 Figma 插件。老板只需选中主画框并一键导出 ZIP；插件自动保存图层树、位置、颜色、矢量路径、原始图片及网页所需生产素材。`.fig` 本地副本仍须保留，因为插件包不能保存 Figma 版本历史与评论。
 
 ### 8.2 图层结构
 

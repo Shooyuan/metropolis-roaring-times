@@ -187,6 +187,10 @@ After leaving a completed or partially played match, start a new one. Pass when 
 
 Before M1A implementation, pass when the owner package contains the versioned `.fig`, `4474 × 5904` base PNG, district SVG with `width="4474"`, `height="5904"` and `viewBox="0 0 4474 5904"`, `4474 × 5904` district-mask PNG, alignment preview and owner notes. The six stable district layer names must be present, all shapes must be closed and in frame, Hell's Kitchen and Lower East Side must remain separate, and SVG/mask overlays must align with the base. A missing or ambiguous asset fails intake; Codex may not replace it with invented geometry.
 
+### `DOC-007B` Figma 一键交付插件完整性
+
+在 M1W 地图网页开发前，老板选中 `MAP_MASTER_4474x5904` 并运行 `Metropolis Handoff Exporter`。通过条件：ZIP 包含完整图层树 JSON、原始图片引用、地图底图 PNG、分区 SVG、对齐预览 PNG、独立 Brand SVG/PNG 和每个顶层图层的全画框 SVG；JSON 保存父子关系、顺序、显示/锁定状态、位置、尺寸、变换、填充、描边、颜色、效果、文字和矢量路径；导出过程不联网且不改变原始 Figma 画面。插件 ZIP 不能替代版本化 `.fig` 本地副本。
+
 ### `DOC-007` Geometry Integrity
 
 Pass when each plot polygon:

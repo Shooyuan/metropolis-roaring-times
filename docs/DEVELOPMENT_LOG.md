@@ -1,5 +1,39 @@
 # Metropolis: Roaring Times — Development Log
 
+## TOOL-FIGMA-01 — Figma 一键交付插件与 M1W 网页优先决策
+
+### 老板决定
+
+- 手工隐藏图层、分别导出多个格式过于复杂，需要项目专用 Figma 插件；
+- 插件必须尽可能保存图层关系、位置关系、颜色、样式、矢量和原始图片；
+- 当前最近目标恢复为制作人浏览器 Demo，先不用 Godot；
+- M1W 网页验收前不得启动 Godot M1A。
+
+### 本阶段实现
+
+- 新增 `tools/figma_handoff_exporter/` 本地 Figma 开发插件；
+- 一键 ZIP 包含完整图层树 JSON、生产地图 PNG、分区 SVG、对齐预览、独立 Brand、逐层全画框 SVG 和原始图片；
+- 插件不联网，仅接受规定名称或 `4474 × 5904` 尺寸的主画框；
+- 所有生产导出使用临时副本并在导出后删除，不改写老板原图层；
+- 新增中文安装说明和本地 ZIP 结构测试；
+- 项目计划新增 M1W，Godot M1A 顺延。
+
+### 风险与限制
+
+- Figma 插件 API 不提供版本历史、评论和所有内部协作元数据，因此仍须保留 `.fig` 本地副本；
+- 本阶段只能完成本地静态和 ZIP 测试，必须由老板在 Figma 桌面版导入插件并完成一次真实文件导出验收；
+- 超大地图的 PNG、逐层 SVG 和结构 JSON 可能使 ZIP 较大，导出时需等待进度完成。
+
+### 本地验证
+
+- `code.js` JavaScript 语法检查通过；
+- Figma `manifest.json` 结构检查通过，网络白名单固定为 `none`；
+- ZIP 存储算法测试通过，生成文件可由系统 `unzip` 完整校验和读取；
+- 为避免旧版 macOS 解压工具错误显示中文文件名，包内中文说明使用英文文件名 `README_ZH_CN.txt`；
+- Git 空白检查和 Markdown 相对链接检查通过；
+- 未修改运行代码的 M0G 基线在 Godot `4.7.1.stable.steam.a13da4feb` 下通过，输出 `M0G_TESTS_PASS count=4`；
+- 受限测试环境仍产生已知的 macOS 系统 CA 读取警告，但没有项目测试因此失败。
+
 ## M1A-BRAND-D — Brand 标题、署名与独立导出决策
 
 ### 老板决定
