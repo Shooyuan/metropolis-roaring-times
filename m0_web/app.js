@@ -223,21 +223,23 @@ const currentMapZoom = () => MAP_ZOOM_FACTOR ** mapView.zoomStep;
 
 function clampMapPan() {
   if (!mapView.loaded) return;
-  const zoom = currentMapZoom();
-  const scaledWidth = dom.mapAnchor.offsetWidth * zoom;
-  const scaledHeight = dom.mapAnchor.offsetHeight * zoom;
-  const maxX = Math.max(0, (scaledWidth - dom.mapStage.clientWidth) / 2);
-  const maxY = Math.max(0, (scaledHeight - dom.mapStage.clientHeight) / 2);
+  const renderedWidth = dom.mapAnchor.offsetWidth;
+  const renderedHeight = dom.mapAnchor.offsetHeight;
+  const maxX = Math.max(0, (renderedWidth - dom.mapStage.clientWidth) / 2);
+  const maxY = Math.max(0, (renderedHeight - dom.mapStage.clientHeight) / 2);
   mapView.panX = Math.max(-maxX, Math.min(maxX, mapView.panX));
   mapView.panY = Math.max(-maxY, Math.min(maxY, mapView.panY));
 }
 
 function applyMapView() {
   if (!mapView.loaded) return;
-  clampMapPan();
   const zoom = currentMapZoom();
+  // Resize the SVG's layout box instead of scaling a composited layer. Safari
+  // otherwise rasterizes the fitted map once and enlarges that bitmap, which
+  // makes an intrinsically vector asset look blurred at higher zoom levels.
+  dom.mapAnchor.style.height = `${zoom * 100}%`;
+  clampMapPan();
   dom.mapAnchor.style.transform = `translate(-50%, -50%) translate3d(${mapView.panX}px, ${mapView.panY}px, 0)`;
-  dom.mapCanvas.style.transform = `scale(${zoom})`;
   dom.mapZoomValue.value = `${Math.round(zoom * 100)}%`;
   dom.mapZoomOut.disabled = mapView.zoomStep === 0;
   dom.mapZoomIn.disabled = mapView.zoomStep === MAP_MAX_ZOOM_STEP;

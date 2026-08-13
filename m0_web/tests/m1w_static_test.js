@@ -10,6 +10,7 @@ const webRoot = path.resolve(__dirname, "..");
 const projectRoot = path.resolve(webRoot, "..");
 const html = fs.readFileSync(path.join(webRoot, "index.html"), "utf8");
 const script = fs.readFileSync(path.join(webRoot, "app.js"), "utf8");
+const styles = fs.readFileSync(path.join(webRoot, "styles.css"), "utf8");
 const brand = fs.readFileSync(path.join(webRoot, "assets", "00_BRAND.svg"));
 const mapBase = fs.readFileSync(path.join(webRoot, "assets", "metropolis_map_base.svg"));
 const districts = fs.readFileSync(path.join(webRoot, "assets", "metropolis_district_geometry.svg"));
@@ -57,5 +58,8 @@ for (const id of expectedDistricts) assert(script.includes(`id: "${id}"`), `Miss
 assert(script.includes("const MAP_ZOOM_FACTOR = 1.25;"), "Map zoom must use the approved fixed 125% factor");
 assert(script.includes("const MAP_MAX_ZOOM_STEP = 5;"), "Map zoom step limit must remain explicit");
 assert(!script.includes("rotate("), "M1W map transforms must not introduce rotation");
+assert(script.includes('dom.mapAnchor.style.height = `${zoom * 100}%`;'), "Map zoom must resize the SVG layout box for sharp Safari rendering");
+assert(!script.includes("dom.mapCanvas.style.transform = `scale(${zoom})`;"), "Map zoom must not enlarge a cached composited bitmap");
+assert(!styles.includes(".map-canvas { position: absolute; inset: 0; transform-origin:"), "Map canvas must not advertise a composited scale transform");
 
 console.log(`M1W_STATIC_TEST_PASS districts=${expectedDistricts.length} map_sha=${sha256(mapBase).slice(0, 12)} brand_sha=${sha256(brand).slice(0, 12)}`);

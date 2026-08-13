@@ -10,6 +10,7 @@ M1W 在原有 M0.1 网页的状态栏、综合操作栏和八回合经济演示�
 - 正式地图底图：`assets/metropolis_map_base.svg`；
 - 12 个权威分区：`assets/metropolis_district_geometry.svg`；
 - 地图拖拽、固定倍率缩放、边界限制和禁止旋转；
+- SVG 按实际显示尺寸重新绘制，避免 Safari 把低分辨率合成层放大后出现模糊；
 - 分区悬停边框、点击锁定、关闭选择和英文分区详情；
 - Chelsea 保留老板批准的 Figma 矢量网络，并纳入真实浏览器命中专项测试。
 
