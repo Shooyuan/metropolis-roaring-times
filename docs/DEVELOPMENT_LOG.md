@@ -1,5 +1,29 @@
 # Metropolis: Roaring Times — Development Log
 
+## M1W-INTAKE-02 — Figma 交付包 v002 复验
+
+### 复验结果
+
+- 新 ZIP 与新 `.fig` 已收到，校验值和逐项证据记录在 `FIGMA_HANDOFF_INTAKE_V002.md`；
+- `district_soho` 已从隐藏改为可见，当前正式分区 SVG 已包含全部 12 个 Figma 分区；
+- `district_finicial_district` 拼写错误仍存在；
+- `district_chelsea` 仍由多个开放子路径组成，没有形成权威闭合轮廓；
+- `00_BRAND.svg` 的哈希与 v001 完全相同，正式标题缺少冒号的问题仍存在；
+- 老板尚未确认 12 区是否正式替代旧六区，因此不贯通改变产品文档和运行时数据。
+
+### 阶段决定
+
+- v002 解决一项、保留三项内容阻断；
+- Codex 继续不修改老板 Figma 几何，不进入 M1W 网页接入；
+- 等待老板完成剩余修改并回答 12 区产品裁决。
+
+### 验证结果
+
+- 新 ZIP 13 个文件通过系统解压校验，全部导出 SVG 通过 XML 合法性检查；
+- 插件 JavaScript 语法、任意尺寸/坐标、UTF-8 和 ZIP 本地测试继续通过；
+- Godot M0G 回归测试在 `4.7.1.stable.steam.a13da4feb` 下通过，输出 `M0G_TESTS_PASS count=4`；
+- Git 空白检查通过，老板新 ZIP、`.fig` 和美术素材保持未提交。
+
 ## M1W-INTAKE-01 — Figma 交付包 v001 验收
 
 ### 已收交付
