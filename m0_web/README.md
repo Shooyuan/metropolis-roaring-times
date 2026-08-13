@@ -1,40 +1,52 @@
-# Metropolis: Roaring Times — M0 Web Graybox
+# Metropolis: Roaring Times — M1W 制作人地图网页 Demo
 
-This is a disposable, dependency-free investor gameplay prototype. It is not the production Godot codebase, final art, final balance or the complete vertical-slice content.
+这是一个无需安装依赖、通过本地 HTTP 服务运行的制作人演示网页。它不是最终 Godot 游戏、完整垂直切片、最终数值或完整历史内容。
 
-## Current Implementation Status
+## 当前状态
 
-M0.1W replaces the original M0W interface and economic loop. The playable page now uses the approved title, five-page Integrated Operations Panel, top-bar `End Turn`, upward redevelopment, next-turn brokered property sale, three securities instruments and classified Investment Advice feed.
+M1W 在原有 M0.1 网页的状态栏、综合操作栏和八回合经济演示基础上，接入老板批准的 Figma 地图交付包 v003：
 
-The original M0W baseline remains recorded in commit `ee6eccf`; the M0.1D specification synchronization is recorded in commit `0cd57f4`; the completed M0.1W revision is recorded in commit `baef8ea`. This folder remains a disposable investor-explanation prototype rather than production Godot code, even after M0G established the separate minimal Godot runtime.
+- 正式独立 Brand：`assets/00_BRAND.svg`；
+- 正式地图底图：`assets/metropolis_map_base.svg`；
+- 12 个权威分区：`assets/metropolis_district_geometry.svg`；
+- 地图拖拽、固定倍率缩放、边界限制和禁止旋转；
+- 分区悬停边框、点击锁定、关闭选择和英文分区详情；
+- Chelsea 保留老板批准的 Figma 矢量网络，并纳入真实浏览器命中专项测试。
 
-## Included
+旧 M0 的 18 个代表性地块属于已退役分区模型，不会显示在正式地图上。它们的经济演示代码暂时保留，只用于维护原有回合、银行、股票和 AI 状态基线；项目不会擅自把这些旧地块迁移或猜测为新的 64 个地块。
 
-- eight compressed turns;
-- 18 representative plots;
-- Tycoon, Landlady and Shark rival choices;
-- property purchase and four building types;
-- strictly upward redevelopment with the 120% residual-value credit;
-- 90% brokered property sales that settle next turn;
-- bonds, industrial shares and a fictional investment trust;
-- construction delay, settlement and economy phases;
-- explicit borrowing, repayment and maturity risk;
-- simplified rival actions and zoning change;
-- five independent Operations Desk pages and classified news/activity records;
-- browser-local save/load and net-worth result.
+## 当前可演示内容
 
-## Not Included
+- 选择 Tycoon、Landlady 或 Shark 作为 1v1 对手；
+- 查看 Game Brief、Investment Advice、Bank、Auction House 和 Stock Market 五个页签；
+- 在正式曼哈顿地图上查看并选择 12 个分区；
+- 通过按钮、滚轮或键盘按固定倍率缩放；
+- 使用鼠标拖拽或方向键平移；
+- 查看分区详情中的未来统计字段结构；
+- 运行原 M0.1 的八回合经济、借款、证券和存档演示。
 
-- final 64-plot/20-turn scope;
-- government or emergency auctions;
-- final historical event stories;
-- final AI scoring, art, audio or Godot architecture.
+## 暂未包含
 
-## Prototype Boundaries
+- 64 个正式可购买地块；
+- 正式地块购买和建筑贴图在新地图上的落点；
+- 分区经济画像、可购地数量、大型交通设施与繁荣度公式；
+- 政府拍卖和紧急债务拍卖故事；
+- 最终20回合平衡、正式 AI、美术、音频和 Godot 架构。
 
-- Debt maturity still uses the documented simplified M0 bankruptcy result; production bank takeover and emergency disposition arrive in later Godot stages.
-- The Auction House truthfully shows `No Scheduled Auctions`; owner-approved auction stories and bidder behavior have not been invented.
-- News labeled `Historical` uses institutional historical-summary wording, not fabricated newspaper attribution.
-- Save schema v2 automatically migrates the original M0 v1 browser save when one exists.
+## 本地运行与测试
 
-Serve this folder through a local HTTP server for testing. `index.html` is the entry page.
+在本目录启动本地服务器：
+
+```bash
+python3 -m http.server 4173 --bind 127.0.0.1
+```
+
+然后打开 `http://127.0.0.1:4173/`。
+
+静态门禁测试：
+
+```bash
+node tests/m1w_static_test.js
+```
+
+`index.html` 是网页入口。不要用 `file://` 直接打开，因为分区 SVG 需要通过同源 HTTP 请求读取。

@@ -269,6 +269,8 @@ The original high environment risk is now reduced: the Steam executable, matchin
 
 ## 8A. M1W — 制作人地图网页 Demo
 
+> 当前状态：实现与内部测试已完成，等待老板视觉验收；尚未获准进入 Godot M1A。详细证据见 `M1W_WEB_TEST_REPORT.md`。
+
 ### 目标
 
 使用 `Metropolis Handoff Exporter` 按老板 Figma 实际矢量画布生成的一键交付 ZIP，升级现有 `m0_web`，让制作人能够在浏览器中看到正式 Brand 和地图，并操作拖拽、固定倍率缩放、分区悬停、点击保持与分区详情。

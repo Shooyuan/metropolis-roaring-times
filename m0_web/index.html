@@ -3,18 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A playable M0.1 graybox prototype for Metropolis: Roaring Times, a historical New York property strategy game.">
-  <title>Metropolis: Roaring Times — M0.1 Web Graybox</title>
-  <link rel="stylesheet" href="styles.css?v=m01w">
+  <meta name="description" content="An M1W producer map demo for Metropolis: Roaring Times, a historical New York property strategy game.">
+  <title>Metropolis: Roaring Times — M1W Producer Map Demo</title>
+  <link rel="stylesheet" href="styles.css?v=m1w1">
 </head>
 <body>
-  <div class="prototype-ribbon">M0.1 WEB GRAYBOX — NOT FINAL ART, BALANCE OR HISTORICAL CONTENT</div>
+  <div class="prototype-ribbon">M1W PRODUCER MAP DEMO — FIGMA MAP INTEGRATION · NOT FINAL PLOTS OR BALANCE</div>
 
-  <main class="game-shell" aria-label="Metropolis: Roaring Times M0.1 prototype">
+  <main class="game-shell" aria-label="Metropolis: Roaring Times M1W producer map demo">
     <header class="masthead">
-      <div>
-        <p class="eyebrow">New York Property Strategy · Pre-Alpha</p>
-        <h1>Metropolis: <span>Roaring Times</span></h1>
+      <div class="brand-lockup">
+        <img class="brand-seal" src="assets/00_BRAND.svg" alt="" aria-hidden="true">
+        <div>
+          <p class="eyebrow">New York Property Strategy · Pre-Alpha</p>
+          <h1>Metropolis: <span>Roaring Times</span></h1>
+        </div>
       </div>
       <div class="header-actions" aria-label="System actions">
         <button id="help-button" class="quiet-button" type="button">How to Play</button>
@@ -53,10 +56,10 @@
         <section id="tab-brief" class="operations-page" role="tabpanel" data-operations-page="brief">
           <div class="mascot-placeholder" aria-label="Future board mascot placeholder">
             <div class="mascot-face" aria-hidden="true">◉‿◉</div>
-            <div><strong>Board Mascot Office</strong><p>Reserved for a future rubber-hose adviser. This graybox uses deterministic text only.</p></div>
+            <div><strong>Board Mascot Office</strong><p>Reserved for a future rubber-hose adviser. This map demo uses deterministic text only.</p></div>
           </div>
           <dl class="brief-grid">
-            <div><dt>Mode</dt><dd>1v1 · M0.1</dd></div>
+            <div><dt>Mode</dt><dd>1v1 · M1W Map Demo</dd></div>
             <div><dt>Ruleset</dt><dd>Standard</dd></div>
             <div><dt>Rival</dt><dd id="rival-name">—</dd></div>
             <div><dt>Style</dt><dd id="rival-style">—</dd></div>
@@ -71,7 +74,7 @@
             <li>Use sales, banking and securities to manage liquidity.</li>
             <li>Finish turn 8 with the highest net worth.</li>
           </ol>
-          <p class="scope-note">Prototype: 18 representative plots and 8 compressed turns. Production target: 64 plots and 20 turns.</p>
+          <p class="scope-note">This build validates the owner-authored 12-district map. The 64 production plots and 20-turn balance remain a later approval gate.</p>
         </section>
 
         <section id="tab-advice" class="operations-page" role="tabpanel" data-operations-page="advice" hidden>
@@ -110,25 +113,50 @@
         </section>
       </aside>
 
-      <section class="map-panel panel" aria-label="Prototype Manhattan map">
-        <div class="panel-heading"><span>Property Map</span><span id="map-hint">Select a plot</span></div>
-        <div class="map-stage" id="map-stage">
-          <div class="river-label river-label--hudson">HUDSON RIVER</div><div class="river-label river-label--east">EAST RIVER</div>
-          <div class="manhattan-silhouette" aria-hidden="true"></div>
-          <div class="district-label district-label--north">CENTRAL PARK DISTRICT</div><div class="district-label district-label--mid">MIDTOWN</div>
-          <div class="district-label district-label--west">HELL'S KITCHEN</div><div class="district-label district-label--east">LOWER EAST SIDE</div>
-          <div class="district-label district-label--south">LOWER MANHATTAN</div>
-          <div id="plot-layer" class="plot-layer"></div>
-          <div class="bridge-line bridge-line--one" aria-hidden="true"></div><div class="bridge-line bridge-line--two" aria-hidden="true"></div>
-          <div class="bridgehead-label">BROOKLYN<br>BRIDGEHEAD</div>
+      <section class="map-panel panel" aria-label="Owner-authored Manhattan district map">
+        <div class="panel-heading map-panel-heading"><span>Manhattan District Map</span><span id="map-hint" aria-live="polite">Loading official map…</span></div>
+        <div class="map-stage" id="map-stage" tabindex="0" aria-label="Interactive Manhattan map. Drag to pan, use plus and minus to zoom, and select a district for details.">
+          <div id="map-loading" class="map-loading" role="status">Preparing owner-authored vector map…</div>
+          <div id="map-anchor" class="map-anchor" aria-hidden="true">
+            <div id="map-canvas" class="map-canvas">
+              <img id="map-base" class="map-base" src="assets/metropolis_map_base.svg" alt="Owner-authored illustrated Manhattan map" draggable="false">
+              <svg id="district-overlay" class="district-overlay" viewBox="0 0 10334 14101" aria-label="Twelve selectable Manhattan districts"></svg>
+            </div>
+          </div>
+          <div class="map-instruction">DRAG TO PAN · SCROLL OR USE CONTROLS TO ZOOM · NO ROTATION</div>
         </div>
-        <div class="legend" aria-label="Map legend"><span><i class="legend-key legend-key--available"></i>Available</span><span><i class="legend-key legend-key--player"></i>You</span><span><i class="legend-key legend-key--rival"></i>Rival</span><span><i class="legend-key legend-key--public"></i>Public</span><span><i class="legend-key legend-key--selected"></i>Selected</span></div>
+        <div class="map-toolbar" aria-label="Map controls">
+          <button id="map-zoom-out" type="button" aria-label="Zoom out">−</button>
+          <output id="map-zoom-value" for="map-zoom-out map-zoom-in">100%</output>
+          <button id="map-zoom-in" type="button" aria-label="Zoom in">+</button>
+          <button id="map-reset" type="button">Reset View</button>
+          <span id="map-status">12 districts · Owner geometry</span>
+        </div>
+        <div class="legend map-legend" aria-label="Map legend"><span><i class="legend-key legend-key--district"></i>District hit area</span><span><i class="legend-key legend-key--hover"></i>Hover border</span><span><i class="legend-key legend-key--selected"></i>Locked selection</span></div>
       </section>
 
-      <aside class="property-panel panel">
-        <div class="panel-heading"><span>Property File</span><span class="panel-number">02</span></div>
-        <div id="empty-property" class="empty-property">Select a plot on the map.</div>
-        <div id="property-details" class="property-details" hidden>
+      <aside class="property-panel panel" aria-label="District file">
+        <div class="panel-heading"><span>District File</span><span class="panel-number">02</span></div>
+        <div id="empty-district" class="empty-property district-empty"><strong>Select a district</strong><p>Hover the map to reveal its boundary. Click once to lock the border and open this file.</p></div>
+        <div id="district-details" class="property-details district-details" hidden>
+          <button id="district-close-button" class="district-close-button" type="button" aria-label="Close selected district">×</button>
+          <p class="plot-code" id="district-code">—</p><h2 id="district-name">—</h2>
+          <p id="district-location" class="district-location">Manhattan, New York</p>
+          <dl class="property-grid district-grid">
+            <div><dt>Available Plots</dt><dd id="district-plots">Pending</dd></div>
+            <div><dt>Your Apartments</dt><dd id="district-apartments">—</dd></div>
+            <div><dt>Your Factories</dt><dd id="district-factories">—</dd></div>
+            <div><dt>Your Stores</dt><dd id="district-stores">—</dd></div>
+            <div><dt>Major Transit</dt><dd id="district-transit">Pending</dd></div>
+            <div><dt>Prosperity</dt><dd id="district-prosperity">—</dd></div>
+          </dl>
+          <div class="district-note"><strong>M1W map scope</strong><p id="district-note">Geometry and selection are under review. Gameplay figures wait for the approved 64-plot dataset.</p></div>
+          <p class="district-source">Source: owner-authored Figma handoff v003.</p>
+        </div>
+        <div class="legacy-property-runtime" hidden>
+          <div id="plot-layer"></div>
+          <div id="empty-property">Select a plot on the map.</div>
+          <div id="property-details">
           <p class="plot-code" id="plot-code">—</p><h2 id="plot-name">—</h2>
           <dl class="property-grid">
             <div><dt>District</dt><dd id="plot-district">—</dd></div><div><dt>Zone</dt><dd id="plot-zone">—</dd></div>
@@ -152,12 +180,13 @@
             <button id="sell-property-button" type="button">Brokered Sale</button>
           </div>
           <p id="property-reason" class="reason-copy" aria-live="polite"></p>
+          </div>
         </div>
       </aside>
     </section>
   </main>
 
-  <div id="start-modal" class="modal-backdrop is-open" role="dialog" aria-modal="true" aria-labelledby="start-title"><section class="modal-card rival-modal"><p class="eyebrow">Playable M0.1 Prototype</p><h2 id="start-title">Choose Rival</h2><p>Each rival uses the same starting value but favors a different strategy.</p><div class="rival-options"><button class="rival-option" type="button" data-rival="tycoon"><strong>Tycoon</strong><span>Industrial expansion and transport value.</span></button><button class="rival-option" type="button" data-rival="landlady"><strong>Landlady</strong><span>Residential income and steady holdings.</span></button><button class="rival-option" type="button" data-rival="shark"><strong>Shark</strong><span>Cheap land, liquidity and opportunism.</span></button></div><button id="start-load-button" class="start-load-button" type="button" hidden>Continue Saved Match</button><p class="modal-footnote">Graybox interaction only. Not final art, balance, auction content or historical writing.</p></section></div>
+  <div id="start-modal" class="modal-backdrop is-open" role="dialog" aria-modal="true" aria-labelledby="start-title"><section class="modal-card rival-modal"><p class="eyebrow">M1W Producer Map Demo</p><h2 id="start-title">Choose Rival</h2><p>Choose a rival to preserve the existing 1v1 economy context, then inspect the owner-authored Manhattan map.</p><div class="rival-options"><button class="rival-option" type="button" data-rival="tycoon"><strong>Tycoon</strong><span>Industrial expansion and transport value.</span></button><button class="rival-option" type="button" data-rival="landlady"><strong>Landlady</strong><span>Residential income and steady holdings.</span></button><button class="rival-option" type="button" data-rival="shark"><strong>Shark</strong><span>Cheap land, liquidity and opportunism.</span></button></div><button id="start-load-button" class="start-load-button" type="button" hidden>Continue Saved Match</button><p class="modal-footnote">The map and district geometry are production inputs. Plot boundaries, balances and auction stories remain pending.</p></section></div>
 
   <div id="help-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="help-title"><section class="modal-card help-modal-card"><button class="modal-close" type="button" data-close-modal="help-modal" aria-label="Close help">×</button><p class="eyebrow">Three-Minute Walkthrough</p><h2 id="help-title">How to Play</h2><ol><li>Buy land and construct a building; each costs one action point.</li><li>Redevelop only into a higher-cost legal building. The old building contributes a 120% upgrade credit, but never pays cash back.</li><li>A brokered sale locks 90% of current property value and settles next turn.</li><li>Every securities buy or sell costs one action point and a 1% fee.</li><li>Bank borrowing and repayment cost no action points; loans mature in six turns.</li><li>Highest net worth after turn 8 wins.</li></ol></section></div>
 
@@ -166,6 +195,6 @@
   <div id="result-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="result-title"><section class="modal-card result-card"><p class="eyebrow">Prototype Result</p><h2 id="result-title">Match Complete</h2><p id="result-summary"></p><div class="result-grid"><div><span>Your Net Worth</span><strong id="result-player-worth">—</strong></div><div><span>Rival Net Worth</span><strong id="result-rival-worth">—</strong></div><div><span>Your Securities</span><strong id="result-player-securities">—</strong></div><div><span>Rival Securities</span><strong id="result-rival-securities">—</strong></div></div><button id="result-restart-button" class="primary-button" type="button">Choose Another Rival</button></section></div>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=m01w"></script>
+  <script src="app.js?v=m1w1"></script>
 </body>
 </html>

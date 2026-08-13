@@ -81,7 +81,7 @@ Metropolis: Roaring Times 是一款以纽约为舞台的单机回合制地产策
 - 渲染器：Compatibility。
 - 开发辅助：Codex + 可用的 Godot MCP。
 - 第一交付平台：浏览器 Web 导出。
-- 当前最近目标不是 Godot 地图接入，而是先将老板完成的 Figma 地图接入现有 `m0_web`，制作可供制作人观看和操作的地图网页 Demo；该网页验收前不得启动 Godot M1A。
+- 当前最近目标不是 Godot 地图接入。老板完成的 Figma 地图已经接入 `m0_web`，M1W 制作人地图网页 Demo 已完成实现和内部测试，正在等待老板视觉验收；老板验收前不得启动 Godot M1A。
 - 玩家可见标题统一为 `Metropolis: Roaring Times`；仓库目录继续使用 `roaring-age`。
 - 正式 Brand/Logo 同样必须完整显示 `Metropolis: Roaring Times`，不得省略冒号；老板批准公开保留署名 `designed and drawn by GatChive`。
 - Web 导出：单线程优先，入口文件为 `index.html`，通过本地 HTTP 服务验证。
