@@ -1,5 +1,7 @@
 # 《Metropolis: Roaring Times》Figma 交付包 v001 验收报告
 
+> 历史记录：本报告已由 `FIGMA_HANDOFF_INTAKE_V003.md` 取代，以下结论只描述 v001 当时状态。
+
 > 验收日期：2026-08-13
 >
 > 验收阶段：M1W 输入门，仅检查，不修改老板源文件

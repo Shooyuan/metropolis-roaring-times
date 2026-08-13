@@ -1,5 +1,7 @@
 # 《Metropolis: Roaring Times》Figma 交付包 v002 复验报告
 
+> 历史记录：本报告已由 `FIGMA_HANDOFF_INTAKE_V003.md` 取代，以下结论只描述 v002 当时状态。
+
 > 复验日期：2026-08-13
 >
 > 复验对象：`assets/metropolis_handoff_1786625925141.zip`

@@ -185,7 +185,7 @@ After leaving a completed or partially played match, start a new one. Pass when 
 
 ### `DOC-007A` Owner Figma Handoff Integrity
 
-Before M1A implementation, pass when the owner package contains the versioned `.fig`, exporter structure JSON, full/base vector SVG, authoritative district SVG with a viewBox matching the recorded actual canvas, alignment SVG and owner notes. PNG files are optional previews and their absence does not fail intake. All twelve stable district layer names must be present exactly once, visible, closed and in the shared canvas, and all vector layers must align. A missing or ambiguous authoritative vector asset fails intake; Codex may not replace it with invented geometry.
+Before M1A implementation, pass when the owner package contains the versioned `.fig`, exporter structure JSON, full/base vector SVG, authoritative district SVG with a viewBox matching the recorded actual canvas, alignment SVG and owner notes. PNG files are optional previews and their absence does not fail intake. All twelve stable district layer names must be present exactly once, visible and in the shared canvas, and all vector layers must align. Districts are normally closed shapes; an owner-approved Figma vector-network exception passes this intake only after its actual hover, click and locked-selection hit region passes M1W browser testing. A missing or ambiguous authoritative vector asset fails intake; Codex may not replace it with invented geometry.
 
 ### `DOC-007B` Figma 一键交付插件完整性
 

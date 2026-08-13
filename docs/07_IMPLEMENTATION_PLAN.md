@@ -282,6 +282,7 @@ The original high environment risk is now reduced: the Steam executable, matchin
 - 接入独立 Brand；
 - 实现禁止旋转的地图拖拽、固定倍率缩放、边界限制；
 - 实现现有分区的悬停边框、点击保持和英文详情样板；
+- 对老板批准保留原样的 `district_chelsea` 矢量网络执行专项命中测试；若悬停、点击或选中保持范围错误，停止接入并报告，不擅自修改边界；
 - 在 Chrome 中完成可视、交互、分辨率和性能检查。
 
 ### 不在本阶段
@@ -310,7 +311,7 @@ Validate and integrate the owner-authored Figma map package, then obtain owner a
 
 - Wait for the complete owner Figma handoff defined by `MAP_ASSET_PIPELINE.md`; missing inputs are a dependency, not authorization for placeholders.
 - Preserve the `.fig`, base PNG, district SVG, mask PNG, alignment preview and owner notes unchanged in `references/incoming/`.
-- Verify filenames, dimensions, SVG viewBox/layer IDs, registration, checksums, closed shapes, overlap/gap conditions and base/mask/SVG alignment.
+- Verify filenames, dimensions, SVG viewBox/layer IDs, registration, checksums, closed shapes or recorded owner-approved vector-network exceptions, overlap/gap conditions and base/mask/SVG alignment.
 - Produce an intake report and return every ambiguity to the owner without editing source geography.
 - After owner accepts intake, convert the submitted SVG coordinates reproducibly to normalized runtime JSON without smoothing, deleting or moving vertices.
 - Render the owner base and derived boundaries in Godot and compare them with the owner alignment preview at target screen ratios.

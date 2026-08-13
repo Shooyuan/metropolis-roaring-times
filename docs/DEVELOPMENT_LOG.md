@@ -1,5 +1,29 @@
 # Metropolis: Roaring Times — Development Log
 
+## M1W-INTAKE-03 — Figma 交付包 v003 与正式 Brand 接收
+
+### 老板决定与本阶段动作
+
+- 老板提交 `metropolis_handoff_1786627051152.zip` 与同步更新的 `.fig` 本地副本；
+- 老板确认 `district_chelsea` 在 Figma 中检查无视觉问题，批准保留原始矢量网络；M1W 必须专项验证其悬停、点击和选中保持命中范围；
+- 老板确认 `assets/00_BRAND.svg` 是独立最终 Brand，并授权 Codex 直接补入标题冒号，不需要把 `00_BRAND` 放回地图 Figma；
+- Codex 只修改 Brand 的非地理矢量，没有修改地图或分区几何。
+
+### 验收结果
+
+- ZIP 13 个文件无损，插件 `warnings=[]`，六个顶层图层完整；
+- 12 个稳定分区 ID 已全部正确导出，`district_financial_district` 拼写已修复；
+- 完整地图、底图、分区、对齐及逐层 SVG 均使用 `viewBox="0 0 10334 14101"`，全部通过 XML 检查；
+- 正式底图没有混入分区交互层；
+- Brand SVG 合法、透明背景和署名保持不变，标题已显示为 `Metropolis: Roaring Times`；
+- 详细校验值和门禁结论记录在 `FIGMA_HANDOFF_INTAKE_V003.md`。
+
+### 阶段决定
+
+- M1W 输入结构门通过；
+- `district_chelsea` 不再作为 Figma 返工阻断，但其浏览器命中区域仍是公开风险；
+- 完成本阶段测试与 Git 提交后停止，等待老板明确批准开始 M1W 网页开发。
+
 ## DOC-MAP-12 — 12 个权威分区正式替代旧六区
 
 ### 老板决定
@@ -17,9 +41,9 @@
 
 ### Chelsea 修正说明
 
-- 当前 `district_chelsea` 不是单一闭合轮廓，而是一个节点内包含多个彼此断开的开放子路径；
-- 老板应备份原层，使用 Figma 矢量编辑或 Pen 工具沿现有外边界建立一条首尾相接的闭合路径；最后悬停起点，出现闭合提示后点击起点；
-- Codex 只能复验新导出路径是否闭合，不能代替老板连接、追踪或修改权威边界。
+- 机器检查发现 `district_chelsea` 不是单一以 `Z` 结尾的闭合轮廓，而是 Figma 矢量网络；
+- 老板已在 Figma 中人工检查并确认视觉无误，项目不再要求重画或连接该边界；
+- Codex 不修改权威几何，改在 M1W 中验证实际悬停、点击和选中保持范围；若失败则报告老板重新裁决。
 
 ### 验证结果
 

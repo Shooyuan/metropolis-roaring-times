@@ -329,8 +329,8 @@ Motion respects a reduced-motion setting where practical.
 
 ## 14. Asset Production Rules
 
-- The Figma source keeps the owner-approved top-to-bottom stacking order `06_FRAME`, `05_NON_BUILDING_ORNAMENT`, `04_ROADS`, `03_DISTRICT_GEOMETRY`, `02_COASTLINE`, `01_WATER`, `00_BRAND`; actual visual occlusion takes precedence over the superseded generic layer template.
-- `00_BRAND` exports separately and is excluded from the flattened map-base export.
+- The map Figma source keeps the owner-approved top-to-bottom stacking order `06_FRAME`, `05_NON_BUILDING_ORNAMENT`, `04_ROADS`, `03_DISTRICT_GEOMETRY`, `02_COASTLINE`, `01_WATER`; actual visual occlusion takes precedence over the superseded generic layer template.
+- The authoritative Brand is the separate `assets/00_BRAND.svg`; the map Figma file does not need an `00_BRAND` layer, and Brand remains excluded from the flattened map-base export.
 - Programmatic geometry owns coastline, roads, plots, collision, ownership and rule overlays.
 - SVG is preferred for icons, ornaments and simple line art that Godot imports reliably.
 - Transparent raster assets use lossless PNG during editing; optimized Web variants require visual comparison before replacement.
