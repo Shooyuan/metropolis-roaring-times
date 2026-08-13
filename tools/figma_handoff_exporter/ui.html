@@ -30,15 +30,16 @@
 </head>
 <body>
   <h1>Metropolis 一键交付</h1>
-  <p class="subtitle">选中地图主画框，或七个顶层图层中的任意一层，然后一次导出图层关系、精确位置、颜色、矢量、原始图片和网页制作素材。</p>
+  <p class="subtitle">选中地图主画框，或六个地图顶层图层中的任意一层，然后按实际矢量画布导出图层关系、精确位置、颜色、矢量、原始图片和网页制作素材。</p>
 
   <section class="card status">
     <span id="status-dot" class="dot"></span>
-    <div><strong id="status-title">等待识别地图图层</strong><p id="status-detail">请选择 MAP_MASTER_4474x5904，或 06_FRAME 等任意一个规定顶层图层。</p></div>
+    <div><strong id="status-title">等待识别地图图层</strong><p id="status-detail">请选择地图主画框，或 06_FRAME 等任意一个规定地图图层；画布尺寸不限。</p></div>
   </section>
 
   <section class="card">
     <label><input id="layer-svg" type="checkbox" checked> <span>同时导出每个顶层图层的全画框 SVG。文件更大，但最方便网页制作和检查位置。</span></label>
+    <label style="margin-top:10px"><input id="png-preview" type="checkbox"> <span>额外尝试导出 PNG 预览（可选）。大尺寸矢量地图建议保持关闭，避免耗时或内存失败。</span></label>
   </section>
 
   <button id="export-button" type="button" disabled>一键导出 ZIP</button>
@@ -135,7 +136,11 @@
       progressBar.value = 0;
       progressText.className = '';
       progressText.textContent = '正在准备导出…';
-      parent.postMessage({ pluginMessage: { type: 'export', includeLayerSvg: document.getElementById('layer-svg').checked } }, '*');
+      parent.postMessage({ pluginMessage: {
+        type: 'export',
+        includeLayerSvg: document.getElementById('layer-svg').checked,
+        includePngPreview: document.getElementById('png-preview').checked
+      } }, '*');
     });
 
     window.onmessage = (event) => {
@@ -147,7 +152,7 @@
         document.getElementById('status-title').textContent = masterReady ? `已找到：${message.master.name}` : '等待识别地图图层';
         document.getElementById('status-detail').textContent = masterReady
           ? `${message.master.width} × ${message.master.height} · ${message.master.layerCount} 个顶层图层 · ${message.master.sourceKind === 'FRAME' ? '外层 Frame' : '并列图层模式'}`
-          : '请选择 MAP_MASTER_4474x5904，或 06_FRAME 等任意一个规定顶层图层。';
+          : '请选择地图主画框，或 06_FRAME 等任意一个规定地图图层；画布尺寸不限。';
         button.disabled = !masterReady || busy;
       } else if (message.type === 'reset') {
         files.length = 0;

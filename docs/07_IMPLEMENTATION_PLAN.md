@@ -271,11 +271,11 @@ The original high environment risk is now reduced: the Steam executable, matchin
 
 ### 目标
 
-使用 `Metropolis Handoff Exporter` 从老板 Figma 主画框生成的一键交付 ZIP，升级现有 `m0_web`，让制作人能够在浏览器中看到正式 Brand 和地图，并操作拖拽、固定倍率缩放、分区悬停、点击保持与分区详情。
+使用 `Metropolis Handoff Exporter` 按老板 Figma 实际矢量画布生成的一键交付 ZIP，升级现有 `m0_web`，让制作人能够在浏览器中看到正式 Brand 和地图，并操作拖拽、固定倍率缩放、分区悬停、点击保持与分区详情。
 
 ### 工作范围
 
-- 校验 `.fig` 本地副本与插件 ZIP 的尺寸、图层树、图片、SVG 画框和位置关系；
+- 校验 `.fig` 本地副本与插件 ZIP 记录的实际画布宽高、图层树、图片、SVG `viewBox` 和位置关系；不以固定像素尺寸判退；
 - 从 ZIP 中提取网页专用衍生素材，不覆盖老板源文件；
 - 保留现有 M0 网页的状态栏、综合操作栏、金融/地产玩法说明和右侧详情结构；
 - 用正式地图替换占位曼哈顿轮廓；

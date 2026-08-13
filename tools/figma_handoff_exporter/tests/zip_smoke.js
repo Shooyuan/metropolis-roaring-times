@@ -2,6 +2,9 @@ const fs = require("fs");
 const vm = require("vm");
 
 const html = fs.readFileSync(require("path").join(__dirname, "..", "ui.html"), "utf8");
+if (!/id="png-preview" type="checkbox"(?! checked)/.test(html)) {
+  throw new Error("PNG 预览选项必须存在且默认关闭");
+}
 const match = html.match(/<script>([\s\S]*?)<\/script>/);
 if (!match) throw new Error("ui.html 中没有内联脚本");
 

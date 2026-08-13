@@ -2,9 +2,8 @@
 
 figma.showUI(__html__, { width: 500, height: 560, themeColors: true });
 
-const MASTER_NAME = "MAP_MASTER_4474x5904";
-const MASTER_WIDTH = 4474;
-const MASTER_HEIGHT = 5904;
+const MASTER_NAME = "MAP_MASTER_VECTOR";
+const LEGACY_MASTER_NAME = "MAP_MASTER_4474x5904";
 const DISTRICT_LAYER = "03_DISTRICT_GEOMETRY";
 const BRAND_LAYER = "00_BRAND";
 const EXPECTED_LAYER_NAMES = [
@@ -218,13 +217,13 @@ function expectedSiblings(node) {
   return node.parent.children.filter((child) => EXPECTED_LAYER_NAMES.includes(child.name));
 }
 
-function exactCanvasNode(layers) {
-  const priority = ["01_WATER", "06_FRAME", ...EXPECTED_LAYER_NAMES];
+function canvasNode(layers, selectedNode) {
+  const priority = ["06_FRAME", "01_WATER", ...EXPECTED_LAYER_NAMES];
   for (const name of priority) {
     const node = layers.find((candidate) => candidate.name === name);
-    const bounds = node ? nodeBounds(node) : null;
-    if (bounds && Math.round(bounds.width) === MASTER_WIDTH && Math.round(bounds.height) === MASTER_HEIGHT) return node;
+    if (node && nodeBounds(node)) return node;
   }
+  if (selectedNode && layers.includes(selectedNode) && nodeBounds(selectedNode)) return selectedNode;
   return null;
 }
 
@@ -238,10 +237,10 @@ function unionBounds(layers) {
   return { x: left, y: top, width: right - left, height: bottom - top };
 }
 
-function looseContext(layers, parent) {
+function looseContext(layers, parent, selectedNode) {
   if (layers.length < 3) return null;
-  const canvasNode = exactCanvasNode(layers) || layers.find((node) => node.name === "06_FRAME") || layers.find((node) => node.name === "01_WATER");
-  const bounds = (canvasNode && nodeBounds(canvasNode)) || unionBounds(layers);
+  const basisNode = canvasNode(layers, selectedNode);
+  const bounds = (basisNode && nodeBounds(basisNode)) || unionBounds(layers);
   if (!bounds) return null;
   return {
     kind: "LOOSE_LAYERS",
@@ -261,7 +260,8 @@ function selectedContext() {
   const selected = figma.currentPage.selection;
   if (selected.length === 1 && selected[0].type === "FRAME") {
     const frame = selected[0];
-    if (frame.name === MASTER_NAME || (Math.round(frame.width) === MASTER_WIDTH && Math.round(frame.height) === MASTER_HEIGHT)) {
+    const expectedChildren = frame.children.filter((child) => EXPECTED_LAYER_NAMES.includes(child.name));
+    if (frame.name === MASTER_NAME || frame.name === LEGACY_MASTER_NAME || expectedChildren.length >= 3) {
       const bounds = nodeBounds(frame) || { x: frame.x, y: frame.y, width: frame.width, height: frame.height };
       return {
         kind: "FRAME",
@@ -278,10 +278,10 @@ function selectedContext() {
     }
   }
   if (selected.length === 1 && EXPECTED_LAYER_NAMES.includes(selected[0].name)) {
-    const context = looseContext(expectedSiblings(selected[0]), selected[0].parent);
+    const context = looseContext(expectedSiblings(selected[0]), selected[0].parent, selected[0]);
     if (context) return context;
   }
-  const exact = figma.currentPage.findOne((node) => node.type === "FRAME" && node.name === MASTER_NAME);
+  const exact = figma.currentPage.findOne((node) => node.type === "FRAME" && [MASTER_NAME, LEGACY_MASTER_NAME].includes(node.name));
   if (exact && exact.type === "FRAME") {
     const bounds = nodeBounds(exact) || { x: exact.x, y: exact.y, width: exact.width, height: exact.height };
     return {
@@ -298,7 +298,7 @@ function selectedContext() {
     };
   }
   const pageLayers = figma.currentPage.children.filter((node) => EXPECTED_LAYER_NAMES.includes(node.name));
-  const pageContext = looseContext(pageLayers, figma.currentPage);
+  const pageContext = looseContext(pageLayers, figma.currentPage, null);
   if (pageContext) return pageContext;
   return null;
 }
@@ -402,7 +402,7 @@ async function exportLayerOnMasterCanvas(context, layer) {
   }
 }
 
-async function exportBrand(context) {
+async function exportBrand(context, includePngPreview) {
   const brand = findBrandNode(context);
   if (!brand || !("exportAsync" in brand)) return null;
   const clone = brand.clone();
@@ -412,21 +412,40 @@ async function exportBrand(context) {
   clone.y = context.bounds.y;
   figma.currentPage.appendChild(clone);
   try {
-    const svg = await clone.exportAsync({ format: "SVG", svgIdAttribute: true, svgOutlineText: false, svgSimplifyStroke: false });
-    const png = await clone.exportAsync({ format: "PNG", constraint: { type: "SCALE", value: 1 } });
-    return { svg, png, nodeId: brand.id, name: brand.name };
+    const result = { svg: null, png: null, errors: [], nodeId: brand.id, name: brand.name };
+    try {
+      result.svg = await clone.exportAsync({ format: "SVG", svgIdAttribute: true, svgOutlineText: false, svgSimplifyStroke: false });
+    } catch (error) {
+      result.errors.push(`Brand SVG 导出失败：${error instanceof Error ? error.message : String(error)}`);
+    }
+    if (includePngPreview) {
+      try {
+        result.png = await clone.exportAsync({ format: "PNG", constraint: { type: "SCALE", value: 1 } });
+      } catch (error) {
+        result.errors.push(`Brand PNG 导出失败：${error instanceof Error ? error.message : String(error)}`);
+      }
+    }
+    return result;
   } finally {
     clone.remove();
   }
 }
 
+async function attemptFile(path, label, producer, warnings) {
+  try {
+    const bytes = await producer();
+    postFile(path, bytes);
+    return true;
+  } catch (error) {
+    warnings.push(`${label}失败，但交付包继续生成：${error instanceof Error ? error.message : String(error)}`);
+    return false;
+  }
+}
+
 async function runExport(options) {
   const context = selectedContext();
-  if (!context) throw new Error(`请选择 ${MASTER_NAME}，或七个规定顶层图层中的任意一层。`);
+  if (!context) throw new Error("请选择地图主画框，或六个规定地图顶层图层中的任意一层。");
   const warnings = [];
-  if (Math.round(context.width) !== MASTER_WIDTH || Math.round(context.height) !== MASTER_HEIGHT) {
-    warnings.push(`识别到的地图画布为 ${context.width} × ${context.height}，不是规定的 ${MASTER_WIDTH} × ${MASTER_HEIGHT}。`);
-  }
   const masterBounds = context.bounds;
   const timestamp = new Date().toISOString();
   const topLayers = context.layers.map((node, index) => ({ index, id: node.id, name: node.name, type: node.type, visible: node.visible }));
@@ -468,30 +487,41 @@ async function runExport(options) {
     currentPageTree: figma.currentPage.children.map((node) => serializeNode(node, masterBounds))
   };
 
-  const total = 7 + context.layers.length;
+  const pngStepCount = options.includePngPreview ? 2 : 0;
+  const layerStepCount = options.includeLayerSvg ? context.layers.length : 0;
+  const total = 6 + pngStepCount + layerStepCount;
   let step = 0;
   progress("保存完整图层树和样式", ++step, total);
   postText("handoff/figma_document.json", JSON.stringify(manifest, null, 2));
 
   progress("导出完整主画框 SVG", ++step, total);
-  postFile("export/master_full.svg", await exportContext(context, "full", "SVG"));
+  await attemptFile("export/master_full.svg", "完整地图 SVG 导出", () => exportContext(context, "full", "SVG"), warnings);
 
-  progress("导出网页地图底图 PNG", ++step, total);
-  postFile("export/metropolis_map_base.png", await exportContext(context, "map_base", "PNG"));
+  progress("导出网页地图底图 SVG", ++step, total);
+  await attemptFile("export/metropolis_map_base.svg", "地图底图 SVG 导出", () => exportContext(context, "map_base", "SVG"), warnings);
+
+  if (options.includePngPreview) {
+    progress("导出网页地图底图 PNG 预览", ++step, total);
+    await attemptFile("export/metropolis_map_base.png", "地图底图 PNG 导出", () => exportContext(context, "map_base", "PNG"), warnings);
+  }
 
   progress("导出分区几何 SVG", ++step, total);
-  postFile("export/metropolis_district_geometry.svg", await exportContext(context, "district_geometry", "SVG"));
+  await attemptFile("export/metropolis_district_geometry.svg", "分区几何 SVG 导出", () => exportContext(context, "district_geometry", "SVG"), warnings);
 
-  progress("导出地图对齐预览 PNG", ++step, total);
-  postFile("export/metropolis_alignment_preview.png", await exportContext(context, "alignment_preview", "PNG"));
+  progress("导出地图对齐 SVG", ++step, total);
+  await attemptFile("export/metropolis_alignment_preview.svg", "地图对齐 SVG 导出", () => exportContext(context, "alignment_preview", "SVG"), warnings);
 
-  const brand = await exportBrand(context);
+  if (options.includePngPreview) {
+    progress("导出地图对齐 PNG 预览", ++step, total);
+    await attemptFile("export/metropolis_alignment_preview.png", "地图对齐预览 PNG 导出", () => exportContext(context, "alignment_preview", "PNG"), warnings);
+  }
+
+  const brand = await exportBrand(context, options.includePngPreview);
   progress("导出独立 Brand", ++step, total);
   if (brand) {
-    postFile("export/metropolis_brand_logo.svg", brand.svg);
-    postFile("export/metropolis_brand_logo.png", brand.png);
-  } else {
-    warnings.push(`没有找到 ${BRAND_LAYER}，未导出 Brand。`);
+    if (brand.svg) postFile("export/metropolis_brand_logo.svg", brand.svg);
+    if (brand.png) postFile("export/metropolis_brand_logo.png", brand.png);
+    warnings.push(...brand.errors);
   }
 
   if (options.includeLayerSvg) {
@@ -499,7 +529,12 @@ async function runExport(options) {
       const layer = context.layers[index];
       progress(`导出独立图层：${layer.name}`, ++step, total);
       const prefix = String(index).padStart(2, "0");
-      postFile(`layers/${prefix}_${normalizeName(layer.name)}.svg`, await exportLayerOnMasterCanvas(context, layer));
+      await attemptFile(
+        `layers/${prefix}_${normalizeName(layer.name)}.svg`,
+        `顶层图层 ${layer.name} SVG 导出`,
+        () => exportLayerOnMasterCanvas(context, layer),
+        warnings
+      );
     }
   }
 
@@ -510,8 +545,12 @@ async function runExport(options) {
     progress(`提取原始图片 ${++imageIndex}/${hashes.size}`, step, total);
     const image = figma.getImageByHash(hash);
     if (!image) continue;
-    const bytes = await image.getBytesAsync();
-    postFile(`images/${hash}.${imageExtension(bytes)}`, bytes);
+    try {
+      const bytes = await image.getBytesAsync();
+      postFile(`images/${hash}.${imageExtension(bytes)}`, bytes);
+    } catch (error) {
+      warnings.push(`原始图片 ${hash} 提取失败，但交付包继续生成：${error instanceof Error ? error.message : String(error)}`);
+    }
   }
 
   const readme = [
@@ -556,7 +595,10 @@ figma.ui.onmessage = async (message) => {
   if (message.type === "export") {
     try {
       figma.ui.postMessage({ type: "reset" });
-      await runExport({ includeLayerSvg: message.includeLayerSvg !== false });
+      await runExport({
+        includeLayerSvg: message.includeLayerSvg !== false,
+        includePngPreview: message.includePngPreview === true
+      });
     } catch (error) {
       figma.ui.postMessage({ type: "error", message: error instanceof Error ? error.message : String(error) });
     }

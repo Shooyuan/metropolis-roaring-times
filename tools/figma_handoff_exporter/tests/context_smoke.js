@@ -3,6 +3,9 @@ const path = require("path");
 const vm = require("vm");
 
 const source = fs.readFileSync(path.join(__dirname, "..", "code.js"), "utf8");
+if (source.includes("MASTER_WIDTH") || source.includes("MASTER_HEIGHT") || source.includes("不是规定的")) {
+  throw new Error("插件仍包含固定画布尺寸限制或警告");
+}
 
 function makeNode(name, type, bounds) {
   return {
@@ -21,8 +24,7 @@ const names = [
   "04_ROADS",
   "03_DISTRICT_GEOMETRY",
   "02_COASTLINE",
-  "01_WATER",
-  "00_BRAND"
+  "01_WATER"
 ];
 const page = {
   id: "page_1",
@@ -35,12 +37,12 @@ const page = {
   }
 };
 page.children = names.map((name, index) => {
-  const exact = name === "01_WATER";
+  const selectedCanvas = name === "06_FRAME";
   const node = makeNode(name, name === "01_WATER" ? "RECTANGLE" : "GROUP", {
     x: 100 + index,
     y: 200 + index,
-    width: exact ? 4474 : 4400 - index,
-    height: exact ? 5904 : 5800 - index
+    width: selectedCanvas ? 10334 : 9992 - index,
+    height: selectedCanvas ? 14101 : 13410 - index
   });
   node.parent = page;
   return node;
@@ -66,8 +68,8 @@ if (!actualUtf8.equals(expectedUtf8)) throw new Error("插件自带 UTF-8 编码
 
 const loose = vm.runInContext("selectedContext()", context);
 if (!loose || loose.kind !== "LOOSE_LAYERS") throw new Error("未识别并列顶层 Group");
-if (loose.layers.length !== 7) throw new Error(`顶层图层数量错误：${loose.layers.length}`);
-if (Math.round(loose.width) !== 4474 || Math.round(loose.height) !== 5904) {
+if (loose.layers.length !== 6) throw new Error(`顶层图层数量错误：${loose.layers.length}`);
+if (Math.round(loose.width) !== 10334 || Math.round(loose.height) !== 14101) {
   throw new Error(`虚拟主画框尺寸错误：${loose.width} × ${loose.height}`);
 }
 context.transformNode = page.children[2];
@@ -80,9 +82,9 @@ if (relativeTransform[1][2] !== context.transformNode.absoluteTransform[1][2] - 
   throw new Error("并列图层纵向位置没有转换为统一画布坐标");
 }
 
-const realFrame = makeNode("MAP_MASTER_4474x5904", "FRAME", { x: 20, y: 30, width: 4474, height: 5904 });
-realFrame.width = 4474;
-realFrame.height = 5904;
+const realFrame = makeNode("MAP_MASTER_VECTOR", "FRAME", { x: 20, y: 30, width: 2718, height: 4096 });
+realFrame.width = 2718;
+realFrame.height = 4096;
 realFrame.rotation = 0;
 realFrame.children = page.children.slice(0, 2);
 page.selection = [realFrame];
@@ -90,4 +92,15 @@ const frameContext = vm.runInContext("selectedContext()", context);
 if (!frameContext || frameContext.kind !== "FRAME") throw new Error("正式外层 Frame 回归失败");
 if (frameContext.layers.length !== 2) throw new Error("正式 Frame 子图层读取失败");
 
-console.log("FIGMA_PLUGIN_CONTEXT_SMOKE_PASS");
+context.warningList = [];
+vm.runInContext("attemptFile('optional.png', '可选 PNG', async () => { throw new Error('too large'); }, warningList)", context)
+  .then((succeeded) => {
+    if (succeeded !== false || context.warningList.length !== 1 || !context.warningList[0].includes("继续生成")) {
+      throw new Error("可选文件失败没有被降级为继续导出的警告");
+    }
+    console.log("FIGMA_PLUGIN_CONTEXT_SMOKE_PASS");
+  })
+  .catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });

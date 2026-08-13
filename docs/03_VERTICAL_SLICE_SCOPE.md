@@ -88,7 +88,7 @@ Required non-purchasable assets:
 
 ### 3.5 Map Presentation and District Detail
 
-- Map art, district geometry, plot geometry, building anchors and gameplay overlays share one normalized coordinate system derived from the owner's `4474 × 5904` Figma master frame.
+- Map art, district geometry, plot geometry, building anchors and gameplay overlays share one normalized coordinate system derived from the actual width and height recorded for the owner's Figma vector canvas; no fixed pixel dimensions are required.
 - The supplied 1939 map is a development reference only. The owner authors and approves the production Figma base, which must not embed dynamic public or private buildings.
 - District boundaries are closed vector shapes authored by the owner and delivered in the authoritative district SVG. Codex converts them to runtime polygons without redrawing, smoothing or changing vertices; the companion mask PNG verifies pixel alignment.
 - Hovering uncovered district space displays an indicative district border. Clicking locks the border and opens the district detail page until another district is selected or the selection is explicitly closed.

@@ -41,11 +41,11 @@ The owner-approved production map must use reviewed coastline, road, landmark an
 
 ### 2.1 Coordinate Registration and Art Handoff
 
-- The owner uses one `4474 × 5904`, north-up Figma master frame for the base, district geometry, mask and alignment preview.
-- Map-space positions are normalized from that frame and remain independent of runtime texture scaling.
+- The owner uses one north-up Figma vector canvas of any size for the base, district geometry and alignment material.
+- Map-space positions are normalized from the actual canvas width and height recorded by the exporter and remain independent of runtime scaling.
 - Every approved base-map revision declares the same crop, aspect ratio, owner revision and registration landmarks in `map_manifest.json`.
 - A replacement texture may change runtime resolution but may not change the registered crop or aspect ratio without an owner-reviewed geometry migration.
-- The owner delivers the editable `.fig`, base PNG, named district SVG, technical district-mask PNG and alignment preview. The SVG is authoritative; Codex converts it to validated runtime JSON without changing geometry.
+- The owner delivers the editable `.fig` and exporter ZIP. SVG and structure JSON are the primary production assets; PNG files are optional review previews. The district SVG is authoritative; Codex converts it to validated runtime JSON without changing geometry.
 - Codex must stop and report missing, open, overlapping, misnamed or misaligned district shapes instead of correcting them independently.
 - Public and private buildings are separate transparent illustration assets placed at data-driven normalized anchors.
 - A flattened preview is review material only; it is not sufficient without the complete owner delivery package.

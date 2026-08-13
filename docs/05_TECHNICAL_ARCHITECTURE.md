@@ -181,7 +181,7 @@ Main
 
 `DebugLayer` is instantiated only in development builds. It is absent or forcibly disabled in the final Web export.
 
-The owner-submitted Figma base, district SVG, mask and preview share one `4474 × 5904` registration. `map_manifest.json` records that owner revision and the normalized conversion. The supplied historical reference may be enabled only as an editor/development alignment guide and is excluded from exports. Codex does not author substitute district polygons.
+The owner-submitted Figma base, district SVG and alignment material share one vector-canvas registration of any size. `map_manifest.json` records the actual canvas width, height, owner revision and normalized conversion. The supplied historical reference may be enabled only as an editor/development alignment guide and is excluded from exports. Codex does not author substitute district polygons.
 
 ### 5.2 District Views and Level of Detail
 

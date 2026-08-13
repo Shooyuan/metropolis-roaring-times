@@ -10,7 +10,7 @@
 - 填充、描边、透明度、渐变、混合模式、圆角和效果；
 - 文字内容、分段文字样式和矢量路径；
 - Figma 中使用的原始图片填充；
-- 网页制作需要的地图底图 PNG、分区 SVG、对齐预览 PNG、Brand SVG/PNG；
+- 网页制作需要的完整地图 SVG、地图底图 SVG、分区 SVG、对齐 SVG，以及作为便利预览的 PNG、Brand SVG/PNG；
 - 每个顶层图层在同一主画框坐标中的独立 SVG。
 
 插件不会联网，也不会修改项目源文件。导出时会创建临时副本，完成单项导出后立即删除。
@@ -29,10 +29,10 @@
 
 ## 每次导出
 
-1. 选中地图最外层主画框；如果七个地图图层像当前文件一样直接并列，则选中 `06_FRAME`、`05_NON_BUILDING_ORNAMENT`、`04_ROADS`、`03_DISTRICT_GEOMETRY`、`02_COASTLINE`、`01_WATER` 或 `00_BRAND` 中任意一层即可。
-2. 插件优先读取名为 `MAP_MASTER_4474x5904` 的外层 Frame；没有外层 Frame 时，会按同级图层的位置和顺序临时建立 `4474 × 5904` 虚拟主画框，不会改变原稿。
+1. 选中地图最外层主画框；如果六个地图图层像当前文件一样直接并列，则选中 `06_FRAME`、`05_NON_BUILDING_ORNAMENT`、`04_ROADS`、`03_DISTRICT_GEOMETRY`、`02_COASTLINE` 或 `01_WATER` 中任意一层即可。
+2. 插件接受任意实际画布尺寸。没有外层 Frame 时，会按所选 `06_FRAME`/`01_WATER` 或同级地图图层的实际边界和顺序临时建立虚拟主画框，不会改变原稿。
 3. 运行 `Metropolis Handoff Exporter`。
-4. 确认插件显示正确尺寸和顶层图层数量。
+4. 确认插件显示实际画布尺寸和地图图层数量。默认保持“额外尝试导出 PNG 预览”关闭，直接进行矢量交付。
 5. 点击“一键导出 ZIP”。
 6. 将下载的 ZIP 文件放入项目或直接交给 Codex 检查。
 
@@ -48,11 +48,13 @@ handoff/
 └── export_summary.json
 export/
 ├── master_full.svg
-├── metropolis_map_base.png
+├── metropolis_map_base.svg
+├── metropolis_map_base.png（可选）
 ├── metropolis_district_geometry.svg
-├── metropolis_alignment_preview.png
-├── metropolis_brand_logo.svg
-└── metropolis_brand_logo.png
+├── metropolis_alignment_preview.svg
+├── metropolis_alignment_preview.png（可选）
+├── metropolis_brand_logo.svg（Figma 中存在 Brand 时）
+└── metropolis_brand_logo.png（Figma 中存在 Brand 且选择 PNG 时）
 layers/
 └── 每个顶层图层的全画框 SVG
 images/
@@ -75,7 +77,6 @@ README_ZH_CN.txt（中文内容）
 03_DISTRICT_GEOMETRY
 02_COASTLINE
 01_WATER
-00_BRAND
 ```
 
-地图底图自动隐藏 `03_DISTRICT_GEOMETRY` 和 `00_BRAND`；分区 SVG 只保留 `03_DISTRICT_GEOMETRY`；对齐预览显示分区但隐藏 Brand；Brand 单独导出。
+`00_BRAND` 是地图之外的独立素材，可以保留在 Figma 中，也可以像当前项目一样单独交付。地图底图自动隐藏 `03_DISTRICT_GEOMETRY` 和可能存在的 `00_BRAND`；分区 SVG 只保留 `03_DISTRICT_GEOMETRY`；对齐预览显示分区但隐藏 Brand。SVG 是无固定输出像素限制的主要交付物；PNG 预览默认关闭，主动开启后若导出失败，插件会记录警告并继续生成 ZIP。

@@ -124,7 +124,7 @@ Five gameplay groupings organize the map:
 
 Central Park, City Hall, the public library, major bridges and initial transit nodes are public assets and cannot be purchased.
 
-The supplied 1939 Manhattan map is an art and composition reference only. The owner authors and approves the production base and district geometry in Figma on one `4474 × 5904` master frame. Codex validates and integrates the delivered `.fig`, base PNG, district SVG, district-mask PNG and alignment preview; it cannot invent district shapes. Replacing the rendered map texture must not move approved gameplay geometry.
+The supplied 1939 Manhattan map is an art and composition reference only. The owner authors and approves the production base and district geometry in Figma on one shared vector canvas of any size. Codex validates and integrates the delivered `.fig` and plugin ZIP; SVG and structure JSON are primary, while PNG files are optional previews. Codex cannot invent district shapes. Replacing the rendered map must not move approved gameplay geometry.
 
 At far and middle zoom, individual public and private building illustrations are hidden. Each district instead presents, in this exact order: plots currently purchasable by the human player; human-owned apartment buildings; human-owned factories; human-owned department stores; major transit facilities present; and district prosperity level. Standard and Luxury Apartments are combined in the apartment count.
 
