@@ -111,7 +111,7 @@ No state relies on color alone.
 - Manhattan remains vertical with north at the top and Lower Manhattan at the bottom.
 - The map is embedded inside a landscape application layout; the island is not rotated sideways to fill the screen.
 - Hudson River remains west/left and East River remains east/right.
-- Brooklyn Bridgehead appears across the southeast river edge.
+- Land across the southeast river edge may appear as non-interactive background; it is not a vertical-slice district.
 - Rotation controls, gesture rotation and automatic camera rotation are prohibited.
 
 ### 5.2 Perspective
@@ -123,18 +123,7 @@ No state relies on color alone.
 
 ### 5.3 Geographic Structure
 
-The production map preserves the relative position of:
-
-- Lower Manhattan;
-- Midtown;
-- Central Park;
-- Upper East and Upper West sides;
-- Hell's Kitchen;
-- Lower East Side;
-- Brooklyn Bridgehead;
-- Brooklyn and Manhattan bridges.
-
-The city may be compressed and artistically distorted. Hell's Kitchen and Lower East Side remain separate shapes even though they share one gameplay category.
+The production map preserves the owner-approved relative order of the twelve districts from Inwood in the north to Financial District in the south, including Washington Heights, Harlem, both Upper sides, both Midtown sides, Chelsea, both Villages and SoHo. Central Park remains a public non-district area; Brooklyn and Manhattan bridges remain public landmarks. The city may be compressed and artistically distorted, but the approved twelve district shapes and their relative positions cannot be redrawn by Codex.
 
 ## 6. Map Layers
 
@@ -218,7 +207,7 @@ Each interactive polygon and collision shape is generated from the same source c
 - One tram line uses a single ink route with approximately five visible stops.
 - Transit range is shown only when inspecting a transport node or affected plot; permanent radius circles would clutter the map.
 - Affected plots explain the `+15%` transit bonus in English.
-- Configured Brooklyn Bridgehead plots explain the additional `+10%` bridgehead value bonus.
+- The former Brooklyn Bridgehead-specific value bonus is retired; any future bridge premium must identify approved plots explicitly.
 - Player construction, route editing, vehicle simulation and ticket revenue are not depicted as available actions.
 
 ## 10. Building Art
@@ -374,8 +363,8 @@ Motion respects a reduced-motion setting where practical.
 Before producing all 64 plots, owner review approves:
 
 - island orientation and proportions;
-- placement of five gameplay groupings represented by six separate district vectors;
-- bridgehead location;
+- placement of all twelve authoritative district vectors;
+- Central Park as a public non-district area and land across the rivers as non-interactive background;
 - major public landmarks;
 - paper, ink and water appearance.
 

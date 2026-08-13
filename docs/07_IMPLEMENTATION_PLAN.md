@@ -331,7 +331,7 @@ Validate and integrate the owner-authored Figma map package, then obtain owner a
 - `DOC-007A` passes before map code begins.
 - Owner approves `VIS-001` Map Composition Gate for the submitted Figma package and its exact Godot overlay.
 - Hudson/west, East River/east and Lower Manhattan/south remain correct.
-- Hell's Kitchen and Lower East Side remain separate.
+- All twelve owner-approved district IDs are present exactly once and their relative geometry matches the Figma source.
 - Strict palette and orientation review passes.
 - Normalized registration matches the owner SVG/mask and survives a replacement runtime texture resolution without moving geometry.
 - The historical reference and owner source package remain absent from runtime/export output; only approved production derivatives ship.
@@ -349,7 +349,7 @@ Deliver exactly 64 data-driven, interactive-ready plot polygons plus stable pan/
 
 ### 10.2 Work
 
-- Define all plot IDs, polygons, ownership eligibility and adjacency against the approved owner districts.
+- Define all plot IDs, polygons, ownership eligibility and adjacency against exactly the twelve approved owner districts; every plot belongs to exactly one stable district ID.
 - Add `map_manifest.json` with normalized registration, declared layer assets and owner-approved LOD threshold data.
 - Import the district polygons derived from the approved owner SVG; propose summary/building anchors separately for owner review.
 - Define public plots and fixed transit topology.

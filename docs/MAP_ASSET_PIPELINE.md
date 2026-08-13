@@ -115,46 +115,36 @@
 在同一个实际矢量画布内使用以下结构：
 
 ```text
-00_REGISTRATION_DO_NOT_EXPORT
-01_BASE_GHOST_DO_NOT_EXPORT
-02_DISTRICTS_EXPORT
-├── district_central_park
-├── district_midtown
-├── district_hells_kitchen
-├── district_lower_east_side
-├── district_lower_manhattan
-└── district_brooklyn_bridgehead
-03_LABELS_DO_NOT_EXPORT
+03_DISTRICT_GEOMETRY
+├── district_inwood
+├── district_washington_heights
+├── district_harlem
+├── district_upper_east
+├── district_upper_west
+├── district_midtown_west
+├── district_midtown_east
+├── district_chelsea
+├── district_west_village
+├── district_east_village
+├── district_soho
+└── district_financial_district
 ```
 
-`02_DISTRICTS_EXPORT` 下的每一项都必须：
+上述 12 个节点是首版唯一权威分区集合，旧六分区/五玩法区结构不再有效。每一项都必须：
 
 - 由老板绘制并批准；
 - 是闭合矢量形状，或由多个闭合形状组成并使用统一名称的组；
-- 不使用模糊、阴影、纹理、蒙版或图片填充；
-- 在正式 SVG 导出中不带描边；
-- 使用单一的技术填充色；
+- 在正式 SVG 中保留稳定 `id` 和可提取矢量路径；
+- 不使用图片作为分区边界；审查用填充、描边或效果可以存在，但运行时转换必须忽略它们，只读取权威路径；
 - 完整位于主画框之内；
 - 不与其他分区意外重叠；如有意重叠，必须由老板在说明文件中记录；
 - 保持上述稳定图层名完全不变。
 
-Hell's Kitchen 与 Lower East Side 虽然共享同一个玩法类别，但必须保持为两个独立矢量形状。因此项目中是五个玩法分组、六个独立分区几何。
+Central Park 是公共非分区空洞；河对岸陆地是首版非交互背景。12 区的经济画像尚未批准，不得从旧五玩法区自动继承。
 
-## 六、分区技术色
+## 六、分区审查样式
 
-以下颜色只用于分区蒙版和对齐检查，不会作为游戏画面的实际分区颜色：
-
-| 分区图层 | 技术色 |
-|---|---|
-| `district_central_park` | `#0000FF` |
-| `district_midtown` | `#00FF00` |
-| `district_hells_kitchen` | `#FFFF00` |
-| `district_lower_east_side` | `#FF00FF` |
-| `district_lower_manhattan` | `#FF0000` |
-| `district_brooklyn_bridgehead` | `#00FFFF` |
-| 所有分区以外 | `#000000` |
-
-分区 SVG 是边界几何的唯一权威。纯色蒙版只用于逐像素核对和备用验证，不能成为 Codex 重画边界的理由。
+分区节点可以使用统一紫色或其他老板批准的临时审查样式；程序依靠稳定 `id` 区分分区，不依靠技术颜色。分区 SVG 是边界几何的唯一权威。填充、描边、阴影和滤镜只用于人工审查，运行时几何转换必须忽略这些表现属性，也不能以它们为理由重画边界。
 
 ## 七、一键交付文件包
 

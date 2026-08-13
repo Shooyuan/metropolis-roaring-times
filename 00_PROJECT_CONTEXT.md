@@ -225,13 +225,22 @@ Metropolis: Roaring Times 是一款以纽约为舞台的单机回合制地产策
 
 ### 7.3 地图范围
 
-五个宏观区域：
+首版使用老板 Figma 权威几何中的 12 个曼哈顿分区，不再使用旧六分区/五玩法区模型：
 
-1. Lower Manhattan：高价值商业与金融区。
-2. Midtown：主要首次购地和开发区。
-3. Central Park District：中央公园周边高价值住宅区。
-4. Hell's Kitchen / Lower East Side：两个空间分离但共享“低价工业/住宅混合”玩法标签的子区域；地图上不得画成一个连续区域。
-5. Brooklyn Bridgehead：低价、受桥梁和交通影响的新兴区域。
+1. Inwood（`district_inwood`）。
+2. Washington Heights（`district_washington_heights`）。
+3. Harlem（`district_harlem`）。
+4. Upper East Side（`district_upper_east`）。
+5. Upper West Side（`district_upper_west`）。
+6. Midtown West（`district_midtown_west`）。
+7. Midtown East（`district_midtown_east`）。
+8. Chelsea（`district_chelsea`）。
+9. West Village（`district_west_village`）。
+10. East Village（`district_east_village`）。
+11. SoHo（`district_soho`）。
+12. Financial District（`district_financial_district`）。
+
+每个地块必须且只能归属一个上述分区。12 区的基础地价、用途倾向和事件权重仍是后续老板审批门，Codex 不得把旧五类经济画像自动套用到新区。
 
 不可购买的公共地块至少包括：
 
@@ -278,7 +287,7 @@ Metropolis: Roaring Times 是一款以纽约为舞台的单机回合制地产策
 - 垂直切片必须至少实现交通邻接加成的数据能力。
 - 垂直切片中的有轨电车和地铁均为预设公共设施，不允许玩家铺设。
 - 首版地图固定表现两座桥、6 个地铁站和一条约含 5 个站点的有轨电车线路。
-- 与固定交通设施一层邻接以内的地块获得 15% 地价与建筑收入加成；指定 Brooklyn Bridgehead 地块另获得 10% 地价加成。多个交通设施不叠加，只取最高适用加成。
+- 与固定交通设施一层邻接以内的地块获得 15% 地价与建筑收入加成；多个交通设施不叠加，只取最高适用加成。旧 `Brooklyn Bridgehead` 额外 10% 地价规则随旧分区模型退役；若以后需要桥梁溢价，必须由老板指定实际地块后另行加入。
 - 玩家建设线路、车站、票务和过路费系统延期。
 
 ### 7.7 必须实现的玩家行动
@@ -415,8 +424,8 @@ AI 不调用大语言模型实时决策，采用固定种子下可测试的效�
 - Midtown 位于中央偏南。
 - Central Park 位于中北部。
 - Upper East Side 在公园东侧，Upper West Side 在公园西侧。
-- Hell's Kitchen 在中城西侧，Lower East Side 在下城东侧。
-- Brooklyn Bridgehead 位于东南方向的河对岸。
+- 12 个权威分区按老板 Figma 几何从 Inwood 贯穿至 Financial District；Central Park 是不可购买公共资产和地图空洞，不是第 13 个分区。
+- 河对岸陆地和桥头可以作为底图环境出现，但首版不构成可交互分区。
 - 桥梁作为不可购买公共设施连接两岸。
 
 地图视觉使用一套与输出像素无关的归一化坐标空间。底图可以随镜头放大、缩小、拖拽或替换为更高分辨率版本，但裁切范围、宽高比例和归一化地理注册不得无审批改变；分区边界、地块、统计锚点、交通和建筑落点全部使用同一坐标关系。

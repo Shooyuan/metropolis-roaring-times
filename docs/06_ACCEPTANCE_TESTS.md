@@ -134,7 +134,7 @@ Pass when every required JSON file parses, uses a supported schema, contains uni
 Pass when content validation confirms:
 
 - exactly 64 interactive plots;
-- five gameplay areas with Hell's Kitchen and Lower East Side spatially separate;
+- exactly twelve authoritative districts with the stable IDs defined in `MAP_ASSET_PIPELINE.md`;
 - four building categories and three art variants per category;
 - Tycoon, Landlady and Shark personalities;
 - two approved government-auction stories;
@@ -185,7 +185,7 @@ After leaving a completed or partially played match, start a new one. Pass when 
 
 ### `DOC-007A` Owner Figma Handoff Integrity
 
-Before M1A implementation, pass when the owner package contains the versioned `.fig`, exporter structure JSON, full/base vector SVG, authoritative district SVG with a viewBox matching the recorded actual canvas, alignment SVG and owner notes. PNG files are optional previews and their absence does not fail intake. The stable district layer names must be present, all shapes must be closed and in the shared canvas, Hell's Kitchen and Lower East Side must remain separate, and all vector layers must align. A missing or ambiguous authoritative vector asset fails intake; Codex may not replace it with invented geometry.
+Before M1A implementation, pass when the owner package contains the versioned `.fig`, exporter structure JSON, full/base vector SVG, authoritative district SVG with a viewBox matching the recorded actual canvas, alignment SVG and owner notes. PNG files are optional previews and their absence does not fail intake. All twelve stable district layer names must be present exactly once, visible, closed and in the shared canvas, and all vector layers must align. A missing or ambiguous authoritative vector asset fails intake; Codex may not replace it with invented geometry.
 
 ### `DOC-007B` Figma 一键交付插件完整性
 
@@ -203,7 +203,7 @@ Pass when each plot polygon:
 
 ### `SCN-004` Geographic Legibility
 
-Pass when the north-up Godot map matches the owner-approved Figma alignment preview and preserves the approved relative arrangement of Manhattan, the two rivers, five gameplay areas, Central Park, the two bridges and Brooklyn Bridgehead. Manhattan must not rotate sideways, and any conversion difference requires owner review.
+Pass when the north-up Godot map matches the owner-approved Figma alignment preview and preserves the approved relative arrangement of Manhattan, the two rivers, all twelve districts, Central Park and the two bridges. Manhattan must not rotate sideways, land across the rivers remains non-interactive background, and any conversion difference requires owner review.
 
 ### `SCN-005` Plot Interaction
 
@@ -292,14 +292,13 @@ The old building stops operating, leaves current cost basis and is replaced by a
 
 Pass when a legal submission consumes one action point, locks exactly 90% of current market value, marks the asset `sale_pending` and transfers ownership/cash once at the next `TURN_START` before income and maintenance. Verify that the pending asset cannot be redeveloped, demolished, resold or auctioned and that brokered sale is unavailable as an immediate resolution for already-mature debt.
 
-### `AUT-006` Transit and Bridgehead
+### `AUT-006` Transit Access
 
 Pass when:
 
 - one ordinary adjacency step to any fixed transit asset gives `+15%` land value and building income;
 - multiple ordinary transit assets do not stack;
-- configured Brooklyn Bridgehead plots receive the additional `+10%` land-value bonus;
-- the bridgehead bonus may stack with one ordinary transit bonus;
+- no retired Brooklyn Bridgehead-specific bonus is applied;
 - public transit cannot be purchased or constructed by the player.
 
 ## 10. Turn Flow, Action Points and Economy
@@ -624,7 +623,7 @@ Pass when reduced motion shortens/removes nonessential motion without hiding req
 
 ### `VIS-001` Map Composition Gate
 
-Owner approves the submitted Figma source, base PNG, district SVG/mask alignment, island orientation/proportion, placement of five gameplay groupings represented by six separate district vectors, bridgehead, main landmarks and strict reference-derived paper/ink/water appearance before Codex integrates district interaction or finalizes any of the 64 plots.
+Owner approves the submitted Figma source, base/district/alignment SVG registration, island orientation/proportion, placement of all twelve authoritative district vectors, Central Park, both bridges, main landmarks and strict reference-derived paper/ink/water appearance before Codex integrates district interaction or finalizes any of the 64 plots.
 
 ### `VIS-002` Interaction-State Gate
 

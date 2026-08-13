@@ -114,13 +114,7 @@ Historical reporting, fictional city news and government-source rumors are visib
 
 ### 7.1 Map
 
-Five gameplay groupings organize the map:
-
-1. Lower Manhattan.
-2. Midtown.
-3. Central Park District.
-4. Hell's Kitchen and Lower East Side as separate geographic subareas sharing one low-cost mixed-use gameplay category.
-5. Brooklyn Bridgehead.
+The owner-approved Figma geometry defines twelve authoritative Manhattan districts for the vertical slice: Inwood, Washington Heights, Harlem, Upper East Side, Upper West Side, Midtown West, Midtown East, Chelsea, West Village, East Village, SoHo and Financial District. Their stable IDs are defined in `MAP_ASSET_PIPELINE.md`. The former six-district/five-gameplay-area model is retired. District economic profiles remain a later owner approval gate and are not inferred from the former grouping.
 
 Central Park, City Hall, the public library, major bridges and initial transit nodes are public assets and cannot be purchased.
 
@@ -139,7 +133,7 @@ At the approved near-zoom threshold, all public and private individual building 
 
 Transit is initially represented by public infrastructure and adjacency effects. Player-built tram and subway networks are deferred from the vertical slice.
 
-The fixed transport layer contains the Brooklyn and Manhattan bridges, six subway stations and one tram line with approximately five stops. Nearby plots receive a non-stacking transit-access bonus.
+The fixed transport layer contains the Brooklyn and Manhattan bridges, six subway stations and one tram line with approximately five stops. Nearby plots receive a non-stacking transit-access bonus. The former Brooklyn Bridgehead-specific bonus is retired with the former district model.
 
 ### 7.3 AI Roster
 

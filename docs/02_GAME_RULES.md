@@ -42,7 +42,7 @@ Every new match stores a seed. The seed controls all permitted random choices, i
 ### 2.3 Map State
 
 - The map contains exactly 64 irregular interactive plots.
-- District identity and boundaries come only from the owner-approved Figma handoff and its authoritative district SVG; gameplay code cannot create substitute geography.
+- District identity and boundaries come only from the owner-approved Figma handoff and its authoritative district SVG; gameplay code cannot create substitute geography. The vertical slice contains exactly the twelve stable district IDs defined in `MAP_ASSET_PIPELINE.md`; the former six-district model is invalid.
 - Public plots are owned by the government and cannot be purchased.
 - Initial private and unowned plots are defined by the mode configuration.
 - All ownership, zoning, adjacency and building state is loaded before the first turn begins.
@@ -257,8 +257,8 @@ These are the first approved balance baselines before district, transit, polluti
 - Public transit is prebuilt in the vertical slice and can provide adjacency bonuses; the player cannot build tram or subway infrastructure.
 - The fixed transport layer contains two bridges, six subway stations and one tram line with approximately five stops.
 - A plot within one adjacency step of an applicable transit facility receives 15% more land value and building income.
-- Configured Brooklyn Bridgehead plots receive an additional 10% land-value bonus from bridge access.
-- Multiple transit-access bonuses do not stack; only the highest applicable transit bonus is used. The separate configured bridgehead bonus may apply in addition.
+- Multiple transit-access bonuses do not stack; only the highest applicable transit bonus is used.
+- The former Brooklyn Bridgehead-specific 10% bonus is retired because the owner-approved twelve-district map has no such gameplay district. A future bridge premium requires a separately approved explicit plot list.
 
 ### 7.4 Demolition
 

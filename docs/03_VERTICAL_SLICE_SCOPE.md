@@ -55,13 +55,7 @@ The release is not considered complete when only isolated systems or a visual pr
 
 ### 3.2 Geography
 
-The map covers:
-
-1. Lower Manhattan.
-2. Midtown.
-3. Central Park District.
-4. Hell's Kitchen and Lower East Side as geographically separate subareas sharing one low-cost mixed-use gameplay category.
-5. Brooklyn Bridgehead.
+The map uses the twelve owner-approved Manhattan districts: Inwood, Washington Heights, Harlem, Upper East Side, Upper West Side, Midtown West, Midtown East, Chelsea, West Village, East Village, SoHo and Financial District. The exact stable IDs are defined in `MAP_ASSET_PIPELINE.md`. The former six-district/five-gameplay-area model is retired. Central Park remains a public non-district area, and land across the rivers is non-interactive background in the vertical slice.
 
 Relative direction must remain recognizable. Street-level and cadastral accuracy are not required.
 
@@ -82,9 +76,8 @@ Required non-purchasable assets:
 - Transit is prebuilt and government-owned.
 - The player and AI cannot build, buy, demolish or extend transit.
 - A plot within one adjacency step of an applicable transit facility receives `+15%` land value and building income.
-- Configured Brooklyn Bridgehead plots also receive `+10%` land value from bridge access.
 - Multiple ordinary transit bonuses do not stack; only the highest applicable bonus is used.
-- The separate bridgehead bonus may apply in addition to one ordinary transit bonus.
+- The former Brooklyn Bridgehead-specific bonus is retired. A future bridge premium requires an owner-approved explicit plot list.
 
 ### 3.5 Map Presentation and District Detail
 

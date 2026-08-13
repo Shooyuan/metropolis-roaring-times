@@ -15,7 +15,7 @@
 11. 每个阶段必须先完成实现、运行测试并修复错误，再保存全部相关文件并创建一次 Git commit；测试失败或提交失败时不得宣布阶段完成。
 12. 进入下一阶段前必须向老板报告计划、行动、风险、测试和需要决策的事项，并获得明确批准。
 13. 重连后先读取本文件、`00_PROJECT_CONTEXT.md`、Git 状态和最近提交，从未完成任务续作；不得重新搭建或覆盖已有文件。
-14. 地图底图与分区几何由老板在 Figma 中创作和批准。Codex 只能检查、转换、优化和接入老板提交的 `.fig`、底图 PNG、分区 SVG、分区蒙版 PNG 与对齐预览；未收到完整交付包时不得自行绘制、猜测、近似或修正分区边界。
+14. 地图底图与分区几何由老板在 Figma 中创作和批准。Codex 只能检查、转换、优化和接入老板提交的 `.fig`、结构 JSON、底图 SVG、分区 SVG、对齐 SVG 与可选预览；未收到完整交付包时不得自行绘制、猜测、近似或修正分区边界。
 15. 老板提交的分区 SVG 是分区边界权威。Codex 从它派生运行时 JSON 时不得擅自平滑、删点或改变顶点；任何派生变化必须提交前后对比并获得老板批准。
 
 [CODEX] **Codex–DeepSeek 协作规则**
@@ -31,3 +31,5 @@
 [CODEX] 20. DeepSeek 不得自行改变规格、数值、接口、场景、项目设置或验收标准；需要越界时先停止并提交带 `[DEEPSEEK]` 标记的问题。
 
 [CODEX] 21. DeepSeek 分支交付只有在 Codex 完整审查、复测并集成后才进入项目事实；主分支阶段提交仍由 Codex 负责。
+
+22. 首版权威分区集合固定为老板批准的 12 个曼哈顿分区：`district_inwood`、`district_washington_heights`、`district_harlem`、`district_upper_east`、`district_upper_west`、`district_midtown_west`、`district_midtown_east`、`district_chelsea`、`district_west_village`、`district_east_village`、`district_soho`、`district_financial_district`。旧六分区/五玩法区模型和 `district_brooklyn_bridgehead` 不得重新引入；各区经济画像仍须老板另行批准。
