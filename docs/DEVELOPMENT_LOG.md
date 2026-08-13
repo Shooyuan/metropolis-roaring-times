@@ -1,5 +1,34 @@
 # Metropolis: Roaring Times — Development Log
 
+## M1W-INTAKE-01 — Figma 交付包 v001 验收
+
+### 已收交付
+
+- 收到并只读检查 `metropolis_handoff_1786625270806.zip`、`metropolis_roaring_times_map_v001.fig`、`00_BRAND.svg` 和 `06_FRAME.svg`；
+- 原始文件保持未修改、未移动、未提交；SHA-256、大小和检查证据记录在 `FIGMA_HANDOFF_INTAKE_V001.md`；
+- ZIP、六层结构、任意尺寸画布、全部 SVG 统一 `viewBox`、正式底图隔离和纯矢量导出通过。
+
+### 阻断项
+
+- `district_soho` 被隐藏，未进入正式分区 SVG；
+- `district_finicial_district` 拼写错误；
+- `district_chelsea` 权威路径未闭合；
+- 独立 Brand 可见标题仍缺少项目已批准的冒号；
+- Figma 已有 12 个地理分区，但项目文档仍有旧六分区模型，必须由老板明确裁决后才能贯通修改。
+
+### 阶段决定
+
+- 插件交付结构门通过，但分区几何和 Brand 门未通过；
+- Codex 不修正老板几何，不进入 M1W 网页接入；
+- 等待老板修正 Figma、保存同版本 `.fig`、重新导出 ZIP，并确认 12 分区是否正式替代旧六区。
+
+### 验证结果
+
+- ZIP 13 个文件全部通过系统解压校验，所有导出 SVG 通过 XML 合法性检查；
+- 插件 JavaScript 语法、任意尺寸/坐标、UTF-8 和 ZIP 本地测试继续通过；
+- Godot M0G 回归测试在 `4.7.1.stable.steam.a13da4feb` 下通过，输出 `M0G_TESTS_PASS count=4`；
+- Git 空白检查通过，老板源文件仍保持未提交状态。
+
 ## TOOL-FIGMA-04 — 任意矢量画布与 SVG 优先交付
 
 ### 老板决定
