@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="《Metropolis: Roaring Times》M1W 制作人地图演示——一款纽约历史地产策略游戏。">
+  <title>Metropolis: Roaring Times — M1W 制作人地图演示（中文版）</title>
+  <link rel="stylesheet" href="../styles.css?v=m1w2">
+  <link rel="stylesheet" href="zh-CN.css?v=m1w-zh1">
+</head>
+<body>
+  <div class="prototype-ribbon">M1W 制作人地图演示 — FIGMA 地图集成 · 非最终地块与数值平衡</div>
+
+  <main class="game-shell" aria-label="Metropolis: Roaring Times M1W 制作人地图演示">
+    <header class="masthead">
+      <div class="brand-lockup">
+        <img class="brand-seal" src="../assets/00_BRAND.svg" alt="" aria-hidden="true">
+        <div>
+          <p class="eyebrow">纽约地产策略 · PRE-ALPHA</p>
+          <h1>Metropolis: <span>Roaring Times</span></h1>
+        </div>
+      </div>
+      <div class="header-actions" aria-label="系统操作">
+        <button id="help-button" class="quiet-button" type="button">玩法说明</button>
+        <button id="settings-button" class="quiet-button" type="button">设置</button>
+        <button id="save-button" class="quiet-button" type="button">保存</button>
+        <button id="load-button" class="quiet-button" type="button">读取</button>
+        <button id="restart-button" class="quiet-button" type="button">新对局</button>
+      </div>
+    </header>
+
+    <section class="status-strip" aria-label="对局状态">
+      <div class="status-cell"><span>回合</span><strong id="turn-value">—</strong></div>
+      <div class="status-cell"><span>经济阶段</span><strong id="economy-value">—</strong></div>
+      <div class="status-cell"><span>现金</span><strong id="cash-value">—</strong></div>
+      <div class="status-cell"><span>债务</span><strong id="debt-value">—</strong></div>
+      <div class="status-cell"><span>剩余授信</span><strong id="credit-value">—</strong></div>
+      <div class="status-cell"><span>净资产</span><strong id="worth-value">—</strong></div>
+      <div class="status-cell status-cell--ap"><span>行动点</span><strong id="ap-value">—</strong></div>
+      <button id="end-turn-button" class="status-end-turn" type="button"><span>当前操作</span><strong>结束回合</strong><small id="turn-prompt">开始一局游戏</small></button>
+    </section>
+
+    <section class="workspace">
+      <aside class="operations-panel panel" aria-label="综合操作栏">
+        <div class="panel-heading">
+          <span>综合操作栏</span>
+          <span class="panel-number">01</span>
+        </div>
+        <div class="operations-tabs" role="tablist" aria-label="综合操作页面">
+          <button type="button" role="tab" data-operations-tab="brief" aria-controls="tab-brief">游戏<br>简报</button>
+          <button type="button" role="tab" data-operations-tab="advice" aria-controls="tab-advice">投资<br>建议</button>
+          <button type="button" role="tab" data-operations-tab="bank" aria-controls="tab-bank">银行</button>
+          <button type="button" role="tab" data-operations-tab="auction" aria-controls="tab-auction">拍卖场</button>
+          <button type="button" role="tab" data-operations-tab="stocks" aria-controls="tab-stocks">股票<br>市场</button>
+        </div>
+
+        <section id="tab-brief" class="operations-page" role="tabpanel" data-operations-page="brief">
+          <div class="mascot-placeholder" aria-label="未来看板玩偶占位区">
+            <div class="mascot-face" aria-hidden="true">◉‿◉</div>
+            <div><strong>看板玩偶办公室</strong><p>此处预留给未来的橡皮管风格顾问。本地图演示目前只使用确定性文本。</p></div>
+          </div>
+          <dl class="brief-grid">
+            <div><dt>模式</dt><dd>1v1 · M1W 地图演示</dd></div>
+            <div><dt>规则</dt><dd>标准</dd></div>
+            <div><dt>对手</dt><dd id="rival-name">—</dd></div>
+            <div><dt>风格</dt><dd id="rival-style">—</dd></div>
+            <div><dt>状态</dt><dd id="rival-condition">—</dd></div>
+            <div><dt>对手净资产</dt><dd id="rival-worth">—</dd></div>
+            <div><dt>当前法令</dt><dd id="law-status">—</dd></div>
+            <div><dt>目标</dt><dd>第 8 回合结束时领先</dd></div>
+          </dl>
+          <ol class="pitch-steps">
+            <li>购买并开发地产，获得经营收入。</li>
+            <li>出现更优且合法的用途时，向上改建建筑。</li>
+            <li>通过出售、银行和证券管理流动性。</li>
+            <li>在第 8 回合结束时取得最高净资产。</li>
+          </ol>
+          <p class="scope-note">此版本用于验证老板绘制的 12 分区地图。64 个正式地块与 20 回合数值平衡仍需后续审批。</p>
+        </section>
+
+        <section id="tab-advice" class="operations-page" role="tabpanel" data-operations-page="advice" hidden>
+          <div id="market-brief" class="event-card" aria-live="polite"><strong>市场简报</strong><p>选择一名对手开始游戏。</p></div>
+          <div class="feed-key"><span>史实</span><span>虚构</span><span>传闻</span><span>动态</span></div>
+          <ol id="news-list" class="news-list" aria-live="polite"></ol>
+        </section>
+
+        <section id="tab-bank" class="operations-page" role="tabpanel" data-operations-page="bank" hidden>
+          <p class="page-lead">玩家行动阶段可随时使用授信。借款与还款不消耗行动点。</p>
+          <dl class="brief-grid bank-summary">
+            <div><dt>可用授信</dt><dd id="bank-credit">—</dd></div>
+            <div><dt>新贷款利率</dt><dd id="bank-rate">—</dd></div>
+            <div><dt>期限</dt><dd>6 回合</dd></div>
+          </dl>
+          <div class="stacked-actions">
+            <button id="borrow-button" class="primary-button" type="button">借款 $10,000</button>
+            <button id="repay-button" type="button">最多偿还 $10,000</button>
+          </div>
+          <h3>贷款账簿</h3>
+          <ol id="loan-list" class="compact-list"></ol>
+        </section>
+
+        <section id="tab-auction" class="operations-page" role="tabpanel" data-operations-page="auction" hidden>
+          <div class="empty-docket"><span aria-hidden="true">⚖</span><h2>暂无计划拍卖</h2><p>拍卖故事与竞拍者内容需要老板批准，本灰盒版本不会擅自编写。</p></div>
+          <p class="scope-note">计划中的正式形式：政府土地拍卖与紧急债务拍卖。</p>
+        </section>
+
+        <section id="tab-stocks" class="operations-page" role="tabpanel" data-operations-page="stocks" hidden>
+          <p class="page-lead">每次买入或卖出消耗现有 3 点行动点中的 1 点。最低委托额 $1,000，手续费 1%。</p>
+          <label class="order-amount" for="stock-order-amount">委托金额
+            <input id="stock-order-amount" type="number" min="1000" step="1000" value="1000">
+          </label>
+          <div id="stock-list" class="stock-list"></div>
+          <p class="scope-note">原型证券篮子使用虚构的综合投资标的，不包含期货、做空、融资融券或实时行情。</p>
+        </section>
+      </aside>
+
+      <section class="map-panel panel" aria-label="老板绘制的曼哈顿分区地图">
+        <div class="panel-heading map-panel-heading"><span>曼哈顿分区地图</span><span id="map-hint" aria-live="polite">正在载入正式地图…</span></div>
+        <div class="map-stage" id="map-stage" tabindex="0" aria-label="曼哈顿交互地图。拖动以平移，使用加减按钮缩放，选择分区查看详情。">
+          <div id="map-loading" class="map-loading" role="status">正在准备老板绘制的矢量地图…</div>
+          <div id="map-anchor" class="map-anchor" aria-hidden="true">
+            <div id="map-canvas" class="map-canvas">
+              <img id="map-base" class="map-base" src="../assets/metropolis_map_base.svg" alt="老板绘制的曼哈顿插画地图" draggable="false">
+              <svg id="district-overlay" class="district-overlay" viewBox="0 0 10334 14101" aria-label="十二个可选曼哈顿分区"></svg>
+            </div>
+          </div>
+          <div class="map-instruction">拖动平移 · 滚轮或按钮缩放 · 不可旋转</div>
+        </div>
+        <div class="map-toolbar" aria-label="地图控制">
+          <button id="map-zoom-out" type="button" aria-label="缩小">−</button>
+          <output id="map-zoom-value" for="map-zoom-out map-zoom-in">100%</output>
+          <button id="map-zoom-in" type="button" aria-label="放大">+</button>
+          <button id="map-reset" type="button">重置视图</button>
+          <span id="map-status">12 个分区 · 老板定稿几何</span>
+        </div>
+        <div class="legend map-legend" aria-label="地图图例"><span><i class="legend-key legend-key--district"></i>分区感应区</span><span><i class="legend-key legend-key--hover"></i>悬停边框</span><span><i class="legend-key legend-key--selected"></i>已锁定选择</span></div>
+      </section>
+
+      <aside class="property-panel panel" aria-label="分区档案">
+        <div class="panel-heading"><span>分区档案</span><span class="panel-number">02</span></div>
+        <div id="empty-district" class="empty-property district-empty"><strong>请选择分区</strong><p>将鼠标移到地图上即可显示边界，单击可锁定边框并打开该分区档案。</p></div>
+        <div id="district-details" class="property-details district-details" hidden>
+          <button id="district-close-button" class="district-close-button" type="button" aria-label="关闭所选分区">×</button>
+          <p class="plot-code" id="district-code">—</p><h2 id="district-name">—</h2>
+          <p id="district-location" class="district-location">纽约 · 曼哈顿</p>
+          <dl class="property-grid district-grid">
+            <div><dt>可购入地块</dt><dd id="district-plots">待定</dd></div>
+            <div><dt>你的公寓</dt><dd id="district-apartments">—</dd></div>
+            <div><dt>你的工厂</dt><dd id="district-factories">—</dd></div>
+            <div><dt>你的商场</dt><dd id="district-stores">—</dd></div>
+            <div><dt>大型交通设施</dt><dd id="district-transit">待定</dd></div>
+            <div><dt>繁荣度</dt><dd id="district-prosperity">—</dd></div>
+          </dl>
+          <div class="district-note"><strong>M1W 地图范围</strong><p id="district-note">几何边界与选择交互正在审核。玩法数据等待批准后的 64 地块数据集。</p></div>
+          <p class="district-source">来源：老板绘制的 Figma 交付包 v003。</p>
+        </div>
+        <div class="legacy-property-runtime" hidden>
+          <div id="plot-layer"></div>
+          <div id="empty-property">请在地图上选择地块。</div>
+          <div id="property-details">
+          <p class="plot-code" id="plot-code">—</p><h2 id="plot-name">—</h2>
+          <dl class="property-grid">
+            <div><dt>分区</dt><dd id="plot-district">—</dd></div><div><dt>用途</dt><dd id="plot-zone">—</dd></div>
+            <div><dt>业主</dt><dd id="plot-owner">—</dd></div><div><dt>市值</dt><dd id="plot-price">—</dd></div>
+            <div><dt>建筑</dt><dd id="plot-building">—</dd></div><div><dt>收入</dt><dd id="plot-income">—</dd></div>
+          </dl>
+          <div class="action-section"><button id="buy-button" class="primary-button" type="button">购买地块</button></div>
+          <div class="action-section build-section">
+            <label for="building-select">在自有空地上建造</label>
+            <select id="building-select"><option value="standard_apartment">标准公寓 — $8,000</option><option value="factory">工厂 — $15,000</option><option value="luxury_apartment">豪华公寓 — $25,000</option><option value="department_store">百货商场 — $30,000</option></select>
+            <button id="build-button" class="primary-button" type="button">建造</button>
+          </div>
+          <div class="action-section redevelop-section" hidden>
+            <label for="redevelop-select">改建为成本更高的建筑</label>
+            <select id="redevelop-select"></select>
+            <p id="redevelop-preview" class="action-preview"></p>
+            <button id="redevelop-button" class="primary-button" type="button">改建</button>
+          </div>
+          <div class="action-section sale-section" hidden>
+            <p id="sale-preview" class="action-preview"></p>
+            <button id="sell-property-button" type="button">经纪出售</button>
+          </div>
+          <p id="property-reason" class="reason-copy" aria-live="polite"></p>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <div id="start-modal" class="modal-backdrop is-open" role="dialog" aria-modal="true" aria-labelledby="start-title"><section class="modal-card rival-modal"><p class="eyebrow">M1W 制作人地图演示</p><h2 id="start-title">选择对手</h2><p>选择一名对手以保留现有 1v1 经济玩法，然后查看老板绘制的曼哈顿地图。</p><div class="rival-options"><button class="rival-option" type="button" data-rival="tycoon"><strong>实业大亨</strong><span>重视工业扩张与交通价值。</span></button><button class="rival-option" type="button" data-rival="landlady"><strong>女房东</strong><span>重视住宅收入与稳健持有。</span></button><button class="rival-option" type="button" data-rival="shark"><strong>资本鲨客</strong><span>重视廉价土地、流动性与投机机会。</span></button></div><button id="start-load-button" class="start-load-button" type="button" hidden>继续已保存对局</button><p class="modal-footnote">地图与分区几何属于正式制作输入。地块边界、数值平衡和拍卖故事仍待审批。</p></section></div>
+
+  <div id="help-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="help-title"><section class="modal-card help-modal-card"><button class="modal-close" type="button" data-close-modal="help-modal" aria-label="关闭玩法说明">×</button><p class="eyebrow">三分钟玩法导览</p><h2 id="help-title">怎么玩</h2><ol><li>购买土地并建造建筑，两项操作各消耗 1 点行动点。</li><li>只能改建为成本更高且符合法令的建筑。旧建筑提供建造费 120% 的升级抵扣，但不会返还现金。</li><li>经纪出售会锁定当前地产价值的 90%，并在下一回合结算。</li><li>每次买入或卖出证券消耗 1 点行动点，并收取 1% 手续费。</li><li>银行借款和还款不消耗行动点；贷款在 6 回合后到期。</li><li>第 8 回合结束时净资产最高者获胜。</li></ol></section></div>
+
+  <div id="settings-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="settings-title"><section class="modal-card settings-card"><button class="modal-close" type="button" data-close-modal="settings-modal" aria-label="关闭设置">×</button><p class="eyebrow">原型设置</p><h2 id="settings-title">系统</h2><dl class="brief-grid"><div><dt>语言</dt><dd>简体中文</dd></div><div><dt>规则</dt><dd>标准</dd></div><div><dt>动效</dt><dd>跟随设备偏好</dd></div><div><dt>存档</dt><dd>浏览器本地存储</dd></div></dl></section></div>
+
+  <div id="result-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="result-title"><section class="modal-card result-card"><p class="eyebrow">原型对局结果</p><h2 id="result-title">对局结束</h2><p id="result-summary"></p><div class="result-grid"><div><span>你的净资产</span><strong id="result-player-worth">—</strong></div><div><span>对手净资产</span><strong id="result-rival-worth">—</strong></div><div><span>你的证券资产</span><strong id="result-player-securities">—</strong></div><div><span>对手证券资产</span><strong id="result-rival-securities">—</strong></div></div><button id="result-restart-button" class="primary-button" type="button">选择其他对手</button></section></div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js?v=m1w-zh1"></script>
+</body>
+</html>
