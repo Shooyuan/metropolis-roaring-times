@@ -269,7 +269,7 @@ The original high environment risk is now reduced: the Steam executable, matchin
 
 ## 8A. M1W — 制作人地图网页 Demo
 
-> 当前状态：实现与内部测试已完成，等待老板视觉验收；尚未获准进入 Godot M1A。详细证据见 `M1W_WEB_TEST_REPORT.md`。
+> 当前状态：地图接入与英/简中单一多语言实现已完成，自动门禁、真实浏览器双向切换、状态保持、语言记忆、统一存档往返和旧中文链接跳转均已通过。完成本阶段 Git 提交后等待老板视觉验收；尚未获准进入 Godot M1A。详细证据见 `M1W_WEB_TEST_REPORT.md`。
 
 ### 目标
 
@@ -283,7 +283,9 @@ The original high environment risk is now reduced: the Steam executable, matchin
 - 用正式地图替换占位曼哈顿轮廓；
 - 接入独立 Brand；
 - 实现禁止旋转的地图拖拽、固定倍率缩放、边界限制；
-- 实现现有分区的悬停边框、点击保持和英文详情样板；
+- 实现现有分区的悬停边框、点击保持和英/简中详情样板；
+- 将中英文审阅版合并为单一 `index.html`、单一玩法脚本和两份语言词典；在设置中即时切换语言并保留对局、地图与界面状态；
+- 使用新的统一存档键，并把旧英文与旧中文存档作为只读迁移来源，避免自动覆盖；
 - 对老板批准保留原样的 `district_chelsea` 矢量网络执行专项命中测试；若悬停、点击或选中保持范围错误，停止接入并报告，不擅自修改边界；
 - 在 Chrome 中完成可视、交互、分辨率和性能检查。
 

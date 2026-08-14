@@ -6,7 +6,7 @@
 >
 > Chinese reference title: 《大都会：咆哮年代》
 >
-> Player-facing language: **English**
+> Player-facing language: **English by default, with Simplified Chinese selectable in Settings**
 
 The approved player-facing brand must retain the exact punctuation `Metropolis: Roaring Times` and the public credit `designed and drawn by GatChive`.
 >
@@ -197,7 +197,8 @@ Audio supports interaction and atmosphere through restrained period-inspired mus
 - First playable delivery: single-threaded Web export.
 - No server, account, online database or runtime network dependency.
 - Target desktop resolutions: 1920×1080, 1440×900 and 1366×768.
-- Player-facing text is English.
+- Player-facing text defaults to English and can switch immediately to Simplified Chinese without resetting the match or presentation state.
+- English and Chinese share one UI structure and one gameplay implementation; localized display strings are separated from stable rule and content IDs.
 - Important states use text, icons, outlines or patterns in addition to color.
 
 ## 10. Explicitly Out of Scope for the Vertical Slice

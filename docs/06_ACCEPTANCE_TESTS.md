@@ -2,7 +2,7 @@
 
 > Document role: authoritative acceptance and release-gate specification for the vertical slice
 >
-> Player-facing language: English
+> Player-facing language: English by default, with Simplified Chinese selectable in Settings
 >
 > Scope authority: `../00_PROJECT_CONTEXT.md` and `01_PRODUCT_BRIEF.md` through `05_TECHNICAL_ARCHITECTURE.md`
 
@@ -144,9 +144,11 @@ Pass when content validation confirms:
 - exactly three securities instruments with the approved availability and no futures/margin product;
 - the five Integrated Operations Panel tabs in the approved order.
 
-### `DOC-005` English Player Content
+### `DOC-005` Localized Player Content
 
-Pass when all player-facing labels, buttons, errors, events, tutorials, tooltips, rival profiles and result text are English. Internal content IDs and file names use stable English `snake_case`.
+Pass when all player-facing labels, buttons, errors, events, tutorials, tooltips, rival profiles and result text are complete in English and Simplified Chinese, with English as the first-run default. Internal content IDs, localization keys and file names use stable English `snake_case`.
+
+Changing language in Settings must update static labels, dynamic financial/gameplay text, map district labels, news/activity records, dialogs and accessibility names without resetting the match, camera, selection, open tab or modal. Both languages must use the same gameplay source and interface structure. A missing key, mixed-language current event or separate diverging gameplay implementation fails this test.
 
 The product title must appear as `Metropolis: Roaring Times`. Government-source rumors use `Sources familiar with the New York State Government`.
 

@@ -533,7 +533,8 @@ A fatal content error stops match creation with a clear diagnostic. It must not 
 - Personality records provide weights and thresholds, not scripted cheats.
 - Law records provide dates, warnings and named modifiers.
 - Event records provide eligibility and modifier IDs.
-- Display strings are separate from stable rule IDs even though only English ships initially.
+- Display strings are separate from stable rule IDs. English and Simplified Chinese dictionaries resolve the same localization keys; English is the default.
+- Activity and news records store localization keys plus typed parameters instead of storing one localized sentence as authoritative state.
 
 ### 10.3 No Executable Content
 
@@ -687,7 +688,9 @@ Camera position, selected plot and open non-blocking panel may be stored as pres
 
 ### 14.5 Settings
 
-`ConfigFile` stores music volume, sound-effect volume, mute, reduced motion and other local presentation preferences. Settings are not part of match authority or deterministic replay.
+`ConfigFile` stores language, music volume, sound-effect volume, mute, reduced motion and other local presentation preferences. Settings are not part of match authority or deterministic replay.
+
+Language switching reapplies static and dynamic localization without recreating `GameState`. Camera position, selection, active tab and non-blocking modal state remain unchanged. The Web prototype uses the same rule with a dedicated local settings key and a new unified save key; legacy English and Chinese prototype saves remain read-only migration sources until the player explicitly loads one.
 
 ## 15. Signals and Event Delivery
 

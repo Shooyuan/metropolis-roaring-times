@@ -1,8 +1,14 @@
 "use strict";
 
 const MAX_TURN = 8;
-const SAVE_KEY = "metropolis_roaring_times_m01_save_v2";
-const LEGACY_SAVE_KEY = "roaring_times_m0_web_save_v1";
+const SAVE_KEY = "metropolis_roaring_times_m1w_unified_save_v3";
+const LEGACY_SAVE_KEYS = [
+  "metropolis_roaring_times_m01_save_v2",
+  "metropolis_roaring_times_m01_save_zh_cn_v1",
+  "roaring_times_m0_web_save_v1",
+];
+const t = (key, values = {}) => window.M1WI18n.t(key, values);
+const locale = () => window.M1WI18n.getLocale();
 
 const RIVALS = {
   tycoon: { name: "Tycoon", style: "Industry & transport", preferredPlots: ["hk_01", "mt_01"], building: "factory", reserve: 8000, security: "industrial_shares" },
@@ -24,13 +30,13 @@ const SECURITIES = {
 };
 
 const NEWS_ITEMS = [
-  { turn: 1, type: "Fictional", source: "The Metropolitan Ledger", headline: "Builders seek well-connected parcels as a new property season opens." },
-  { turn: 2, type: "Historical", source: "Federal Reserve Historical Record", headline: "Security credit expands alongside the late-1920s investment boom." },
-  { turn: 3, type: "Fictional", source: "The Five Borough Gazette", headline: "Investment trusts draw new attention from small Manhattan investors." },
-  { turn: 4, type: "Rumor", source: "Sources familiar with the New York State Government", headline: "Residential zoning restrictions are said to be under active review." },
-  { turn: 5, type: "Rumor", source: "Sources familiar with the New York State Government", headline: "A second briefing points to imminent limits on industrial residential use." },
-  { turn: 6, type: "Fictional", source: "The Metropolitan Ledger", headline: "Property desks reassess mixed-use sites after the zoning order takes effect." },
-  { turn: 7, type: "Historical", source: "Federal Reserve Historical Record", headline: "Equity values fall sharply as the compressed adjustment phase begins." },
+  { turn: 1, type: "Fictional", sourceKey: "news.source.metropolitan_ledger", headlineKey: "news.headline.turn_1" },
+  { turn: 2, type: "Historical", sourceKey: "news.source.federal_reserve", headlineKey: "news.headline.turn_2" },
+  { turn: 3, type: "Fictional", sourceKey: "news.source.five_borough_gazette", headlineKey: "news.headline.turn_3" },
+  { turn: 4, type: "Rumor", sourceKey: "news.source.state_sources", headlineKey: "news.headline.turn_4" },
+  { turn: 5, type: "Rumor", sourceKey: "news.source.state_sources", headlineKey: "news.headline.turn_5" },
+  { turn: 6, type: "Fictional", sourceKey: "news.source.metropolitan_ledger", headlineKey: "news.headline.turn_6" },
+  { turn: 7, type: "Historical", sourceKey: "news.source.federal_reserve", headlineKey: "news.headline.turn_7" },
 ];
 
 const DISTRICTS = [
@@ -95,14 +101,28 @@ const mapView = {
   lastWheelAt: 0,
 };
 
-const money = (value) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(Math.round(value));
+const money = (value) => new Intl.NumberFormat(locale(), { style: "currency", currency: "USD", currencyDisplay: "narrowSymbol", maximumFractionDigits: 0 }).format(Math.round(value));
 const compactMoney = (value) => Math.abs(value) >= 1000 ? `$${Math.round(value / 1000)}k` : `$${Math.round(value)}`;
+const rivalName = (id) => t(`rival.${id}.name`);
+const rivalStyle = (id) => t(`rival.${id}.style`);
+const buildingName = (id) => t(`building.${id}.name`);
+const buildingShort = (id) => t(`building.${id}.short`);
+const securityName = (id) => t(`security.${id}.name`);
+const securityRisk = (id) => t(`security.${id}.risk`);
+const districtName = (districtOrId) => t(`district.${typeof districtOrId === "string" ? districtOrId : districtOrId.id}.name`);
+const districtLabel = (district) => t(`district.${district.id}.label`).split("|");
+const districtLocation = (district) => t(`district.${district.id}.location`);
+const districtNote = (district) => t(`district.${district.id}.note`);
+const plotName = (plotOrId) => {
+  const plot = typeof plotOrId === "string" ? PLOT_BLUEPRINTS.find((item) => item.id === plotOrId) : plotOrId;
+  return plot ? t(`plot.${plot.id}.name`) : "";
+};
 
 function economyForTurn(turn) {
-  if (turn <= 2) return { id: "opening", name: "Opening", market: 1, income: 1, credit: 100000, rate: 0.0025 };
-  if (turn <= 4) return { id: "prosperity", name: "Prosperity", market: 1.12, income: 1.18, credit: 110000, rate: 0.0025 };
-  if (turn <= 6) return { id: "overheating", name: "Overheating", market: 1.22, income: 1.08, credit: 80000, rate: 0.006 };
-  return { id: "adjustment", name: "Adjustment", market: 0.9, income: 0.78, credit: 60000, rate: 0.0075 };
+  if (turn <= 2) return { id: "opening", market: 1, income: 1, credit: 100000, rate: 0.0025 };
+  if (turn <= 4) return { id: "prosperity", market: 1.12, income: 1.18, credit: 110000, rate: 0.0025 };
+  if (turn <= 6) return { id: "overheating", market: 1.22, income: 1.08, credit: 80000, rate: 0.006 };
+  return { id: "adjustment", market: 0.9, income: 0.78, credit: 60000, rate: 0.0075 };
 }
 
 const blankHoldings = () => Object.fromEntries(Object.keys(SECURITIES).map((id) => [id, 0]));
@@ -124,12 +144,12 @@ function createInitialState(rivalId) {
     aiCash -= plot.price;
   }
   return {
-    version: 2, rivalId, turn: 1, ap: 3, cash: 50000, aiCash, loans: [], plots,
+    version: 3, rivalId, turn: 1, ap: 3, cash: 50000, aiCash, loans: [], plots,
     selectedPlotId: null, activeOperationsTab: "brief", finished: false, transactionSequence: 1,
     playerHoldings: blankHoldings(), aiHoldings: blankHoldings(),
     securitiesPrices: Object.fromEntries(Object.keys(SECURITIES).map((id) => [id, securityPriceForTurn(id, 1)])),
     securitiesPreviousPrices: Object.fromEntries(Object.keys(SECURITIES).map((id) => [id, securityPriceForTurn(id, 1)])),
-    log: [{ turn: 1, type: "Activity", text: `${RIVALS[rivalId].name} enters the Manhattan market on equal starting value.` }],
+    log: [{ turn: 1, type: "Activity", key: "activity.match_entered", values: { rivalId } }],
   };
 }
 
@@ -166,9 +186,23 @@ function setToast(message) {
   toastTimer = window.setTimeout(() => dom.toast.classList.remove("is-visible"), 2200);
 }
 
-function addLog(text, type = "Activity") {
-  state.log.unshift({ turn: state.turn, type, text });
+function addLog(key, values = {}, type = "Activity") {
+  state.log.unshift({ turn: state.turn, type, key, values });
   state.log = state.log.slice(0, 30);
+}
+
+function localizedEvent(entry) {
+  if (!entry.key) return entry.text || "";
+  const values = { ...(entry.values || {}) };
+  if (values.rivalId) values.rival = rivalName(values.rivalId);
+  if (values.plotId) values.plot = plotName(values.plotId);
+  if (values.buildingId) values.building = buildingName(values.buildingId);
+  if (values.fromBuildingId) values.fromBuilding = buildingName(values.fromBuildingId);
+  if (values.toBuildingId) values.toBuilding = buildingName(values.toBuildingId);
+  for (const field of ["amount", "fee", "price", "playerIncome", "rivalIncome", "due"]) {
+    if (Number.isFinite(values[field])) values[field] = money(values[field]);
+  }
+  return t(entry.key, values);
 }
 
 function withCommitLock(action) {
@@ -185,15 +219,15 @@ function withCommitLock(action) {
 }
 
 function plotMark(plot) {
-  if (plot.salePending) return "SALE\nPENDING";
-  if (plot.owner === "market") return "SOLD";
+  if (plot.salePending) return t("plot_mark.sale_pending");
+  if (plot.owner === "market") return t("plot_mark.sold");
   if (plot.building) {
-    const building = BUILDINGS[plot.building.type];
-    return plot.building.activeTurn > state.turn ? `${building.short}\nBUILD` : building.short;
+    const short = buildingShort(plot.building.type);
+    return plot.building.activeTurn > state.turn ? t("plot_mark.building", { building: short }) : short;
   }
-  if (plot.owner === "player") return "YOU";
-  if (plot.owner === "ai") return "RIVAL";
-  if (plot.owner === "government") return "PUBLIC";
+  if (plot.owner === "player") return t("plot_mark.player");
+  if (plot.owner === "ai") return t("plot_mark.rival");
+  if (plot.owner === "government") return t("plot_mark.public");
   return compactMoney(marketPrice(plot));
 }
 
@@ -207,7 +241,7 @@ function renderMap() {
     button.dataset.owner = plot.owner;
     Object.assign(button.style, { left: `${plot.x}%`, top: `${plot.y}%`, width: `${plot.w}%`, height: `${plot.h}%` });
     button.style.setProperty("--shape", plot.shape);
-    button.setAttribute("aria-label", `${plot.name}, ${plot.owner}, ${plot.building ? BUILDINGS[plot.building.type].name : "empty"}`);
+    button.setAttribute("aria-label", t("aria.plot", { plot: plotName(plot), owner: t(`owner.${plot.owner}`), building: plot.building ? buildingName(plot.building.type) : t("property.empty_land") }));
     const mark = document.createElement("span");
     mark.className = "plot-mark";
     mark.textContent = plotMark(plot);
@@ -278,20 +312,20 @@ function renderDistrictDetails() {
     group.setAttribute("aria-pressed", String(selected));
   }
   if (!district) {
-    dom.mapHint.textContent = "Hover a district · Click to lock";
+    dom.mapHint.textContent = t("map.hover_lock");
     return;
   }
   dom.districtCode.textContent = district.id.toUpperCase();
-  dom.districtName.textContent = district.name;
-  dom.districtLocation.textContent = `${district.location} · Manhattan, New York`;
-  dom.districtPlots.textContent = "Pending 64-plot phase";
+  dom.districtName.textContent = districtName(district);
+  dom.districtLocation.textContent = t("district.location_line", { location: districtLocation(district) });
+  dom.districtPlots.textContent = t("district.pending_plots");
   dom.districtApartments.textContent = "—";
   dom.districtFactories.textContent = "—";
   dom.districtStores.textContent = "—";
-  dom.districtTransit.textContent = "Pending owner review";
-  dom.districtProsperity.textContent = "— (50.0 to <100.0)";
-  dom.districtNote.textContent = `${district.note} Gameplay counts and prosperity remain intentionally unset until their data and formula are approved.`;
-  dom.mapHint.textContent = `${district.name} · Selection locked`;
+  dom.districtTransit.textContent = t("district.pending_transit");
+  dom.districtProsperity.textContent = t("district.pending_prosperity");
+  dom.districtNote.textContent = t("district.note_line", { note: districtNote(district) });
+  dom.mapHint.textContent = t("map.selection_locked", { district: districtName(district) });
 }
 
 function selectDistrict(id) {
@@ -303,6 +337,20 @@ function selectDistrict(id) {
 
 function clearDistrictSelection() {
   selectedDistrictId = null;
+  renderDistrictDetails();
+}
+
+function refreshDistrictLocalization() {
+  if (!mapView.loaded) return;
+  const interactionLayer = dom.districtOverlay.querySelector("#district-interaction-layer");
+  const labelLayer = dom.districtOverlay.querySelector("#district-label-layer");
+  if (!interactionLayer || !labelLayer) return;
+  labelLayer.replaceChildren();
+  for (const meta of DISTRICTS) {
+    const group = interactionLayer.querySelector(`[data-district-id="${meta.id}"]`);
+    group.setAttribute("aria-label", t("aria.select_district", { district: districtName(meta) }));
+    labelLayer.append(createDistrictLabel(meta, group.getBBox()));
+  }
   renderDistrictDetails();
 }
 
@@ -321,8 +369,9 @@ function createDistrictLabel(meta, bounds) {
   text.setAttribute("data-label-for", meta.id);
   text.setAttribute("x", String(bounds.x + bounds.width / 2));
   const lineHeight = 170;
-  const firstY = bounds.y + bounds.height / 2 - ((meta.label.length - 1) * lineHeight) / 2;
-  meta.label.forEach((line, index) => {
+  const label = districtLabel(meta);
+  const firstY = bounds.y + bounds.height / 2 - ((label.length - 1) * lineHeight) / 2;
+  label.forEach((line, index) => {
     const span = document.createElementNS(svgNamespace, "tspan");
     span.setAttribute("x", String(bounds.x + bounds.width / 2));
     span.setAttribute("y", String(firstY + index * lineHeight));
@@ -355,19 +404,19 @@ async function initializeProducerMap() {
     group.setAttribute("data-district-id", meta.id);
     group.setAttribute("tabindex", "0");
     group.setAttribute("role", "button");
-    group.setAttribute("aria-label", `Select ${meta.name}`);
+    group.setAttribute("aria-label", t("aria.select_district", { district: districtName(meta) }));
     group.setAttribute("aria-pressed", "false");
 
     for (const sourcePath of sourcePaths) group.append(createDistrictPath(sourcePath, "district-hit"));
     for (const sourcePath of sourcePaths) group.append(createDistrictPath(sourcePath, "district-outline-outer"));
     for (const sourcePath of sourcePaths) group.append(createDistrictPath(sourcePath, "district-outline-inner"));
 
-    group.addEventListener("pointerenter", () => { dom.mapHint.textContent = `${meta.name} · Click to open district file`; });
+    group.addEventListener("pointerenter", () => { dom.mapHint.textContent = t("map.open_file", { district: districtName(meta) }); });
     group.addEventListener("pointerleave", () => {
       const selected = districtMeta(selectedDistrictId);
-      dom.mapHint.textContent = selected ? `${selected.name} · Selection locked` : "Hover a district · Click to lock";
+      dom.mapHint.textContent = selected ? t("map.selection_locked", { district: districtName(selected) }) : t("map.hover_lock");
     });
-    group.addEventListener("focus", () => { dom.mapHint.textContent = `${meta.name} · Press Enter to select`; });
+    group.addEventListener("focus", () => { dom.mapHint.textContent = t("map.press_enter", { district: districtName(meta) }); });
     group.addEventListener("keydown", (event) => {
       if (["Enter", " "].includes(event.key)) {
         event.preventDefault();
@@ -388,8 +437,8 @@ async function initializeProducerMap() {
   mapView.loaded = true;
   dom.mapAnchor.removeAttribute("aria-hidden");
   dom.mapLoading.hidden = true;
-  dom.mapStatus.textContent = `${DISTRICTS.length} districts · Owner geometry`;
-  dom.mapHint.textContent = "Hover a district · Click to lock";
+  dom.mapStatus.textContent = t("map.status", { count: DISTRICTS.length });
+  dom.mapHint.textContent = t("map.hover_lock");
   applyMapView();
 }
 
@@ -397,9 +446,9 @@ function failProducerMap(error) {
   console.error(error);
   dom.mapLoading.hidden = false;
   dom.mapLoading.classList.add("is-error");
-  dom.mapLoading.textContent = "The official map could not be prepared. Check the local HTTP server and asset files.";
-  dom.mapStatus.textContent = "Map load failed";
-  dom.mapHint.textContent = "Official map unavailable";
+  dom.mapLoading.textContent = t("map.load_error");
+  dom.mapStatus.textContent = t("map.load_failed");
+  dom.mapHint.textContent = t("map.unavailable");
 }
 
 function mapPointerDown(event) {
@@ -461,17 +510,17 @@ function mapKeydown(event) {
 
 function zoningReason(plot, buildingId) {
   if (zoningActive() && plot.zone === "Residential" && ["factory", "department_store"].includes(buildingId)) {
-    return "The zoning rule blocks new factories and stores on Residential plots.";
+    return t("reason.zoning_block");
   }
   return "";
 }
 
 function buildingLegality(plot, buildingId) {
-  if (!plot || plot.owner !== "player") return "Own an empty plot before building.";
-  if (plot.salePending) return "This property is already committed to a brokered sale.";
-  if (plot.building) return "This plot already has a building.";
-  if (state.ap < 1) return "No action points remain this turn.";
-  if (state.cash < BUILDINGS[buildingId].cost) return `You need ${money(BUILDINGS[buildingId].cost)} cash.`;
+  if (!plot || plot.owner !== "player") return t("reason.own_empty_plot");
+  if (plot.salePending) return t("reason.sale_pending");
+  if (plot.building) return t("reason.already_built");
+  if (state.ap < 1) return t("reason.no_ap");
+  if (state.cash < BUILDINGS[buildingId].cost) return t("reason.need_cash", { amount: money(BUILDINGS[buildingId].cost) });
   return zoningReason(plot, buildingId);
 }
 
@@ -486,24 +535,24 @@ function redevelopmentOptions(plot) {
 }
 
 function redevelopmentLegality(plot, buildingId) {
-  if (!plot || plot.owner !== "player" || !plot.building) return "Own a developed property before redevelopment.";
-  if (plot.salePending) return "This property is already committed to a brokered sale.";
-  if (!redevelopmentOptions(plot).some(([id]) => id === buildingId)) return "Redevelopment must move to a strictly higher-cost building.";
-  if (state.ap < 1) return "No action points remain this turn.";
+  if (!plot || plot.owner !== "player" || !plot.building) return t("reason.own_developed_property");
+  if (plot.salePending) return t("reason.sale_pending");
+  if (!redevelopmentOptions(plot).some(([id]) => id === buildingId)) return t("reason.higher_cost_only");
+  if (state.ap < 1) return t("reason.no_ap");
   const cost = redevelopmentCost(plot, buildingId);
-  if (state.cash < cost) return `You need ${money(cost)} cash.`;
+  if (state.cash < cost) return t("reason.need_cash", { amount: money(cost) });
   return zoningReason(plot, buildingId);
 }
 
 function selectedActionReason(plot) {
-  if (!plot) return "Select a plot to inspect it.";
-  if (plot.salePending) return `Brokered sale settles for ${money(plot.salePending.price)} at the start of turn ${plot.salePending.settleTurn}.`;
-  if (plot.owner === "government") return "Public land is not available in this prototype.";
-  if (plot.owner === "market") return "This property has left the playable market after settlement.";
-  if (plot.owner === "ai") return "This property belongs to your rival.";
-  if (plot.owner === "unowned" && state.ap < 1) return "No action points remain this turn.";
-  if (plot.owner === "unowned" && state.cash < marketPrice(plot)) return "Insufficient cash. Borrowing is always explicit.";
-  if (plot.owner === "player" && plot.building?.activeTurn > state.turn) return "Construction becomes operational next turn.";
+  if (!plot) return t("reason.select_plot");
+  if (plot.salePending) return t("reason.sale_settlement", { amount: money(plot.salePending.price), turn: plot.salePending.settleTurn });
+  if (plot.owner === "government") return t("reason.public_unavailable");
+  if (plot.owner === "market") return t("reason.left_market");
+  if (plot.owner === "ai") return t("reason.rival_property");
+  if (plot.owner === "unowned" && state.ap < 1) return t("reason.no_ap");
+  if (plot.owner === "unowned" && state.cash < marketPrice(plot)) return t("reason.insufficient_cash");
+  if (plot.owner === "player" && plot.building?.activeTurn > state.turn) return t("reason.operational_next_turn");
   return "";
 }
 
@@ -513,19 +562,18 @@ function renderProperty() {
   dom.propertyDetails.hidden = !plot;
   if (!plot) return;
 
-  const ownerLabels = { player: "You", ai: RIVALS[state.rivalId].name, government: "Public", market: "Sold to market", unowned: "Available" };
   dom.plotCode.textContent = plot.id.toUpperCase();
-  dom.plotName.textContent = plot.name;
-  dom.plotDistrict.textContent = plot.district;
-  dom.plotZone.textContent = plot.zone;
-  dom.plotOwner.textContent = ownerLabels[plot.owner];
-  dom.plotPrice.textContent = plot.owner === "government" ? "Not for sale" : money(propertyMarketValue(plot));
-  dom.plotBuilding.textContent = plot.building ? `${BUILDINGS[plot.building.type].name}${plot.building.activeTurn > state.turn ? " (Building)" : ""}` : "Empty land";
-  dom.plotIncome.textContent = plot.owner === "market" ? "Not collected" : plot.building ? `${money(operationalIncome(plot))} / turn` : "—";
+  dom.plotName.textContent = plotName(plot);
+  dom.plotDistrict.textContent = t("plot.unmapped_fixture");
+  dom.plotZone.textContent = t(`zone.${plot.zone.toLowerCase()}`);
+  dom.plotOwner.textContent = plot.owner === "ai" ? rivalName(state.rivalId) : t(`owner.${plot.owner}`);
+  dom.plotPrice.textContent = plot.owner === "government" ? t("property.not_for_sale") : money(propertyMarketValue(plot));
+  dom.plotBuilding.textContent = plot.building ? `${buildingName(plot.building.type)}${plot.building.activeTurn > state.turn ? t("property.building_suffix") : ""}` : t("property.empty_land");
+  dom.plotIncome.textContent = plot.owner === "market" ? t("property.not_collected") : plot.building ? t("property.income_per_turn", { amount: money(operationalIncome(plot)) }) : "—";
 
   dom.buyButton.hidden = plot.owner !== "unowned";
   dom.buyButton.disabled = plot.owner !== "unowned" || state.ap < 1 || state.cash < marketPrice(plot);
-  dom.buyButton.textContent = `Buy Plot · ${money(marketPrice(plot))}`;
+  dom.buyButton.textContent = t("property.buy_plot", { amount: money(marketPrice(plot)) });
 
   dom.buildSection.hidden = plot.owner !== "player" || Boolean(plot.building) || Boolean(plot.salePending);
   dom.buildButton.disabled = Boolean(buildingLegality(plot, dom.buildingSelect.value));
@@ -537,20 +585,20 @@ function renderProperty() {
     dom.redevelopSelect.replaceChildren(...options.map(([id, building]) => {
       const option = document.createElement("option");
       option.value = id;
-      option.textContent = `${building.name} — pay ${money(redevelopmentCost(plot, id))}`;
+      option.textContent = t("property.redevelop_option", { building: buildingName(id), amount: money(redevelopmentCost(plot, id)) });
       return option;
     }));
     if (options.some(([id]) => id === selected)) dom.redevelopSelect.value = selected;
     const buildingId = dom.redevelopSelect.value;
     const old = BUILDINGS[plot.building.type];
-    dom.redevelopPreview.textContent = `${money(BUILDINGS[buildingId].cost)} new cost − ${money(old.cost * 1.2)} old-building credit = ${money(redevelopmentCost(plot, buildingId))}. Operational next turn.`;
+    dom.redevelopPreview.textContent = t("property.redevelop_preview", { newCost: money(BUILDINGS[buildingId].cost), credit: money(old.cost * 1.2), amount: money(redevelopmentCost(plot, buildingId)) });
     dom.redevelopButton.disabled = Boolean(redevelopmentLegality(plot, buildingId));
   }
 
   dom.saleSection.hidden = plot.owner !== "player" || Boolean(plot.salePending);
   if (!dom.saleSection.hidden) {
     const salePrice = Math.round(propertyMarketValue(plot) * 0.9);
-    dom.salePreview.textContent = state.turn >= MAX_TURN ? "Brokered sales cannot begin on the final turn." : `Lock ${money(salePrice)} (90% of current property value); settle at the start of next turn.`;
+    dom.salePreview.textContent = state.turn >= MAX_TURN ? t("property.sale_final_turn") : t("property.sale_preview", { amount: money(salePrice) });
     dom.sellPropertyButton.disabled = state.ap < 1 || state.turn >= MAX_TURN;
   }
 
@@ -560,27 +608,36 @@ function renderProperty() {
   dom.propertyReason.textContent = reason;
 }
 
+function renderBuildingSelectLabels() {
+  const selected = dom.buildingSelect.value;
+  for (const option of dom.buildingSelect.options) {
+    const building = BUILDINGS[option.value];
+    if (building) option.textContent = `${buildingName(option.value)} — ${money(building.cost)}`;
+  }
+  if ([...dom.buildingSelect.options].some((option) => option.value === selected)) dom.buildingSelect.value = selected;
+}
+
 function rivalCondition() {
   const worth = participantWorth("ai");
-  if (state.aiCash < 8000) return "Cash strained";
-  if (worth > participantWorth("player") * 1.12) return "Confident";
-  if (worth < participantWorth("player") * 0.88) return "Pressured";
-  return "Steady";
+  if (state.aiCash < 8000) return t("rival_condition.cash_strained");
+  if (worth > participantWorth("player") * 1.12) return t("rival_condition.confident");
+  if (worth < participantWorth("player") * 0.88) return t("rival_condition.pressured");
+  return t("rival_condition.steady");
 }
 
 function cityMessage() {
-  if (state.turn === 4) return { warning: true, text: "Zoning debate announced: Residential districts may soon reject new factories and department stores." };
-  if (state.turn === 5) return { warning: true, text: "Second zoning warning: industrial residential plans face near-term risk." };
-  if (state.turn >= 6) return { warning: true, text: "Zoning is active: no new Factory or Department Store on Residential plots." };
-  if (economyForTurn(state.turn).id === "prosperity") return { warning: false, text: "Prosperity lifts land values and operating income. Investment trusts are now available." };
-  return { warning: false, text: "Opening market: land is stable, credit is broad and every action point matters." };
+  if (state.turn === 4) return { warning: true, text: t("market_message.turn_4") };
+  if (state.turn === 5) return { warning: true, text: t("market_message.turn_5") };
+  if (state.turn >= 6) return { warning: true, text: t("market_message.zoning_active") };
+  if (economyForTurn(state.turn).id === "prosperity") return { warning: false, text: t("market_message.prosperity") };
+  return { warning: false, text: t("market_message.opening") };
 }
 
 function renderNews() {
   dom.newsList.replaceChildren();
   const records = [
-    ...NEWS_ITEMS.filter((item) => item.turn <= state.turn).map((item) => ({ ...item, text: item.headline })),
-    ...state.log.map((entry) => ({ turn: entry.turn, type: entry.type || "Activity", source: "Your Operations Desk", text: entry.text })),
+    ...NEWS_ITEMS.filter((item) => item.turn <= state.turn).map((item) => ({ ...item, source: t(item.sourceKey), text: t(item.headlineKey) })),
+    ...state.log.map((entry) => ({ turn: entry.turn, type: entry.type || "Activity", source: t("news.source.operations_desk"), text: localizedEvent(entry) })),
   ].sort((a, b) => b.turn - a.turn).slice(0, 18);
   for (const record of records) {
     const item = document.createElement("li");
@@ -589,9 +646,9 @@ function renderNews() {
     top.className = "news-meta";
     const badge = document.createElement("span");
     badge.className = `news-badge news-badge--${record.type.toLowerCase()}`;
-    badge.textContent = record.type;
+    badge.textContent = t(`news.type.${record.type.toLowerCase()}`);
     const source = document.createElement("span");
-    source.textContent = `Turn ${record.turn} · ${record.source}`;
+    source.textContent = t("news.meta", { turn: record.turn, source: record.source });
     const copy = document.createElement("p");
     copy.textContent = record.text;
     top.append(badge, source);
@@ -604,13 +661,13 @@ function renderLoanBook() {
   dom.loanList.replaceChildren();
   if (!state.loans.length) {
     const item = document.createElement("li");
-    item.textContent = "No outstanding loans.";
+    item.textContent = t("bank.no_loans");
     dom.loanList.append(item);
     return;
   }
   for (const loan of state.loans) {
     const item = document.createElement("li");
-    item.textContent = `${money(loan.principal + loan.interest)} due at the end of turn ${loan.dueTurn}`;
+    item.textContent = t("bank.loan_due", { amount: money(loan.principal + loan.interest), turn: loan.dueTurn });
     dom.loanList.append(item);
   }
 }
@@ -627,9 +684,9 @@ function renderStocks() {
     card.className = "stock-card";
     const summary = document.createElement("div");
     summary.className = "stock-summary";
-    summary.innerHTML = `<div><strong>${security.ticker}</strong><span>${security.name}</span></div><div class="stock-price"><strong>${available ? money(price) : "LOCKED"}</strong><span>${available ? `${change >= 0 ? "+" : ""}${change.toFixed(1)}% this turn` : "Opens in Prosperity"}</span></div>`;
+    summary.innerHTML = `<div><strong>${security.ticker}</strong><span>${securityName(id)}</span></div><div class="stock-price"><strong>${available ? money(price) : t("stock.locked")}</strong><span>${available ? t("stock.change", { change: `${change >= 0 ? "+" : ""}${change.toFixed(1)}%` }) : t("stock.opens_prosperity")}</span></div>`;
     const facts = document.createElement("p");
-    facts.textContent = `Risk ${security.risk} · Your holding ${money(holdingValue)}`;
+    facts.textContent = t("stock.facts", { risk: securityRisk(id), amount: money(holdingValue) });
     const actions = document.createElement("div");
     actions.className = "stock-actions";
     for (const side of ["buy", "sell"]) {
@@ -637,7 +694,7 @@ function renderStocks() {
       button.type = "button";
       button.dataset.securityId = id;
       button.dataset.tradeSide = side;
-      button.textContent = side === "buy" ? "Buy" : "Sell";
+      button.textContent = t(`stock.${side}`);
       const amount = Number(dom.stockOrderAmount.value) || 0;
       button.disabled = !available || state.ap < 1 || (side === "buy" ? state.cash < amount * 1.01 : holdingValue + 0.01 < amount);
       actions.append(button);
@@ -655,16 +712,16 @@ function renderOperations() {
   }
   for (const page of dom.operationsPages) page.hidden = page.dataset.operationsPage !== state.activeOperationsTab;
   const economy = economyForTurn(state.turn);
-  dom.rivalName.textContent = RIVALS[state.rivalId].name;
-  dom.rivalStyle.textContent = RIVALS[state.rivalId].style;
+  dom.rivalName.textContent = rivalName(state.rivalId);
+  dom.rivalStyle.textContent = rivalStyle(state.rivalId);
   dom.rivalCondition.textContent = rivalCondition();
   dom.rivalWorth.textContent = money(participantWorth("ai"));
-  dom.lawStatus.textContent = zoningActive() ? "Residential zoning active" : state.turn >= 4 ? "Zoning under review" : "No active restriction";
+  dom.lawStatus.textContent = zoningActive() ? t("law.active") : state.turn >= 4 ? t("law.review") : t("law.none");
   const message = cityMessage();
   dom.marketBrief.classList.toggle("is-warning", message.warning);
   dom.marketBrief.querySelector("p").textContent = message.text;
   dom.bankCredit.textContent = money(Math.max(0, economy.credit - outstandingPrincipal()));
-  dom.bankRate.textContent = `${(economy.rate * 100).toFixed(2)}% per turn`;
+  dom.bankRate.textContent = t("bank.rate", { rate: (economy.rate * 100).toFixed(2) });
   renderNews();
   renderLoanBook();
   renderStocks();
@@ -673,17 +730,17 @@ function renderOperations() {
 function renderStatus() {
   const economy = economyForTurn(state.turn);
   dom.turnValue.textContent = `${state.turn} / ${MAX_TURN}`;
-  dom.economyValue.textContent = economy.name;
+  dom.economyValue.textContent = t(`economy.${economy.id}`);
   dom.cashValue.textContent = money(state.cash);
   dom.debtValue.textContent = money(currentDebt());
   dom.creditValue.textContent = money(Math.max(0, economy.credit - outstandingPrincipal()));
   dom.worthValue.textContent = money(participantWorth("player"));
   dom.apValue.textContent = `${state.ap} / 3`;
-  dom.turnPrompt.textContent = state.ap > 0 ? `${state.ap} AP available` : "Ready to settle";
+  dom.turnPrompt.textContent = state.ap > 0 ? t("status.ap_available", { ap: state.ap }) : t("status.ready_settle");
   dom.endTurnButton.disabled = state.finished;
   dom.borrowButton.disabled = Math.max(0, economy.credit - outstandingPrincipal()) < 10000;
   dom.repayButton.disabled = currentDebt() <= 0 || state.cash <= 0;
-  dom.loadButton.disabled = !window.localStorage.getItem(SAVE_KEY) && !window.localStorage.getItem(LEGACY_SAVE_KEY);
+  dom.loadButton.disabled = !hasAnySave();
 }
 
 function render() {
@@ -699,13 +756,13 @@ function buySelectedPlot() {
     const plot = getPlot(state.selectedPlotId);
     if (!plot || plot.owner !== "unowned" || state.ap < 1 || state.cash < marketPrice(plot)) return;
     const price = marketPrice(plot);
-    if (!window.confirm(`Buy ${plot.name} for ${money(price)}? This uses 1 action point.`)) return;
+    if (!window.confirm(t("confirm.buy_plot", { plot: plotName(plot), amount: money(price) }))) return;
     state.cash -= price;
     state.ap -= 1;
     plot.owner = "player";
     plot.invested = price;
-    addLog(`Purchased ${plot.name} for ${money(price)}.`);
-    setToast("Property acquired.");
+    addLog("activity.property_purchased", { plotId: plot.id, price });
+    setToast(t("toast.property_acquired"));
   });
 }
 
@@ -716,13 +773,13 @@ function buildSelectedPlot() {
     const reason = buildingLegality(plot, buildingId);
     if (reason) { setToast(reason); return; }
     const building = BUILDINGS[buildingId];
-    if (!window.confirm(`Build ${building.name} for ${money(building.cost)}? It becomes operational next turn.`)) return;
+    if (!window.confirm(t("confirm.build", { building: buildingName(buildingId), amount: money(building.cost) }))) return;
     state.cash -= building.cost;
     state.ap -= 1;
     plot.invested += building.cost;
     plot.building = { type: buildingId, activeTurn: state.turn + 1 };
-    addLog(`Started ${building.name} construction on ${plot.name}.`);
-    setToast("Construction started.");
+    addLog("activity.construction_started", { plotId: plot.id, buildingId });
+    setToast(t("toast.construction_started"));
   });
 }
 
@@ -735,13 +792,14 @@ function redevelopSelectedPlot(buildingId = dom.redevelopSelect.value) {
     const old = BUILDINGS[plot.building.type];
     const next = BUILDINGS[buildingId];
     const cost = redevelopmentCost(plot, buildingId);
-    if (!window.confirm(`Replace ${old.name} with ${next.name} for ${money(cost)} after the 120% residual credit?`)) return;
+    if (!window.confirm(t("confirm.redevelop", { fromBuilding: buildingName(plot.building.type), toBuilding: buildingName(buildingId), amount: money(cost) }))) return;
+    const fromBuildingId = plot.building.type;
     state.cash -= cost;
     state.ap -= 1;
     plot.invested = plot.invested - old.cost + next.cost;
     plot.building = { type: buildingId, activeTurn: state.turn + 1 };
-    addLog(`Redeveloped ${plot.name} from ${old.name} to ${next.name} for ${money(cost)}.`);
-    setToast("Redevelopment started.");
+    addLog("activity.redeveloped", { plotId: plot.id, fromBuildingId, toBuildingId: buildingId, amount: cost });
+    setToast(t("toast.redevelopment_started"));
     result = true;
   });
   return result;
@@ -753,11 +811,11 @@ function sellSelectedProperty() {
     const plot = getPlot(state.selectedPlotId);
     if (!plot || plot.owner !== "player" || plot.salePending || state.ap < 1 || state.turn >= MAX_TURN) return;
     const price = Math.round(propertyMarketValue(plot) * 0.9);
-    if (!window.confirm(`Commit ${plot.name} to a brokered sale for ${money(price)}? It settles next turn and uses 1 action point.`)) return;
+    if (!window.confirm(t("confirm.brokered_sale", { plot: plotName(plot), amount: money(price) }))) return;
     state.ap -= 1;
     plot.salePending = { price, settleTurn: state.turn + 1 };
-    addLog(`Brokered sale locked for ${plot.name} at ${money(price)}; settlement next turn.`);
-    setToast("Sale price locked.");
+    addLog("activity.sale_locked", { plotId: plot.id, price });
+    setToast(t("toast.sale_locked"));
     result = true;
   });
   return result;
@@ -774,26 +832,26 @@ function tradeSecurity(id, side) {
   withCommitLock(() => {
     const security = SECURITIES[id];
     const amount = normalizeOrderAmount();
-    if (!security || !["buy", "sell"].includes(side) || !amount) { setToast("Use an order value of at least $1,000 in $1,000 steps."); return; }
-    if (state.turn < security.opens) { setToast("This instrument is not available yet."); return; }
-    if (state.ap < 1) { setToast("No action points remain this turn."); return; }
+    if (!security || !["buy", "sell"].includes(side) || !amount) { setToast(t("toast.invalid_order")); return; }
+    if (state.turn < security.opens) { setToast(t("toast.instrument_unavailable")); return; }
+    if (state.ap < 1) { setToast(t("reason.no_ap")); return; }
     const fee = Math.round(amount * 0.01);
     const price = state.securitiesPrices[id];
     const units = amount / price;
     if (side === "buy") {
-      if (state.cash < amount + fee) { setToast("Insufficient cash for the order and fee."); return; }
-      if (!window.confirm(`Buy ${money(amount)} of ${security.ticker} plus a ${money(fee)} fee?`)) return;
+      if (state.cash < amount + fee) { setToast(t("toast.order_cash")); return; }
+      if (!window.confirm(t("confirm.stock_buy", { amount: money(amount), ticker: security.ticker, fee: money(fee) }))) return;
       state.cash -= amount + fee;
       state.playerHoldings[id] += units;
     } else {
-      if ((state.playerHoldings[id] || 0) * price + 0.01 < amount) { setToast("Your holding is smaller than this sell order."); return; }
-      if (!window.confirm(`Sell ${money(amount)} of ${security.ticker} and pay a ${money(fee)} fee?`)) return;
+      if ((state.playerHoldings[id] || 0) * price + 0.01 < amount) { setToast(t("toast.order_holding")); return; }
+      if (!window.confirm(t("confirm.stock_sell", { amount: money(amount), ticker: security.ticker, fee: money(fee) }))) return;
       state.cash += amount - fee;
       state.playerHoldings[id] = Math.max(0, state.playerHoldings[id] - units);
     }
     state.ap -= 1;
-    addLog(`${side === "buy" ? "Bought" : "Sold"} ${money(amount)} of ${security.ticker}; fee ${money(fee)}.`);
-    setToast(`Securities ${side} order completed.`);
+    addLog(`activity.stock_${side}`, { amount, ticker: security.ticker, fee });
+    setToast(t(`toast.stock_${side}_completed`));
     result = true;
   });
   return result;
@@ -803,11 +861,11 @@ function borrowMoney() {
   withCommitLock(() => {
     const economy = economyForTurn(state.turn);
     if (economy.credit - outstandingPrincipal() < 10000) return;
-    if (!window.confirm(`Borrow $10,000 at ${(economy.rate * 100).toFixed(2)}% interest per turn? Principal plus accrued interest is due at the end of turn ${state.turn + 5}.`)) return;
+    if (!window.confirm(t("confirm.borrow", { rate: (economy.rate * 100).toFixed(2), turn: state.turn + 5 }))) return;
     state.cash += 10000;
     state.loans.push({ id: state.transactionSequence, principal: 10000, interest: 0, rate: economy.rate, dueTurn: state.turn + 5 });
-    addLog(`Borrowed $10,000; due at the end of turn ${state.turn + 5}.`);
-    setToast("Loan funded. No action point used.");
+    addLog("activity.borrowed", { amount: 10000, dueTurn: state.turn + 5 });
+    setToast(t("toast.loan_funded"));
   });
 }
 
@@ -815,7 +873,7 @@ function repayMoney() {
   withCommitLock(() => {
     if (!state.loans.length || state.cash <= 0) return;
     let budget = Math.min(10000, state.cash, currentDebt());
-    if (!window.confirm(`Apply up to ${money(budget)} to the oldest loan? This uses no action point.`)) return;
+    if (!window.confirm(t("confirm.repay", { amount: money(budget) }))) return;
     const paid = budget;
     for (const loan of state.loans) {
       const interestPaid = Math.min(budget, loan.interest);
@@ -828,8 +886,8 @@ function repayMoney() {
     }
     state.loans = state.loans.filter((loan) => loan.principal + loan.interest > 0.01);
     state.cash -= paid;
-    addLog(`Repaid ${money(paid)} of debt.`);
-    setToast("Debt payment applied. No action point used.");
+    addLog("activity.debt_repaid", { amount: paid });
+    setToast(t("toast.debt_paid"));
   });
 }
 
@@ -844,10 +902,10 @@ function settleLoans() {
   if (state.cash >= due) {
     state.cash -= due;
     state.loans = state.loans.filter((loan) => loan.dueTurn > state.turn);
-    addLog(`Paid ${money(due)} in matured principal and interest.`);
+    addLog("activity.matured_debt_paid", { due });
     return true;
   }
-  finishMatch("bankruptcy", `A matured debt of ${money(due)} could not be paid. Emergency asset sales must be arranged before this deadline.`);
+  finishMatch("bankruptcy", t("result.bankruptcy_detail", { amount: money(due) }));
   return false;
 }
 
@@ -860,7 +918,7 @@ function aiBuild() {
   state.aiCash -= building.cost;
   plot.invested += building.cost;
   plot.building = { type: rival.building, activeTurn: state.turn + 1 };
-  addLog(`${rival.name} began a ${building.name} on ${plot.name}.`);
+  addLog("activity.rival_construction", { rivalId: state.rivalId, buildingId: rival.building, plotId: plot.id });
   return true;
 }
 
@@ -876,7 +934,7 @@ function aiBuy() {
   state.aiCash -= price;
   plot.owner = "ai";
   plot.invested = price;
-  addLog(`${rival.name} purchased ${plot.name} for ${money(price)}.`);
+  addLog("activity.rival_purchase", { rivalId: state.rivalId, plotId: plot.id, price });
   return true;
 }
 
@@ -889,7 +947,7 @@ function aiInvest() {
   if (state.aiCash < rival.reserve + amount + fee) return false;
   state.aiCash -= amount + fee;
   state.aiHoldings[id] += amount / state.securitiesPrices[id];
-  addLog(`${rival.name} invested ${money(amount)} in ${SECURITIES[id].ticker}.`);
+  addLog("activity.rival_investment", { rivalId: state.rivalId, amount, ticker: SECURITIES[id].ticker });
   return true;
 }
 
@@ -904,7 +962,7 @@ function settlePendingSales() {
     state.cash += price;
     plot.owner = "market";
     plot.salePending = null;
-    addLog(`${plot.name} brokered sale settled for ${money(price)}.`);
+    addLog("activity.sale_settled", { plotId: plot.id, price });
   }
 }
 
@@ -920,8 +978,8 @@ function finishMatch(reason = "complete", detail = "") {
   state.finished = true;
   const playerWorth = participantWorth("player");
   const aiWorth = participantWorth("ai");
-  dom.resultTitle.textContent = reason === "bankruptcy" ? "Insolvency" : playerWorth > aiWorth ? "You Lead Manhattan" : playerWorth < aiWorth ? `${RIVALS[state.rivalId].name} Leads` : "Dead Heat";
-  dom.resultSummary.textContent = detail || `After ${MAX_TURN} turns, ${playerWorth >= aiWorth ? "your portfolio held its ground" : "the rival portfolio finished ahead"}.`;
+  dom.resultTitle.textContent = reason === "bankruptcy" ? t("result.insolvency") : playerWorth > aiWorth ? t("result.player_leads") : playerWorth < aiWorth ? t("result.rival_leads", { rival: rivalName(state.rivalId) }) : t("result.tie");
+  dom.resultSummary.textContent = detail || t(playerWorth >= aiWorth ? "result.summary_player" : "result.summary_rival", { turns: MAX_TURN });
   dom.resultPlayerWorth.textContent = money(playerWorth);
   dom.resultRivalWorth.textContent = money(aiWorth);
   dom.resultPlayerSecurities.textContent = money(securitiesValue("player"));
@@ -931,7 +989,7 @@ function finishMatch(reason = "complete", detail = "") {
 
 function endTurn() {
   withCommitLock(() => {
-    if (!window.confirm(`End turn ${state.turn}? Income, debt interest and the rival action will settle.`)) return;
+    if (!window.confirm(t("confirm.end_turn", { turn: state.turn }))) return;
     aiAct();
     if (state.turn >= MAX_TURN) { finishMatch(); return; }
     state.turn += 1;
@@ -941,11 +999,11 @@ function endTurn() {
     const aiIncome = settleIncome("ai");
     state.cash += playerIncome;
     state.aiCash += aiIncome;
-    addLog(`Operating settlement: you ${money(playerIncome)}, rival ${money(aiIncome)}.`);
+    addLog("activity.operating_settlement", { playerIncome, rivalIncome: aiIncome });
     if (!settleLoans()) return;
     state.ap = 3;
-    if (state.turn === 6) addLog("Residential zoning restrictions are now active.", "Rumor");
-    setToast(`Turn ${state.turn} begins.`);
+    if (state.turn === 6) addLog("activity.zoning_active", {}, "Rumor");
+    setToast(t("toast.turn_begins", { turn: state.turn }));
   });
 }
 
@@ -958,14 +1016,15 @@ function switchOperationsTab(tab) {
 
 function saveGame() {
   if (!state) return;
+  state.version = 3;
   window.localStorage.setItem(SAVE_KEY, JSON.stringify(state));
-  setToast("Match saved in this browser.");
+  setToast(t("toast.match_saved"));
   renderStatus();
 }
 
 function migrateState(raw) {
   const migrated = structuredClone(raw);
-  migrated.version = 2;
+  migrated.version = 3;
   migrated.activeOperationsTab = migrated.activeOperationsTab || "brief";
   migrated.playerHoldings = { ...blankHoldings(), ...(migrated.playerHoldings || {}) };
   migrated.aiHoldings = { ...blankHoldings(), ...(migrated.aiHoldings || {}) };
@@ -975,17 +1034,26 @@ function migrateState(raw) {
     const blueprint = PLOT_BLUEPRINTS.find((plot) => plot.id === oldPlot.id);
     return { ...blueprint, ...oldPlot, district: blueprint?.district || "Unmapped M0 Fixture", price: blueprint?.price ?? oldPlot.price, salePending: oldPlot.salePending || null };
   });
-  migrated.log = (migrated.log || []).map((entry) => ({ type: entry.type || "Activity", ...entry }));
+  migrated.log = (migrated.log || []).map((entry) => entry.key ? ({ type: entry.type || "Activity", ...entry }) : ({ type: entry.type || "Activity", turn: entry.turn, key: "activity.legacy_text", values: { text: entry.text || "" } }));
   return migrated;
 }
 
 function validLoadedState(candidate) {
-  return candidate && [1, 2].includes(candidate.version) && RIVALS[candidate.rivalId] && Number.isInteger(candidate.turn) && candidate.turn >= 1 && candidate.turn <= MAX_TURN && Number.isFinite(candidate.cash) && Number.isFinite(candidate.aiCash) && Array.isArray(candidate.plots) && candidate.plots.length === PLOT_BLUEPRINTS.length;
+  return candidate && [1, 2, 3].includes(candidate.version) && RIVALS[candidate.rivalId] && Number.isInteger(candidate.turn) && candidate.turn >= 1 && candidate.turn <= MAX_TURN && Number.isFinite(candidate.cash) && Number.isFinite(candidate.aiCash) && Array.isArray(candidate.plots) && candidate.plots.length === PLOT_BLUEPRINTS.length;
+}
+
+function saveKeyInUse() {
+  return [SAVE_KEY, ...LEGACY_SAVE_KEYS].find((key) => window.localStorage.getItem(key)) || null;
+}
+
+function hasAnySave() {
+  return Boolean(saveKeyInUse());
 }
 
 function loadGame() {
-  const raw = window.localStorage.getItem(SAVE_KEY) || window.localStorage.getItem(LEGACY_SAVE_KEY);
-  if (!raw) { setToast("No saved match was found."); return false; }
+  const sourceKey = saveKeyInUse();
+  const raw = sourceKey ? window.localStorage.getItem(sourceKey) : null;
+  if (!raw) { setToast(t("toast.no_save")); return false; }
   try {
     const parsed = JSON.parse(raw);
     if (!validLoadedState(parsed)) throw new Error("Invalid save structure");
@@ -994,11 +1062,11 @@ function loadGame() {
     dom.startModal.classList.remove("is-open");
     dom.resultModal.classList.remove("is-open");
     render();
-    setToast(parsed.version === 1 ? "Legacy M0 save migrated and loaded." : "Saved match loaded.");
+    setToast(sourceKey === SAVE_KEY ? t("toast.save_loaded") : t("toast.legacy_loaded"));
     return true;
   } catch (error) {
     console.error(error);
-    setToast("The saved match is invalid and was not loaded.");
+    setToast(t("toast.invalid_save"));
     return false;
   }
 }
@@ -1011,20 +1079,20 @@ function startMatch(rivalId) {
   dom.startModal.classList.remove("is-open");
   dom.resultModal.classList.remove("is-open");
   render();
-  setToast(`Match started against ${RIVALS[rivalId].name}.`);
+  setToast(t("toast.match_started", { rival: rivalName(rivalId) }));
   return true;
 }
 
 function restartFlow() {
-  if (state && !state.finished && !window.confirm("Abandon this match and choose a new rival? Your saved match will remain available.")) return;
+  if (state && !state.finished && !window.confirm(t("confirm.restart"))) return;
   state = null;
   dom.resultModal.classList.remove("is-open");
   dom.startModal.classList.add("is-open");
-  dom.startLoadButton.hidden = !window.localStorage.getItem(SAVE_KEY) && !window.localStorage.getItem(LEGACY_SAVE_KEY);
+  dom.startLoadButton.hidden = !hasAnySave();
 }
 
 function collectDom() {
-  const ids = ["toast", "plot-layer", "empty-property", "property-details", "plot-code", "plot-name", "plot-district", "plot-zone", "plot-owner", "plot-price", "plot-building", "plot-income", "buy-button", "building-select", "build-button", "redevelop-select", "redevelop-preview", "redevelop-button", "sell-property-button", "sale-preview", "property-reason", "turn-value", "economy-value", "cash-value", "debt-value", "credit-value", "worth-value", "ap-value", "turn-prompt", "end-turn-button", "rival-name", "rival-style", "rival-condition", "rival-worth", "law-status", "market-brief", "news-list", "bank-credit", "bank-rate", "borrow-button", "repay-button", "loan-list", "stock-order-amount", "stock-list", "save-button", "load-button", "restart-button", "start-modal", "start-load-button", "help-modal", "settings-modal", "result-modal", "result-title", "result-summary", "result-player-worth", "result-rival-worth", "result-player-securities", "result-rival-securities", "result-restart-button", "help-button", "settings-button", "map-stage", "map-anchor", "map-canvas", "map-base", "district-overlay", "map-loading", "map-hint", "map-zoom-out", "map-zoom-value", "map-zoom-in", "map-reset", "map-status", "empty-district", "district-details", "district-close-button", "district-code", "district-name", "district-location", "district-plots", "district-apartments", "district-factories", "district-stores", "district-transit", "district-prosperity", "district-note"];
+  const ids = ["toast", "plot-layer", "empty-property", "property-details", "plot-code", "plot-name", "plot-district", "plot-zone", "plot-owner", "plot-price", "plot-building", "plot-income", "buy-button", "building-select", "build-button", "redevelop-select", "redevelop-preview", "redevelop-button", "sell-property-button", "sale-preview", "property-reason", "turn-value", "economy-value", "cash-value", "debt-value", "credit-value", "worth-value", "ap-value", "turn-prompt", "end-turn-button", "rival-name", "rival-style", "rival-condition", "rival-worth", "law-status", "market-brief", "news-list", "bank-credit", "bank-rate", "borrow-button", "repay-button", "loan-list", "stock-order-amount", "stock-list", "save-button", "load-button", "restart-button", "start-modal", "start-load-button", "help-modal", "settings-modal", "language-select", "result-modal", "result-title", "result-summary", "result-player-worth", "result-rival-worth", "result-player-securities", "result-rival-securities", "result-restart-button", "help-button", "settings-button", "map-stage", "map-anchor", "map-canvas", "map-base", "district-overlay", "map-loading", "map-hint", "map-zoom-out", "map-zoom-value", "map-zoom-in", "map-reset", "map-status", "empty-district", "district-details", "district-close-button", "district-code", "district-name", "district-location", "district-plots", "district-apartments", "district-factories", "district-stores", "district-transit", "district-prosperity", "district-note"];
   for (const id of ids) dom[id.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())] = document.getElementById(id);
   dom.operationsTabs = [...document.querySelectorAll("[data-operations-tab]")];
   dom.operationsPages = [...document.querySelectorAll("[data-operations-page]")];
@@ -1057,6 +1125,12 @@ function bindEvents() {
   dom.resultRestartButton.addEventListener("click", restartFlow);
   dom.helpButton.addEventListener("click", () => dom.helpModal.classList.add("is-open"));
   dom.settingsButton.addEventListener("click", () => dom.settingsModal.classList.add("is-open"));
+  dom.languageSelect.addEventListener("change", () => window.M1WI18n.setLocale(dom.languageSelect.value));
+  window.addEventListener("m1w:locale-changed", () => {
+    renderBuildingSelectLabels();
+    refreshDistrictLocalization();
+    if (state) render();
+  });
   dom.mapZoomOut.addEventListener("click", () => setMapZoomStep(mapView.zoomStep - 1));
   dom.mapZoomIn.addEventListener("click", () => setMapZoomStep(mapView.zoomStep + 1));
   dom.mapReset.addEventListener("click", resetMapView);
@@ -1077,8 +1151,9 @@ function bindEvents() {
 
 function initializeApp() {
   collectDom();
+  renderBuildingSelectLabels();
   bindEvents();
-  dom.startLoadButton.hidden = !window.localStorage.getItem(SAVE_KEY) && !window.localStorage.getItem(LEGACY_SAVE_KEY);
+  dom.startLoadButton.hidden = !hasAnySave();
   dom.loadButton.disabled = dom.startLoadButton.hidden;
   initializeProducerMap().catch(failProducerMap);
 }

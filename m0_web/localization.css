@@ -1,0 +1,64 @@
+@font-face {
+  font-family: "Source Han Serif SC M1W";
+  src: url("fonts/SourceHanSerifSC-M1W.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Han Sans SC M1W";
+  src: url("fonts/SourceHanSansSC-M1W.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+}
+
+html[lang="zh-CN"] {
+  --zh-title: "Source Han Serif SC M1W", "Songti SC", serif;
+  --zh-body: "Source Han Sans SC M1W", "PingFang SC", sans-serif;
+  font-family: var(--zh-body);
+}
+
+html[lang="zh-CN"] body,
+html[lang="zh-CN"] body * {
+  font-family: var(--zh-body) !important;
+}
+
+html[lang="zh-CN"] .masthead h1,
+html[lang="zh-CN"] .modal-card h2,
+html[lang="zh-CN"] .property-panel h2,
+html[lang="zh-CN"] .empty-docket h2,
+html[lang="zh-CN"] .status-end-turn strong {
+  font-family: var(--zh-title) !important;
+  font-weight: 900;
+}
+
+html[lang="zh-CN"] .prototype-ribbon,
+html[lang="zh-CN"] .eyebrow,
+html[lang="zh-CN"] .panel-heading,
+html[lang="zh-CN"] .status-cell span,
+html[lang="zh-CN"] .status-end-turn span,
+html[lang="zh-CN"] .status-end-turn small,
+html[lang="zh-CN"] .operations-tabs button,
+html[lang="zh-CN"] dt,
+html[lang="zh-CN"] .map-instruction,
+html[lang="zh-CN"] .map-toolbar,
+html[lang="zh-CN"] .map-legend {
+  letter-spacing: .05em;
+}
+
+html[lang="zh-CN"] .district-label-text {
+  font-family: var(--zh-title) !important;
+  font-size: 152px;
+  font-weight: 900;
+  letter-spacing: 6px;
+}
+
+html[lang="zh-CN"] .operations-tabs button { font-size: .61rem; }
+html[lang="zh-CN"] .masthead h1 { letter-spacing: -.03em; line-height: 1.08; }
+
+#language-select {
+  min-width: 118px;
+  padding: .25rem .35rem;
+}

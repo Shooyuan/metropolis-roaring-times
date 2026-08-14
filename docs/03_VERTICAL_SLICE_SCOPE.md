@@ -6,7 +6,7 @@
 >
 > Mode: `vertical_slice`
 >
-> Player-facing language: English
+> Player-facing language: English by default, with Simplified Chinese selectable in Settings
 >
 > Product authority: `../00_PROJECT_CONTEXT.md`
 >
@@ -279,7 +279,9 @@ Temporary silence does not block early rules milestones, but the required audio 
 
 ## 12. Fixed UI and Language Scope
 
-- All player-facing text is English.
+- Player-facing text defaults to English; Settings can switch the complete interface to Simplified Chinese immediately.
+- Switching language preserves the current match, map camera, selected district/plot, open operations tab and modal state.
+- English and Chinese use one interface structure and gameplay implementation. Stable localization keys and structured event records are required; parallel full-page implementations are not allowed.
 - Internal IDs and file names use English `snake_case`.
 - The top status bar contains the title `Metropolis: Roaring Times`, turn/economy/finance/action status, `End Turn`, save/help and settings actions.
 - The left-side Integrated Operations Panel is required and contains tabs in exact order: `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`.
