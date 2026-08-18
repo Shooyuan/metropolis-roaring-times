@@ -41,11 +41,21 @@ Every new match stores a seed. The seed controls all permitted random choices, i
 
 ### 2.3 Map State
 
-- The map contains exactly 64 irregular interactive plots.
+- The map contains the complete owner-approved set of irregular plots from `08_PURCHASABLE_BLOCK_GEOMETRY`; no target count is imposed by gameplay code.
 - District identity and boundaries come only from the owner-approved Figma handoff and its authoritative district SVG; gameplay code cannot create substitute geography. The vertical slice contains exactly the twelve stable district IDs defined in `MAP_ASSET_PIPELINE.md`; the former six-district model is invalid.
 - Public plots are owned by the government and cannot be purchased.
 - Initial private and unowned plots are defined by the mode configuration.
 - All ownership, zoning, adjacency and building state is loaded before the first turn begins.
+
+### 2.4 Owner-authored Plot and Landmark Rules
+
+- A plot exists only when the owner draws and approves its closed vector in Figma. Street enclosures that are absent from that layer are not purchasable.
+- A plot grants development rights and supports one primary development building. It starts as undeveloped land; buying it does not automatically construct a building.
+- Figma geometry never decides current price, availability, ownership or legal use. Those are runtime values. Laws can change permitted building categories by district.
+- A plot may not cross a district boundary. The owner splits it in Figma; validation rejects a crossing but never edits the geometry.
+- Central Park is explicitly non-purchasable. No other park, plaza or public-land rule may be invented solely from its map label.
+- District, plot and historical-landmark selection are mutually exclusive. A new selection replaces the old one; clicking empty map space clears selection.
+- Historical landmarks remain visually present throughout the match and do not change with the game year. Their future gameplay effects are deferred pending owner approval.
 
 ## 3. Core Value Definitions
 

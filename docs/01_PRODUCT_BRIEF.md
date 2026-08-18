@@ -27,7 +27,7 @@ The first playable release is **Vertical Slice Test Mode**:
 - One human player versus one AI opponent.
 - Three implemented AI personalities: Tycoon, Landlady and Shark.
 - One AI personality is active in a match; opponent selection behavior will be frozen before the new-game flow is implemented.
-- Exactly 64 irregular, interactive plots across a stylized Manhattan and a small Brooklyn bridgehead area.
+- Owner-authored irregular plots across the twelve approved Manhattan districts; the count is the complete approved set delivered in Figma and is not predetermined.
 - A complete match from opening state to final result.
 - A Godot project that can be exported and played in a desktop browser.
 
@@ -120,9 +120,9 @@ Central Park, City Hall, the public library, major bridges and initial transit n
 
 The supplied 1939 Manhattan map is an art and composition reference only. The owner authors and approves the production base and district geometry in Figma on one shared vector canvas of any size. Codex validates and integrates the delivered `.fig` and plugin ZIP; SVG and structure JSON are primary, while PNG files are optional previews. Codex cannot invent district shapes. Replacing the rendered map must not move approved gameplay geometry.
 
-At far and middle zoom, individual public and private building illustrations are hidden. Each district instead presents, in this exact order: plots currently purchasable by the human player; human-owned apartment buildings; human-owned factories; human-owned department stores; major transit facilities present; and district prosperity level. Standard and Luxury Apartments are combined in the apartment count.
+At far and middle zoom, historical-landmark illustrations remain visible for orientation while their banners and hit targets are unavailable; development-building illustrations are hidden. Each district presents, in this exact order: plots currently purchasable by the human player; human-owned apartment buildings; human-owned factories; human-owned department stores; major transit facilities present; and district prosperity level. Standard and Luxury Apartments are combined in the apartment count.
 
-At the approved near-zoom threshold, all public and private individual building illustrations become visible. Hovering a district reveals an indicative border; selecting it locks that border and opens the district detail page until another district is selected or the selection is explicitly closed.
+At `305%`, development-building illustrations appear and landmarks/plots become selectable; at `381%`, landmark English banners appear. Hovering a district reveals an indicative border; selecting it locks that border until another map entity is selected or empty map space is clicked.
 
 ### 7.2 Core Buildings
 
@@ -241,7 +241,14 @@ The vertical slice succeeds when:
 
 ## 13. Product Risks
 
-- Sixty to eighty plots plus three complete AI personalities remain a medium-sized vertical slice.
+- The final owner-authored plot and landmark counts are not frozen; their geometry and content workload may materially change the vertical-slice estimate.
+
+## 13. 地图内容补充（老板于 2026-08-18 批准）
+
+- “街区（district）”“地块（plot）”“历史地标（landmark）”是三个不同实体。可购买地块只来自老板的 `08_PURCHASABLE_BLOCK_GEOMETRY`，道路围合本身不自动产生地块。
+- 历史地标来自 `07_HISTORICAL_LANDMARKS`，长期保留在地图上帮助识别城市。其事实只取自 English Wikipedia，并为英文玩家和简体中文玩家分别提供短、长介绍。
+- 地图选择严格互斥：同一时间只选择一个街区、地块或地标。右侧详情随选择切换；点击空白清空。
+- 最高缩放提高到 `500%`；详细层级、地标横幅和交互阈值以 `04_MAP_AND_ART_DIRECTION.md` 为准。
 - The economy can become unreadable if formulas are exposed before they are calibrated.
 - A narrative auction can become cosmetic if its story is not connected to the plot, price and rival behavior.
 - Securities can overpower the property loop or create borrowing arbitrage unless action cost, fees, collateral treatment and simulations are enforced.

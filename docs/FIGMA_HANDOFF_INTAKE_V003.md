@@ -1,5 +1,7 @@
 # 《Metropolis: Roaring Times》Figma 交付包 v003 验收报告
 
+> 历史证据说明：v003 只验收当时的六层地图与 12 个街区。2026-08-18 新增的 `07_HISTORICAL_LANDMARKS` 和 `08_PURCHASABLE_BLOCK_GEOMETRY` 尚未完成或交付，必须使用更新后的八层合同重新验收，不能沿用本报告判定通过。
+
 > 验收日期：2026-08-13
 >
 > 验收对象：`assets/metropolis_handoff_1786627051152.zip`

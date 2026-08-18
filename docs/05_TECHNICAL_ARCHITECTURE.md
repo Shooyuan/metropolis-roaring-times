@@ -14,7 +14,7 @@ The architecture must support a complete, deterministic 20-turn property-strateg
 
 It must make the following safe and independently testable:
 
-- exactly 64 irregular plots and fixed public transit;
+- the complete owner-authored irregular plot set, historical landmarks and fixed public transit;
 - property purchase, construction, redevelopment, demolition, brokered sale and revaluation;
 - participant cash, credit, separate loans and maturity disposition;
 - deterministic bonds, shares and investment-trust trading using the existing action-point budget;
@@ -508,7 +508,7 @@ The three personalities share one rules implementation. Personality data changes
 
 - required keys and supported schema version;
 - unique IDs and valid references;
-- exactly 64 plots for the vertical-slice mode;
+- a non-empty, complete plot set whose IDs and geometry derive from the approved `08_PURCHASABLE_BLOCK_GEOMETRY` export, without imposing a count;
 - a recorded owner Figma revision plus source filenames/checksums for the base PNG, district SVG, mask PNG and alignment preview;
 - a valid normalized map registration, crop, aspect ratio and declared LOD thresholds;
 - normalized district polygons that match the owner-submitted SVG without unauthorized smoothing or vertex deletion, plus in-bounds summary/building anchors;
@@ -527,6 +527,8 @@ A fatal content error stops match creation with a clear diagnostic. It must not 
 - `map_manifest.json` declares the owner delivery revision, source checksums, normalized coordinate contract, approved crop/aspect registration, layer assets and LOD thresholds.
 - District polygon geometry in `districts.json` is a derived copy of the owner-authoritative SVG. Conversion is reproducible and may not change geometry without owner approval; rendered border pixels never define interaction.
 - Plot geometry and topology live in `plots.json`, not scene collision edits.
+- `landmarks.json` stores stable landmark IDs, district assignment, grouped artwork/banner references, English Wikipedia provenance and localized short/long copy; Figma owns its placement, not its gameplay effect.
+- `district_history.json` stores the approved bilingual short/long district introductions and their English Wikipedia provenance separately from mutable economy data.
 - Buildings provide costs, upkeep, income inputs, legal tags and art variant IDs.
 - Securities provide opening price, availability, economy/event modifier IDs and volatility bounds, never executable pricing code.
 - News records separate source identity, authenticity, headline, summary, affected systems and optional citation.
@@ -776,7 +778,36 @@ Test layers:
 7. Scene smoke tests for startup, input wiring and required panels.
 8. Web/manual tests for browser storage, audio, camera performance and console errors.
 
-Core tests instantiate domain/application code without loading the map scene. Test fixtures use compact data unless the test specifically validates the production 64-plot content.
+Core tests instantiate domain/application code without loading the map scene. Test fixtures use compact data unless the test specifically validates the complete owner-approved production plot and landmark content.
+
+### 18.1 地图实体选择状态机
+
+`MapSelectionState` 只允许以下联合状态之一：
+
+```text
+null
+district:<stable_id>
+plot:<stable_id>
+landmark:<stable_id>
+```
+
+- 新选择原子替换旧选择，禁止三个布尔选择分别存在而造成多对象同时高亮。
+- 点击空白把状态设为 `null`；右侧详情同步清空。
+- LOD 服务根据固定缩放级别决定可命中类型：`100—195` 只选街区，`244` 开放地块悬停，`305` 开放地块和地标点击，`381—500` 再开放地标横幅命中。
+- 右侧详情由同一个选择状态派生为 District File、Property File 或 Landmark File；窄屏只改变呈现为底部抽屉，不复制状态。
+- 来源按钮打开阻塞式 `SourceModal`，但不改变当前地图选择；弹窗显示 English Wikipedia 页面标题、归属与外部链接。
+
+### 18.2 Figma 分层导出合同
+
+一键 ZIP 必须自动生成并保持完全相同的 `viewBox`、原点和变换：
+
+- `metropolis_map_base.svg`：仅 01—06 的正式底图；
+- `metropolis_historical_landmarks.svg`：仅 `07_HISTORICAL_LANDMARKS`；
+- `metropolis_purchasable_blocks.svg`：仅 `08_PURCHASABLE_BLOCK_GEOMETRY`；
+- 全层对齐预览：01—08；
+- 结构/manifest JSON：保存节点树、稳定名称、变换、颜色和警告。
+
+老板只执行一次插件导出；拆分生产文件由插件自动完成。当前 Figma 尚未完成，因此这些新文件在收到老板最终包之前不得伪造或接入。
 
 No test relies on animation timing, uncontrolled system time or unseeded randomness.
 

@@ -15,8 +15,8 @@
 11. 每个阶段必须先完成实现、运行测试并修复错误，再保存全部相关文件并创建一次 Git commit；测试失败或提交失败时不得宣布阶段完成。
 12. 进入下一阶段前必须向老板报告计划、行动、风险、测试和需要决策的事项，并获得明确批准。
 13. 重连后先读取本文件、`00_PROJECT_CONTEXT.md`、Git 状态和最近提交，从未完成任务续作；不得重新搭建或覆盖已有文件。
-14. 地图底图与分区几何由老板在 Figma 中创作和批准。Codex 只能检查、转换、优化和接入老板提交的 `.fig`、结构 JSON、底图 SVG、分区 SVG、对齐 SVG 与可选预览；未收到完整交付包时不得自行绘制、猜测、近似或修正分区边界。
-15. 老板提交的分区 SVG 是分区边界权威。Codex 从它派生运行时 JSON 时不得擅自平滑、删点或改变顶点；任何派生变化必须提交前后对比并获得老板批准。
+14. 地图底图、分区几何、可购买地块几何与历史地标位置均由老板在 Figma 中创作和批准。Codex 只能检查、转换、优化和接入老板提交的 `.fig`、结构 JSON、各层 SVG、对齐 SVG 与可选预览；未收到完整交付包时不得自行绘制、猜测、近似或修正这些地理内容。
+15. 老板提交的 `03_DISTRICT_GEOMETRY`、`07_HISTORICAL_LANDMARKS` 与 `08_PURCHASABLE_BLOCK_GEOMETRY` 是各自几何和位置的权威。Codex 派生运行时数据时不得擅自平滑、删点、改变顶点、移动地标或补画地块；任何派生变化必须提交前后对比并获得老板批准。可购买地块数量不预设，只以老板实际绘制并批准的闭合地块为准。
 
 [CODEX] **Codex–DeepSeek 协作规则**
 
@@ -33,3 +33,5 @@
 [CODEX] 21. DeepSeek 分支交付只有在 Codex 完整审查、复测并集成后才进入项目事实；主分支阶段提交仍由 Codex 负责。
 
 22. 首版权威分区集合固定为老板批准的 12 个曼哈顿分区：`district_inwood`、`district_washington_heights`、`district_harlem`、`district_upper_east`、`district_upper_west`、`district_midtown_west`、`district_midtown_east`、`district_chelsea`、`district_west_village`、`district_east_village`、`district_soho`、`district_financial_district`。旧六分区/五玩法区模型和 `district_brooklyn_bridgehead` 不得重新引入；各区经济画像仍须老板另行批准。
+
+23. 地图实体术语固定为：上述 12 个区域叫“街区（district）”；老板在 `08_PURCHASABLE_BLOCK_GEOMETRY` 中绘制的青绿色闭合形状叫“地块（plot）”；`07_HISTORICAL_LANDMARKS` 中的历史建筑、桥梁、教堂、车站、纪念物、广场、公园和公共设施叫“历史地标（landmark）”。三类实体的选择严格互斥，不得混称。

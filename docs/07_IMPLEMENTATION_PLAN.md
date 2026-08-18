@@ -292,7 +292,7 @@ The original high environment risk is now reduced: the Steam executable, matchin
 ### 不在本阶段
 
 - 不启动 Godot 地图实现；
-- 不擅自创建 64 个正式地块；
+- 不擅自创建任何老板未在 Figma 中绘制的正式地块；
 - 不实现正式建筑插画、完整 AI 地图决策或最终经济平衡；
 - 不改变老板提交的分区边界。
 
@@ -309,7 +309,7 @@ The original high environment risk is now reduced: the Steam executable, matchin
 
 ### 9.1 Objective
 
-Validate and integrate the owner-authored Figma map package, then obtain owner approval for an exact Godot overlay before producing any of the 64 plots. Codex does not create the base composition or district boundaries.
+Validate and integrate the owner-authored Figma map package, then obtain owner approval for the exact district, plot and historical-landmark overlays. Codex does not create the base composition or any missing geography.
 
 ### 9.2 Work
 
@@ -320,7 +320,7 @@ Validate and integrate the owner-authored Figma map package, then obtain owner a
 - After owner accepts intake, convert the submitted SVG coordinates reproducibly to normalized runtime JSON without smoothing, deleting or moving vertices.
 - Render the owner base and derived boundaries in Godot and compare them with the owner alignment preview at target screen ratios.
 - Demonstrate one district's hover border, locked selection and detail-page handoff.
-- Demonstrate far/middle district summary intent and the shared near-zoom building visibility threshold with temporary assets.
+- Demonstrate far/middle district summaries, always-visible landmark art, `305%` development-building visibility and `381%` landmark-banner visibility with owner assets only.
 - Record the owner revision, source checksums, deliberate geographic compression and date-sensitive landmarks.
 
 ### 9.3 Not Yet
@@ -350,7 +350,7 @@ High. Missing/misaligned owner assets or unauthorized Codex correction would cor
 
 ### 10.1 Objective
 
-Deliver exactly 64 data-driven, interactive-ready plot polygons plus stable pan/zoom behavior.
+Deliver the complete owner-approved set of data-driven plots and historical landmarks plus stable pan/zoom behavior up to `500%`.
 
 ### 10.2 Work
 
@@ -376,7 +376,7 @@ Deliver exactly 64 data-driven, interactive-ready plot polygons plus stable pan/
 
 - `DOC-003`, `DOC-004`, `DOC-007` pass for current map content.
 - `SCN-004`, `SCN-005A`, `SCN-006`, `SCN-007`, `SCN-008` and `AUT-040` pass at stage scope, except that prosperity uses an owner-approved formula fixture before production balancing.
-- Exactly 64 plots validate with no self-intersection, missing reference or unusable collision.
+- Every owner-authored plot validates with no self-intersection, missing reference, district crossing or unusable collision; imported count equals delivered count without a hard-coded target.
 - Camera cannot rotate or lose the map.
 
 ### 10.5 Risk
@@ -410,7 +410,7 @@ Create the complete responsive interface structure and make every plot inspectab
 ### 11.4 Gate and Evidence
 
 - `SCN-005`, `SCN-015`, `SCN-018`, `SCN-020`, `SCN-021` pass at current scope.
-- All 64 plots can be inspected and identified.
+- Every owner-authored plot can be inspected and identified.
 - Blocking modal prevents world input.
 - Required information fits the three target resolutions.
 - Owner approves `VIS-002` interaction-state sample before the state family expands.

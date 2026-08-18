@@ -1,6 +1,6 @@
 # Metropolis: Roaring Times — Vertical Slice Scope
 
-> 当前前置交付：在 Godot M1A 之前，先用老板的正式 Figma 地图升级现有 `m0_web`，形成制作人可观看和操作的 M1W 地图网页 Demo。该前置网页只验证地图、Brand、缩放拖拽、分区悬停/选择和详情呈现，不授权提前制作 64 个正式地块或 Godot 地图。
+> 当前前置交付：现有 M1W 已验证地图、Brand、缩放拖拽、街区悬停/选择和双语详情。老板正在 Figma 中制作可购买地块与历史地标；完整新包交付并验收前，不接入新图层，也不启动 Godot 地图实现。
 
 > Document role: binding content and feature boundary for the first playable release
 >
@@ -46,12 +46,13 @@ The release is not considered complete when only isolated systems or a visual pr
 
 ## 3. Fixed Map Scope
 
-### 3.1 Plot Count
+### 3.1 Plot Collection
 
-- Exactly 64 interactive plots.
+- 地块数量不预设；完整集合等于老板在 `08_PURCHASABLE_BLOCK_GEOMETRY` 中实际绘制并批准的所有闭合地块。
 - Every plot has a unique stable ID and an irregular polygon.
-- Decorative shapes, water, roads and public landmarks do not count toward the 64 plots.
+- Decorative shapes, water, roads and historical landmarks are not plots.
 - Every interactive plot must be inspectable and must have a defined owner, district, direct-sale state, auction eligibility, zoning state and adjacency list.
+- A plot cannot cross a district boundary, and only owner-authored geometry creates development rights.
 
 ### 3.2 Geography
 
@@ -59,17 +60,11 @@ The map uses the twelve owner-approved Manhattan districts: Inwood, Washington H
 
 Relative direction must remain recognizable. Street-level and cadastral accuracy are not required.
 
-### 3.3 Public Assets
+### 3.3 Public Assets and Historical Landmarks
 
-Required non-purchasable assets:
-
-- Central Park.
-- City Hall.
-- Public library.
-- Brooklyn Bridge.
-- Manhattan Bridge.
-- Six subway stations.
-- One tram line with approximately five stops.
+- Central Park is the only public area explicitly locked here as non-purchasable.
+- The complete set of historical buildings, churches, bridges, stations, monuments, plazas, parks and public facilities comes only from the owner's finished `07_HISTORICAL_LANDMARKS`; this document does not invent missing landmarks.
+- Public/historical assets never become plots merely because they are visible on the map.
 
 ### 3.4 Transit Rules
 
@@ -86,8 +81,8 @@ Required non-purchasable assets:
 - District boundaries are closed vector shapes authored by the owner and delivered in the authoritative district SVG. Codex converts them to runtime polygons without redrawing, smoothing or changing vertices; the companion mask PNG verifies pixel alignment.
 - Hovering uncovered district space displays an indicative district border. Clicking locks the border and opens the district detail page until another district is selected or the selection is explicitly closed.
 - At near zoom, a plot or building hit target takes priority over the underlying district.
-- Far and middle zoom hide all individual public and private building illustrations and show a district summary in this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities, district prosperity.
-- At and above one owner-approved near-zoom threshold, all individual public and private building illustrations appear.
+- Far and middle zoom keep historical-landmark illustrations visible for recognition, hide landmark banners and development-building illustrations, and show a district summary in this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities, district prosperity.
+- At `305%`, development-building illustrations appear and plots/landmarks become clickable; at `381%` and above, historical-landmark English banners appear.
 - District prosperity is derived jointly from human and active-AI development, is clamped to `50.0 <= score < 100.0`, and is displayed to one decimal place. Its formula and English level bands are a later owner approval gate.
 
 ## 4. Fixed Building Scope

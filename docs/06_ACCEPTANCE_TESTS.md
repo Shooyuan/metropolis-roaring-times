@@ -133,7 +133,7 @@ Pass when every required JSON file parses, uses a supported schema, contains uni
 
 Pass when content validation confirms:
 
-- exactly 64 interactive plots;
+- every owner-approved plot from `08_PURCHASABLE_BLOCK_GEOMETRY`, with no hard-coded count;
 - exactly twelve authoritative districts with the stable IDs defined in `MAP_ASSET_PIPELINE.md`;
 - four building categories and three art variants per category;
 - Tycoon, Landlady and Shark personalities;
@@ -191,7 +191,7 @@ Before M1A implementation, pass when the owner package contains the versioned `.
 
 ### `DOC-007B` Figma 一键交付插件完整性
 
-在 M1W 地图网页开发前，老板选中地图主画框；没有外层 Frame 时，可选中六个规定地图顶层图层中的任意一层，由插件按实际矢量边界建立只用于导出的虚拟主画框。随后运行 `Metropolis Handoff Exporter`。通过条件：不限制画布像素尺寸；ZIP 至少包含完整图层树 JSON、完整/底图 SVG、分区 SVG、对齐 SVG 和成功导出的逐层 SVG；JSON 保存实际画布宽高、父子关系、顺序、显示/锁定状态、位置、尺寸、变换、填充、描边、颜色、效果、文字和矢量路径。PNG 和独立 Brand 属于可选或单独交付内容，其失败或缺席不得阻止 ZIP；导出过程不联网且不改变原始 Figma 画面。插件 ZIP 不能替代版本化 `.fig` 本地副本。
+老板选中地图主画框；没有外层 Frame 时，可选中八个规定地图顶层图层中的任意一层，由插件按实际矢量边界建立只用于导出的虚拟主画框。随后运行 `Metropolis Handoff Exporter`。通过条件：不限制画布像素尺寸；ZIP 至少包含完整图层树 JSON、01—06 底图 SVG、街区 SVG、历史地标 SVG、可购买地块 SVG、01—08 对齐 SVG 和成功导出的逐层 SVG；JSON 保存实际画布宽高、父子关系、顺序、显示/锁定状态、位置、尺寸、变换、填充、描边、颜色、效果、文字和矢量路径。PNG 和独立 Brand 属于可选或单独交付内容，其失败或缺席不得阻止 ZIP；导出过程不联网且不改变原始 Figma 画面。插件 ZIP 不能替代版本化 `.fig` 本地副本。
 
 ### `DOC-007` Geometry Integrity
 
@@ -240,7 +240,7 @@ Pass when:
 
 ### `SCN-008` Information Density
 
-Pass when far and middle zoom hide every individual public and private building illustration and show each district summary in this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities and prosperity. At and above the approved near threshold, all public and private individual building illustrations appear. Standard and Luxury Apartments combine into the apartment count, the switch/crossfade follows data rather than texture resolution, and the minimum interactive target remains usable at the farthest allowed zoom.
+Pass when far and middle zoom keep historical-landmark illustrations visible for orientation but disable their direct hit targets and hide their banners; development-building illustrations remain hidden. Each district summary uses this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities and prosperity. At `305%`, development buildings appear and landmark/plot clicks enable; at `381%`, landmark banners appear. Standard and Luxury Apartments combine into the apartment count.
 
 ### `AUT-040` District Summary and Prosperity Contract
 
@@ -625,7 +625,23 @@ Pass when reduced motion shortens/removes nonessential motion without hiding req
 
 ### `VIS-001` Map Composition Gate
 
-Owner approves the submitted Figma source, base/district/alignment SVG registration, island orientation/proportion, placement of all twelve authoritative district vectors, Central Park, both bridges, main landmarks and strict reference-derived paper/ink/water appearance before Codex integrates district interaction or finalizes any of the 64 plots.
+Owner approves the submitted Figma source, base/district/plot/landmark/alignment SVG registration, island orientation/proportion, placement of all twelve authoritative district vectors, Central Park, both bridges, historical landmarks and strict reference-derived paper/ink/water appearance before Codex integrates the complete owner-authored plot and landmark set.
+
+### MAP-OWNER-08 — 地块与历史地标新合同
+
+完整的新 Figma 包交付后必须全部通过：
+
+1. 顶层顺序精确为 `08_PURCHASABLE_BLOCK_GEOMETRY`、`07_HISTORICAL_LANDMARKS`、`06_FRAME`、`05_NON_BUILDING_ORNAMENT`、`04_ROADS`、`03_DISTRICT_GEOMETRY`、`02_COASTLINE`、`01_WATER`。
+2. 底图、地标层、地块层、对齐预览和结构 JSON 使用同一 `viewBox`、原点、尺寸且无旋转/缩放漂移。
+3. 每个地块是可识别闭合几何、稳定 ID 唯一且完整位于一个街区；跨街区地块使验收失败，程序不得自动切割。
+4. 程序导入的地块数量恰好等于老板交付的实际数量，代码和测试不存在固定数量常量。
+5. 每个地标组可建立稳定 ID，插画、独立英文横幅文字与可选命中区仍保持一个选择实体。
+6. 青绿色仅是 Figma 审查色，不出现在运行时状态色；地块资格只来自几何层。
+7. `100/125/156/195/244/305/381/477/500` 九级缩放全部可达，最高值精确为 `500%`，地图不可旋转。
+8. `100—195` 地标不可点击且悬停只亮街区；`244` 地块可悬停；`305` 地块和地标可点击；`381—500` 地标横幅出现并与插画共同高亮。
+9. 街区、地块、地标严格互斥；点击空白清空选择和详情；新选择正确替换右侧 File 类型。
+10. 每条获批街区/地标文案具备 EN/ZH 短长文本、English Wikipedia 页面标题、URL、访问日期和老板审批状态；来源图标使用 `assets/wikipedia-w.svg`，点击后在游戏内弹窗展示来源。
+11. 当前未交付的五套开发建筑插画和未完成的 Figma 不得用 Codex 占位地理冒充验收通过。
 
 ### `VIS-002` Interaction-State Gate
 
@@ -663,7 +679,7 @@ Owner approves the final integrated build only when:
 - rival portraits are original rubber-hose-style designs rather than copies of a known character;
 - the reference image is not shipped as the playable background;
 - the supplied reference is absent from the runtime/export package, and production map layers record the owner Figma revision and source checksums;
-- public and private building illustrations remain separate from the base map and obey the same approved near-zoom threshold;
+- historical-landmark and development-building illustrations remain separate from the base map and obey their distinct approved LOD rules;
 - identifiable content passes period/date review;
 - decoration does not obscure plot boundaries or state.
 
