@@ -47,6 +47,8 @@ python3 -m http.server 4173 --bind 127.0.0.1
 
 然后打开 `http://127.0.0.1:4173/`。首次默认英文；可在 Settings 中切换简体中文，或直接打开 `http://127.0.0.1:4173/?lang=zh-CN`。
 
+macOS 上也可以直接双击项目根目录的 `run_metropolis_demo.command`。它会自动启动本地服务器并打开网页；游玩时保持弹出的终端窗口开启，结束后关闭窗口或按 `Ctrl+C` 即可停止服务器。
+
 静态门禁测试：
 
 ```bash
