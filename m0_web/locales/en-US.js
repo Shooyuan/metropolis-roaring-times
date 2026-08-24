@@ -4,6 +4,9 @@ window.M1W_LOCALES = window.M1W_LOCALES || {};
 window.M1W_LOCALES["en-US"] = {
   "meta.title": "Metropolis: Roaring Times — M1W Producer Map Demo",
   "meta.description": "An M1W producer map demo for Metropolis: Roaring Times, a historical New York property strategy game.",
+  "home.panel.load": "Load",
+  "home.panel.config": "Config",
+  "home.panel.about": "About Us",
 
   "rival.tycoon.name": "Tycoon", "rival.tycoon.style": "Industry & transport",
   "rival.landlady.name": "Landlady", "rival.landlady.style": "Residential income",

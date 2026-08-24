@@ -21,6 +21,7 @@ M1W 在原有 M0.1 网页的状态栏、综合操作栏和八回合经济演示�
 
 ## 当前可演示内容
 
+- 打开网页后先进入 Art Deco 风格启动页，可选择开始新游戏、读取存档、设置语言或查看 About；
 - 选择 Tycoon、Landlady 或 Shark 作为 1v1 对手；
 - 查看 Game Brief、Investment Advice、Bank、Auction House 和 Stock Market 五个页签；
 - 在正式曼哈顿地图上查看并选择 12 个分区；

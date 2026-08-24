@@ -41,6 +41,174 @@ select, input { width: 100%; border: 2px solid var(--line); background: var(--pa
 .primary-button { color: white; background: var(--accent); }
 .primary-button:hover:not(:disabled), .primary-button:focus-visible:not(:disabled) { background: #8c3029; }
 
+.home-screen {
+  position: fixed;
+  z-index: 300;
+  inset: 0;
+  min-width: 1040px;
+  overflow: hidden;
+  background: #eadcc4;
+  color: #201b19;
+}
+.home-screen.is-hidden { display: none; }
+.home-map-wash {
+  position: absolute;
+  inset: -12% 26% -8% -5%;
+  background:
+    linear-gradient(rgba(246,238,218,.48), rgba(246,238,218,.48)),
+    url("assets/metropolis_map_base.svg") center / cover no-repeat;
+  filter: sepia(.28) saturate(.68);
+  opacity: .54;
+}
+.home-paper-cluster {
+  position: absolute;
+  left: clamp(16px, 3.2vw, 54px);
+  top: clamp(18px, 4vh, 54px);
+  width: min(48vw, 650px);
+  max-height: 70vh;
+  object-fit: contain;
+  object-position: left top;
+}
+.home-skyline {
+  position: absolute;
+  left: max(-42px, -3.5vw);
+  bottom: -18px;
+  width: min(72vw, 1000px);
+  max-height: 44vh;
+  object-fit: contain;
+  object-position: left bottom;
+  filter: sepia(.16) contrast(1.02);
+}
+.home-menu-card {
+  position: absolute;
+  top: 50%;
+  right: clamp(20px, 4.2vw, 74px);
+  width: min(32vw, 444px);
+  min-width: 330px;
+  aspect-ratio: 444 / 719;
+  transform: translateY(-50%);
+}
+.home-menu-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+.home-menu-content {
+  position: absolute;
+  inset: 8% 12% 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.home-brand {
+  width: min(78%, 260px);
+  margin-top: 4%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+.home-menu-actions {
+  display: grid;
+  gap: clamp(8px, 1.4vh, 15px);
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: 18%;
+  text-align: center;
+}
+.home-menu-actions button {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  color: #201b19;
+  font-size: clamp(1.35rem, 2.35vw, 2rem);
+  font-weight: 700;
+  line-height: 1.08;
+  text-shadow: 0 1px 0 rgba(255,248,230,.75);
+}
+.home-menu-actions button:hover:not(:disabled),
+.home-menu-actions button:focus-visible:not(:disabled) {
+  background: transparent;
+  color: #9d342c;
+  outline: 0;
+  transform: translateX(3px);
+}
+.home-menu-actions button:active:not(:disabled) { transform: translate(3px, 2px); }
+.home-panel {
+  position: absolute;
+  z-index: 2;
+  top: 17%;
+  left: 26%;
+  width: min(46vw, 640px);
+  min-width: 480px;
+  min-height: 38vh;
+  border: 4px solid #3a332b;
+  background: #ead8b7;
+  padding: 30px 46px 42px;
+  box-shadow: inset 0 0 0 3px rgba(255,248,224,.58), 7px 7px 0 rgba(25,20,15,.38);
+}
+.home-panel::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 2px solid rgba(80,67,49,.62);
+  pointer-events: none;
+}
+.home-panel-back {
+  position: absolute;
+  z-index: 1;
+  top: 22px;
+  left: 24px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.home-panel h2 {
+  position: relative;
+  margin: 0 0 28px;
+  text-align: center;
+  font-size: clamp(1.55rem, 2.4vw, 2.15rem);
+}
+.home-panel-body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 18px;
+}
+.home-framed-choice,
+.home-language-control select {
+  min-height: 48px;
+  border: 0;
+  background: url("assets/home_png_complete/button_frame_default.png") center / 100% 100% no-repeat;
+  box-shadow: none;
+  padding: 8px 34px;
+  text-align: center;
+}
+.home-framed-choice:disabled { opacity: .5; }
+.home-language-control {
+  display: grid;
+  grid-template-columns: 140px minmax(220px, 1fr);
+  align-items: center;
+  gap: 18px;
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+.home-language-control select {
+  appearance: none;
+  color: #201b19;
+  font-size: 1rem;
+}
+.home-panel-copy {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
 .prototype-ribbon {
   position: sticky; top: 0; z-index: 50; padding: .27rem 1rem; color: white; background: var(--ink);
   font-family: Arial, Helvetica, sans-serif; font-size: .68rem; font-weight: 800; letter-spacing: .14em; text-align: center;
@@ -224,5 +392,8 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
   .brand-seal { width: 52px; height: 52px; flex-basis: 52px; }
   .operations-panel, .property-panel, .map-panel { height: 510px; }
   .map-instruction { display: none; }
+  .home-panel { top: 13%; min-height: 44vh; }
+  .home-brand { width: min(64%, 210px); }
+  .home-menu-actions { margin-bottom: 15%; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }

@@ -5,6 +5,9 @@ window.M1W_LOCALES = window.M1W_LOCALES || {};
 const zhCN = {
   "meta.title": "Metropolis: Roaring Times — M1W 制作人地图演示",
   "meta.description": "《Metropolis: Roaring Times》M1W 制作人地图演示——一款纽约历史地产策略游戏。",
+  "home.panel.load": "读取",
+  "home.panel.config": "设置",
+  "home.panel.about": "关于我们",
 
   "rival.tycoon.name": "实业大亨", "rival.tycoon.style": "工业与交通",
   "rival.landlady.name": "女房东", "rival.landlady.style": "住宅收入",
@@ -91,13 +94,23 @@ const staticText = {
   "Prototype Settings": "原型设置", "System": "系统", "Language": "语言", "Motion": "动效", "Follows device preference": "跟随设备偏好", "Browser local storage": "浏览器本地存储", "Prototype Result": "原型对局结果", "Match Complete": "对局结束", "Your Net Worth": "你的净资产", "Your Securities": "你的证券资产", "Rival Securities": "对手证券资产", "Choose Another Rival": "选择其他对手"
 };
 
+Object.assign(staticText, {
+  "Start A New Game": "开始新游戏",
+  "Config": "设置",
+  "About Us": "关于我们",
+  "◀ esc": "◀ esc",
+  "No saved match was found.": "未找到已保存的对局。",
+  "A historical New York property strategy prototype about land, credit, auctions and market timing.": "一款关于土地、信贷、拍卖与市场时机的纽约历史地产策略原型。",
+  "This M1W build is a producer demo. Final plots, balance, stories and Godot production remain under staged approval.": "当前 M1W 版本是制作人演示。正式地块、数值平衡、故事内容与 Godot 制作仍需分阶段审批。"
+});
+
 for (const [source, translation] of Object.entries(staticText)) zhCN[`static.${source}`] = translation;
 zhCN["static.How to Play.2"] = "怎么玩";
 zhCN["static.Market.2"] = "市值";
 zhCN["static.Save.2"] = "存档";
 
 Object.assign(zhCN, {
-  "attribute.System actions": "系统操作", "attribute.Match status": "对局状态", "attribute.Operations Desk": "综合操作栏", "attribute.Operations pages": "综合操作页面", "attribute.Future board mascot placeholder": "未来看板玩偶占位区",
+  "attribute.Opening menu": "启动菜单", "attribute.Main menu": "主菜单", "attribute.Main menu actions": "主菜单操作", "attribute.Metropolis: Roaring Times": "Metropolis: Roaring Times", "attribute.Home language": "启动页语言", "attribute.System actions": "系统操作", "attribute.Match status": "对局状态", "attribute.Operations Desk": "综合操作栏", "attribute.Operations pages": "综合操作页面", "attribute.Future board mascot placeholder": "未来看板玩偶占位区",
   "attribute.Owner-authored Manhattan district map": "老板绘制的曼哈顿分区地图", "attribute.Interactive Manhattan map. Drag to pan, use plus and minus to zoom, and select a district for details.": "曼哈顿交互地图。拖动以平移，使用加减按钮缩放，选择分区查看详情。", "attribute.Owner-authored illustrated Manhattan map": "老板绘制的曼哈顿插画地图", "attribute.Twelve selectable Manhattan districts": "十二个可选曼哈顿分区", "attribute.Map controls": "地图控制", "attribute.Zoom out": "缩小", "attribute.Zoom in": "放大", "attribute.Map legend": "地图图例", "attribute.District file": "分区档案", "attribute.Close selected district": "关闭所选分区", "attribute.Close help": "关闭玩法说明", "attribute.Close settings": "关闭设置", "attribute.Language": "语言", "attribute.Metropolis: Roaring Times M1W producer map demo": "Metropolis: Roaring Times M1W 制作人地图演示"
 });
 

@@ -84,6 +84,7 @@ let state = null;
 let busy = false;
 let toastTimer = null;
 let selectedDistrictId = null;
+let activeHomePanel = null;
 
 const mapView = {
   loaded: false,
@@ -1050,6 +1051,47 @@ function hasAnySave() {
   return Boolean(saveKeyInUse());
 }
 
+function syncHomeLoadState() {
+  const hasSave = hasAnySave();
+  dom.homeLoadSaveButton.hidden = !hasSave;
+  dom.homeLoadSaveButton.disabled = !hasSave;
+  dom.homeLoadEmpty.hidden = hasSave;
+}
+
+function closeHomePanel() {
+  dom.homePanel.hidden = true;
+  activeHomePanel = null;
+  for (const panel of [dom.homeLoadPanel, dom.homeConfigPanel, dom.homeAboutPanel]) panel.hidden = true;
+}
+
+function openHomePanel(panel) {
+  const panels = {
+    load: { title: "Load", node: dom.homeLoadPanel },
+    config: { title: "Config", node: dom.homeConfigPanel },
+    about: { title: "About Us", node: dom.homeAboutPanel },
+  };
+  const entry = panels[panel];
+  if (!entry) return false;
+  closeHomePanel();
+  activeHomePanel = panel;
+  if (panel === "load") syncHomeLoadState();
+  dom.homePanelTitle.textContent = t(`home.panel.${panel}`);
+  entry.node.hidden = false;
+  dom.homePanel.hidden = false;
+  return true;
+}
+
+function hideHomeScreen() {
+  dom.homeScreen.classList.add("is-hidden");
+  closeHomePanel();
+}
+
+function openNewGameFlow() {
+  hideHomeScreen();
+  dom.startLoadButton.hidden = !hasAnySave();
+  dom.startModal.classList.add("is-open");
+}
+
 function loadGame() {
   const sourceKey = saveKeyInUse();
   const raw = sourceKey ? window.localStorage.getItem(sourceKey) : null;
@@ -1059,6 +1101,7 @@ function loadGame() {
     if (!validLoadedState(parsed)) throw new Error("Invalid save structure");
     state = migrateState(parsed);
     window.localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+    hideHomeScreen();
     dom.startModal.classList.remove("is-open");
     dom.resultModal.classList.remove("is-open");
     render();
@@ -1076,6 +1119,7 @@ function startMatch(rivalId) {
   state = createInitialState(rivalId);
   dom.buildingSelect.value = "standard_apartment";
   dom.stockOrderAmount.value = "1000";
+  hideHomeScreen();
   dom.startModal.classList.remove("is-open");
   dom.resultModal.classList.remove("is-open");
   render();
@@ -1092,8 +1136,9 @@ function restartFlow() {
 }
 
 function collectDom() {
-  const ids = ["toast", "plot-layer", "empty-property", "property-details", "plot-code", "plot-name", "plot-district", "plot-zone", "plot-owner", "plot-price", "plot-building", "plot-income", "buy-button", "building-select", "build-button", "redevelop-select", "redevelop-preview", "redevelop-button", "sell-property-button", "sale-preview", "property-reason", "turn-value", "economy-value", "cash-value", "debt-value", "credit-value", "worth-value", "ap-value", "turn-prompt", "end-turn-button", "rival-name", "rival-style", "rival-condition", "rival-worth", "law-status", "market-brief", "news-list", "bank-credit", "bank-rate", "borrow-button", "repay-button", "loan-list", "stock-order-amount", "stock-list", "save-button", "load-button", "restart-button", "start-modal", "start-load-button", "help-modal", "settings-modal", "language-select", "result-modal", "result-title", "result-summary", "result-player-worth", "result-rival-worth", "result-player-securities", "result-rival-securities", "result-restart-button", "help-button", "settings-button", "map-stage", "map-anchor", "map-canvas", "map-base", "district-overlay", "map-loading", "map-hint", "map-zoom-out", "map-zoom-value", "map-zoom-in", "map-reset", "map-status", "empty-district", "district-details", "district-close-button", "district-code", "district-name", "district-location", "district-plots", "district-apartments", "district-factories", "district-stores", "district-transit", "district-prosperity", "district-note"];
+  const ids = ["home-screen", "home-panel", "home-panel-back", "home-panel-title", "home-load-panel", "home-load-save-button", "home-load-empty", "home-config-panel", "home-about-panel", "home-language-select", "toast", "plot-layer", "empty-property", "property-details", "plot-code", "plot-name", "plot-district", "plot-zone", "plot-owner", "plot-price", "plot-building", "plot-income", "buy-button", "building-select", "build-button", "redevelop-select", "redevelop-preview", "redevelop-button", "sell-property-button", "sale-preview", "property-reason", "turn-value", "economy-value", "cash-value", "debt-value", "credit-value", "worth-value", "ap-value", "turn-prompt", "end-turn-button", "rival-name", "rival-style", "rival-condition", "rival-worth", "law-status", "market-brief", "news-list", "bank-credit", "bank-rate", "borrow-button", "repay-button", "loan-list", "stock-order-amount", "stock-list", "save-button", "load-button", "restart-button", "start-modal", "start-load-button", "help-modal", "settings-modal", "language-select", "result-modal", "result-title", "result-summary", "result-player-worth", "result-rival-worth", "result-player-securities", "result-rival-securities", "result-restart-button", "help-button", "settings-button", "map-stage", "map-anchor", "map-canvas", "map-base", "district-overlay", "map-loading", "map-hint", "map-zoom-out", "map-zoom-value", "map-zoom-in", "map-reset", "map-status", "empty-district", "district-details", "district-close-button", "district-code", "district-name", "district-location", "district-plots", "district-apartments", "district-factories", "district-stores", "district-transit", "district-prosperity", "district-note"];
   for (const id of ids) dom[id.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())] = document.getElementById(id);
+  dom.homeActions = [...document.querySelectorAll("[data-home-action]")];
   dom.operationsTabs = [...document.querySelectorAll("[data-operations-tab]")];
   dom.operationsPages = [...document.querySelectorAll("[data-operations-page]")];
   dom.buildSection = document.querySelector(".build-section");
@@ -1102,6 +1147,14 @@ function collectDom() {
 }
 
 function bindEvents() {
+  dom.homeActions.forEach((button) => button.addEventListener("click", () => {
+    const action = button.dataset.homeAction;
+    if (action === "new") openNewGameFlow();
+    else openHomePanel(action);
+  }));
+  dom.homePanelBack.addEventListener("click", closeHomePanel);
+  dom.homeLoadSaveButton.addEventListener("click", loadGame);
+  dom.homeLanguageSelect.addEventListener("change", () => window.M1WI18n.setLocale(dom.homeLanguageSelect.value));
   document.querySelectorAll("[data-rival]").forEach((button) => button.addEventListener("click", () => startMatch(button.dataset.rival)));
   dom.buyButton.addEventListener("click", buySelectedPlot);
   dom.buildButton.addEventListener("click", buildSelectedPlot);
@@ -1127,6 +1180,8 @@ function bindEvents() {
   dom.settingsButton.addEventListener("click", () => dom.settingsModal.classList.add("is-open"));
   dom.languageSelect.addEventListener("change", () => window.M1WI18n.setLocale(dom.languageSelect.value));
   window.addEventListener("m1w:locale-changed", () => {
+    dom.homeLanguageSelect.value = locale();
+    if (activeHomePanel) dom.homePanelTitle.textContent = t(`home.panel.${activeHomePanel}`);
     renderBuildingSelectLabels();
     refreshDistrictLocalization();
     if (state) render();
@@ -1145,6 +1200,10 @@ function bindEvents() {
   dom.mapBase.addEventListener("error", () => failProducerMap(new Error("Map base SVG failed to load")), { once: true });
   document.querySelectorAll("[data-close-modal]").forEach((button) => button.addEventListener("click", () => document.getElementById(button.dataset.closeModal).classList.remove("is-open")));
   document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !dom.homeScreen.classList.contains("is-hidden") && !dom.homePanel.hidden) {
+      closeHomePanel();
+      return;
+    }
     if (event.key === "Escape") document.querySelectorAll(".modal-backdrop:not(#start-modal)").forEach((modal) => modal.classList.remove("is-open"));
   });
 }
@@ -1153,6 +1212,7 @@ function initializeApp() {
   collectDom();
   renderBuildingSelectLabels();
   bindEvents();
+  dom.homeLanguageSelect.value = locale();
   dom.startLoadButton.hidden = !hasAnySave();
   dom.loadButton.disabled = dom.startLoadButton.hidden;
   initializeProducerMap().catch(failProducerMap);

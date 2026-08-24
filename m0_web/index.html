@@ -5,10 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="An M1W producer map demo for Metropolis: Roaring Times, a historical New York property strategy game.">
   <title>Metropolis: Roaring Times — M1W Producer Map Demo</title>
-  <link rel="stylesheet" href="styles.css?v=m1w2">
+  <link rel="stylesheet" href="styles.css?v=m1w-home1">
   <link rel="stylesheet" href="localization.css?v=m1w-i18n1">
 </head>
 <body>
+  <section id="home-screen" class="home-screen" aria-label="Opening menu">
+    <div class="home-map-wash" aria-hidden="true"></div>
+    <img class="home-paper-cluster" src="assets/home_png_complete/pinned-documents-cluster-complete.png" alt="" aria-hidden="true">
+    <img class="home-skyline" src="assets/home_png_complete/nyc-skyline-from-reference-v3.png" alt="" aria-hidden="true">
+    <aside class="home-menu-card" aria-label="Main menu">
+      <img class="home-menu-frame" src="assets/home_png_complete/right-menu-panel-complete.png" alt="" aria-hidden="true">
+      <div class="home-menu-content">
+        <img class="home-brand" src="assets/home_png_complete/00_BRAND.svg" alt="Metropolis: Roaring Times">
+        <nav class="home-menu-actions" aria-label="Main menu actions">
+          <button type="button" data-home-action="new">Start A New Game</button>
+          <button type="button" data-home-action="load">Load</button>
+          <button type="button" data-home-action="config">Config</button>
+          <button type="button" data-home-action="about">About Us</button>
+        </nav>
+      </div>
+    </aside>
+    <section id="home-panel" class="home-panel" hidden aria-live="polite">
+      <button id="home-panel-back" class="home-panel-back" type="button">◀ esc</button>
+      <h2 id="home-panel-title">Config</h2>
+      <div id="home-load-panel" class="home-panel-body" hidden>
+        <button id="home-load-save-button" class="home-framed-choice" type="button">Continue Saved Match</button>
+        <p id="home-load-empty" class="home-panel-copy">No saved match was found.</p>
+      </div>
+      <div id="home-config-panel" class="home-panel-body" hidden>
+        <label class="home-language-control" for="home-language-select"><span>Language</span>
+          <select id="home-language-select" aria-label="Home language">
+            <option value="en-US">English</option>
+            <option value="zh-CN">中文（简体）</option>
+          </select>
+        </label>
+      </div>
+      <div id="home-about-panel" class="home-panel-body" hidden>
+        <p class="home-panel-copy">A historical New York property strategy prototype about land, credit, auctions and market timing.</p>
+        <p class="home-panel-copy">This M1W build is a producer demo. Final plots, balance, stories and Godot production remain under staged approval.</p>
+      </div>
+    </section>
+  </section>
+
   <div class="prototype-ribbon">M1W PRODUCER MAP DEMO — FIGMA MAP INTEGRATION · NOT FINAL PLOTS OR BALANCE</div>
 
   <main class="game-shell" aria-label="Metropolis: Roaring Times M1W producer map demo">
@@ -187,7 +225,7 @@
     </section>
   </main>
 
-  <div id="start-modal" class="modal-backdrop is-open" role="dialog" aria-modal="true" aria-labelledby="start-title"><section class="modal-card rival-modal"><p class="eyebrow">M1W Producer Map Demo</p><h2 id="start-title">Choose Rival</h2><p>Choose a rival to preserve the existing 1v1 economy context, then inspect the owner-authored Manhattan map.</p><div class="rival-options"><button class="rival-option" type="button" data-rival="tycoon"><strong>Tycoon</strong><span>Industrial expansion and transport value.</span></button><button class="rival-option" type="button" data-rival="landlady"><strong>Landlady</strong><span>Residential income and steady holdings.</span></button><button class="rival-option" type="button" data-rival="shark"><strong>Shark</strong><span>Cheap land, liquidity and opportunism.</span></button></div><button id="start-load-button" class="start-load-button" type="button" hidden>Continue Saved Match</button><p class="modal-footnote">The map and district geometry are production inputs. Plot boundaries, balances and auction stories remain pending.</p></section></div>
+  <div id="start-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="start-title"><section class="modal-card rival-modal"><p class="eyebrow">M1W Producer Map Demo</p><h2 id="start-title">Choose Rival</h2><p>Choose a rival to preserve the existing 1v1 economy context, then inspect the owner-authored Manhattan map.</p><div class="rival-options"><button class="rival-option" type="button" data-rival="tycoon"><strong>Tycoon</strong><span>Industrial expansion and transport value.</span></button><button class="rival-option" type="button" data-rival="landlady"><strong>Landlady</strong><span>Residential income and steady holdings.</span></button><button class="rival-option" type="button" data-rival="shark"><strong>Shark</strong><span>Cheap land, liquidity and opportunism.</span></button></div><button id="start-load-button" class="start-load-button" type="button" hidden>Continue Saved Match</button><p class="modal-footnote">The map and district geometry are production inputs. Plot boundaries, balances and auction stories remain pending.</p></section></div>
 
   <div id="help-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="help-title"><section class="modal-card help-modal-card"><button class="modal-close" type="button" data-close-modal="help-modal" aria-label="Close help">×</button><p class="eyebrow">Three-Minute Walkthrough</p><h2 id="help-title">How to Play</h2><ol><li>Buy land and construct a building; each costs one action point.</li><li>Redevelop only into a higher-cost legal building. The old building contributes a 120% upgrade credit, but never pays cash back.</li><li>A brokered sale locks 90% of current property value and settles next turn.</li><li>Every securities buy or sell costs one action point and a 1% fee.</li><li>Bank borrowing and repayment cost no action points; loans mature in six turns.</li><li>Highest net worth after turn 8 wins.</li></ol></section></div>
 
@@ -199,6 +237,6 @@
   <script src="locales/en-US.js?v=m1w-i18n1"></script>
   <script src="locales/zh-CN.js?v=m1w-i18n1"></script>
   <script src="i18n.js?v=m1w-i18n1"></script>
-  <script src="app.js?v=m1w-i18n1"></script>
+  <script src="app.js?v=m1w-home1"></script>
 </body>
 </html>
