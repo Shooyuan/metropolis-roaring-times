@@ -101,25 +101,24 @@ select, input { width: 100%; border: 2px solid var(--line); background: var(--pa
   user-select: none;
 }
 .home-document--mortgage {
-  top: clamp(18px, 3vh, 48px);
-  left: clamp(24px, 3.2vw, 74px);
-  width: clamp(220px, 16.5vw, 330px);
+  top: 3.7%;
+  left: 2.4%;
+  width: 22.8%;
 }
 .home-document--parcel {
-  top: clamp(16px, 2.6vh, 42px);
-  left: clamp(360px, 23vw, 590px);
-  width: clamp(360px, 31vw, 610px);
+  top: 2.8%;
+  left: 34.8%;
+  width: 27.7%;
 }
 .home-document--auction {
-  top: clamp(310px, 37vh, 560px);
-  left: clamp(26px, 4vw, 96px);
-  width: clamp(230px, 18vw, 360px);
+  top: 50.2%;
+  left: 2%;
+  width: 25.8%;
 }
 .home-document--stock {
-  z-index: 3;
-  top: clamp(330px, 40vh, 620px);
-  left: clamp(330px, 25vw, 640px);
-  width: clamp(360px, 31vw, 620px);
+  top: 41.4%;
+  left: 35.5%;
+  width: 30.4%;
 }
 .home-skyline {
   position: absolute;
@@ -155,7 +154,7 @@ select, input { width: 100%; border: 2px solid var(--line); background: var(--pa
 }
 .home-menu-content {
   position: absolute;
-  inset: 8% 12% 10%;
+  inset: 10% 12% 8%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -168,7 +167,7 @@ select, input { width: 100%; border: 2px solid var(--line); background: var(--pa
 }
 .home-menu-actions {
   display: grid;
-  gap: clamp(4px, .7vh, 8px);
+  gap: clamp(7px, 1vh, 11px);
   width: 100%;
   margin-top: clamp(12px, 2vh, 24px);
   margin-bottom: 0;

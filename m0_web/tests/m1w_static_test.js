@@ -50,23 +50,22 @@ for (const id of ["map-stage", "map-anchor", "map-canvas", "district-overlay", "
 for (const id of ["home-screen", "home-panel", "home-load-panel", "home-config-panel", "home-about-panel", "home-language-value"]) {
   assert(html.includes(`id="${id}"`), `Missing home screen DOM contract: ${id}`);
 }
-for (const asset of ["right-menu-panel-complete.png", "1.png", "2.png", "3.png", "4.png", "nyc-skyline-from-reference-v3-expanded-sides.png", "Vector.png"]) {
+for (const asset of ["right-menu-panel-complete.png", "1.png", "2.png", "3.png", "4.png", "nyc-skyline-from-reference-v3-expanded-sides 1.png", "manhattan_map_reference.png", "Vector.png"]) {
   assert(html.includes(`assets/home_png_complete/${asset}`) || styles.includes(`assets/home_png_complete/${asset}`), `Home screen must reference ${asset}`);
   assert(fs.existsSync(path.join(webRoot, "assets", "home_png_complete", asset)), `Missing home screen asset: ${asset}`);
 }
-const homeMap = path.join(webRoot, "assets", "manhattan_map_reference.jpg");
 const homePanel = path.join(webRoot, "assets", "cutouts", "panel_center_large.png");
 for (const font of ["InknutAntiqua-Regular.ttf", "InknutAntiqua-Bold.ttf"]) {
   assert(fs.existsSync(path.join(webRoot, "assets", "fonts", font)), `Missing approved home font: ${font}`);
 }
-assert.equal(sha256(fs.readFileSync(homeMap)), sha256(fs.readFileSync(path.join(projectRoot, "references", "manhattan_map_reference.jpg"))), "Home background must be an exact copy of the approved reference map");
-assert(html.includes('class="home-map-scroll"') && html.includes('src="assets/manhattan_map_reference.jpg"'), "Home must render the approved map as its scrolling background");
+assert(html.includes('class="home-map-scroll"') && html.includes('src="assets/home_png_complete/manhattan_map_reference.png"'), "Home must render the owner-selected PNG map as its scrolling background");
 assert(html.includes('src="assets/cutouts/panel_center_large.png"'), "Load, Config and About must share the owner-provided center panel asset");
 assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
 assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
 assert(/\.home-menu-actions button \{[\s\S]*?font-weight: 400;/.test(styles), "Home menu must use Inknut Antiqua Regular without changing its size");
+assert(styles.includes("top: 3.7%") && styles.includes("left: 34.8%") && styles.includes("top: 50.2%") && styles.includes("left: 35.5%"), "Home documents must retain the approved Group 11 composition anchors");
 assert(!html.includes('id="home-language-select"'), "Home Config must not use a native language selector");
 assert((html.match(/data-home-language-step=/g) || []).length === 2, "Home Config must expose left and right language arrows");
 assert(script.includes("function stepHomeLanguage(direction)"), "Home language arrows must have a shared cycling implementation");
