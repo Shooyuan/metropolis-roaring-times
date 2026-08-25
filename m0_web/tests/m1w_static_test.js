@@ -15,6 +15,7 @@ const brand = fs.readFileSync(path.join(webRoot, "assets", "00_BRAND.svg"));
 const mapBase = fs.readFileSync(path.join(webRoot, "assets", "metropolis_map_base.svg"));
 const districts = fs.readFileSync(path.join(webRoot, "assets", "metropolis_district_geometry.svg"));
 const sourceZip = path.join(projectRoot, "assets", "metropolis_handoff_1786627051152.zip");
+const favicon = path.join(webRoot, "assets", "metropolis-game-logo-256.png");
 
 const expectedDistricts = [
   "district_inwood",
@@ -85,6 +86,8 @@ assert(styles.includes("aspect-ratio: 364 / 90"), "Start must preserve the sourc
 assert(styles.includes('.rival-option[data-rival="landlady"] strong { transform: translateX(-16px); }'), "Landlady needs the approved optical centering correction");
 assert(/\.start-confirm-button \{[\s\S]*?display: flex;[\s\S]*?align-items: center;[\s\S]*?line-height: 1;/.test(styles), "Start text must remain vertically centered inside its native-ratio frame");
 assert(html.includes("Metropolis: Roaring Times"), "Player-facing title must include the colon");
+assert(html.includes('rel="icon" type="image/png" sizes="256x256" href="assets/metropolis-game-logo-256.png?v=1"'), "The browser tab must use the approved Metropolis game logo");
+assert(fs.existsSync(favicon), "Missing generated 256px Metropolis favicon");
 assert(!html.includes("BROOKLYN BRIDGEHEAD"), "Retired district label must not be visible in the M1W map");
 assert(!html.includes("HELL'S KITCHEN"), "Retired district label must not be visible in the M1W map");
 assert(!script.includes("Brooklyn Bridgehead"), "Retired district semantics must not remain in active M1W code");
