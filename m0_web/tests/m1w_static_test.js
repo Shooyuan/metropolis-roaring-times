@@ -50,10 +50,22 @@ for (const id of ["map-stage", "map-anchor", "map-canvas", "district-overlay", "
 for (const id of ["home-screen", "home-panel", "home-load-panel", "home-config-panel", "home-about-panel", "home-language-select"]) {
   assert(html.includes(`id="${id}"`), `Missing home screen DOM contract: ${id}`);
 }
-for (const asset of ["right-menu-panel-complete.png", "pinned-documents-cluster-complete.png", "nyc-skyline-from-reference-v3.png", "button_frame_default.png"]) {
+for (const asset of ["right-menu-panel-complete.png", "1.png", "2.png", "3.png", "4.png", "nyc-skyline-from-reference-v3.png", "button_frame_default.png"]) {
   assert(html.includes(`assets/home_png_complete/${asset}`) || styles.includes(`assets/home_png_complete/${asset}`), `Home screen must reference ${asset}`);
   assert(fs.existsSync(path.join(webRoot, "assets", "home_png_complete", asset)), `Missing home screen asset: ${asset}`);
 }
+const homeMap = path.join(webRoot, "assets", "manhattan_map_reference.jpg");
+const homePanel = path.join(webRoot, "assets", "cutouts", "panel_center_large.png");
+for (const font of ["InknutAntiqua-Regular.ttf", "InknutAntiqua-Bold.ttf"]) {
+  assert(fs.existsSync(path.join(webRoot, "assets", "fonts", font)), `Missing approved home font: ${font}`);
+}
+assert.equal(sha256(fs.readFileSync(homeMap)), sha256(fs.readFileSync(path.join(projectRoot, "references", "manhattan_map_reference.jpg"))), "Home background must be an exact copy of the approved reference map");
+assert(html.includes('class="home-map-scroll"') && html.includes('src="assets/manhattan_map_reference.jpg"'), "Home must render the approved map as its scrolling background");
+assert(html.includes('src="assets/cutouts/panel_center_large.png"'), "Load, Config and About must share the owner-provided center panel asset");
+assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
+assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
+assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
+assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
 assert(html.includes('data-home-action="new"'), "Home screen must expose a new-game action");
 assert(!html.includes('id="start-modal" class="modal-backdrop is-open"'), "Rival chooser must not open before the home screen action");
 assert(html.includes("Metropolis: Roaring Times"), "Player-facing title must include the colon");

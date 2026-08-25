@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "Inknut Antiqua M1W";
+  src: url("assets/fonts/InknutAntiqua-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inknut Antiqua M1W";
+  src: url("assets/fonts/InknutAntiqua-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 :root {
   --paper: #fffdf5;
   --paper-soft: #f1ecdf;
@@ -51,36 +67,77 @@ select, input { width: 100%; border: 2px solid var(--line); background: var(--pa
   color: #201b19;
 }
 .home-screen.is-hidden { display: none; }
-.home-map-wash {
+.home-map-scroll {
   position: absolute;
-  inset: -12% 26% -8% -5%;
-  background:
-    linear-gradient(rgba(246,238,218,.48), rgba(246,238,218,.48)),
-    url("assets/metropolis_map_base.svg") center / cover no-repeat;
-  filter: sepia(.28) saturate(.68);
-  opacity: .54;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  max-width: none;
+  height: auto;
+  opacity: .7;
+  animation: home-map-bottom-to-top 60s linear infinite;
+  will-change: transform, opacity;
+  pointer-events: none;
+  user-select: none;
 }
-.home-paper-cluster {
+@keyframes home-map-bottom-to-top {
+  0% { opacity: .7; transform: translateY(calc(100vh - 100%)); }
+  88% { opacity: .7; transform: translateY(0); }
+  94% { opacity: 0; transform: translateY(0); }
+  95% { opacity: 0; transform: translateY(calc(100vh - 100%)); }
+  100% { opacity: .7; transform: translateY(calc(100vh - 100%)); }
+}
+.home-documents {
   position: absolute;
-  left: clamp(16px, 3.2vw, 54px);
-  top: clamp(18px, 4vh, 54px);
-  width: min(48vw, 650px);
-  max-height: 70vh;
+  inset: 0;
+  pointer-events: none;
+}
+.home-document {
+  position: absolute;
+  z-index: 1;
+  height: auto;
   object-fit: contain;
-  object-position: left top;
+  user-select: none;
+}
+.home-document--mortgage {
+  top: clamp(18px, 3vh, 48px);
+  left: clamp(24px, 3.2vw, 74px);
+  width: clamp(220px, 16.5vw, 330px);
+}
+.home-document--parcel {
+  top: clamp(16px, 2.6vh, 42px);
+  left: clamp(360px, 23vw, 590px);
+  width: clamp(360px, 31vw, 610px);
+}
+.home-document--auction {
+  top: clamp(310px, 37vh, 560px);
+  left: clamp(26px, 4vw, 96px);
+  width: clamp(230px, 18vw, 360px);
+}
+.home-document--stock {
+  z-index: 3;
+  top: clamp(330px, 40vh, 620px);
+  left: clamp(330px, 25vw, 640px);
+  width: clamp(360px, 31vw, 620px);
 }
 .home-skyline {
   position: absolute;
-  left: max(-42px, -3.5vw);
-  bottom: -18px;
-  width: min(72vw, 1000px);
-  max-height: 44vh;
+  z-index: 2;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  max-width: none;
+  height: auto;
   object-fit: contain;
-  object-position: left bottom;
+  object-position: center bottom;
   filter: sepia(.16) contrast(1.02);
+  pointer-events: none;
+  user-select: none;
 }
 .home-menu-card {
   position: absolute;
+  z-index: 4;
   top: 50%;
   right: clamp(20px, 4.2vw, 74px);
   width: min(32vw, 444px);
@@ -105,16 +162,16 @@ select, input { width: 100%; border: 2px solid var(--line); background: var(--pa
 }
 .home-brand {
   width: min(78%, 260px);
-  margin-top: 4%;
+  margin-top: 3%;
   aspect-ratio: 1;
   object-fit: contain;
 }
 .home-menu-actions {
   display: grid;
-  gap: clamp(8px, 1.4vh, 15px);
+  gap: clamp(4px, .7vh, 8px);
   width: 100%;
-  margin-top: auto;
-  margin-bottom: 18%;
+  margin-top: clamp(12px, 2vh, 24px);
+  margin-bottom: 0;
   text-align: center;
 }
 .home-menu-actions button {
@@ -123,9 +180,10 @@ select, input { width: 100%; border: 2px solid var(--line); background: var(--pa
   box-shadow: none;
   padding: 0;
   color: #201b19;
-  font-size: clamp(1.35rem, 2.35vw, 2rem);
+  font-family: "Inknut Antiqua M1W", Georgia, serif;
+  font-size: clamp(1.15rem, 1.7vw, 1.85rem);
   font-weight: 700;
-  line-height: 1.08;
+  line-height: 1.35;
   text-shadow: 0 1px 0 rgba(255,248,230,.75);
 }
 .home-menu-actions button:hover:not(:disabled),
@@ -138,47 +196,61 @@ select, input { width: 100%; border: 2px solid var(--line); background: var(--pa
 .home-menu-actions button:active:not(:disabled) { transform: translate(3px, 2px); }
 .home-panel {
   position: absolute;
-  z-index: 2;
-  top: 17%;
-  left: 26%;
-  width: min(46vw, 640px);
-  min-width: 480px;
-  min-height: 38vh;
-  border: 4px solid #3a332b;
-  background: #ead8b7;
-  padding: 30px 46px 42px;
-  box-shadow: inset 0 0 0 3px rgba(255,248,224,.58), 7px 7px 0 rgba(25,20,15,.38);
+  z-index: 6;
+  top: 50%;
+  left: clamp(250px, 17vw, 440px);
+  width: min(48vw, 667px);
+  min-width: 500px;
+  aspect-ratio: 667 / 515;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  transform: translateY(-50%);
 }
-.home-panel::before {
-  content: "";
+.home-panel-frame {
   position: absolute;
-  inset: 8px;
-  border: 2px solid rgba(80,67,49,.62);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   pointer-events: none;
+}
+.home-panel-content {
+  position: absolute;
+  inset: 8% 8.5% 9%;
+  font-family: "Inknut Antiqua M1W", Georgia, serif;
+  font-weight: 400;
 }
 .home-panel-back {
   position: absolute;
   z-index: 1;
-  top: 22px;
-  left: 24px;
+  top: 0;
+  left: 0;
   border: 0;
   background: transparent;
   box-shadow: none;
   padding: 0;
-  font-size: 1rem;
+  font-family: "Inknut Antiqua M1W", Georgia, serif;
+  font-size: clamp(.75rem, 1vw, 1rem);
   font-weight: 700;
 }
 .home-panel h2 {
   position: relative;
-  margin: 0 0 28px;
+  margin: 0 0 clamp(18px, 3vh, 32px);
+  font-family: "Inknut Antiqua M1W", Georgia, serif;
   text-align: center;
-  font-size: clamp(1.55rem, 2.4vw, 2.15rem);
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  font-weight: 700;
+  line-height: 1.35;
 }
 .home-panel-body {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: 18px;
+  gap: 14px;
+  font-family: "Inknut Antiqua M1W", Georgia, serif;
+  font-weight: 400;
 }
 .home-framed-choice,
 .home-language-control select {
@@ -195,18 +267,31 @@ select, input { width: 100%; border: 2px solid var(--line); background: var(--pa
   grid-template-columns: 140px minmax(220px, 1fr);
   align-items: center;
   gap: 18px;
-  font-size: 1.45rem;
-  font-weight: 700;
+  font-family: "Inknut Antiqua M1W", Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 400;
 }
 .home-language-control select {
   appearance: none;
   color: #201b19;
-  font-size: 1rem;
+  font-family: "Inknut Antiqua M1W", Georgia, serif;
+  font-size: .9rem;
+  font-weight: 400;
 }
 .home-panel-copy {
   margin: 0;
-  font-size: 1rem;
-  line-height: 1.55;
+  font-family: "Inknut Antiqua M1W", Georgia, serif;
+  font-size: clamp(.75rem, 1vw, .95rem);
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-map-scroll {
+    animation: none;
+    opacity: .7;
+    transform: translateY(calc(100vh - 100%));
+  }
 }
 
 .prototype-ribbon {
@@ -392,8 +477,8 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
   .brand-seal { width: 52px; height: 52px; flex-basis: 52px; }
   .operations-panel, .property-panel, .map-panel { height: 510px; }
   .map-instruction { display: none; }
-  .home-panel { top: 13%; min-height: 44vh; }
+  .home-panel { top: 50%; min-height: 0; }
   .home-brand { width: min(64%, 210px); }
-  .home-menu-actions { margin-bottom: 15%; }
+  .home-menu-actions { margin-bottom: 0; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
