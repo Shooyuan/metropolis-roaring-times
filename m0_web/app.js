@@ -9,6 +9,7 @@ const LEGACY_SAVE_KEYS = [
 ];
 const t = (key, values = {}) => window.M1WI18n.t(key, values);
 const locale = () => window.M1WI18n.getLocale();
+const HOME_LANGUAGE_NAMES = { "en-US": "English", "zh-CN": "中文（简体）" };
 
 const RIVALS = {
   tycoon: { name: "Tycoon", style: "Industry & transport", preferredPlots: ["hk_01", "mt_01"], building: "factory", reserve: 8000, security: "industrial_shares" },
@@ -1058,6 +1059,17 @@ function syncHomeLoadState() {
   dom.homeLoadEmpty.hidden = hasSave;
 }
 
+function renderHomeLanguagePicker() {
+  dom.homeLanguageValue.textContent = HOME_LANGUAGE_NAMES[locale()] || locale();
+}
+
+function stepHomeLanguage(direction) {
+  const supported = window.M1WI18n.supported;
+  const currentIndex = Math.max(0, supported.indexOf(locale()));
+  const nextIndex = (currentIndex + direction + supported.length) % supported.length;
+  window.M1WI18n.setLocale(supported[nextIndex]);
+}
+
 function closeHomePanel() {
   dom.homePanel.hidden = true;
   activeHomePanel = null;
@@ -1136,9 +1148,10 @@ function restartFlow() {
 }
 
 function collectDom() {
-  const ids = ["home-screen", "home-panel", "home-panel-back", "home-panel-title", "home-load-panel", "home-load-save-button", "home-load-empty", "home-config-panel", "home-about-panel", "home-language-select", "toast", "plot-layer", "empty-property", "property-details", "plot-code", "plot-name", "plot-district", "plot-zone", "plot-owner", "plot-price", "plot-building", "plot-income", "buy-button", "building-select", "build-button", "redevelop-select", "redevelop-preview", "redevelop-button", "sell-property-button", "sale-preview", "property-reason", "turn-value", "economy-value", "cash-value", "debt-value", "credit-value", "worth-value", "ap-value", "turn-prompt", "end-turn-button", "rival-name", "rival-style", "rival-condition", "rival-worth", "law-status", "market-brief", "news-list", "bank-credit", "bank-rate", "borrow-button", "repay-button", "loan-list", "stock-order-amount", "stock-list", "save-button", "load-button", "restart-button", "start-modal", "start-load-button", "help-modal", "settings-modal", "language-select", "result-modal", "result-title", "result-summary", "result-player-worth", "result-rival-worth", "result-player-securities", "result-rival-securities", "result-restart-button", "help-button", "settings-button", "map-stage", "map-anchor", "map-canvas", "map-base", "district-overlay", "map-loading", "map-hint", "map-zoom-out", "map-zoom-value", "map-zoom-in", "map-reset", "map-status", "empty-district", "district-details", "district-close-button", "district-code", "district-name", "district-location", "district-plots", "district-apartments", "district-factories", "district-stores", "district-transit", "district-prosperity", "district-note"];
+  const ids = ["home-screen", "home-panel", "home-panel-back", "home-panel-title", "home-load-panel", "home-load-save-button", "home-load-empty", "home-config-panel", "home-about-panel", "home-language-value", "toast", "plot-layer", "empty-property", "property-details", "plot-code", "plot-name", "plot-district", "plot-zone", "plot-owner", "plot-price", "plot-building", "plot-income", "buy-button", "building-select", "build-button", "redevelop-select", "redevelop-preview", "redevelop-button", "sell-property-button", "sale-preview", "property-reason", "turn-value", "economy-value", "cash-value", "debt-value", "credit-value", "worth-value", "ap-value", "turn-prompt", "end-turn-button", "rival-name", "rival-style", "rival-condition", "rival-worth", "law-status", "market-brief", "news-list", "bank-credit", "bank-rate", "borrow-button", "repay-button", "loan-list", "stock-order-amount", "stock-list", "save-button", "load-button", "restart-button", "start-modal", "start-load-button", "help-modal", "settings-modal", "language-select", "result-modal", "result-title", "result-summary", "result-player-worth", "result-rival-worth", "result-player-securities", "result-rival-securities", "result-restart-button", "help-button", "settings-button", "map-stage", "map-anchor", "map-canvas", "map-base", "district-overlay", "map-loading", "map-hint", "map-zoom-out", "map-zoom-value", "map-zoom-in", "map-reset", "map-status", "empty-district", "district-details", "district-close-button", "district-code", "district-name", "district-location", "district-plots", "district-apartments", "district-factories", "district-stores", "district-transit", "district-prosperity", "district-note"];
   for (const id of ids) dom[id.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())] = document.getElementById(id);
   dom.homeActions = [...document.querySelectorAll("[data-home-action]")];
+  dom.homeLanguageButtons = [...document.querySelectorAll("[data-home-language-step]")];
   dom.operationsTabs = [...document.querySelectorAll("[data-operations-tab]")];
   dom.operationsPages = [...document.querySelectorAll("[data-operations-page]")];
   dom.buildSection = document.querySelector(".build-section");
@@ -1154,7 +1167,7 @@ function bindEvents() {
   }));
   dom.homePanelBack.addEventListener("click", closeHomePanel);
   dom.homeLoadSaveButton.addEventListener("click", loadGame);
-  dom.homeLanguageSelect.addEventListener("change", () => window.M1WI18n.setLocale(dom.homeLanguageSelect.value));
+  dom.homeLanguageButtons.forEach((button) => button.addEventListener("click", () => stepHomeLanguage(Number(button.dataset.homeLanguageStep))));
   document.querySelectorAll("[data-rival]").forEach((button) => button.addEventListener("click", () => startMatch(button.dataset.rival)));
   dom.buyButton.addEventListener("click", buySelectedPlot);
   dom.buildButton.addEventListener("click", buildSelectedPlot);
@@ -1180,7 +1193,7 @@ function bindEvents() {
   dom.settingsButton.addEventListener("click", () => dom.settingsModal.classList.add("is-open"));
   dom.languageSelect.addEventListener("change", () => window.M1WI18n.setLocale(dom.languageSelect.value));
   window.addEventListener("m1w:locale-changed", () => {
-    dom.homeLanguageSelect.value = locale();
+    renderHomeLanguagePicker();
     if (activeHomePanel) dom.homePanelTitle.textContent = t(`home.panel.${activeHomePanel}`);
     renderBuildingSelectLabels();
     refreshDistrictLocalization();
@@ -1212,7 +1225,7 @@ function initializeApp() {
   collectDom();
   renderBuildingSelectLabels();
   bindEvents();
-  dom.homeLanguageSelect.value = locale();
+  renderHomeLanguagePicker();
   dom.startLoadButton.hidden = !hasAnySave();
   dom.loadButton.disabled = dom.startLoadButton.hidden;
   initializeProducerMap().catch(failProducerMap);

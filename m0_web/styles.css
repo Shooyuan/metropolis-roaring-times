@@ -182,7 +182,7 @@ select, input { width: 100%; border: 2px solid var(--line); background: var(--pa
   color: #201b19;
   font-family: "Inknut Antiqua M1W", Georgia, serif;
   font-size: clamp(1.15rem, 1.7vw, 1.85rem);
-  font-weight: 700;
+  font-weight: 400;
   line-height: 1.35;
   text-shadow: 0 1px 0 rgba(255,248,230,.75);
 }
@@ -235,6 +235,14 @@ select, input { width: 100%; border: 2px solid var(--line); background: var(--pa
   font-size: clamp(.75rem, 1vw, 1rem);
   font-weight: 700;
 }
+.home-panel-back:hover:not(:disabled),
+.home-panel-back:focus-visible:not(:disabled) {
+  background: transparent;
+  color: #9d342c;
+  outline: 0;
+  transform: translateX(3px);
+}
+.home-panel-back:active:not(:disabled) { transform: translate(3px, 2px); }
 .home-panel h2 {
   position: relative;
   margin: 0 0 clamp(18px, 3vh, 32px);
@@ -253,12 +261,16 @@ select, input { width: 100%; border: 2px solid var(--line); background: var(--pa
   font-weight: 400;
 }
 .home-framed-choice,
-.home-language-control select {
-  min-height: 48px;
+.home-language-picker {
   border: 0;
-  background: url("assets/home_png_complete/button_frame_default.png") center / 100% 100% no-repeat;
+  background: url("assets/home_png_complete/Vector.png") center / 100% 100% no-repeat;
   box-shadow: none;
-  padding: 8px 34px;
+}
+.home-framed-choice {
+  width: min(100%, 500px);
+  aspect-ratio: 6135 / 879;
+  justify-self: center;
+  padding: 8px 54px;
   text-align: center;
 }
 .home-framed-choice:disabled { opacity: .5; }
@@ -271,13 +283,39 @@ select, input { width: 100%; border: 2px solid var(--line); background: var(--pa
   font-size: 1.2rem;
   font-weight: 400;
 }
-.home-language-control select {
-  appearance: none;
+.home-language-picker {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 42px;
+  align-items: center;
+  width: 100%;
+  aspect-ratio: 6135 / 879;
+  padding: 0 10px;
+}
+.home-language-picker output {
   color: #201b19;
   font-family: "Inknut Antiqua M1W", Georgia, serif;
   font-size: .9rem;
   font-weight: 400;
+  text-align: center;
 }
+.home-language-step {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  color: #191816;
+  font-family: Georgia, serif;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+.home-language-step:hover:not(:disabled),
+.home-language-step:focus-visible:not(:disabled) {
+  background: transparent;
+  color: #9d342c;
+  outline: 0;
+  transform: translateY(-1px);
+}
+.home-language-step:active:not(:disabled) { transform: translate(2px, 2px); }
 .home-panel-copy {
   margin: 0;
   font-family: "Inknut Antiqua M1W", Georgia, serif;

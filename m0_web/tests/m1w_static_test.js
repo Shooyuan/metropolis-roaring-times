@@ -47,10 +47,10 @@ assert(!districtText.includes('id="istrict_financial_district"'), "Financial Dis
 for (const id of ["map-stage", "map-anchor", "map-canvas", "district-overlay", "map-zoom-out", "map-zoom-in", "map-reset", "district-details"]) {
   assert(html.includes(`id="${id}"`), `Missing M1W DOM contract: ${id}`);
 }
-for (const id of ["home-screen", "home-panel", "home-load-panel", "home-config-panel", "home-about-panel", "home-language-select"]) {
+for (const id of ["home-screen", "home-panel", "home-load-panel", "home-config-panel", "home-about-panel", "home-language-value"]) {
   assert(html.includes(`id="${id}"`), `Missing home screen DOM contract: ${id}`);
 }
-for (const asset of ["right-menu-panel-complete.png", "1.png", "2.png", "3.png", "4.png", "nyc-skyline-from-reference-v3.png", "button_frame_default.png"]) {
+for (const asset of ["right-menu-panel-complete.png", "1.png", "2.png", "3.png", "4.png", "nyc-skyline-from-reference-v3-expanded-sides.png", "Vector.png"]) {
   assert(html.includes(`assets/home_png_complete/${asset}`) || styles.includes(`assets/home_png_complete/${asset}`), `Home screen must reference ${asset}`);
   assert(fs.existsSync(path.join(webRoot, "assets", "home_png_complete", asset)), `Missing home screen asset: ${asset}`);
 }
@@ -66,6 +66,12 @@ assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
 assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
+assert(/\.home-menu-actions button \{[\s\S]*?font-weight: 400;/.test(styles), "Home menu must use Inknut Antiqua Regular without changing its size");
+assert(!html.includes('id="home-language-select"'), "Home Config must not use a native language selector");
+assert((html.match(/data-home-language-step=/g) || []).length === 2, "Home Config must expose left and right language arrows");
+assert(script.includes("function stepHomeLanguage(direction)"), "Home language arrows must have a shared cycling implementation");
+assert(styles.includes('background: url("assets/home_png_complete/Vector.png")'), "Load and Config choices must use the approved Vector frame");
+assert(/\.home-panel-back:hover[\s\S]*?color: #9d342c;/.test(styles), "Home panel esc control must share the red selected feedback");
 assert(html.includes('data-home-action="new"'), "Home screen must expose a new-game action");
 assert(!html.includes('id="start-modal" class="modal-backdrop is-open"'), "Rival chooser must not open before the home screen action");
 assert(html.includes("Metropolis: Roaring Times"), "Player-facing title must include the colon");

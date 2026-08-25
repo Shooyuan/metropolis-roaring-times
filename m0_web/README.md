@@ -22,7 +22,7 @@ M1W 在原有 M0.1 网页的状态栏、综合操作栏和八回合经济演示�
 ## 当前可演示内容
 
 - 打开网页后先进入 Art Deco 风格启动页：老板指定的曼哈顿参考地图以 70% 不透明度在 60 秒内从底部向顶部循环浏览，四张票据独立定位，天际线等比铺满屏幕宽度；
-- 启动页英文菜单、弹窗标题与返回键使用 Inknut Antiqua Bold，弹窗正文使用 Inknut Antiqua Regular；Load、Config 与 About 共同使用老板提供的 `assets/cutouts/panel_center_large.png`，不由 CSS 重画；
+- 启动页英文菜单与弹窗正文使用 Inknut Antiqua Regular，弹窗标题与返回键使用 Inknut Antiqua Bold；Load、Config 与 About 共同使用老板提供的 `assets/cutouts/panel_center_large.png`，不由 CSS 重画；Load 存档项和 Config 语言项使用 `assets/home_png_complete/Vector.png`，语言通过左右三角切换而非系统下拉框；
 - 可从启动页选择开始新游戏、读取存档、设置语言或查看 About；
 - 选择 Tycoon、Landlady 或 Shark 作为 1v1 对手；
 - 查看 Game Brief、Investment Advice、Bank、Auction House 和 Stock Market 五个页签；
