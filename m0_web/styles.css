@@ -591,7 +591,7 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
   font-weight: 400;
   line-height: 1.2;
 }
-.rival-option[data-rival="landlady"] strong { transform: translateX(-4px); }
+.rival-option[data-rival="landlady"] strong { transform: translateX(-16px); }
 .rival-option span {
   display: block;
   color: #9b7242;
@@ -600,6 +600,9 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
   line-height: 1.35;
 }
 .start-confirm-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: min(34%, 240px);
   min-height: 0;
   aspect-ratio: 364 / 90;
@@ -607,11 +610,12 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
   border: 0;
   background: url("assets/home_png_complete/button_frame_default.png") center / 100% 100% no-repeat;
   box-shadow: none;
-  padding: 0 28px 3px;
+  padding: 0 28px;
   color: #201b19;
   font-family: "Inknut Antiqua M1W", Georgia, serif;
-  font-size: clamp(1.1rem, 1.65vw, 1.55rem);
+  font-size: clamp(.95rem, 1.2vw, 1.1rem);
   font-weight: 400;
+  line-height: 1;
 }
 .start-confirm-button:hover:not(:disabled),
 .start-confirm-button:focus-visible:not(:disabled) {
