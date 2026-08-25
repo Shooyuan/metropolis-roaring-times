@@ -47,10 +47,10 @@ assert(!districtText.includes('id="istrict_financial_district"'), "Financial Dis
 for (const id of ["map-stage", "map-anchor", "map-canvas", "district-overlay", "map-zoom-out", "map-zoom-in", "map-reset", "district-details"]) {
   assert(html.includes(`id="${id}"`), `Missing M1W DOM contract: ${id}`);
 }
-for (const id of ["home-screen", "home-panel", "home-load-panel", "home-config-panel", "home-about-panel", "home-language-value"]) {
+for (const id of ["home-screen", "home-panel", "home-load-panel", "home-config-panel", "home-about-panel", "home-language-value", "start-modal-back", "start-confirm-button"]) {
   assert(html.includes(`id="${id}"`), `Missing home screen DOM contract: ${id}`);
 }
-for (const asset of ["right-menu-panel-complete.png", "1.png", "2.png", "3.png", "4.png", "nyc-skyline-from-reference-v3-expanded-sides 1.png", "manhattan_map_reference.png", "Vector.png"]) {
+for (const asset of ["right-menu-panel-complete.png", "1.png", "2.png", "3.png", "4.png", "nyc-skyline-from-reference-v3-expanded-sides 1.png", "manhattan_map_reference.png", "Vector.png", "button_frame_default.png"]) {
   assert(html.includes(`assets/home_png_complete/${asset}`) || styles.includes(`assets/home_png_complete/${asset}`), `Home screen must reference ${asset}`);
   assert(fs.existsSync(path.join(webRoot, "assets", "home_png_complete", asset)), `Missing home screen asset: ${asset}`);
 }
@@ -73,6 +73,13 @@ assert(styles.includes('background: url("assets/home_png_complete/Vector.png")')
 assert(/\.home-panel-back:hover[\s\S]*?color: #9d342c;/.test(styles), "Home panel esc control must share the red selected feedback");
 assert(html.includes('data-home-action="new"'), "Home screen must expose a new-game action");
 assert(!html.includes('id="start-modal" class="modal-backdrop is-open"'), "Rival chooser must not open before the home screen action");
+assert(html.includes('id="start-confirm-button"') && html.includes("disabled data-i18n=\"home.rival.start\""), "Rival chooser must require a selection before Start");
+assert(script.includes('button.addEventListener("click", () => selectRival(button.dataset.rival))'), "Rival cards must select first instead of immediately starting a match");
+assert(script.includes('dom.startConfirmButton.addEventListener("click"'), "The framed Start control must launch the selected match");
+assert(/function openNewGameFlow\(\) \{[\s\S]*?showHomeScreen\(\);[\s\S]*?dom\.startModal\.classList\.add\("is-open"\);/.test(script), "New Game must open the rival chooser over the home screen");
+assert(styles.includes('color: #9b7242;'), "Rival explanations must use the approved brown text color");
+assert(styles.includes('background: url("assets/cutouts/panel_center_large.png")'), "Rival cards must use the approved panel center artwork");
+assert(styles.includes('background: url("assets/home_png_complete/button_frame_default.png")'), "Start must use the approved framed button artwork");
 assert(html.includes("Metropolis: Roaring Times"), "Player-facing title must include the colon");
 assert(!html.includes("BROOKLYN BRIDGEHEAD"), "Retired district label must not be visible in the M1W map");
 assert(!html.includes("HELL'S KITCHEN"), "Retired district label must not be visible in the M1W map");

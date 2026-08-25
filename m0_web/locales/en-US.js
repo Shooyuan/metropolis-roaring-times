@@ -7,6 +7,12 @@ window.M1W_LOCALES["en-US"] = {
   "home.panel.load": "Load",
   "home.panel.config": "Config",
   "home.panel.about": "About Us",
+  "home.rival.title": "Choose Your Rival",
+  "home.rival.intro": "Choose a rival to preserve the existing 1 vs 1 economy context, then inspect the owner-authored Manhattan map.",
+  "home.rival.tycoon.description": "Industrial expansion and transport value.",
+  "home.rival.landlady.description": "Residential income and steady holdings.",
+  "home.rival.shark.description": "Cheap land, liquidity and opportunism.",
+  "home.rival.start": "Start",
 
   "rival.tycoon.name": "Tycoon", "rival.tycoon.style": "Industry & transport",
   "rival.landlady.name": "Landlady", "rival.landlady.style": "Residential income",

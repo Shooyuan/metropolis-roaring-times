@@ -8,6 +8,12 @@ const zhCN = {
   "home.panel.load": "读取",
   "home.panel.config": "设置",
   "home.panel.about": "关于我们",
+  "home.rival.title": "选择你的对手",
+  "home.rival.intro": "选择一名对手，保留现有的一对一经济玩法，然后进入老板绘制的曼哈顿地图。",
+  "home.rival.tycoon.description": "重视工业扩张与交通价值。",
+  "home.rival.landlady.description": "重视住宅收入与稳健持有。",
+  "home.rival.shark.description": "重视廉价土地、流动性与投机机会。",
+  "home.rival.start": "开始",
 
   "rival.tycoon.name": "实业大亨", "rival.tycoon.style": "工业与交通",
   "rival.landlady.name": "女房东", "rival.landlady.style": "住宅收入",

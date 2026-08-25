@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="An M1W producer map demo for Metropolis: Roaring Times, a historical New York property strategy game.">
   <title>Metropolis: Roaring Times — M1W Producer Map Demo</title>
-  <link rel="stylesheet" href="styles.css?v=m1w-home4">
+  <link rel="stylesheet" href="styles.css?v=m1w-home5">
   <link rel="stylesheet" href="localization.css?v=m1w-i18n1">
 </head>
 <body>
@@ -235,7 +235,23 @@
     </section>
   </main>
 
-  <div id="start-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="start-title"><section class="modal-card rival-modal"><p class="eyebrow">M1W Producer Map Demo</p><h2 id="start-title">Choose Rival</h2><p>Choose a rival to preserve the existing 1v1 economy context, then inspect the owner-authored Manhattan map.</p><div class="rival-options"><button class="rival-option" type="button" data-rival="tycoon"><strong>Tycoon</strong><span>Industrial expansion and transport value.</span></button><button class="rival-option" type="button" data-rival="landlady"><strong>Landlady</strong><span>Residential income and steady holdings.</span></button><button class="rival-option" type="button" data-rival="shark"><strong>Shark</strong><span>Cheap land, liquidity and opportunism.</span></button></div><button id="start-load-button" class="start-load-button" type="button" hidden>Continue Saved Match</button><p class="modal-footnote">The map and district geometry are production inputs. Plot boundaries, balances and auction stories remain pending.</p></section></div>
+  <div id="start-modal" class="modal-backdrop rival-backdrop" role="dialog" aria-modal="true" aria-labelledby="start-title">
+    <section class="modal-card rival-modal">
+      <img class="rival-modal-frame" src="assets/cutouts/panel_center_large.png" alt="" aria-hidden="true">
+      <div class="rival-modal-content">
+        <button id="start-modal-back" class="rival-modal-back" type="button" aria-label="Return to main menu">◀ esc</button>
+        <h2 id="start-title" data-i18n="home.rival.title">Choose Your Rival</h2>
+        <p class="rival-intro" data-i18n="home.rival.intro">Choose a rival to preserve the existing 1 vs 1 economy context, then inspect the owner-authored Manhattan map.</p>
+        <div class="rival-options">
+          <button class="rival-option" type="button" data-rival="tycoon" aria-pressed="false"><strong data-i18n="rival.tycoon.name">Tycoon</strong><span data-i18n="home.rival.tycoon.description">Industrial expansion and transport value.</span></button>
+          <button class="rival-option" type="button" data-rival="landlady" aria-pressed="false"><strong data-i18n="rival.landlady.name">Landlady</strong><span data-i18n="home.rival.landlady.description">Residential income and steady holdings.</span></button>
+          <button class="rival-option" type="button" data-rival="shark" aria-pressed="false"><strong data-i18n="rival.shark.name">Shark</strong><span data-i18n="home.rival.shark.description">Cheap land, liquidity and opportunism.</span></button>
+        </div>
+        <button id="start-confirm-button" class="start-confirm-button" type="button" disabled data-i18n="home.rival.start">Start</button>
+        <button id="start-load-button" class="start-load-button" type="button" hidden>Continue Saved Match</button>
+      </div>
+    </section>
+  </div>
 
   <div id="help-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="help-title"><section class="modal-card help-modal-card"><button class="modal-close" type="button" data-close-modal="help-modal" aria-label="Close help">×</button><p class="eyebrow">Three-Minute Walkthrough</p><h2 id="help-title">How to Play</h2><ol><li>Buy land and construct a building; each costs one action point.</li><li>Redevelop only into a higher-cost legal building. The old building contributes a 120% upgrade credit, but never pays cash back.</li><li>A brokered sale locks 90% of current property value and settles next turn.</li><li>Every securities buy or sell costs one action point and a 1% fee.</li><li>Bank borrowing and repayment cost no action points; loans mature in six turns.</li><li>Highest net worth after turn 8 wins.</li></ol></section></div>
 
@@ -244,9 +260,9 @@
   <div id="result-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="result-title"><section class="modal-card result-card"><p class="eyebrow">Prototype Result</p><h2 id="result-title">Match Complete</h2><p id="result-summary"></p><div class="result-grid"><div><span>Your Net Worth</span><strong id="result-player-worth">—</strong></div><div><span>Rival Net Worth</span><strong id="result-rival-worth">—</strong></div><div><span>Your Securities</span><strong id="result-player-securities">—</strong></div><div><span>Rival Securities</span><strong id="result-rival-securities">—</strong></div></div><button id="result-restart-button" class="primary-button" type="button">Choose Another Rival</button></section></div>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="locales/en-US.js?v=m1w-i18n1"></script>
-  <script src="locales/zh-CN.js?v=m1w-i18n1"></script>
-  <script src="i18n.js?v=m1w-i18n1"></script>
-  <script src="app.js?v=m1w-home3"></script>
+  <script src="locales/en-US.js?v=m1w-i18n2"></script>
+  <script src="locales/zh-CN.js?v=m1w-i18n2"></script>
+  <script src="i18n.js?v=m1w-i18n2"></script>
+  <script src="app.js?v=m1w-home5"></script>
 </body>
 </html>
