@@ -551,18 +551,19 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
 .rival-intro {
   align-self: stretch;
   margin: clamp(20px, 4vh, 34px) 2% 0;
-  font-size: clamp(.78rem, 1.05vw, 1rem);
+  font-size: clamp(.88rem, 1.2vw, 1.1rem);
   font-weight: 400;
   line-height: 1.45;
 }
 .rival-options {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(10px, 1.3vw, 20px);
   width: 100%;
   margin: clamp(16px, 2.7vh, 24px) 0 0;
 }
 .rival-option {
+  min-width: 0;
   min-height: clamp(120px, 17vh, 150px);
   border: 0;
   background: url("assets/cutouts/panel_center_large.png") center / 100% 100% no-repeat;
@@ -598,8 +599,8 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
   line-height: 1.35;
 }
 .start-confirm-button {
-  width: min(42%, 300px);
-  min-height: 58px;
+  width: min(34%, 240px);
+  min-height: 50px;
   margin-top: auto;
   border: 0;
   background: url("assets/home_png_complete/button_frame_default.png") center / 100% 100% no-repeat;
