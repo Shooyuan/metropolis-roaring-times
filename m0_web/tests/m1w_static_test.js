@@ -81,6 +81,8 @@ assert(styles.includes('color: #9b7242;'), "Rival explanations must use the appr
 assert(styles.includes('background: url("assets/cutouts/panel_center_large.png")'), "Rival cards must use the approved panel center artwork");
 assert(styles.includes('background: url("assets/home_png_complete/button_frame_default.png")'), "Start must use the approved framed button artwork");
 assert(styles.includes("grid-template-columns: repeat(3, minmax(0, 1fr))"), "Rival choices must remain exactly equal width even when a name has a larger intrinsic width");
+assert(styles.includes("aspect-ratio: 364 / 90"), "Start must preserve the source frame's native aspect ratio");
+assert(styles.includes('.rival-option[data-rival="landlady"] strong { transform: translateX(-4px); }'), "Landlady needs the approved optical centering correction");
 assert(html.includes("Metropolis: Roaring Times"), "Player-facing title must include the colon");
 assert(!html.includes("BROOKLYN BRIDGEHEAD"), "Retired district label must not be visible in the M1W map");
 assert(!html.includes("HELL'S KITCHEN"), "Retired district label must not be visible in the M1W map");
