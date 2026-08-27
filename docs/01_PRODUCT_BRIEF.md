@@ -23,6 +23,7 @@ The map is not a decorative backdrop. It is the main decision surface: location,
 The first playable release is **Vertical Slice Test Mode**:
 
 - 20 turns.
+- Calendar: June 1915 through January 1917, one month per turn; turn 14 is July 1916.
 - Approximately 20–30 minutes per match.
 - One human player versus one AI opponent.
 - Three implemented AI personalities: Tycoon, Landlady and Shark.
@@ -122,7 +123,7 @@ The supplied 1939 Manhattan map is an art and composition reference only. The ow
 
 At far and middle zoom, historical-landmark illustrations remain visible for orientation while their banners and hit targets are unavailable; development-building illustrations are hidden. Each district presents, in this exact order: plots currently purchasable by the human player; human-owned apartment buildings; human-owned factories; human-owned department stores; major transit facilities present; and district prosperity level. Standard and Luxury Apartments are combined in the apartment count.
 
-At `305%`, development-building illustrations appear and landmarks/plots become selectable; at `381%`, landmark English banners appear. Hovering a district reveals an indicative border; selecting it locks that border until another map entity is selected or empty map space is clicked.
+Historical-landmark illustrations remain visible for orientation, but `100%—477%` is district-oriented browsing: plot/landmark selection, development-building illustrations and landmark banners remain disabled. At exactly `500%`, plot boundaries, development-building illustrations, landmark banners and plot/landmark selection become available. Hovering a district reveals an indicative border; selecting it locks that border until another map entity is selected or empty map space is clicked.
 
 ### 7.2 Core Buildings
 
@@ -166,15 +167,16 @@ Securities trade in minimum `$1,000` increments, charge a `1%` transaction fee a
 
 ### 7.6 Information System
 
-The left-side **Integrated Operations Panel** contains five tabs in fixed order:
+The approved five-module game screen is specified by `IN_GAME_UI_LAYOUT_SPEC.md`. Its left-side **Integrated Operations Panel** contains four tabs in fixed order:
 
-1. `Game Brief`.
-2. `Investment Advice`.
-3. `Bank`.
-4. `Auction House`.
-5. `Stock Market`.
+1. `News`.
+2. `Bank`.
+3. `Auction House`.
+4. `Stock Market`.
 
-`Game Brief` is its own page, showing mode, `Standard` ruleset, rival, objective, turn, economy and current law. It reserves a future presentation area for a conversational rubber-hose-style board mascot. `Investment Advice` is a scrolling news and activity page; it is not a fixed header above the other tabs.
+`News` combines the former Investment Advice feed with historical reporting, fictional city news, government-source rumors and ledger activity. The approved ice-cream board mascot remains visible in this page and reacts through five deterministic expressions. `Game Brief` is moved to `Config`, alongside Language, Save Game, Load Game and Return to Title; Audio, Display and Controls are not Config entries in this release.
+
+The top bar shows Turn, Cash, Debt, Credit Left and Config. The right side combines contextual detail with a permanent proportional mini-map whose red viewport frame follows the main camera. Date, economy phase, action-point state and End Turn are grouped in the bottom-right turn-control area.
 
 ## 8. Visual and Audio Identity
 
@@ -185,7 +187,7 @@ The visual direction combines:
 - A strict palette sampled from the supplied map: cream paper, dark brown ink, warm peach-orange water and a restrained compass red.
 - Hand-drawn architectural vignettes and slightly imperfect print registration.
 - Original rubber-hose-inspired AI portraits with five consistent emotional states, used for rival identity, bidding and reactions.
-- A future rubber-hose-style board mascot area inside `Game Brief`; the vertical slice may reserve the layout without shipping a live conversational character.
+- The approved ice-cream rubber-hose board mascot inside `News`, using deterministic welcome, profit, market-tip, caution and crisis expressions; a live conversational service is not required.
 
 The supplied Manhattan pictorial map is a composition and style reference, not a final background asset. The owner-authored Figma map is the production source. The owner-submitted district SVG is converted without geometric changes into normalized runtime data; plot geometry, building anchors and status layers remain separate and require their own later approval.
 
@@ -224,7 +226,7 @@ The architecture should support, without pretending to implement now:
 - Extreme and Roaring modes.
 - Property exchange and hostile acquisition systems.
 - A broader securities market, commodity futures and broker-margin mechanics after the property loop is proven.
-- A state-driven conversational board mascot in `Game Brief`; any runtime online language model requires a separate scope, privacy and operating-cost decision.
+- A state-driven conversational ice-cream board mascot in `News`; any runtime online language model requires a separate scope, privacy and operating-cost decision.
 - Longer economic cycles, additional transport systems and additional cities.
 
 ## 12. Product Success Criteria

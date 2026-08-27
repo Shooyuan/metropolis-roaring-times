@@ -3,7 +3,7 @@
 以下规则不可违反，适用于本目录中的所有实现、文档与资源。
 
 1. `00_PROJECT_CONTEXT.md` 是当前产品方向、范围与冲突裁决的统一权威；`docs/` 是经其约束的实施规格；`references/` 只提供设计依据。发生冲突时必须先停止实现并更新文档。
-2. 当前垂直切片严格遵守 `00_PROJECT_CONTEXT.md`。`docs/01_PRODUCT_BRIEF.md` 至 `docs/07_IMPLEMENTATION_PLAN.md`、`docs/MAP_ASSET_PIPELINE.md` 和 `docs/OWNER_PROJECT_REVIEW.md` 是已经与总纲贯通的实施规格与老板审查入口；`docs/DOCUMENT_LANGUAGE_MIGRATION.md` 管理历史英文文档的受控中文化。任何后续范围变更都必须同时更新总纲、规则、范围、架构、验收、计划和受影响的专项规范，不得只改其中一份；翻译不得被当作改变规则的机会。
+2. 当前垂直切片严格遵守 `00_PROJECT_CONTEXT.md`。`docs/01_PRODUCT_BRIEF.md` 至 `docs/07_IMPLEMENTATION_PLAN.md`、`docs/MAP_ASSET_PIPELINE.md`、`docs/IN_GAME_UI_LAYOUT_SPEC.md` 和 `docs/OWNER_PROJECT_REVIEW.md` 是已经与总纲贯通的实施规格与老板审查入口；`docs/DOCUMENT_LANGUAGE_MIGRATION.md` 管理历史英文文档的受控中文化。任何后续范围变更都必须同时更新总纲、规则、范围、架构、验收、计划和受影响的专项规范，不得只改其中一份；翻译不得被当作改变规则的机会。
 3. 所有规则必须在实施规格中可解释，在代码中只有一个权威实现；不得将关键数值散落在场景、UI 或脚本中。
 4. 完成标准以已批准且与 `00_PROJECT_CONTEXT.md` 一致的验收文档为准。功能必须可重复验证，不能以“看起来可用”代替验收。
 5. Godot 项目必须可从 `project.godot` 打开并运行；不得依赖未提交的本机绝对路径、私有插件或手工编辑缓存文件。
@@ -35,3 +35,7 @@
 22. 首版权威分区集合固定为老板批准的 12 个曼哈顿分区：`district_inwood`、`district_washington_heights`、`district_harlem`、`district_upper_east`、`district_upper_west`、`district_midtown_west`、`district_midtown_east`、`district_chelsea`、`district_west_village`、`district_east_village`、`district_soho`、`district_financial_district`。旧六分区/五玩法区模型和 `district_brooklyn_bridgehead` 不得重新引入；各区经济画像仍须老板另行批准。
 
 23. 地图实体术语固定为：上述 12 个区域叫“街区（district）”；老板在 `08_PURCHASABLE_BLOCK_GEOMETRY` 中绘制的青绿色闭合形状叫“地块（plot）”；`07_HISTORICAL_LANDMARKS` 中的历史建筑、桥梁、教堂、车站、纪念物、广场、公园和公共设施叫“历史地标（landmark）”。三类实体的选择严格互斥，不得混称。
+
+24. 最终游戏内界面严格遵守 `docs/IN_GAME_UI_LAYOUT_SPEC.md` 的五模块、左侧四页签、永久小地图、右下回合控制、Config 内容与垂直切片日历。旧 M1W 五页签网页是历史原型，不得再作为最终界面权威。
+
+25. 新版界面必须按 `U1` 全屏概念、`U2` 模块/弹窗样式板、`U3` 组件实现规格依次审批、测试和提交；老板批准 U3 并另行授权前，不得修改现有网页或开始 M2 实现。

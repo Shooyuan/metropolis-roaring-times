@@ -35,6 +35,7 @@ The release is not considered complete when only isolated systems or a visual pr
 ## 2. Fixed Match Scope
 
 - 20 turns.
+- One month per turn from June 1915 through January 1917; turn 14 is July 1916.
 - Expected duration: 20–30 minutes.
 - One human player versus one active AI opponent.
 - Player selects Tycoon, Landlady or Shark before the match.
@@ -82,7 +83,7 @@ Relative direction must remain recognizable. Street-level and cadastral accuracy
 - Hovering uncovered district space displays an indicative district border. Clicking locks the border and opens the district detail page until another district is selected or the selection is explicitly closed.
 - At near zoom, a plot or building hit target takes priority over the underlying district.
 - Far and middle zoom keep historical-landmark illustrations visible for recognition, hide landmark banners and development-building illustrations, and show a district summary in this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities, district prosperity.
-- At `305%`, development-building illustrations appear and plots/landmarks become clickable; at `381%` and above, historical-landmark English banners appear.
+- `100%—477%` remains district-oriented browsing: landmark illustrations stay visible for recognition, while plot/landmark selection, development-building illustrations and landmark banners remain disabled. At exactly `500%`, plot boundaries, development-building illustrations, landmark banners and plot/landmark selection enable together.
 - District prosperity is derived jointly from human and active-AI development, is clamped to `50.0 <= score < 100.0`, and is displayed to one decimal place. Its formula and English level bands are a later owner approval gate.
 
 ## 4. Fixed Building Scope
@@ -278,12 +279,15 @@ Temporary silence does not block early rules milestones, but the required audio 
 - Switching language preserves the current match, map camera, selected district/plot, open operations tab and modal state.
 - English and Chinese use one interface structure and gameplay implementation. Stable localization keys and structured event records are required; parallel full-page implementations are not allowed.
 - Internal IDs and file names use English `snake_case`.
-- The top status bar contains the title `Metropolis: Roaring Times`, turn/economy/finance/action status, `End Turn`, save/help and settings actions.
-- The left-side Integrated Operations Panel is required and contains tabs in exact order: `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`.
-- `Game Brief` is a standalone page showing mode, `Standard` ruleset, rival, objective, turn, economy and current law; it reserves space for a future rubber-hose-style conversational board mascot.
-- `Investment Advice` is a standalone scrolling news/activity page and is not a fixed block above the other tabs.
+- The authoritative five-module arrangement is defined in `IN_GAME_UI_LAYOUT_SPEC.md`.
+- The top status bar contains Turn, Cash, Debt, Credit Left and Config. Exact rival finances remain hidden.
+- The left-side Integrated Operations Panel contains tabs in exact order: `News`, `Bank`, `Auction House`, `Stock Market`, beneath the approved marquee title sign.
+- `News` integrates Investment Advice, historical/fictional/government/activity reporting and the five-expression ice-cream board mascot.
+- `Game Brief` moves into Config. Config also contains Language, Save Game, Load Game and Return to Title, and explicitly excludes Audio, Display and Controls.
 - Bank, auction and securities controls appear inside their corresponding tabs; property purchase, construction, redevelopment and sale remain in the right property panel.
-- No fixed bottom action toolbar is included. `End Turn` is in the top status bar.
+- The right detail region includes a permanent proportional mini-map with a red viewport rectangle synchronized to the main map camera.
+- The bottom-right turn-control region contains calendar date, economy phase, action-point state and `End Turn`.
+- Ending with unused action points warns once unless the player selects the local `Don't show this warning again` preference; zero points ends without that warning.
 - Map, right property panel, law information, asset overview, auction modal, help page and result screen are required.
 - Debt disposition has a dedicated blocking interface.
 - AI debug information is development-only and can be toggled.
@@ -333,7 +337,7 @@ Required:
 - Mobile, console and unlisted platform work.
 - Complex character animation, cinematics, voice acting and citizen simulation.
 - Commodity futures, broker margin, short selling, options and individual real-company simulation.
-- A live-network conversational mascot; only a future layout reservation and state-driven extension point are in scope.
+- A live-network conversational mascot; the approved five-image ice-cream mascot is limited to deterministic state-driven presentation.
 
 Deferred systems must not appear as non-functional controls.
 

@@ -18,7 +18,7 @@ It must make the following safe and independently testable:
 - property purchase, construction, redevelopment, demolition, brokered sale and revaluation;
 - participant cash, credit, separate loans and maturity disposition;
 - deterministic bonds, shares and investment-trust trading using the existing action-point budget;
-- a provenance-aware news feed and five-tab Integrated Operations Panel;
+- a provenance-aware News feed and four-tab Integrated Operations Panel within the approved five-module screen;
 - three selectable AI personalities in separate 1v1 matches;
 - government and emergency auctions;
 - the compressed economy cycle and 1916 zoning law;
@@ -269,6 +269,8 @@ Available credit, property market value, securities portfolio value, expected in
 
 Derived display values are never written back into authority merely because the UI rounded or formatted them.
 
+The vertical-slice calendar is derived from `turn_number` and a mode start month of June 1915; it is not stored as a second mutable clock. Adding `turn_number - 1` months produces July 1916 at turn 14 and January 1917 at turn 20. Classic mode uses its own January 1910 start in mode data.
+
 ## 7. Turn and Blocking-Flow State Machine
 
 The turn controller permits only the sequence defined in the game rules:
@@ -479,7 +481,7 @@ The three personalities share one rules implementation. Personality data changes
 
 ### 9.10A `NewsService`
 
-- builds the `Investment Advice` feed from historical, fictional, government-source and activity records;
+- builds the `News` feed from investment advice, historical, fictional, government-source and activity records;
 - requires source date/citation fields for real-newspaper attribution;
 - uses `Sources familiar with the New York State Government` for player-facing government rumors;
 - never allows a fictional event to masquerade under a real masthead;
@@ -514,6 +516,7 @@ The three personalities share one rules implementation. Personality data changes
 - normalized district polygons that match the owner-submitted SVG without unauthorized smoothing or vertex deletion, plus in-bounds summary/building anchors;
 - valid polygon coordinates and district assignment;
 - economy/law schedules covering turns 1–20;
+- a vertical-slice calendar contract covering June 1915 through January 1917 with one month per turn;
 - valid building, transit, AI and event references;
 - valid security instruments, availability windows, news-source classes and citations required by historical items;
 - numeric ranges, positive costs and legal multipliers;
@@ -600,9 +603,13 @@ The overlay must not mutate state. Any later debug mutation command must be isol
 
 ## 13. UI, Input and Confirmation Architecture
 
-The left-side panel is named `IntegratedOperationsPanel` internally and shown as `Operations Desk` in English. Its tab order is fixed: `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`. Each tab owns an independent scroll container; no shared fixed Game Brief is rendered above the other pages.
+The binding composition is `IN_GAME_UI_LAYOUT_SPEC.md`: top status, left Integrated Operations Panel, center map, right contextual detail/mini-map and bottom-right turn controls.
 
-`Game Brief` reserves a presentation slot for a future rubber-hose board mascot. The slot consumes a read-only match-summary view model and has a text fallback. It cannot mutate state or require a live model/network connection in the vertical slice.
+The left-side panel is named `IntegratedOperationsPanel` internally. Its tab order is fixed: `News`, `Bank`, `Auction House`, `Stock Market`. Each tab owns an independent scroll container. `News` combines the former Investment Advice feed with the approved ice-cream mascot, which consumes a read-only match-summary view model and maps deterministic state to one of five approved expressions. It cannot mutate state or require a live model/network connection.
+
+`ConfigModal` contains Game Brief, Language, Save Game, Load Game and Return to Title only. Audio, Display and Controls are not visible entries in this release. `TopStatusViewModel` exposes turn, cash, debt and credit-left summary; detailed credit belongs to Bank. `TurnControlViewModel` exposes calendar label, economy-phase label, action-point count/state and End Turn.
+
+`MiniMapViewModel` reads the same authoritative camera transform and normalized map bounds as the main map. It derives one red viewport rectangle from the visible main-map area; it does not own a second camera, selection state or editable geography.
 
 ### 13.1 View Models
 
@@ -628,6 +635,8 @@ The following actions require an explicit confirmation showing their consequence
 Routine plot selection, inspection, camera navigation and panel opening do not require confirmation.
 
 Confirmation data captures a command summary, but the domain command is revalidated at submission time. Stale confirmation data cannot force an outdated transaction through.
+
+The unused-action-point warning includes an optional local `do_not_warn_unused_ap` preference. When enabled, only that warning is skipped; blocking debt, auction, bankruptcy and other domain confirmations remain mandatory. The preference is local presentation configuration, not part of authoritative match/save state.
 
 ### 13.3 Input Ownership
 
@@ -793,7 +802,7 @@ landmark:<stable_id>
 
 - 新选择原子替换旧选择，禁止三个布尔选择分别存在而造成多对象同时高亮。
 - 点击空白把状态设为 `null`；右侧详情同步清空。
-- LOD 服务根据固定缩放级别决定可命中类型：`100—195` 只选街区，`244` 开放地块悬停，`305` 开放地块和地标点击，`381—500` 再开放地标横幅命中。
+- LOD 服务根据固定缩放级别决定可命中类型：`100—477` 只开放街区识别/选择，历史地标插画仅用于识别；精确 `500` 才开放地块与地标点击、开发建筑和地标横幅。
 - 右侧详情由同一个选择状态派生为 District File、Property File 或 Landmark File；窄屏只改变呈现为底部抽屉，不复制状态。
 - 来源按钮打开阻塞式 `SourceModal`，但不改变当前地图选择；弹窗显示 English Wikipedia 页面标题、归属与外部链接。
 
@@ -850,7 +859,7 @@ The following D5 decisions are fixed for the vertical slice:
 7. `F1` diagnostics are development-only and disabled or absent in the final Web build.
 8. Technical data, save and test implementation follows the decisions in this document without changing approved game rules.
 9. The player-facing title is `Metropolis: Roaring Times`.
-10. The Integrated Operations Panel uses the approved five-tab order and there is no fixed bottom action toolbar.
+10. The interface uses the approved five-module composition; the Integrated Operations Panel uses `News`, `Bank`, `Auction House`, `Stock Market`, and date/economy/action points/End Turn live in the bottom-right turn controls.
 11. Securities orders consume one of the existing three action points; borrowing and repayment continue to consume zero.
 12. Redevelopment uses the exact 120% credit formula only for strictly higher-cost targets and never pays a negative difference.
 

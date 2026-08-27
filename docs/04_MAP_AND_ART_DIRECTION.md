@@ -169,10 +169,8 @@ Each interactive polygon and collision shape is generated from the same source c
 
 ### 7.4 LOD 与命中优先级
 
-- `100%—195%`：街区交互优先；历史地标插画始终可见但不能选择，地标横幅隐藏；悬停地标只高亮所属街区。
-- `244%`：显示地块边界与地块悬停，仍以避免误选为首要目标。
-- `305%`：地块和历史地标均可点击；未开发荒地或当前开发建筑插画出现。
-- `381%—500%`：显示历史地标英文横幅；横幅与插画组成同一个选择目标并同时高亮。
+- `100%—477%`：街区识别和浏览优先；历史地标插画始终可见但不能选择，地标横幅、开发建筑和地块精细命中隐藏；悬停地标只高亮所属街区。
+- `500%`：显示地块边界、未开发荒地或当前开发建筑、历史地标英文横幅，并开放地块和历史地标点击；横幅与插画组成同一个地标选择目标并同时高亮。
 - 输入优先级由当前 LOD 明确决定，不提供玩家手工图层开关。任何时刻只允许一个街区、地块或地标处于选中状态。
 
 ### 7.3 Focus
@@ -185,7 +183,7 @@ Each interactive polygon and collision shape is generated from the same source c
 
 - Far and middle view: historical-landmark illustrations remain visible for recognition, but their banners and direct hit targets are hidden. Development-building illustrations are hidden. Each district shows, in order, human-purchasable plot count, human-owned apartment count, human-owned Factory count, human-owned Department Store count, major transit facilities and prosperity level.
 - Standard and Luxury Apartments are combined in the apartment count.
-- Near view: at `305%` development-building illustrations appear together with plot name, building state, income indicator, compliance and construction details; historical landmarks become selectable. Landmark English banners appear at `381%` and above.
+- Near view: at exactly `500%`, development-building illustrations appear together with plot name, building state, income indicator, compliance and construction details; historical landmarks become selectable and their English banners appear.
 - Any short crossfade is data-driven, but the approved thresholds are fixed by section 7.2 and 7.4.
 - HUD text and action icons remain screen-space readable instead of shrinking with the map.
 
@@ -279,18 +277,19 @@ Identity consistency requirements:
 - expressions readable at auction-panel size;
 - transparent edges free from halos.
 
-### 11.4 Future Game Brief Mascot
+### 11.4 News Board Mascot
 
-`Game Brief` reserves a portrait/dialogue area for one original rubber-hose-style board mascot that can later comment on current state and accept player dialogue choices. This mascot is not Tycoon, Landlady or Shark, does not change difficulty, and does not make authoritative game decisions.
+The approved board mascot is an original anthropomorphic ice-cream sundae in restrained rubber-hose style. It lives permanently in `News`, is not Tycoon, Landlady or Shark, does not change difficulty and cannot make authoritative game decisions.
 
-The vertical slice requires only the stable layout reservation and fallback text state. Final mascot art, dialogue corpus and any runtime conversational technology require a later owner gate. The preferred offline-compatible direction is deterministic state-driven dialogue; a network language model is not implied by the reserved space.
+The vertical slice uses the five approved deterministic states: default/welcome, happy/profit, shrewd/market tip, worried/caution and alarm/crisis. Dialogue remains state-driven and offline-compatible; a live network language model is not implied.
 
 ## 12. UI Direction
 
 - The approved Brand/Logo displays the exact title `Metropolis: Roaring Times`, including the colon, and retains the public credit `designed and drawn by GatChive`.
 - The Brand remains a separate asset from the map base so UI placement and scaling do not alter map registration.
 
-- UI framing uses restrained Art Deco geometry derived from the reference border.
+- The five-module information architecture, contents and interaction are binding in `IN_GAME_UI_LAYOUT_SPEC.md`.
+- UI framing uses restrained Art Deco geometry derived from the reference border and reinterpreted as a 1920s New York luxury hotel. Civilization VI may inform hierarchy, map priority and circular control organization, but no exact asset, ornament, icon or component is copied.
 - Panels use paper surfaces and ink edges; no glassmorphism, neon glow or modern blue dashboard styling.
 - Primary text uses `ink_primary`; secondary text uses `ink_secondary` only when contrast remains readable.
 - Numbers use stable-width figures to prevent layout movement during settlement.
@@ -298,14 +297,12 @@ The vertical slice requires only the stable layout reservation and fallback text
 - `Choose Rival` presents Tycoon, Landlady and Shark as strategy/personality profiles.
 - The vertical slice has no difficulty selector.
 - Destructive, debt and violation actions use `warning_deep` plus explicit English labels and symbols.
-- The left panel is consistently named the **Integrated Operations Panel** in specifications and `Operations Desk` in player-facing English.
-- Its tabs appear in the exact order `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`.
-- Every tab is an independent page with its own scroll region. `Game Brief` is not a fixed header above another page.
-- `Game Brief` shows mode, `Standard` ruleset, rival, objective, turn, economy and law state, plus the reserved mascot region.
-- `Investment Advice` uses newspaper-card hierarchy for verified history, fictional city reporting, government rumors and activity. `Historical`, `Fictional`, `Rumor` and `Activity` badges must remain visible without relying on color.
-- The top status bar carries `Metropolis: Roaring Times`, the primary status values, `End Turn`, help, save and settings.
-- The right property panel carries purchase, construction, redevelopment and brokered-sale actions.
-- There is no fixed bottom action bar. Bank, auction and securities actions live in their corresponding Integrated Operations Panel tabs.
+- The left panel is consistently named the **Integrated Operations Panel** in specifications and uses tabs in exact order `News`, `Bank`, `Auction House`, `Stock Market`.
+- Its title is a two-color chasing-bulb marquee: warm white plus salmon, slow clockwise motion, stable when paused or reduced motion is requested. It must not resemble casino neon.
+- `News` uses newspaper-card hierarchy for verified history, fictional city reporting, government rumors, activity and investment advice. `Historical`, `Fictional`, `Rumor` and `Activity` badges must remain visible without relying on color; the approved ice-cream mascot remains visible.
+- The top status bar carries Turn, Cash, Debt, Credit Left and Config. Game Brief, Language, Save Game, Load Game and Return to Title live in Config; Audio, Display and Controls do not.
+- The right detail panel carries the selected district/plot/landmark information and all contextual property actions, plus a permanent proportional mini-map with a red camera-viewport frame.
+- The bottom-right turn-control region carries date, economy phase, action-point state and End Turn.
 
 The `Stock Market` page uses compact period-inspired quotation rows rather than a modern candlestick terminal. The `Auction House` page can show `No scheduled auctions` until owner-approved stories exist; it must not invent placeholder narrative presented as final content.
 
@@ -394,7 +391,7 @@ Before generating all variants, owner review approves:
 - one top-down building from each category;
 - one rival neutral portrait and two emotion variations;
 - one event-card illustration;
-- one Integrated Operations Panel sample containing all five tab labels and the reserved Game Brief mascot area;
+- one Integrated Operations Panel sample containing the four approved tab labels, marquee title sign and permanent News mascot area;
 - one Art Deco panel and button family.
 
 ### Gate D — Final Integration

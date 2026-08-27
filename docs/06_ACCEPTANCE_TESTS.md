@@ -156,7 +156,7 @@ The Brand/Logo passes only when it includes the colon in `Metropolis: Roaring Ti
 
 ### `DOC-006` Deferred-Control Audit
 
-Pass when there is no non-functional visible control for the full property exchange, sealed owner bid, hostile acquisition, poison pill, private negotiation, player-built transit, commodity futures, broker margin, multiplayer or other deferred system. `Auction House` may truthfully show `No scheduled auctions`; the reserved Game Brief mascot area must have a clear non-conversational fallback rather than a fake working chat.
+Pass when there is no non-functional visible control for the full property exchange, sealed owner bid, hostile acquisition, poison pill, private negotiation, player-built transit, commodity futures, broker margin, multiplayer or other deferred system. `Auction House` may truthfully show `No scheduled auctions`; the News mascot must use deterministic state-driven copy rather than a fake working live chat.
 
 ## 7. Startup and Match Setup
 
@@ -230,17 +230,18 @@ Pass when:
 Pass when:
 
 - default zoom is `100%`;
-- each zoom-in target is current target × `1.25`;
-- each zoom-out target is current target × `0.80`;
-- the target clamps near `50%` and at `200%`;
+- visible steps are exactly `100/125/156/195/244/305/381/477/500%`;
+- zoom-in and zoom-out move to adjacent approved steps;
+- the target clamps exactly at `100%` and `500%`;
 - wheel and visible controls use the same calculation;
 - zoom remains pointer-anchored where possible;
-- the rounded percentage is displayed;
+- the current approved percentage is displayed;
+- the circular reset control restores the default map view;
 - there is no rotation or tilt control.
 
 ### `SCN-008` Information Density
 
-Pass when far and middle zoom keep historical-landmark illustrations visible for orientation but disable their direct hit targets and hide their banners; development-building illustrations remain hidden. Each district summary uses this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities and prosperity. At `305%`, development buildings appear and landmark/plot clicks enable; at `381%`, landmark banners appear. Standard and Luxury Apartments combine into the apartment count.
+Pass when `100%—477%` keeps historical-landmark illustrations visible for orientation but disables plot/landmark direct hit targets and hides landmark banners and development-building illustrations. Each district summary uses this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities and prosperity. At exactly `500%`, plot boundaries, development buildings, landmark banners and landmark/plot clicks enable together. Standard and Luxury Apartments combine into the apartment count.
 
 ### `AUT-040` District Summary and Prosperity Contract
 
@@ -332,7 +333,7 @@ Pass when the player receives exactly three action points per turn and purchase,
 
 ### `SCN-009` End-Turn Confirmation
 
-Pass when ending with unused action points requires confirmation and the confirmation shows the number being abandoned. Ending with zero action points does not require the unused-action warning.
+Pass when ending with unused action points shows the number being abandoned and offers confirm, cancel and `Don't show this warning again`. Ending with zero action points does not require the unused-action warning. After the optional local preference is enabled, later unused-action warnings are skipped without bypassing debt, auction, bankruptcy or other blocking flows; the preference is not stored as authoritative match state.
 
 ### `AUT-009` Economy Schedule
 
@@ -342,6 +343,8 @@ Pass when turns map exactly to:
 - Prosperity: `5–10`;
 - Overheating: `11–15`;
 - Adjustment: `16–20`.
+
+The same fixture must derive dates from the mode calendar: turn 1 is June 1915, turn 14 is July 1916 and turn 20 is January 1917.
 
 Changing phase updates configured market, credit and new-loan-rate inputs once at the correct boundary.
 
@@ -531,7 +534,7 @@ Pass when the two global and two district events respect eligibility, duration, 
 
 ### `AUT-031A` News Provenance
 
-Pass when every Investment Advice item declares source name/type, authenticity, turn/date, headline, summary, affected systems and expiry. A real newspaper item requires a verified source date and citation and cannot contain invented quoted copy. Fictional city items use only approved fictional mastheads. Government-law rumors use `Sources familiar with the New York State Government` and display `Rumor`; activity items are ledger-derived and never presented as historical reporting.
+Pass when every News item, including investment advice, declares source name/type, authenticity, turn/date, headline, summary, affected systems and expiry. A real newspaper item requires a verified source date and citation and cannot contain invented quoted copy. Fictional city items use only approved fictional mastheads. Government-law rumors use `Sources familiar with the New York State Government` and display `Rumor`; activity items are ledger-derived and never presented as historical reporting.
 
 ## 16. Ledger, Atomicity and Determinism
 
@@ -589,13 +592,27 @@ Pass when the exact state returns and no transaction is duplicated. Clearing bro
 
 ### `SCN-015` Required Interface
 
-Pass when the top status bar shows `Metropolis: Roaring Times`, status values, `End Turn`, save/help and settings; the map and right property panel remain usable; and the left Integrated Operations Panel contains exactly this tab order: `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`.
+Pass when the five-module screen matches `IN_GAME_UI_LAYOUT_SPEC.md`:
 
-Each tab is an independent page with its own scroll behavior. `Game Brief` is not pinned above the other pages, shows mode/`Standard` ruleset/rival/objective/turn/economy/law and includes the reserved mascot area with fallback. `Investment Advice` scrolls news/activity. Bank, auction and securities actions appear only in their relevant tabs. No fixed bottom action toolbar exists.
+- the top status bar shows Turn, Cash, Debt, Credit Left and Config without exact rival finances;
+- the left panel shows the marquee and exactly `News`, `Bank`, `Auction House`, `Stock Market` in that order;
+- News scrolls reporting, activity and advice while the approved ice-cream mascot remains visible and can display all five deterministic states;
+- the central map remains usable;
+- the right side switches among District File, Property File and Landmark File and permanently includes the mini-map;
+- the bottom-right control shows date, economy phase, action-point state and End Turn;
+- Config contains Game Brief, Language, Save Game, Load Game and Return to Title, with no Audio, Display or Controls entries.
+
+### `SCN-015A` Mini-Map Synchronization
+
+Pass when the permanent mini-map is a north-up proportional view of the same approved map and its red viewport rectangle updates position and size after every accepted main-camera pan, zoom and reset. The mini-map must not own duplicate selection or mutable geography state.
+
+### `SCN-015B` Action-Point Presentation
+
+Pass when the turn-control display maps three points to bright/ready `3 points left`, two to normal `2 points left`, one to warning `1 point left`, and zero to gray `No points left`. The economy-phase label is visually separate from the point count.
 
 ### `SCN-016` High-Risk Confirmations
 
-Pass when taking a loan, demolishing, redevelopment, brokered sale, securities order, submitting the required binding-bid commit, surrendering/auctioning an asset and ending with unused action points require clear confirmation. Redevelopment shows the 120% credit and zero-floor cost; sale shows 90% locked value and delay; securities show gross, 1% fee and action-point cost. Cancel changes nothing. Routine selection and inspection require no confirmation.
+Pass when taking a loan, demolishing, redevelopment, brokered sale, securities order, submitting the required binding-bid commit and surrendering/auctioning an asset require clear confirmation; unused-action End Turn follows `SCN-009`. Redevelopment shows the 120% credit and zero-floor cost; sale shows 90% locked value and delay; securities show gross, 1% fee and action-point cost. Cancel changes nothing. Routine selection and inspection require no confirmation.
 
 ### `SCN-017` Mouse Completion
 
@@ -638,7 +655,7 @@ Owner approves the submitted Figma source, base/district/plot/landmark/alignment
 5. 每个地标组可建立稳定 ID，插画、独立英文横幅文字与可选命中区仍保持一个选择实体。
 6. 青绿色仅是 Figma 审查色，不出现在运行时状态色；地块资格只来自几何层。
 7. `100/125/156/195/244/305/381/477/500` 九级缩放全部可达，最高值精确为 `500%`，地图不可旋转。
-8. `100—195` 地标不可点击且悬停只亮街区；`244` 地块可悬停；`305` 地块和地标可点击；`381—500` 地标横幅出现并与插画共同高亮。
+8. `100—477` 地标不可点击且悬停只亮街区，地块/开发建筑/地标横幅不开放；精确 `500` 时地块和地标可点击，开发建筑出现，地标横幅与插画共同高亮。
 9. 街区、地块、地标严格互斥；点击空白清空选择和详情；新选择正确替换右侧 File 类型。
 10. 每条获批街区/地标文案具备 EN/ZH 短长文本、English Wikipedia 页面标题、URL、访问日期和老板审批状态；来源图标使用 `assets/wikipedia-w.svg`，点击后在游戏内弹窗展示来源。
 11. 当前未交付的五套开发建筑插画和未完成的 Figma 不得用 Codex 占位地理冒充验收通过。
@@ -649,7 +666,7 @@ Owner approves a sample plot in unowned, human, rival, government, selected, auc
 
 ### `VIS-003` Building and UI Gate
 
-Owner approves one top-down sample from each of the four building categories plus one Art Deco panel/button family and one five-tab Integrated Operations Panel sample before all variants are produced.
+Owner approves one top-down sample from each of the four building categories plus one Art Deco panel/button family and one five-module screen sample with the four-tab Integrated Operations Panel before all variants are produced.
 
 ### `VIS-004` Rival Portrait Gate
 

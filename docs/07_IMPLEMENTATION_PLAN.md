@@ -98,16 +98,19 @@ After M0, the project manager provides a more credible forecast based on Godot a
 |---|---|---:|---|
 | M0W | Immediate plain Web gameplay prototype for investor explanation | Medium | Prototype/production boundary |
 | M0.1D | Synchronize approved M0.1 rules through every authoritative document | Medium | Cross-document contradiction |
-| M0.1W | Revise the plain Web prototype for the new economic loop and five-tab Integrated Operations Panel | Large | Prototype scope expansion and balance |
+| M0.1W | Historical: revise the plain Web prototype for its then-approved five-tab layout | Large | Prototype scope expansion and balance |
 | M0G | Verified Godot environment, test runner and Web smoke build (complete) | Medium | Local Godot/Web capability |
 | M1W | 将老板 Figma 地图接入现有 M0 网页，形成制作人地图交互 Demo | Medium | Figma 交付完整性、SVG 坐标与浏览器性能 |
 | M1A | Validate the owner Figma package and integrate an owner-approved map overlay | Medium | Input completeness and conversion fidelity |
-| M1B | Complete 64-plot data, camera and geometry validation | Large | Polygon production and input accuracy |
+| M1B | Complete owner-approved plot/landmark data, camera and geometry validation | Large | Polygon production and input accuracy |
+| U1 | English 1920×1080 full-screen game-UI style concept | Medium | Style fit without copying reference-game assets |
+| U2 | Five-module and modal style sheets | Medium | Cross-module consistency and information density |
+| U3 | Implementable component/state/asset specification | Medium | Responsive slicing, states and handoff precision |
 | M2 | Plot interaction and responsive UI shell | Large | Screen density and state clarity |
 | M3 | Property purchase, finance, ledger and save foundation | Large | Atomic money/debt state |
 | M4 | Buildings, settlement and economy loop | Large | Formula order and turn boundaries |
 | M5 | Three deterministic AI personalities | Large | Distinct behavior without cheats |
-| M5F | Securities market, Investment Advice and news provenance | Large | Financial dominance, leverage and historical attribution |
+| M5F | Securities market, News/advice and provenance | Large | Financial dominance, leverage and historical attribution |
 | M6 | Government and emergency auctions | Large | Bid flow, funding and deadlock risk |
 | M7 | Zoning law, events and full graybox rules loop | Large | Timeline/state integration |
 | G1 | Investor Graybox Web Demo | Medium | Communicating unfinished visuals honestly |
@@ -125,7 +128,7 @@ Before any Godot work, deliver a deliberately plain standalone Web prototype tha
 
 ### 7.2 Fixed Prototype Boundary
 
-M0W uses local HTML, CSS and JavaScript with no runtime network, login, database or required external framework. It is a disposable communication prototype, not the production codebase and not evidence that the final 64-plot vertical slice is complete.
+M0W uses local HTML, CSS and JavaScript with no runtime network, login, database or required external framework. It is a disposable communication prototype, not the production codebase and not evidence that the final owner-approved plot set is complete.
 
 The first version uses:
 
@@ -181,7 +184,7 @@ Before changing the prototype, make the project title, redevelopment, property s
 - Define the 90% next-turn brokered property sale.
 - Add the three-instrument stock market, one-action-point orders, `$1,000` minimum, `1%` fee and no extra `Financial Order` resource.
 - Define historical, fictional, government-source and activity news provenance.
-- Replace the old left/bottom UI description with the five-tab Integrated Operations Panel and top-bar `End Turn`.
+- Historical note: M0.1D froze the then-approved five-tab Integrated Operations Panel and top-bar `End Turn`; `IN_GAME_UI_LAYOUT_SPEC.md` now supersedes that presentation decision without rewriting the old prototype.
 - Update rules, scope, art/UI, architecture, acceptance, milestones, development log and prototype README.
 
 ### Gate and Evidence
@@ -206,10 +209,10 @@ Revise the existing standalone Web prototype, after separate owner approval, so 
 ### Work
 
 - Apply the `Metropolis: Roaring Times` title.
-- Replace the fixed left Investor Brief and bottom command deck with the five-tab Integrated Operations Panel, top-bar `End Turn` and right-side property actions.
+- Implement the then-approved five-tab Integrated Operations Panel and top-bar `End Turn`; this remains historical M0.1W behavior and is not the final UI contract.
 - Implement redevelopment, brokered property sale and the approved opening land/income rebalance.
 - Implement the three-instrument stock market with action-point cost, fee, deterministic revaluation, holdings and result value.
-- Implement Investment Advice source badges and data structure; use only verified historical items and approved fictional/government wording.
+- Implement the historical Investment Advice source badges and data structure; final presentation integrates this feed into News.
 - Preserve three total action points, zero-action bank borrowing/repayment and the prototype's local save/load.
 - Keep `Auction House` honest with `No scheduled auctions` until owner-approved stories are supplied.
 
@@ -217,7 +220,7 @@ Revise the existing standalone Web prototype, after separate owner approval, so 
 
 - The updated prototype completes a legal eight-turn match without a dead turn.
 - Redevelopment, pending sale, securities, save/load, restart and result calculations pass focused browser tests.
-- The title, tab order, independent scrolling and absence of a bottom action bar pass at `1366×768`.
+- The historical M0.1W title, tab order and independent scrolling pass at `1366×768`; this is regression evidence for that prototype, not final-layout acceptance.
 - Rapid duplicate input cannot duplicate money, holdings, ownership or action-point consumption.
 - Files are saved and committed as a separate M0.1W stage.
 
@@ -320,12 +323,12 @@ Validate and integrate the owner-authored Figma map package, then obtain owner a
 - After owner accepts intake, convert the submitted SVG coordinates reproducibly to normalized runtime JSON without smoothing, deleting or moving vertices.
 - Render the owner base and derived boundaries in Godot and compare them with the owner alignment preview at target screen ratios.
 - Demonstrate one district's hover border, locked selection and detail-page handoff.
-- Demonstrate far/middle district summaries, always-visible landmark art, `305%` development-building visibility and `381%` landmark-banner visibility with owner assets only.
+- Demonstrate far/middle district summaries and always-visible landmark art, then exact-`500%` plot/landmark selection, development-building visibility and landmark-banner visibility with owner assets only.
 - Record the owner revision, source checksums, deliberate geographic compression and date-sensitive landmarks.
 
 ### 9.3 Not Yet
 
-- No complete 64-plot dataset.
+- No complete owner-approved plot dataset.
 - No Codex-authored or substitute base/district geometry.
 - No bulk building or portrait production.
 - No rule implementation attached to prototype plots.
@@ -383,6 +386,29 @@ Deliver the complete owner-approved set of data-driven plots and historical land
 
 High due to geometry volume. Failed shapes are corrected individually; plot count is not reduced to protect schedule.
 
+## 10A. U1–U3 — 游戏内 UI 设计交接
+
+### U1：全屏风格概念
+
+- 以老板布局和 `IN_GAME_UI_LAYOUT_SPEC.md` 为权威，制作英文 `1920×1080` 全屏概念图。
+- 使用 1920 年代纽约 Art Deco 高级酒店语言；只借鉴《Civilization VI》的信息层级、地图优先和环形控制原则，不复制其资产。
+- 明确五模块、四页签、灯箱、永久小地图、右下回合区及三种选择详情。
+- 不修改现有网页。老板批准概念图后单独测试文件完整性并提交 U1。
+
+### U2：模块与弹窗样式板
+
+- 分别展开顶部状态栏、左侧综合操作栏、中央地图控件、右侧详情/小地图、右下回合控制区。
+- 覆盖 Config、普通确认、债务处置、拍卖、法令新闻、来源、帮助和结果弹窗。
+- 明确英文/简体中文排版、行动点四状态、选中/悬停/禁用/危险状态和减少动态效果。
+- 老板逐项批准后测试清单完整性并提交 U2。
+
+### U3：组件与实现规格
+
+- 输出组件尺寸、约束、九宫格/矢量/位图格式、字体、色板、间距、层级、状态、动效和响应式规则。
+- 为 `1920×1080`、`1440×900`、`1366×768` 建立同一结构的布局合同。
+- 建立素材来源与许可记录；不把老板整张 Figma 拼图作为运行时背景。
+- 老板批准组件包后测试资产命名、尺寸、透明边缘与清单一致性，并提交 U3；之后另行申请 M2 实现许可。
+
 ## 11. M2 — Plot Interaction and UI Shell
 
 ### 11.1 Objective
@@ -391,8 +417,10 @@ Create the complete responsive interface structure and make every plot inspectab
 
 ### 11.2 Work
 
-- Build the top status bar with `End Turn`, the right property panel and the left Integrated Operations Panel.
-- Build the Integrated Operations Panel tabs in exact order: `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`; give each page an independent scroll region and reserve the Game Brief mascot area.
+- Implement the approved U3 five-module shell: top status, left Integrated Operations Panel, center map, right detail/mini-map and bottom-right turn controls.
+- Build the Integrated Operations Panel tabs in exact order: `News`, `Bank`, `Auction House`, `Stock Market`; integrate advice/news and the five-state ice-cream mascot in News.
+- Build Config with Game Brief, Language, Save Game, Load Game and Return to Title, and no Audio, Display or Controls entries.
+- Synchronize the permanent mini-map viewport rectangle from the authoritative main-camera transform.
 - Build modal and notification layers.
 - Build assets, law information, How to Play and result-screen shells only where they can show real stage data.
 - Implement plot hover, selection, focus and owner/state view models.
@@ -526,7 +554,7 @@ Make Tycoon, Landlady and Shark visibly different legal opponents under equal st
 
 High. A persona that differs only by label is a serious design failure even when it wins or loses normally.
 
-## 14A. M5F — Securities Market, Investment Advice and News Provenance
+## 14A. M5F — Securities Market, News/Advice and Provenance
 
 ### 14A.1 Objective
 
@@ -537,21 +565,21 @@ Add a compact historical finance layer that gives liquid-cash decisions without 
 - Implement Municipal & Railroad Bonds, Industrial Shares and Metropolitan Investment Trust from validated content.
 - Implement `$1,000` minimum orders, `1%` fee, one existing action point per buy/sell and deterministic once-per-turn prices.
 - Include holdings in save, ledger, AI planning and results while assigning them zero property-credit collateral value.
-- Implement the `Investment Advice` feed with historical, fictional, government-source and activity provenance.
+- Implement the `News` feed with investment advice, historical, fictional, government-source and activity provenance.
 - Require verified source date/citation for any real-newspaper item; use `Sources familiar with the New York State Government` for law rumors.
 - Extend AI, simulation and balance evidence so securities do not dominate well-selected operating property.
 
 ### 14A.3 Not Yet
 
 - No individual real-company simulation, commodity futures, options, short selling, broker margin or live prices.
-- The Game Brief mascot remains a layout reservation with fallback text; no live-network conversation.
+- The News ice-cream mascot uses its five deterministic state images and fallback text; no live-network conversation.
 
 ### 14A.4 Gate and Evidence
 
 - `AUT-020A` through `AUT-020C` and `AUT-031A` pass.
 - Save/load, atomicity, duplicate submission, net worth and AI legality regressions pass with securities holdings.
 - Strategy simulations report property, cash and securities allocation by rival and phase and reveal no deterministic risk-free borrowing loop.
-- The five-tab Integrated Operations Panel remains usable at every target resolution.
+- The four-tab Integrated Operations Panel and five-module screen remain usable at every target resolution.
 
 ### 14A.5 Risk
 
@@ -659,7 +687,7 @@ This temporary exception exists only for the investor prototype. It does not alt
 
 The investor build must use the real implementation for:
 
-- the 64-plot map and camera;
+- the complete owner-approved plot set and camera;
 - 1v1 rival selection;
 - purchase, construction, demolition and settlement;
 - redevelopment, normal brokered sale and the approved three-instrument stock market;
@@ -794,10 +822,13 @@ Tests activate cumulatively:
 ```text
 M0W      standalone Web prototype + short gameplay browser test
 M0.1D    cross-document consistency + Markdown/static checks
-M0.1W    revised standalone Web economic loop + five-tab UI browser tests
+M0.1W    historical standalone Web economic loop + then-approved five-tab UI browser tests
 M0G      startup + headless runner + Web smoke
 M1A      composition owner review
 M1B      content/geometry + camera
+U1       full-screen concept integrity + owner visual approval
+U2       module/modal coverage + cross-sheet consistency
+U3       component/state/asset manifest + responsive handoff checks
 M2       interaction + UI/layout
 M3       transactions + finance + save foundation
 M4       buildings + settlement + economy + turn loop
@@ -919,7 +950,7 @@ The owner approved:
 7. relative effort/risk planning before M0 rather than an unsupported calendar promise;
 8. a separate G1 investor Web prototype using basic white/light backgrounds, black/dark frames and real M7 gameplay before production art;
 9. the player-facing title `Metropolis: Roaring Times`;
-10. the five-tab Integrated Operations Panel in the order `Game Brief`, `Investment Advice`, `Bank`, `Auction House`, `Stock Market`, with no fixed bottom action bar;
+10. the five-module game screen in `IN_GAME_UI_LAYOUT_SPEC.md`, including `News`, `Bank`, `Auction House`, `Stock Market`, permanent mini-map and bottom-right turn controls;
 11. strictly upward redevelopment at `max(0, new_cost - 120% × old_original_cost)` with no negative payout;
 12. a 90%-of-market brokered sale that consumes one action point and settles next turn;
 13. three securities instruments whose buy/sell orders consume one of the existing three action points; no separate financial-order resource;

@@ -12,6 +12,7 @@
 
 - Mode: `vertical_slice`.
 - Length: 20 turns unless the player becomes bankrupt earlier.
+- Calendar: turn 1 is June 1915; each turn advances one month; turn 14 is July 1916 and turn 20 is January 1917.
 - Participants: one human player and one active AI opponent.
 - AI roster: Tycoon, Landlady and Shark; all three profiles must be implemented, but only one is active in a match.
 - The opponent is selected by the player before the match.
@@ -554,7 +555,7 @@ No invented quotation or unverified headline may be placed under a real newspape
 
 ### 16.2 Presentation
 
-`Investment Advice` is a standalone, scrolling tab in the Integrated Operations Panel. It may filter `Headlines` and `Activity`, but `Game Brief` is a separate tab and is never pinned above the feed.
+The former `Investment Advice` page is integrated into the scrolling `News` tab of the Integrated Operations Panel. It may filter `Headlines`, `Advice` and `Activity`. The ice-cream board mascot remains visible in News and selects one of five deterministic expressions from match state. `Game Brief` is no longer a tab; it is opened from `Config`.
 
 ## 17. Manual Save and Autosave
 

@@ -1,5 +1,26 @@
 # Metropolis: Roaring Times — Development Log
 
+## DOC-UI-01 — 新版游戏内 UI 规格冻结
+
+### 老板决定
+
+- 游戏内界面固定为顶部状态、左侧综合操作、中央地图、右侧详情/小地图和右下回合控制五个模块；
+- 顶栏显示 Turn、Cash、Debt、Credit Left、Config；对手精确资产隐藏；
+- 左栏固定为 News、Bank、Auction House、Stock Market，Investment Advice 并入 News，Game Brief 移入 Config；
+- 冰淇淋橡皮管看板娘永久位于 News，使用五张已批准状态图；
+- 右侧永久小地图用红框同步主地图视口；地图精细地块、开发建筑、地标横幅和地标/地块命中在精确 `500%` 开放；
+- 右下显示日期、经济阶段、3 点行动点状态和 End Turn；未用完行动点的确认可选择以后不再提示；
+- 垂直切片固定为 1915 年 6 月至 1917 年 1 月，每回合一个月，第 14 回合对应 1916 年 7 月；
+- Config 只包含 Game Brief、Language、Save Game、Load Game、Return to Title，不包含 Audio、Display、Controls；
+- 视觉采用 1920 年代纽约 Art Deco 高级酒店语言，只借鉴《Civilization VI》的信息层级，不复制素材；先做 U1 全屏概念、U2 模块样式、U3 组件规格，再另行批准实现。
+
+### 本阶段边界
+
+- 只更新总纲、规则、范围、地图/美术、架构、验收、计划、地图交付和老板审查文档；
+- 新增 `IN_GAME_UI_LAYOUT_SPEC.md` 和老板布局的小尺寸审阅图；
+- 不修改当前 `m0_web` 页面，不生成新 UI 图，不开始 Godot 或 M2 实现；
+- 当前 M1W 五页签界面只作为历史原型保留，不能再作为最终游戏内 UI 权威。
+
 ## DOC-MAP-CONTENT-01 — 老板绘制地块与历史地标规则贯通
 
 ### 老板决定
@@ -547,7 +568,7 @@ The owner postponed Godot M0 and requested an immediate plain Web gameplay proto
 
 - This code is not reused by the production Godot project.
 - Values and AI heuristics are demonstration tuning, not final balance.
-- M0W has 18 plots/eight turns rather than the production 64 plots/20 turns.
+- M0W has 18 plots/eight turns rather than the then-planned 64-plot/20-turn production target; the later owner-authored map contract removed the fixed plot count.
 - Auction is intentionally absent because story/bidder content requires owner approval.
 - Debt maturity uses a simplified bankruptcy result and does not implement production asset disposition.
 - Map pan/zoom, final art, portraits, audio, production save schema and final accessibility work are not included.
