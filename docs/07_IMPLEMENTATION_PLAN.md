@@ -317,11 +317,11 @@ Validate and integrate the owner-authored Figma map package, then obtain owner a
 ### 9.2 Work
 
 - Wait for the complete owner Figma handoff defined by `MAP_ASSET_PIPELINE.md`; missing inputs are a dependency, not authorization for placeholders.
-- Preserve the `.fig`, base PNG, district SVG, mask PNG, alignment preview and owner notes unchanged in `references/incoming/`.
-- Verify filenames, dimensions, SVG viewBox/layer IDs, registration, checksums, closed shapes or recorded owner-approved vector-network exceptions, overlap/gap conditions and base/mask/SVG alignment.
+- Preserve the `.fig`, exporter ZIP and owner notes unchanged in `references/incoming/`; the quick package must contain structure JSON plus base, district, historical-landmark and purchasable-block SVGs, while composite/PNG previews remain optional.
+- Verify filenames, dimensions, shared SVG viewBox/layer IDs, registration, checksums, closed shapes or recorded owner-approved vector-network exceptions, overlap/gap conditions and programmatic overlay alignment.
 - Produce an intake report and return every ambiguity to the owner without editing source geography.
 - After owner accepts intake, convert the submitted SVG coordinates reproducibly to normalized runtime JSON without smoothing, deleting or moving vertices.
-- Render the owner base and derived boundaries in Godot and compare them with the owner alignment preview at target screen ratios.
+- Render the owner base and derived boundaries in Godot and compare them with the owner source plus the programmatic overlay report at target screen ratios; use a full-mode alignment preview only when supplied.
 - Demonstrate one district's hover border, locked selection and detail-page handoff.
 - Demonstrate far/middle district summaries and always-visible landmark art, then exact-`500%` plot/landmark selection, development-building visibility and landmark-banner visibility with owner assets only.
 - Record the owner revision, source checksums, deliberate geographic compression and date-sensitive landmarks.

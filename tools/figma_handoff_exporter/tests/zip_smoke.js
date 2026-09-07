@@ -2,6 +2,12 @@ const fs = require("fs");
 const vm = require("vm");
 
 const html = fs.readFileSync(require("path").join(__dirname, "..", "ui.html"), "utf8");
+if (!/id="fast-mode"[^>]*value="fast"[^>]*checked/.test(html)) {
+  throw new Error("大地图快速交付必须是默认模式");
+}
+if (!/id="full-mode"[^>]*value="full"/.test(html)) {
+  throw new Error("完整归档交付选项缺失");
+}
 if (!/id="png-preview" type="checkbox"(?! checked)/.test(html)) {
   throw new Error("PNG 预览选项必须存在且默认关闭");
 }

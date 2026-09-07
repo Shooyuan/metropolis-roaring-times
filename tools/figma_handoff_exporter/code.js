@@ -1,12 +1,16 @@
 /* Metropolis Handoff Exporter — local Figma development plugin. */
 
-figma.showUI(__html__, { width: 500, height: 560, themeColors: true });
+figma.showUI(__html__, { width: 500, height: 630, themeColors: true });
 
 const MASTER_NAME = "MAP_MASTER_VECTOR";
 const LEGACY_MASTER_NAME = "MAP_MASTER_4474x5904";
 const DISTRICT_LAYER = "03_DISTRICT_GEOMETRY";
+const LANDMARK_LAYER = "07_HISTORICAL_LANDMARKS";
+const PLOT_LAYER = "08_PURCHASABLE_BLOCK_GEOMETRY";
 const BRAND_LAYER = "00_BRAND";
 const EXPECTED_LAYER_NAMES = [
+  PLOT_LAYER,
+  LANDMARK_LAYER,
   "06_FRAME",
   "05_NON_BUILDING_ORNAMENT",
   "04_ROADS",
@@ -318,6 +322,17 @@ function setTopVisibility(frame, predicate) {
   for (const child of frame.children) child.visible = predicate(child);
 }
 
+function normalizeExportOptions(options) {
+  const mode = options && options.mode === "full" ? "full" : "fast";
+  return {
+    mode,
+    includeMasterFull: mode === "full",
+    includeAlignmentPreview: mode === "full",
+    includeLayerSvg: mode === "full" && options.includeLayerSvg !== false,
+    includePngPreview: mode === "full" && options.includePngPreview === true
+  };
+}
+
 function relativeTransformFor(node, bounds) {
   const transform = safeProperty(node, "absoluteTransform");
   if (!Array.isArray(transform) || transform.length !== 2) return null;
@@ -354,12 +369,43 @@ function createContextClone(context, name) {
   return frame;
 }
 
+function includeLayerForMode(layerName, mode) {
+  if (mode === "map_base") return ![DISTRICT_LAYER, LANDMARK_LAYER, PLOT_LAYER, BRAND_LAYER].includes(layerName);
+  if (mode === "district_geometry") return layerName === DISTRICT_LAYER;
+  if (mode === "historical_landmarks") return layerName === LANDMARK_LAYER;
+  if (mode === "purchasable_blocks") return layerName === PLOT_LAYER;
+  return true;
+}
+
+function createFilteredContextClone(context, name, mode) {
+  const frame = figma.createFrame();
+  frame.name = name;
+  frame.resizeWithoutConstraints(context.width, context.height);
+  frame.fills = [];
+  frame.strokes = [];
+  frame.effects = [];
+  frame.clipsContent = true;
+  frame.x = context.bounds.x + context.width + 2048;
+  frame.y = context.bounds.y;
+  for (const layer of context.layers) {
+    if (!includeLayerForMode(layer.name, mode)) continue;
+    const clone = layer.clone();
+    const transform = relativeTransformFor(layer, context.bounds);
+    frame.appendChild(clone);
+    if (transform) clone.relativeTransform = transform;
+  }
+  return frame;
+}
+
 async function exportContext(context, mode, format) {
-  const clone = createContextClone(context, `__handoff_${mode}__`);
+  const usesFilteredClone = ["map_base", "district_geometry", "historical_landmarks", "purchasable_blocks"].includes(mode);
+  const clone = usesFilteredClone
+    ? createFilteredContextClone(context, `__handoff_${mode}__`, mode)
+    : createContextClone(context, `__handoff_${mode}__`);
   clone.name = `__handoff_${mode}__`;
   try {
     if (mode === "map_base") {
-      setTopVisibility(clone, (child) => child.name !== DISTRICT_LAYER && child.name !== BRAND_LAYER);
+      setTopVisibility(clone, (child) => ![DISTRICT_LAYER, LANDMARK_LAYER, PLOT_LAYER, BRAND_LAYER].includes(child.name));
     } else if (mode === "district_geometry") {
       clone.fills = [];
       clone.strokes = [];
@@ -367,6 +413,20 @@ async function exportContext(context, mode, format) {
       setTopVisibility(clone, (child) => child.name === DISTRICT_LAYER);
       const district = clone.findOne((node) => node.name === DISTRICT_LAYER);
       if (district) district.visible = true;
+    } else if (mode === "historical_landmarks") {
+      clone.fills = [];
+      clone.strokes = [];
+      clone.effects = [];
+      setTopVisibility(clone, (child) => child.name === LANDMARK_LAYER);
+      const landmarks = clone.findOne((node) => node.name === LANDMARK_LAYER);
+      if (landmarks) landmarks.visible = true;
+    } else if (mode === "purchasable_blocks") {
+      clone.fills = [];
+      clone.strokes = [];
+      clone.effects = [];
+      setTopVisibility(clone, (child) => child.name === PLOT_LAYER);
+      const plots = clone.findOne((node) => node.name === PLOT_LAYER);
+      if (plots) plots.visible = true;
     } else if (mode === "alignment_preview") {
       setTopVisibility(clone, (child) => child.name !== BRAND_LAYER);
       const district = clone.findOne((node) => node.name === DISTRICT_LAYER);
@@ -442,9 +502,18 @@ async function attemptFile(path, label, producer, warnings) {
   }
 }
 
+async function attemptNamedLayerFile(context, layerName, path, label, mode, warnings) {
+  if (!findLayer(context, layerName)) {
+    warnings.push(`未找到 ${layerName}，未生成 ${path}。`);
+    return false;
+  }
+  return attemptFile(path, label, () => exportContext(context, mode, "SVG"), warnings);
+}
+
 async function runExport(options) {
   const context = selectedContext();
-  if (!context) throw new Error("请选择地图主画框，或六个规定地图顶层图层中的任意一层。");
+  if (!context) throw new Error("请选择地图主画框，或八个规定地图顶层图层中的任意一层。");
+  const exportOptions = normalizeExportOptions(options || {});
   const warnings = [];
   const masterBounds = context.bounds;
   const timestamp = new Date().toISOString();
@@ -468,6 +537,7 @@ async function runExport(options) {
   const manifest = {
     format: "metropolis_figma_handoff",
     formatVersion: 1,
+    exportMode: exportOptions.mode,
     exportedAt: timestamp,
     fileName: figma.root.name,
     page: { id: figma.currentPage.id, name: figma.currentPage.name },
@@ -487,36 +557,47 @@ async function runExport(options) {
     currentPageTree: figma.currentPage.children.map((node) => serializeNode(node, masterBounds))
   };
 
-  const pngStepCount = options.includePngPreview ? 2 : 0;
-  const layerStepCount = options.includeLayerSvg ? context.layers.length : 0;
-  const total = 6 + pngStepCount + layerStepCount;
+  const fullStepCount = exportOptions.includeMasterFull && exportOptions.includeAlignmentPreview ? 2 : 0;
+  const pngStepCount = exportOptions.includePngPreview ? 2 : 0;
+  const layerStepCount = exportOptions.includeLayerSvg ? context.layers.length : 0;
+  const total = 6 + fullStepCount + pngStepCount + layerStepCount;
   let step = 0;
   progress("保存完整图层树和样式", ++step, total);
   postText("handoff/figma_document.json", JSON.stringify(manifest, null, 2));
 
-  progress("导出完整主画框 SVG", ++step, total);
-  await attemptFile("export/master_full.svg", "完整地图 SVG 导出", () => exportContext(context, "full", "SVG"), warnings);
+  if (exportOptions.includeMasterFull) {
+    progress("导出完整主画框 SVG", ++step, total);
+    await attemptFile("export/master_full.svg", "完整地图 SVG 导出", () => exportContext(context, "full", "SVG"), warnings);
+  }
 
   progress("导出网页地图底图 SVG", ++step, total);
   await attemptFile("export/metropolis_map_base.svg", "地图底图 SVG 导出", () => exportContext(context, "map_base", "SVG"), warnings);
 
-  if (options.includePngPreview) {
+  if (exportOptions.includePngPreview) {
     progress("导出网页地图底图 PNG 预览", ++step, total);
     await attemptFile("export/metropolis_map_base.png", "地图底图 PNG 导出", () => exportContext(context, "map_base", "PNG"), warnings);
   }
 
   progress("导出分区几何 SVG", ++step, total);
-  await attemptFile("export/metropolis_district_geometry.svg", "分区几何 SVG 导出", () => exportContext(context, "district_geometry", "SVG"), warnings);
+  await attemptNamedLayerFile(context, DISTRICT_LAYER, "export/metropolis_district_geometry.svg", "分区几何 SVG 导出", "district_geometry", warnings);
 
-  progress("导出地图对齐 SVG", ++step, total);
-  await attemptFile("export/metropolis_alignment_preview.svg", "地图对齐 SVG 导出", () => exportContext(context, "alignment_preview", "SVG"), warnings);
+  progress("导出历史地标 SVG", ++step, total);
+  await attemptNamedLayerFile(context, LANDMARK_LAYER, "export/metropolis_historical_landmarks.svg", "历史地标 SVG 导出", "historical_landmarks", warnings);
 
-  if (options.includePngPreview) {
+  progress("导出可购买地块 SVG", ++step, total);
+  await attemptNamedLayerFile(context, PLOT_LAYER, "export/metropolis_purchasable_blocks.svg", "可购买地块 SVG 导出", "purchasable_blocks", warnings);
+
+  if (exportOptions.includeAlignmentPreview) {
+    progress("导出地图对齐 SVG", ++step, total);
+    await attemptFile("export/metropolis_alignment_preview.svg", "地图对齐 SVG 导出", () => exportContext(context, "alignment_preview", "SVG"), warnings);
+  }
+
+  if (exportOptions.includePngPreview) {
     progress("导出地图对齐 PNG 预览", ++step, total);
     await attemptFile("export/metropolis_alignment_preview.png", "地图对齐预览 PNG 导出", () => exportContext(context, "alignment_preview", "PNG"), warnings);
   }
 
-  const brand = await exportBrand(context, options.includePngPreview);
+  const brand = await exportBrand(context, exportOptions.includePngPreview);
   progress("导出独立 Brand", ++step, total);
   if (brand) {
     if (brand.svg) postFile("export/metropolis_brand_logo.svg", brand.svg);
@@ -524,7 +605,7 @@ async function runExport(options) {
     warnings.push(...brand.errors);
   }
 
-  if (options.includeLayerSvg) {
+  if (exportOptions.includeLayerSvg) {
     for (let index = 0; index < context.layers.length; index += 1) {
       const layer = context.layers[index];
       progress(`导出独立图层：${layer.name}`, ++step, total);
@@ -560,17 +641,20 @@ async function runExport(options) {
     `Figma 文件：${figma.root.name}`,
     `地图画布：${context.name} (${context.width} × ${context.height})`,
     `识别方式：${context.kind === "FRAME" ? "外层 Frame" : "并列顶层图层（虚拟主画框）"}`,
+    `导出模式：${exportOptions.mode === "fast" ? "大地图快速交付" : "完整归档交付"}`,
     "",
     "handoff/figma_document.json 保存完整图层树、父子关系、顺序、位置、尺寸、变换、颜色、填充、描边、效果、文字和矢量路径。",
-    "export/ 保存网页制作直接使用的地图、分区、对齐预览和 Brand。",
-    "layers/ 保存位于统一主画框坐标中的顶层图层 SVG。",
+    "export/ 保存网页制作直接使用的纯底图、分区、历史地标、可购买地块和 Brand。",
+    exportOptions.mode === "fast"
+      ? "快速交付跳过完整主画框 SVG、对齐合成预览和重复的逐顶层 SVG，以避免超大地图长时间卡住。"
+      : "完整归档交付额外保存完整主画框、对齐预览和位于统一主画框坐标中的逐顶层 SVG。",
     "images/ 保存 Figma 中引用的原始图片填充。",
     "",
     "注意：此交付包不能替代 .fig 的版本历史、评论和协作记录；请继续保存本地 .fig 副本。",
     warnings.length ? `\n警告：\n- ${warnings.join("\n- ")}` : "\n检查未产生警告。"
   ].join("\n");
   postText("README_ZH_CN.txt", readme);
-  postText("handoff/export_summary.json", JSON.stringify({ warnings, imageCount: hashes.size, topLayerCount: context.layers.length, sourceKind: context.kind }, null, 2));
+  postText("handoff/export_summary.json", JSON.stringify({ exportMode: exportOptions.mode, warnings, imageCount: hashes.size, topLayerCount: context.layers.length, sourceKind: context.kind }, null, 2));
   figma.ui.postMessage({ type: "complete", warnings, fileName: `metropolis_handoff_${Date.now()}.zip` });
 }
 
@@ -596,6 +680,7 @@ figma.ui.onmessage = async (message) => {
     try {
       figma.ui.postMessage({ type: "reset" });
       await runExport({
+        mode: message.mode,
         includeLayerSvg: message.includeLayerSvg !== false,
         includePngPreview: message.includePngPreview === true
       });

@@ -6,6 +6,14 @@ const source = fs.readFileSync(path.join(__dirname, "..", "code.js"), "utf8");
 if (source.includes("MASTER_WIDTH") || source.includes("MASTER_HEIGHT") || source.includes("不是规定的")) {
   throw new Error("插件仍包含固定画布尺寸限制或警告");
 }
+for (const requiredOutput of [
+  "metropolis_map_base.svg",
+  "metropolis_district_geometry.svg",
+  "metropolis_historical_landmarks.svg",
+  "metropolis_purchasable_blocks.svg"
+]) {
+  if (!source.includes(requiredOutput)) throw new Error(`快速交付缺少生产文件：${requiredOutput}`);
+}
 
 function makeNode(name, type, bounds) {
   return {
@@ -19,6 +27,8 @@ function makeNode(name, type, bounds) {
 }
 
 const names = [
+  "08_PURCHASABLE_BLOCK_GEOMETRY",
+  "07_HISTORICAL_LANDMARKS",
   "06_FRAME",
   "05_NON_BUILDING_ORNAMENT",
   "04_ROADS",
@@ -68,7 +78,7 @@ if (!actualUtf8.equals(expectedUtf8)) throw new Error("插件自带 UTF-8 编码
 
 const loose = vm.runInContext("selectedContext()", context);
 if (!loose || loose.kind !== "LOOSE_LAYERS") throw new Error("未识别并列顶层 Group");
-if (loose.layers.length !== 6) throw new Error(`顶层图层数量错误：${loose.layers.length}`);
+if (loose.layers.length !== 8) throw new Error(`顶层图层数量错误：${loose.layers.length}`);
 if (Math.round(loose.width) !== 10334 || Math.round(loose.height) !== 14101) {
   throw new Error(`虚拟主画框尺寸错误：${loose.width} × ${loose.height}`);
 }
@@ -91,6 +101,24 @@ page.selection = [realFrame];
 const frameContext = vm.runInContext("selectedContext()", context);
 if (!frameContext || frameContext.kind !== "FRAME") throw new Error("正式外层 Frame 回归失败");
 if (frameContext.layers.length !== 2) throw new Error("正式 Frame 子图层读取失败");
+
+const fastOptions = vm.runInContext("normalizeExportOptions({mode:'fast',includeLayerSvg:true,includePngPreview:true})", context);
+if (fastOptions.includeMasterFull || fastOptions.includeAlignmentPreview || fastOptions.includeLayerSvg || fastOptions.includePngPreview) {
+  throw new Error("快速模式仍启用了耗时的整图、对齐、逐层或 PNG 导出");
+}
+const fullOptions = vm.runInContext("normalizeExportOptions({mode:'full',includeLayerSvg:true,includePngPreview:false})", context);
+if (!fullOptions.includeMasterFull || !fullOptions.includeAlignmentPreview || !fullOptions.includeLayerSvg || fullOptions.includePngPreview) {
+  throw new Error("完整模式导出选项不正确");
+}
+if (vm.runInContext("includeLayerForMode(PLOT_LAYER, 'map_base')", context) !== false) {
+  throw new Error("纯底图仍包含可购买地块");
+}
+if (vm.runInContext("includeLayerForMode(LANDMARK_LAYER, 'map_base')", context) !== false) {
+  throw new Error("纯底图仍包含历史地标");
+}
+if (vm.runInContext("includeLayerForMode(LANDMARK_LAYER, 'historical_landmarks')", context) !== true) {
+  throw new Error("历史地标独立导出没有选中权威图层");
+}
 
 context.warningList = [];
 vm.runInContext("attemptFile('optional.png', '可选 PNG', async () => { throw new Error('too large'); }, warningList)", context)

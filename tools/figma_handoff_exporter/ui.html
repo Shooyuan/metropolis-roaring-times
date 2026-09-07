@@ -30,16 +30,21 @@
 </head>
 <body>
   <h1>Metropolis 一键交付</h1>
-  <p class="subtitle">选中地图主画框，或六个地图顶层图层中的任意一层，然后按实际矢量画布导出图层关系、精确位置、颜色、矢量、原始图片和网页制作素材。</p>
+  <p class="subtitle">选中地图主画框，或八个地图顶层图层中的任意一层，然后按实际矢量画布导出图层关系、精确位置、颜色、矢量、原始图片和网页制作素材。</p>
 
   <section class="card status">
     <span id="status-dot" class="dot"></span>
-    <div><strong id="status-title">等待识别地图图层</strong><p id="status-detail">请选择地图主画框，或 06_FRAME 等任意一个规定地图图层；画布尺寸不限。</p></div>
+    <div><strong id="status-title">等待识别地图图层</strong><p id="status-detail">请选择地图主画框，或 08_PURCHASABLE_BLOCK_GEOMETRY 等任意一个规定地图图层；画布尺寸不限。</p></div>
   </section>
 
   <section class="card">
-    <label><input id="layer-svg" type="checkbox" checked> <span>同时导出每个顶层图层的全画框 SVG。文件更大，但最方便网页制作和检查位置。</span></label>
-    <label style="margin-top:10px"><input id="png-preview" type="checkbox"> <span>额外尝试导出 PNG 预览（可选）。大尺寸矢量地图建议保持关闭，避免耗时或内存失败。</span></label>
+    <label><input id="fast-mode" name="export-mode" type="radio" value="fast" checked> <span><strong>大地图快速交付（推荐）</strong><br>跳过最耗时的整图与重复合成，只导出结构、纯底图、街区、历史地标、可购买地块和原始图片。</span></label>
+    <label style="margin-top:10px"><input id="full-mode" name="export-mode" type="radio" value="full"> <span><strong>完整归档交付</strong><br>额外导出整图、对齐预览和可选的逐层文件，耗时明显更长。</span></label>
+  </section>
+
+  <section class="card" id="full-options">
+    <label><input id="layer-svg" type="checkbox" checked disabled> <span>完整模式：同时导出每个顶层图层的全画框 SVG。</span></label>
+    <label style="margin-top:10px"><input id="png-preview" type="checkbox" disabled> <span>完整模式：额外尝试导出 PNG 预览（大地图不推荐）。</span></label>
   </section>
 
   <button id="export-button" type="button" disabled>一键导出 ZIP</button>
@@ -54,6 +59,16 @@
     const button = document.getElementById('export-button');
     const progressBar = document.getElementById('progress');
     const progressText = document.getElementById('progress-text');
+
+    function updateModeControls() {
+      const fast = document.getElementById('fast-mode').checked;
+      document.getElementById('layer-svg').disabled = fast;
+      document.getElementById('png-preview').disabled = fast;
+    }
+
+    document.getElementById('fast-mode').addEventListener('change', updateModeControls);
+    document.getElementById('full-mode').addEventListener('change', updateModeControls);
+    updateModeControls();
 
     function crcTable() {
       const table = new Uint32Array(256);
@@ -138,6 +153,7 @@
       progressText.textContent = '正在准备导出…';
       parent.postMessage({ pluginMessage: {
         type: 'export',
+        mode: document.getElementById('full-mode').checked ? 'full' : 'fast',
         includeLayerSvg: document.getElementById('layer-svg').checked,
         includePngPreview: document.getElementById('png-preview').checked
       } }, '*');
@@ -152,7 +168,7 @@
         document.getElementById('status-title').textContent = masterReady ? `已找到：${message.master.name}` : '等待识别地图图层';
         document.getElementById('status-detail').textContent = masterReady
           ? `${message.master.width} × ${message.master.height} · ${message.master.layerCount} 个顶层图层 · ${message.master.sourceKind === 'FRAME' ? '外层 Frame' : '并列图层模式'}`
-          : '请选择地图主画框，或 06_FRAME 等任意一个规定地图图层；画布尺寸不限。';
+          : '请选择地图主画框，或 08_PURCHASABLE_BLOCK_GEOMETRY 等任意一个规定地图图层；画布尺寸不限。';
         button.disabled = !masterReady || busy;
       } else if (message.type === 'reset') {
         files.length = 0;

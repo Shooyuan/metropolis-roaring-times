@@ -79,7 +79,7 @@ Relative direction must remain recognizable. Street-level and cadastral accuracy
 
 - Map art, district geometry, plot geometry, building anchors and gameplay overlays share one normalized coordinate system derived from the actual width and height recorded for the owner's Figma vector canvas; no fixed pixel dimensions are required.
 - The supplied 1939 map is a development reference only. The owner authors and approves the production Figma base, which must not embed dynamic public or private buildings.
-- District boundaries are closed vector shapes authored by the owner and delivered in the authoritative district SVG. Codex converts them to runtime polygons without redrawing, smoothing or changing vertices; the companion mask PNG verifies pixel alignment.
+- District boundaries are closed vector shapes authored by the owner and delivered in the authoritative district SVG. Codex converts them to runtime polygons without redrawing, smoothing or changing vertices; the shared-viewBox programmatic overlay verifies alignment against the owner source.
 - Hovering uncovered district space displays an indicative district border. Clicking locks the border and opens the district detail page until another district is selected or the selection is explicitly closed.
 - At near zoom, a plot or building hit target takes priority over the underlying district.
 - Far and middle zoom keep historical-landmark illustrations visible for recognition, hide landmark banners and development-building illustrations, and show a district summary in this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities, district prosperity.

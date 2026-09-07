@@ -187,11 +187,11 @@ After leaving a completed or partially played match, start a new one. Pass when 
 
 ### `DOC-007A` Owner Figma Handoff Integrity
 
-Before M1A implementation, pass when the owner package contains the versioned `.fig`, exporter structure JSON, full/base vector SVG, authoritative district SVG with a viewBox matching the recorded actual canvas, alignment SVG and owner notes. PNG files are optional previews and their absence does not fail intake. All twelve stable district layer names must be present exactly once, visible and in the shared canvas, and all vector layers must align. Districts are normally closed shapes; an owner-approved Figma vector-network exception passes this intake only after its actual hover, click and locked-selection hit region passes M1W browser testing. A missing or ambiguous authoritative vector asset fails intake; Codex may not replace it with invented geometry.
+Before M1A implementation, pass when the owner package contains the versioned `.fig`, exporter structure JSON, base vector SVG, authoritative district SVG, historical-landmark SVG and purchasable-block SVG with viewBoxes matching the recorded actual canvas, plus owner notes. Full-map SVG and alignment previews are optional outputs of the full archive mode; PNG files are optional previews and their absence does not fail intake. All twelve stable district layer names must be present exactly once, visible and in the shared canvas, and all vector layers must align. Districts are normally closed shapes; an owner-approved Figma vector-network exception passes this intake only after its actual hover, click and locked-selection hit region passes M1W browser testing. A missing or ambiguous authoritative vector asset fails intake; Codex may not replace it with invented geometry.
 
 ### `DOC-007B` Figma 一键交付插件完整性
 
-老板选中地图主画框；没有外层 Frame 时，可选中八个规定地图顶层图层中的任意一层，由插件按实际矢量边界建立只用于导出的虚拟主画框。随后运行 `Metropolis Handoff Exporter`。通过条件：不限制画布像素尺寸；ZIP 至少包含完整图层树 JSON、01—06 底图 SVG、街区 SVG、历史地标 SVG、可购买地块 SVG、01—08 对齐 SVG 和成功导出的逐层 SVG；JSON 保存实际画布宽高、父子关系、顺序、显示/锁定状态、位置、尺寸、变换、填充、描边、颜色、效果、文字和矢量路径。PNG 和独立 Brand 属于可选或单独交付内容，其失败或缺席不得阻止 ZIP；导出过程不联网且不改变原始 Figma 画面。插件 ZIP 不能替代版本化 `.fig` 本地副本。
+老板选中地图主画框；没有外层 Frame 时，可选中八个规定地图顶层图层中的任意一层，由插件按实际矢量边界建立只用于导出的虚拟主画框。随后运行 `Metropolis Handoff Exporter`。通过条件：不限制画布像素尺寸；默认“大地图快速交付”的 ZIP 至少包含完整图层树 JSON、01—06 纯底图 SVG、街区 SVG、历史地标 SVG、可购买地块 SVG 和原始图片；快速模式不得请求完整主画框、对齐合成预览、逐顶层 SVG 或 PNG。JSON 保存实际画布宽高、父子关系、顺序、显示/锁定状态、位置、尺寸、变换、填充、描边、颜色、效果、文字和矢量路径。“完整归档交付”可额外输出完整主画框、对齐预览、逐层 SVG 和 PNG。独立 Brand 属于可选或单独交付内容，其失败或缺席不得阻止 ZIP；导出过程不联网且不改变原始 Figma 画面。插件 ZIP 不能替代版本化 `.fig` 本地副本。
 
 ### `DOC-007` Geometry Integrity
 
@@ -205,7 +205,7 @@ Pass when each plot polygon:
 
 ### `SCN-004` Geographic Legibility
 
-Pass when the north-up Godot map matches the owner-approved Figma alignment preview and preserves the approved relative arrangement of Manhattan, the two rivers, all twelve districts, Central Park and the two bridges. Manhattan must not rotate sideways, land across the rivers remains non-interactive background, and any conversion difference requires owner review.
+Pass when the north-up Godot map matches the owner-approved Figma source and shared-viewBox programmatic overlay report, plus the full-mode alignment preview when supplied, and preserves the approved relative arrangement of Manhattan, the two rivers, all twelve districts, Central Park and the two bridges. Manhattan must not rotate sideways, land across the rivers remains non-interactive background, and any conversion difference requires owner review.
 
 ### `SCN-005` Plot Interaction
 
@@ -649,7 +649,7 @@ Owner approves the submitted Figma source, base/district/plot/landmark/alignment
 完整的新 Figma 包交付后必须全部通过：
 
 1. 顶层顺序精确为 `08_PURCHASABLE_BLOCK_GEOMETRY`、`07_HISTORICAL_LANDMARKS`、`06_FRAME`、`05_NON_BUILDING_ORNAMENT`、`04_ROADS`、`03_DISTRICT_GEOMETRY`、`02_COASTLINE`、`01_WATER`。
-2. 底图、地标层、地块层、对齐预览和结构 JSON 使用同一 `viewBox`、原点、尺寸且无旋转/缩放漂移。
+2. 底图、街区层、地标层、地块层和结构 JSON 使用同一 `viewBox`、原点、尺寸且无旋转/缩放漂移；快速模式通过程序化叠加检查，完整模式的对齐预览仅作附加证据。
 3. 每个地块是可识别闭合几何、稳定 ID 唯一且完整位于一个街区；跨街区地块使验收失败，程序不得自动切割。
 4. 程序导入的地块数量恰好等于老板交付的实际数量，代码和测试不存在固定数量常量。
 5. 每个地标组可建立稳定 ID，插画、独立英文横幅文字与可选命中区仍保持一个选择实体。

@@ -511,7 +511,7 @@ The three personalities share one rules implementation. Personality data changes
 - required keys and supported schema version;
 - unique IDs and valid references;
 - a non-empty, complete plot set whose IDs and geometry derive from the approved `08_PURCHASABLE_BLOCK_GEOMETRY` export, without imposing a count;
-- a recorded owner Figma revision plus source filenames/checksums for the base PNG, district SVG, mask PNG and alignment preview;
+- a recorded owner Figma revision plus source filenames/checksums for the structure JSON, base SVG, district SVG, historical-landmark SVG and purchasable-block SVG; full-map/alignment SVG and PNG previews are optional archive evidence;
 - a valid normalized map registration, crop, aspect ratio and declared LOD thresholds;
 - normalized district polygons that match the owner-submitted SVG without unauthorized smoothing or vertex deletion, plus in-bounds summary/building anchors;
 - valid polygon coordinates and district assignment;
@@ -813,7 +813,7 @@ landmark:<stable_id>
 - `metropolis_map_base.svg`：仅 01—06 的正式底图；
 - `metropolis_historical_landmarks.svg`：仅 `07_HISTORICAL_LANDMARKS`；
 - `metropolis_purchasable_blocks.svg`：仅 `08_PURCHASABLE_BLOCK_GEOMETRY`；
-- 全层对齐预览：01—08；
+- 快速模式以四份共享 `viewBox` 的生产 SVG 程序化叠加验证对齐；完整归档模式可额外生成 01—08 全层对齐预览；
 - 结构/manifest JSON：保存节点树、稳定名称、变换、颜色和警告。
 
 老板只执行一次插件导出；拆分生产文件由插件自动完成。当前 Figma 尚未完成，因此这些新文件在收到老板最终包之前不得伪造或接入。

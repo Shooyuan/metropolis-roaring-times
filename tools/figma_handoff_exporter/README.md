@@ -10,8 +10,8 @@
 - 填充、描边、透明度、渐变、混合模式、圆角和效果；
 - 文字内容、分段文字样式和矢量路径；
 - Figma 中使用的原始图片填充；
-- 网页制作需要的完整地图 SVG、地图底图 SVG、分区 SVG、对齐 SVG，以及作为便利预览的 PNG、Brand SVG/PNG；
-- 每个顶层图层在同一主画框坐标中的独立 SVG。
+- 网页制作需要的纯底图 SVG、分区 SVG、历史地标 SVG、可购买地块 SVG，以及可选的完整地图、对齐预览、PNG、Brand SVG/PNG；
+- 选择完整归档模式时，每个顶层图层在同一主画框坐标中的独立 SVG。
 
 插件不会联网，也不会修改项目源文件。导出时会创建临时副本，完成单项导出后立即删除。
 
@@ -29,11 +29,11 @@
 
 ## 每次导出
 
-1. 选中地图最外层主画框；如果六个地图图层像当前文件一样直接并列，则选中 `06_FRAME`、`05_NON_BUILDING_ORNAMENT`、`04_ROADS`、`03_DISTRICT_GEOMETRY`、`02_COASTLINE` 或 `01_WATER` 中任意一层即可。
+1. 选中地图最外层主画框；如果八个地图图层直接并列，则选中 `08_PURCHASABLE_BLOCK_GEOMETRY`、`07_HISTORICAL_LANDMARKS`、`06_FRAME`、`05_NON_BUILDING_ORNAMENT`、`04_ROADS`、`03_DISTRICT_GEOMETRY`、`02_COASTLINE` 或 `01_WATER` 中任意一层即可。
 2. 插件接受任意实际画布尺寸。没有外层 Frame 时，会按所选 `06_FRAME`/`01_WATER` 或同级地图图层的实际边界和顺序临时建立虚拟主画框，不会改变原稿。
 3. 运行 `Metropolis Handoff Exporter`。
-4. 确认插件显示实际画布尺寸和地图图层数量。默认保持“额外尝试导出 PNG 预览”关闭，直接进行矢量交付。
-5. 点击“一键导出 ZIP”。
+4. 确认插件显示实际画布尺寸和地图图层数量。默认选择“大地图快速交付（推荐）”。
+5. 点击“一键导出 ZIP”。快速模式不生成最耗时的完整主画框、对齐合成预览和重复的逐顶层 SVG。
 6. 将下载的 ZIP 文件放入项目或直接交给 Codex 检查。
 
 不需要手工隐藏图层，不需要分别导出 PNG/SVG，也不需要截图解释位置。
@@ -47,15 +47,16 @@ handoff/
 ├── figma_document.json
 └── export_summary.json
 export/
-├── master_full.svg
 ├── metropolis_map_base.svg
-├── metropolis_map_base.png（可选）
 ├── metropolis_district_geometry.svg
-├── metropolis_alignment_preview.svg
-├── metropolis_alignment_preview.png（可选）
+├── metropolis_historical_landmarks.svg
+├── metropolis_purchasable_blocks.svg
 ├── metropolis_brand_logo.svg（Figma 中存在 Brand 时）
-└── metropolis_brand_logo.png（Figma 中存在 Brand 且选择 PNG 时）
-layers/
+├── master_full.svg（仅完整归档模式）
+├── metropolis_map_base.png（仅完整归档模式且主动选择 PNG）
+├── metropolis_alignment_preview.svg（仅完整归档模式）
+└── metropolis_alignment_preview.png（仅完整归档模式且主动选择 PNG）
+layers/（仅完整归档模式）
 └── 每个顶层图层的全画框 SVG
 images/
 └── Figma 图片填充的原始文件
@@ -71,6 +72,8 @@ README_ZH_CN.txt（中文内容）
 插件尊重实际 Figma 顺序，不会重排图层。当前老板批准的顺序是：
 
 ```text
+08_PURCHASABLE_BLOCK_GEOMETRY
+07_HISTORICAL_LANDMARKS
 06_FRAME
 05_NON_BUILDING_ORNAMENT
 04_ROADS
@@ -79,4 +82,11 @@ README_ZH_CN.txt（中文内容）
 01_WATER
 ```
 
-`00_BRAND` 是地图之外的独立素材，可以保留在 Figma 中，也可以像当前项目一样单独交付。地图底图自动隐藏 `03_DISTRICT_GEOMETRY` 和可能存在的 `00_BRAND`；分区 SVG 只保留 `03_DISTRICT_GEOMETRY`；对齐预览显示分区但隐藏 Brand。SVG 是无固定输出像素限制的主要交付物；PNG 预览默认关闭，主动开启后若导出失败，插件会记录警告并继续生成 ZIP。
+`00_BRAND` 是地图之外的独立素材，可以保留在 Figma 中，也可以像当前项目一样单独交付。地图底图自动隐藏 `03_DISTRICT_GEOMETRY`、`07_HISTORICAL_LANDMARKS`、`08_PURCHASABLE_BLOCK_GEOMETRY` 和可能存在的 `00_BRAND`；三类运行时覆盖层分别导出，因而不会被烘焙到底图中。
+
+## 两种导出模式
+
+- **大地图快速交付（默认、推荐）**：保存完整结构 JSON、纯底图、街区、历史地标、可购买地块、Brand 和原始图片；跳过容易让超大画布卡住的整图 SVG、对齐合成预览、逐顶层重复 SVG 和 PNG。
+- **完整归档交付**：在快速交付内容之外，继续生成整图 SVG、对齐预览，并可生成逐顶层 SVG 和 PNG。只在需要长期归档或人工逐层对照时使用。
+
+历史地标中的插画、横幅和文字可以保持为三个子图层，但每座地标必须置于同一个稳定父级 Group/Frame 内。结构 JSON 会保存父子关系和精确坐标，历史地标 SVG 会保持实际叠放效果。
