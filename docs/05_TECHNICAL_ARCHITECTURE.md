@@ -808,13 +808,15 @@ landmark:<stable_id>
 
 ### 18.2 Figma 分层导出合同
 
-一键 ZIP 必须自动生成并保持完全相同的 `viewBox`、原点和变换：
+一键 ZIP 必须自动生成可无损恢复到同一主地图坐标系的生产文件：
 
 - `metropolis_map_base.svg`：仅 01—06 的正式底图；
-- `metropolis_historical_landmarks.svg`：仅 `07_HISTORICAL_LANDMARKS`；
+- `metropolis_district_geometry.svg`：仅 `03_DISTRICT_GEOMETRY`；
 - `metropolis_purchasable_blocks.svg`：仅 `08_PURCHASABLE_BLOCK_GEOMETRY`；
-- 快速模式以四份共享 `viewBox` 的生产 SVG 程序化叠加验证对齐；完整归档模式可额外生成 01—08 全层对齐预览；
-- 结构/manifest JSON：保存节点树、稳定名称、变换、颜色和警告。
+- `landmarks/*.svg`：快速模式把 `07_HISTORICAL_LANDMARKS` 的每个直接父组导成一个局部 SVG，保持该地标内部插画、横幅和文字的叠放；
+- `handoff/landmarks.json`：保存每座地标的稳定 ID、文件路径、相对主画框边界、变换与子图层关系；运行时据此将局部 SVG 放回主地图坐标；
+- 快速模式用共享主画框的底图、街区、地块 SVG，加地标清单坐标进行程序化叠加验证；完整归档模式才额外生成 `metropolis_historical_landmarks.svg`、01—08 全层对齐预览与完整重型结构；
+- 快速结构/manifest JSON 保存节点树、稳定名称、变换、颜色和警告，但不重复复制生产 SVG 已保存的重型 `vectorNetwork`/`vectorPaths`。
 
 老板只执行一次插件导出；拆分生产文件由插件自动完成。当前 Figma 尚未完成，因此这些新文件在收到老板最终包之前不得伪造或接入。
 

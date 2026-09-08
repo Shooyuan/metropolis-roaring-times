@@ -9,10 +9,14 @@ if (source.includes("MASTER_WIDTH") || source.includes("MASTER_HEIGHT") || sourc
 for (const requiredOutput of [
   "metropolis_map_base.svg",
   "metropolis_district_geometry.svg",
-  "metropolis_historical_landmarks.svg",
-  "metropolis_purchasable_blocks.svg"
+  "metropolis_purchasable_blocks.svg",
+  "handoff/landmarks.json",
+  "landmarks/"
 ]) {
   if (!source.includes(requiredOutput)) throw new Error(`快速交付缺少生产文件：${requiredOutput}`);
+}
+if (!source.includes("metropolis_historical_landmarks.svg")) {
+  throw new Error("完整归档模式缺少历史地标总 SVG");
 }
 
 function makeNode(name, type, bounds) {
@@ -120,15 +124,96 @@ if (vm.runInContext("includeLayerForMode(LANDMARK_LAYER, 'historical_landmarks')
   throw new Error("历史地标独立导出没有选中权威图层");
 }
 
-context.warningList = [];
-vm.runInContext("attemptFile('optional.png', '可选 PNG', async () => { throw new Error('too large'); }, warningList)", context)
-  .then((succeeded) => {
+const landmarkLayer = page.children.find((node) => node.name === "07_HISTORICAL_LANDMARKS");
+landmarkLayer.children = Array.from({ length: 100 }, (_, index) => {
+  const landmark = makeNode(`landmark_${String(index + 1).padStart(3, "0")}`, "GROUP", {
+    x: 500 + index * 10,
+    y: 800 + index * 12,
+    width: 240,
+    height: 300
+  });
+  const label = makeNode("title", "GROUP", { x: 510 + index * 10, y: 1020 + index * 12, width: 220, height: 50 });
+  const labelText = makeNode(`Landmark ${index + 1}`, "TEXT", { x: 530 + index * 10, y: 1030 + index * 12, width: 180, height: 20 });
+  labelText.characters = `Landmark ${index + 1}`;
+  label.children = [labelText];
+  labelText.parent = label;
+  const artwork = makeNode(`landmark_${index + 1}_artwork`, "RECTANGLE", { x: 520 + index * 10, y: 810 + index * 12, width: 200, height: 200 });
+  landmark.children = [label, artwork];
+  label.parent = landmark;
+  artwork.parent = landmark;
+  landmark.parent = landmarkLayer;
+  return landmark;
+});
+context.looseResult = loose;
+context.landmarkWarnings = [];
+const landmarkBatch = vm.runInContext("landmarkDescriptors(looseResult, landmarkWarnings)", context);
+if (landmarkBatch.length !== 100) throw new Error(`逐地标清单数量错误：${landmarkBatch.length}`);
+if (new Set(landmarkBatch.map((item) => item.file)).size !== 100) throw new Error("逐地标文件名不唯一");
+if (!landmarkBatch[0].relativeToMaster || !landmarkBatch[0].structure.children) {
+  throw new Error("逐地标清单没有保存地图坐标或子图层关系");
+}
+context.landmarkBatch = landmarkBatch;
+const landmarkManifest = vm.runInContext("buildLandmarkManifest(looseResult, landmarkBatch)", context);
+if (landmarkManifest.landmarkCount !== 100 || landmarkManifest.master.width !== loose.width) {
+  throw new Error("历史地标 manifest 缺少数量或主画布信息");
+}
+context.sampleLandmarkName = "st-paul-the-apostle-church";
+if (vm.runInContext("landmarkStableId(sampleLandmarkName)", context) !== "landmark_st_paul_the_apostle_church") {
+  throw new Error("Figma 地标名没有转换为稳定 snake_case 运行时 ID");
+}
+
+context.heavyVectorNode = makeNode("heavy", "VECTOR", { x: 0, y: 0, width: 1, height: 1 });
+context.heavyVectorNode.vectorPaths = [{ windingRule: "NONZERO", data: "M 0 0 L 1 1" }];
+context.heavyVectorNode.vectorNetwork = { vertices: [{ x: 0, y: 0 }], segments: [] };
+const compactNode = vm.runInContext("serializeNode(heavyVectorNode, null, false)", context);
+if ("vectorPaths" in compactNode || "vectorNetwork" in compactNode) {
+  throw new Error("快速模式结构树仍复制重型矢量数据");
+}
+const fullNode = vm.runInContext("serializeNode(heavyVectorNode, null, true)", context);
+if (!("vectorPaths" in fullNode) || !("vectorNetwork" in fullNode)) {
+  throw new Error("完整归档模式没有保留重型矢量数据");
+}
+
+async function runAsyncChecks() {
+  context.warningList = [];
+  const succeeded = await vm.runInContext("attemptFile('optional.png', '可选 PNG', async () => { throw new Error('too large'); }, warningList)", context);
     if (succeeded !== false || context.warningList.length !== 1 || !context.warningList[0].includes("继续生成")) {
       throw new Error("可选文件失败没有被降级为继续导出的警告");
     }
-    console.log("FIGMA_PLUGIN_CONTEXT_SMOKE_PASS");
-  })
-  .catch((error) => {
+
+  const messages = [];
+  figma.ui.postMessage = (message) => messages.push(message);
+  context.exportCalls = [];
+  vm.runInContext(`
+    exportContext = async function(_context, mode, format) {
+      exportCalls.push(mode + ':' + format);
+      return new Uint8Array([1, 2, 3]);
+    };
+    exportBrand = async function() { return null; };
+    exportLandmarkNode = async function(node) {
+      if (node.name === 'landmark_050') throw new Error('simulated landmark failure');
+      return new Uint8Array([4, 5, 6]);
+    };
+  `, context);
+  page.selection = [page.children[0]];
+  await vm.runInContext("runExport({mode:'fast',includeLayerSvg:true,includePngPreview:true})", context);
+
+  if (context.exportCalls.some((call) => call.startsWith("historical_landmarks:"))) {
+    throw new Error("快速模式仍调用历史地标总 SVG 导出");
+  }
+  const filePaths = messages.filter((message) => message.type === "file").map((message) => message.path);
+  if (!filePaths.includes("handoff/landmarks.json")) throw new Error("快速模式没有输出历史地标位置清单");
+  if (!filePaths.includes("landmarks/landmark_100.svg")) throw new Error("单个地标失败后没有继续导出后续地标");
+  if (filePaths.includes("landmarks/landmark_050.svg")) throw new Error("失败地标不应产生损坏文件");
+  if (filePaths.includes("export/metropolis_historical_landmarks.svg")) throw new Error("快速模式不应输出历史地标总 SVG");
+  const complete = messages.find((message) => message.type === "complete");
+  if (!complete || !complete.warnings.some((warning) => warning.includes("landmark_050"))) {
+    throw new Error("单个地标失败没有进入最终警告汇总");
+  }
+  console.log("FIGMA_PLUGIN_CONTEXT_SMOKE_PASS");
+}
+
+runAsyncChecks().catch((error) => {
     console.error(error);
     process.exitCode = 1;
   });

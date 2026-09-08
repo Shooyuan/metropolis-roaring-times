@@ -30,7 +30,7 @@
 </head>
 <body>
   <h1>Metropolis 一键交付</h1>
-  <p class="subtitle">选中地图主画框，或八个地图顶层图层中的任意一层，然后按实际矢量画布导出图层关系、精确位置、颜色、矢量、原始图片和网页制作素材。</p>
+  <p class="subtitle">选中地图主画框，或八个地图顶层图层中的任意一层，然后按实际矢量画布导出图层关系、精确位置、颜色、矢量、原始图片和网页制作素材。历史地标会逐项导出，避免整层卡住。</p>
 
   <section class="card status">
     <span id="status-dot" class="dot"></span>
@@ -38,8 +38,8 @@
   </section>
 
   <section class="card">
-    <label><input id="fast-mode" name="export-mode" type="radio" value="fast" checked> <span><strong>大地图快速交付（推荐）</strong><br>跳过最耗时的整图与重复合成，只导出结构、纯底图、街区、历史地标、可购买地块和原始图片。</span></label>
-    <label style="margin-top:10px"><input id="full-mode" name="export-mode" type="radio" value="full"> <span><strong>完整归档交付</strong><br>额外导出整图、对齐预览和可选的逐层文件，耗时明显更长。</span></label>
+    <label><input id="fast-mode" name="export-mode" type="radio" value="fast" checked> <span><strong>大地图快速交付（推荐）</strong><br>历史地标按父组逐项导出；跳过最耗时的整图、地标总图与重复合成。</span></label>
+    <label style="margin-top:10px"><input id="full-mode" name="export-mode" type="radio" value="full"> <span><strong>完整归档交付</strong><br>额外导出整图、历史地标总图、对齐预览和可选逐层文件，耗时明显更长。</span></label>
   </section>
 
   <section class="card" id="full-options">

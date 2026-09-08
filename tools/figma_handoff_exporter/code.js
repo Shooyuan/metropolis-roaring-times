@@ -28,6 +28,11 @@ function normalizeName(value) {
     .replace(/^_+|_+$/g, "") || "unnamed";
 }
 
+function landmarkStableId(value) {
+  const normalized = normalizeName(value).replace(/[.-]+/g, "_");
+  return normalized.startsWith("landmark_") ? normalized : `landmark_${normalized}`;
+}
+
 function toPlain(value, seen, depth) {
   if (depth > 10) return "[maximum depth]";
   if (value === null || value === undefined) return value;
@@ -102,7 +107,8 @@ function styledText(node) {
   return result;
 }
 
-function serializeNode(node, parentAbsolute) {
+function serializeNode(node, parentAbsolute, includeHeavyGeometry) {
+  const keepHeavyGeometry = includeHeavyGeometry !== false;
   const item = {
     id: node.id,
     name: node.name,
@@ -126,12 +132,12 @@ function serializeNode(node, parentAbsolute) {
   }
   const text = styledText(node);
   if (text) item.text = text;
-  if ("vectorPaths" in node) item.vectorPaths = safeProperty(node, "vectorPaths");
-  if ("vectorNetwork" in node) item.vectorNetwork = safeProperty(node, "vectorNetwork");
+  if (keepHeavyGeometry && "vectorPaths" in node) item.vectorPaths = safeProperty(node, "vectorPaths");
+  if (keepHeavyGeometry && "vectorNetwork" in node) item.vectorNetwork = safeProperty(node, "vectorNetwork");
   if ("booleanOperation" in node) item.booleanOperation = safeProperty(node, "booleanOperation");
   if ("componentProperties" in node) item.componentProperties = safeProperty(node, "componentProperties");
   if ("reactions" in node) item.reactions = safeProperty(node, "reactions");
-  if ("children" in node) item.children = node.children.map((child) => serializeNode(child, parentAbsolute));
+  if ("children" in node) item.children = node.children.map((child) => serializeNode(child, parentAbsolute, keepHeavyGeometry));
   return item;
 }
 
@@ -151,6 +157,18 @@ function collectImageHashes(node, hashes) {
     if (paint && paint.type === "IMAGE" && paint.imageHash) hashes.add(paint.imageHash);
   }
   if ("children" in node) for (const child of node.children) collectImageHashes(child, hashes);
+}
+
+function collectContextImageHashes(context) {
+  const hashes = new Set();
+  if (context.masterNode) {
+    collectImageHashes(context.masterNode, hashes);
+  } else {
+    for (const layer of context.layers) collectImageHashes(layer, hashes);
+  }
+  const brand = findBrandNode(context);
+  if (brand && brand !== context.masterNode && !context.layers.includes(brand)) collectImageHashes(brand, hashes);
+  return hashes;
 }
 
 function bytesToHex(bytes, limit) {
@@ -342,6 +360,112 @@ function relativeTransformFor(node, bounds) {
   ];
 }
 
+function relativeBoundsFor(node, originBounds) {
+  const bounds = nodeBounds(node);
+  if (!bounds || !originBounds) return null;
+  return {
+    x: bounds.x - originBounds.x,
+    y: bounds.y - originBounds.y,
+    width: bounds.width,
+    height: bounds.height
+  };
+}
+
+function countDescendantTypes(node, counts) {
+  counts[node.type] = (counts[node.type] || 0) + 1;
+  if ("children" in node) {
+    for (const child of node.children) countDescendantTypes(child, counts);
+  }
+}
+
+function serializeLandmarkNode(node, masterBounds, landmarkBounds) {
+  const summary = {
+    id: node.id,
+    name: node.name,
+    type: node.type,
+    visible: safeProperty(node, "visible"),
+    opacity: safeProperty(node, "opacity"),
+    relativeToMaster: relativeBoundsFor(node, masterBounds),
+    relativeToLandmark: relativeBoundsFor(node, landmarkBounds),
+    relativeTransformToMaster: relativeTransformFor(node, masterBounds)
+  };
+  if (node.type === "TEXT") {
+    summary.text = {
+      characters: node.characters,
+      fontName: safeProperty(node, "fontName"),
+      fontSize: safeProperty(node, "fontSize"),
+      textAlignHorizontal: safeProperty(node, "textAlignHorizontal"),
+      lineHeight: safeProperty(node, "lineHeight"),
+      letterSpacing: safeProperty(node, "letterSpacing")
+    };
+  }
+  if ("children" in node) {
+    summary.children = node.children.map((child) => serializeLandmarkNode(child, masterBounds, landmarkBounds));
+  }
+  return summary;
+}
+
+function landmarkDescriptors(context, warnings) {
+  const layer = findLayer(context, LANDMARK_LAYER);
+  if (!layer || !("children" in layer)) return [];
+  const usedFileStems = new Set();
+  return layer.children.map((node, index) => {
+    const stableId = landmarkStableId(node.name);
+    let fileStem = stableId;
+    let suffix = 2;
+    while (usedFileStems.has(fileStem)) fileStem = `${stableId}_${suffix++}`;
+    if (fileStem !== stableId) {
+      warnings.push(`历史地标名称“${node.name}”重复；交付文件暂命名为 ${fileStem}.svg，请在接入前检查稳定 ID。`);
+    }
+    usedFileStems.add(fileStem);
+    const bounds = nodeBounds(node);
+    const typeCounts = {};
+    countDescendantTypes(node, typeCounts);
+    if (!bounds) warnings.push(`历史地标“${node.name}”没有可用边界，无法保证地图定位。`);
+    if (!("children" in node)) warnings.push(`历史地标“${node.name}”不是 Group/Frame，建议把插画与横幅放入同一个父组。`);
+    return {
+      index,
+      node,
+      sourceName: node.name,
+      stableId,
+      file: `landmarks/${fileStem}.svg`,
+      relativeToMaster: relativeBoundsFor(node, context.bounds),
+      relativeTransformToMaster: relativeTransformFor(node, context.bounds),
+      typeCounts,
+      structure: serializeLandmarkNode(node, context.bounds, bounds)
+    };
+  });
+}
+
+function buildLandmarkManifest(context, descriptors) {
+  return {
+    format: "metropolis_landmark_handoff",
+    formatVersion: 1,
+    sourceLayer: LANDMARK_LAYER,
+    master: {
+      width: context.width,
+      height: context.height,
+      absoluteBoundingBox: toPlain(context.bounds, new Set(), 0)
+    },
+    landmarkCount: descriptors.length,
+    landmarks: descriptors.map((descriptor) => ({
+      index: descriptor.index,
+      sourceName: descriptor.sourceName,
+      stableId: descriptor.stableId,
+      file: descriptor.file,
+      relativeToMaster: descriptor.relativeToMaster,
+      relativeTransformToMaster: descriptor.relativeTransformToMaster,
+      typeCounts: descriptor.typeCounts,
+      structure: descriptor.structure
+    }))
+  };
+}
+
+async function exportLandmarkNode(node) {
+  if (!node || !("exportAsync" in node)) throw new Error("该节点不支持导出");
+  return await node.exportAsync({ format: "SVG", svgIdAttribute: true, svgOutlineText: false, svgSimplifyStroke: false });
+}
+
 function createContextClone(context, name) {
   if (context.kind === "FRAME") {
     const clone = context.masterNode.clone();
@@ -517,9 +641,13 @@ async function runExport(options) {
   const warnings = [];
   const masterBounds = context.bounds;
   const timestamp = new Date().toISOString();
+  const landmarks = landmarkDescriptors(context, warnings);
+  const landmarkManifest = buildLandmarkManifest(context, landmarks);
+  const hashes = collectContextImageHashes(context);
+  const includeHeavyGeometry = exportOptions.mode === "full";
   const topLayers = context.layers.map((node, index) => ({ index, id: node.id, name: node.name, type: node.type, visible: node.visible }));
   const tree = context.masterNode
-    ? serializeNode(context.masterNode, masterBounds)
+    ? serializeNode(context.masterNode, masterBounds, includeHeavyGeometry)
     : {
         id: context.id,
         name: context.name,
@@ -532,12 +660,13 @@ async function runExport(options) {
           rotation: 0,
           absoluteBoundingBox: toPlain(masterBounds, new Set(), 0)
         },
-        children: context.layers.map((node) => serializeNode(node, masterBounds))
+        children: context.layers.map((node) => serializeNode(node, masterBounds, includeHeavyGeometry))
       };
   const manifest = {
     format: "metropolis_figma_handoff",
     formatVersion: 1,
     exportMode: exportOptions.mode,
+    structureDetail: includeHeavyGeometry ? "full" : "compact_svg_geometry_external",
     exportedAt: timestamp,
     fileName: figma.root.name,
     page: { id: figma.currentPage.id, name: figma.currentPage.name },
@@ -553,17 +682,23 @@ async function runExport(options) {
     topLayers,
     warnings,
     pages: figma.root.children.map((page) => ({ id: page.id, name: page.name, type: page.type })),
-    tree,
-    currentPageTree: figma.currentPage.children.map((node) => serializeNode(node, masterBounds))
+    tree
   };
+  if (includeHeavyGeometry) {
+    manifest.currentPageTree = figma.currentPage.children.map((node) => serializeNode(node, masterBounds, true));
+  }
 
-  const fullStepCount = exportOptions.includeMasterFull && exportOptions.includeAlignmentPreview ? 2 : 0;
+  const fullStepCount = (exportOptions.includeMasterFull ? 1 : 0) + (exportOptions.includeAlignmentPreview ? 1 : 0);
   const pngStepCount = exportOptions.includePngPreview ? 2 : 0;
   const layerStepCount = exportOptions.includeLayerSvg ? context.layers.length : 0;
-  const total = 6 + fullStepCount + pngStepCount + layerStepCount;
+  const landmarkStepCount = findLayer(context, LANDMARK_LAYER)
+    ? (exportOptions.mode === "fast" ? landmarks.length : 1)
+    : 0;
+  const total = 5 + fullStepCount + pngStepCount + layerStepCount + landmarkStepCount + hashes.size;
   let step = 0;
   progress("保存完整图层树和样式", ++step, total);
   postText("handoff/figma_document.json", JSON.stringify(manifest, null, 2));
+  postText("handoff/landmarks.json", JSON.stringify(landmarkManifest, null, 2));
 
   if (exportOptions.includeMasterFull) {
     progress("导出完整主画框 SVG", ++step, total);
@@ -581,8 +716,24 @@ async function runExport(options) {
   progress("导出分区几何 SVG", ++step, total);
   await attemptNamedLayerFile(context, DISTRICT_LAYER, "export/metropolis_district_geometry.svg", "分区几何 SVG 导出", "district_geometry", warnings);
 
-  progress("导出历史地标 SVG", ++step, total);
-  await attemptNamedLayerFile(context, LANDMARK_LAYER, "export/metropolis_historical_landmarks.svg", "历史地标 SVG 导出", "historical_landmarks", warnings);
+  if (findLayer(context, LANDMARK_LAYER)) {
+    if (exportOptions.mode === "fast") {
+      if (!landmarks.length) warnings.push(`${LANDMARK_LAYER} 中没有可逐项导出的地标父组。`);
+      for (let index = 0; index < landmarks.length; index += 1) {
+        const landmark = landmarks[index];
+        progress(`逐项导出历史地标 ${index + 1}/${landmarks.length}：${landmark.stableId}`, ++step, total);
+        await attemptFile(
+          landmark.file,
+          `历史地标 ${landmark.stableId} SVG 导出`,
+          () => exportLandmarkNode(landmark.node),
+          warnings
+        );
+      }
+    } else {
+      progress("完整模式：导出历史地标总 SVG", ++step, total);
+      await attemptNamedLayerFile(context, LANDMARK_LAYER, "export/metropolis_historical_landmarks.svg", "历史地标总 SVG 导出", "historical_landmarks", warnings);
+    }
+  }
 
   progress("导出可购买地块 SVG", ++step, total);
   await attemptNamedLayerFile(context, PLOT_LAYER, "export/metropolis_purchasable_blocks.svg", "可购买地块 SVG 导出", "purchasable_blocks", warnings);
@@ -597,8 +748,8 @@ async function runExport(options) {
     await attemptFile("export/metropolis_alignment_preview.png", "地图对齐预览 PNG 导出", () => exportContext(context, "alignment_preview", "PNG"), warnings);
   }
 
-  const brand = await exportBrand(context, exportOptions.includePngPreview);
   progress("导出独立 Brand", ++step, total);
+  const brand = await exportBrand(context, exportOptions.includePngPreview);
   if (brand) {
     if (brand.svg) postFile("export/metropolis_brand_logo.svg", brand.svg);
     if (brand.png) postFile("export/metropolis_brand_logo.png", brand.png);
@@ -619,11 +770,9 @@ async function runExport(options) {
     }
   }
 
-  const hashes = new Set();
-  collectImageHashes(figma.currentPage, hashes);
   let imageIndex = 0;
   for (const hash of hashes) {
-    progress(`提取原始图片 ${++imageIndex}/${hashes.size}`, step, total);
+    progress(`提取主地图原始图片 ${++imageIndex}/${hashes.size}`, ++step, total);
     const image = figma.getImageByHash(hash);
     if (!image) continue;
     try {
@@ -643,18 +792,21 @@ async function runExport(options) {
     `识别方式：${context.kind === "FRAME" ? "外层 Frame" : "并列顶层图层（虚拟主画框）"}`,
     `导出模式：${exportOptions.mode === "fast" ? "大地图快速交付" : "完整归档交付"}`,
     "",
-    "handoff/figma_document.json 保存完整图层树、父子关系、顺序、位置、尺寸、变换、颜色、填充、描边、效果、文字和矢量路径。",
-    "export/ 保存网页制作直接使用的纯底图、分区、历史地标、可购买地块和 Brand。",
     exportOptions.mode === "fast"
-      ? "快速交付跳过完整主画框 SVG、对齐合成预览和重复的逐顶层 SVG，以避免超大地图长时间卡住。"
-      : "完整归档交付额外保存完整主画框、对齐预览和位于统一主画框坐标中的逐顶层 SVG。",
-    "images/ 保存 Figma 中引用的原始图片填充。",
+      ? "handoff/figma_document.json 保存紧凑图层树、父子关系、顺序、位置、尺寸、变换、颜色、填充、描边、效果和文字；精确矢量路径保存在生产 SVG 中。"
+      : "handoff/figma_document.json 保存完整重型图层树、父子关系、顺序、位置、尺寸、变换、颜色、填充、描边、效果、文字和矢量路径。",
+    "export/ 保存网页制作直接使用的纯底图、分区、可购买地块和 Brand。",
+    "handoff/landmarks.json 保存每座历史地标在主画布中的精确位置、变换、子图层关系及对应文件。",
+    exportOptions.mode === "fast"
+      ? "快速交付把历史地标拆为 landmarks/ 下的一地标一 SVG，并跳过完整主画框、地标总 SVG、对齐合成预览和重复的逐顶层 SVG，以避免超大地图长时间卡住。"
+      : "完整归档交付保存历史地标总 SVG，并额外保存完整主画框、对齐预览和位于统一主画框坐标中的逐顶层 SVG。",
+    "images/ 只保存当前主地图及独立 Brand 实际引用的原始图片填充，并按图片哈希去重。",
     "",
     "注意：此交付包不能替代 .fig 的版本历史、评论和协作记录；请继续保存本地 .fig 副本。",
     warnings.length ? `\n警告：\n- ${warnings.join("\n- ")}` : "\n检查未产生警告。"
   ].join("\n");
   postText("README_ZH_CN.txt", readme);
-  postText("handoff/export_summary.json", JSON.stringify({ exportMode: exportOptions.mode, warnings, imageCount: hashes.size, topLayerCount: context.layers.length, sourceKind: context.kind }, null, 2));
+  postText("handoff/export_summary.json", JSON.stringify({ exportMode: exportOptions.mode, warnings, imageCount: hashes.size, landmarkCount: landmarks.length, topLayerCount: context.layers.length, sourceKind: context.kind }, null, 2));
   figma.ui.postMessage({ type: "complete", warnings, fileName: `metropolis_handoff_${Date.now()}.zip` });
 }
 

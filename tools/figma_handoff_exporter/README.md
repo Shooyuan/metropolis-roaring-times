@@ -4,13 +4,13 @@
 
 ## 插件保存什么
 
-- 当前页面完整图层树、主画框图层树、父子关系和图层顺序，包括主画框外的 Brand 或参考节点；
+- 快速模式保存主画框的紧凑图层树、父子关系和图层顺序；完整模式另存当前页面的完整重型矢量结构；
 - 每个节点的名称、类型、显示/锁定状态；
 - 相对/绝对坐标、尺寸、旋转和变换矩阵；
 - 填充、描边、透明度、渐变、混合模式、圆角和效果；
 - 文字内容、分段文字样式和矢量路径；
-- Figma 中使用的原始图片填充；
-- 网页制作需要的纯底图 SVG、分区 SVG、历史地标 SVG、可购买地块 SVG，以及可选的完整地图、对齐预览、PNG、Brand SVG/PNG；
+- 当前主地图和独立 Brand 实际使用的原始图片填充，并按图片哈希去重；
+- 网页制作需要的纯底图 SVG、分区 SVG、逐地标 SVG、地标坐标清单、可购买地块 SVG，以及可选的完整地图、历史地标总图、对齐预览、PNG、Brand SVG/PNG；
 - 选择完整归档模式时，每个顶层图层在同一主画框坐标中的独立 SVG。
 
 插件不会联网，也不会修改项目源文件。导出时会创建临时副本，完成单项导出后立即删除。
@@ -45,21 +45,26 @@
 ```text
 handoff/
 ├── figma_document.json
+├── landmarks.json
 └── export_summary.json
 export/
 ├── metropolis_map_base.svg
 ├── metropolis_district_geometry.svg
-├── metropolis_historical_landmarks.svg
 ├── metropolis_purchasable_blocks.svg
 ├── metropolis_brand_logo.svg（Figma 中存在 Brand 时）
 ├── master_full.svg（仅完整归档模式）
+├── metropolis_historical_landmarks.svg（仅完整归档模式）
 ├── metropolis_map_base.png（仅完整归档模式且主动选择 PNG）
 ├── metropolis_alignment_preview.svg（仅完整归档模式）
 └── metropolis_alignment_preview.png（仅完整归档模式且主动选择 PNG）
+landmarks/（快速模式）
+├── landmark_st_paul_the_apostle_church.svg
+├── landmark_west_side_ymca.svg
+└── 每个历史地标父组一个局部 SVG
 layers/（仅完整归档模式）
 └── 每个顶层图层的全画框 SVG
 images/
-└── Figma 图片填充的原始文件
+└── 主地图和独立 Brand 引用的原始图片
 README_ZH_CN.txt（中文内容）
 ```
 
@@ -86,7 +91,20 @@ README_ZH_CN.txt（中文内容）
 
 ## 两种导出模式
 
-- **大地图快速交付（默认、推荐）**：保存完整结构 JSON、纯底图、街区、历史地标、可购买地块、Brand 和原始图片；跳过容易让超大画布卡住的整图 SVG、对齐合成预览、逐顶层重复 SVG 和 PNG。
-- **完整归档交付**：在快速交付内容之外，继续生成整图 SVG、对齐预览，并可生成逐顶层 SVG 和 PNG。只在需要长期归档或人工逐层对照时使用。
+- **大地图快速交付（默认、推荐）**：保存紧凑结构 JSON、纯底图、街区、逐地标 SVG、地标坐标清单、可购买地块、Brand 和主地图原始图片；跳过容易让超大画布卡住的整图 SVG、历史地标总 SVG、对齐合成预览、逐顶层重复 SVG 和 PNG。精确矢量几何由各生产 SVG 保存，JSON 不再重复复制重型 `vectorNetwork`/`vectorPaths`。
+- **完整归档交付**：生成历史地标总 SVG，并继续生成整图 SVG、对齐预览、完整重型结构；还可生成逐顶层 SVG 和 PNG。只在需要长期归档或人工逐层对照时使用。
 
-历史地标中的插画、横幅和文字可以保持为三个子图层，但每座地标必须置于同一个稳定父级 Group/Frame 内。结构 JSON 会保存父子关系和精确坐标，历史地标 SVG 会保持实际叠放效果。
+历史地标中的插画、横幅和文字可以保持为三个子图层，但每座地标必须置于同一个稳定父级 Group/Frame 内。`handoff/landmarks.json` 保存父子关系、相对主画框坐标、尺寸和变换；对应的局部 SVG 保持该父组内的实际叠放效果。网页以 JSON 坐标放置局部 SVG，不依赖一张超大透明画布。
+
+父组、插画和横幅的推荐命名为：
+
+```text
+07_HISTORICAL_LANDMARKS
+└── landmark_st_paul_the_apostle_church
+    ├── label
+    │   ├── label_text
+    │   └── label_frame
+    └── illustration
+```
+
+现有 `st-paul-the-apostle-church`、`title`、具体文字名和 `Rectangle 6` 不会导致卡顿，也不会阻止导出；插件会把父组名规范化为 `landmark_st_paul_the_apostle_church` 一类的运行时候选 ID，并在清单中同时保留原始 Figma 名称。改名只是便于后续检查，最终 ID 仍在接入验收时由老板审批。真正影响速度的是把所有含位图的地标一次性导成主画布尺寸的总 SVG，因此快速模式已经取消该步骤。
