@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="363" height="253" viewBox="0 0 363 253" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-1-inside-1_722_30" fill="white">
+<path d="M0 218H363L343.925 235.5L363 253H0L18.4968 235.5L0 218Z" />
+</mask>
+<path d="M0 218H363L343.925 235.5L363 253H0L18.4968 235.5L0 218Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-1-inside-1_722_30)" />
+</g>
+<text id="Central Branch YMCA_2" fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="51.5938" y="244.302">Central Branch YMCA</tspan></text>
+</g>
+<defs><pattern id="pattern0_722_30" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_722_30" transform="matrix(0.000380952 0 0 0.000244648 0 -0.00103976)" />
+</pattern>
+</defs></svg>

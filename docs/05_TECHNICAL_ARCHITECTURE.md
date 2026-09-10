@@ -818,7 +818,18 @@ landmark:<stable_id>
 - 快速模式用共享主画框的底图、街区、地块 SVG，加地标清单坐标进行程序化叠加验证；完整归档模式才额外生成 `metropolis_historical_landmarks.svg`、01—08 全层对齐预览与完整重型结构；
 - 快速结构/manifest JSON 保存节点树、稳定名称、变换、颜色和警告，但不重复复制生产 SVG 已保存的重型 `vectorNetwork`/`vectorPaths`。
 
-老板只执行一次插件导出；拆分生产文件由插件自动完成。当前 Figma 尚未完成，因此这些新文件在收到老板最终包之前不得伪造或接入。
+老板只执行一次插件导出；拆分生产文件由插件自动完成。插件 ZIP 作为不可替代的源交付归档，不由运行时直接读取。
+
+### 18.3 轻量运行素材构建
+
+`tools/map_handoff_processor/` 是插件 ZIP 到运行素材的唯一转换入口：
+
+- `metropolis_map_base.svg`、街区 SVG 和地块路径保持原始主画布 `viewBox`，不得改变几何；
+- 地标内嵌 PNG 从重复 SVG 中拆出，按 Figma 图像节点的实际显示宽高生成透明 `WebP`，最长边不超过 2048 像素；横幅保留为独立局部 SVG；
+- `landmarks.json` 保存运行时稳定 ID、插画与横幅文件、主地图坐标、源图片哈希和像素尺寸；
+- `plots.json` 保存地理顺序 ID、源节点、几何哈希、价格层级和固定基础地价；
+- 地价采用 `SHA-256(seed | tier | svg_path_data)` 映射到相应区间内的 `$500` 步长。它是内容构建随机，不是运行时随机；
+- 源 ZIP 位于 Git 忽略的 `assets/source_handoffs/`，派生运行包进入版本控制。网页或 Godot 只读取派生包，不读取 1GB 级源 ZIP。
 
 No test relies on animation timing, uncontrolled system time or unseeded randomness.
 

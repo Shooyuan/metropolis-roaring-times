@@ -219,15 +219,17 @@ If the player wins a government auction without one remaining action point, the 
 - A successful purchase deducts cash, transfers ownership, records acquisition cost basis, consumes one action point and creates one ledger transaction.
 - If any part fails, no cash, ownership or action point changes.
 
-### 6.1 Opening Land-Price Distribution
+### 6.1 开局地价层级与精确价格
 
-The vertical-slice balance target divides purchasable opening plots into three bands:
+老板在 Figma `08_PURCHASABLE_BLOCK_GEOMETRY` 中把每个地块放入一个且仅一个价格父组。组名是内容输入，不是临时视觉命名：
 
-- entry: `$6,000–$10,000`, approximately one third;
-- middle: `$11,000–$18,000`, approximately one half;
-- premium: `$19,000–$26,000`, the remaining plots.
+- `cheap`：`$6,000–$10,000`；
+- `medium`：`$11,000–$18,000`；
+- `expensive`：`$19,000–$26,000`。
 
-Exact plot prices are deterministic content data. The distribution must let a player complete an entry purchase plus Standard Apartment while retaining meaningful liquidity.
+精确基础地价由内容构建工具在相应闭区间内按 `$500` 步长确定。算法以固定版本种子、价格层级和该地块 SVG 路径共同计算，因此相同交付包必定产生相同结果。生成结果写入 `plots.json` 并进入版本控制；新开一局、读档或刷新页面都不得重新随机。经济周期、交通邻接和后续市场重估在此基础价上计算，不得反向改变 Figma 的价格层级。
+
+当前 `v004` 交付包含 5 个 `cheap`、23 个 `medium`、2 个 `expensive` 地块。这个比例来自老板实际绘制和分组，不要求强行调整为固定比例。开局平衡仍须保证玩家能完成一次便宜地块购买和 Standard Apartment 建造后保留有意义的流动资金。
 
 ### 6.2 Brokered Property Sale
 

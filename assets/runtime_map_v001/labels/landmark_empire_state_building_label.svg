@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="355" height="350" viewBox="0 0 355 350" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-2-inside-1_564_25" fill="white">
+<path d="M0 315H355L336.346 332.5L355 350H0L18.0892 332.5L0 315Z" />
+</mask>
+<path d="M0 315H355L336.346 332.5L355 350H0L18.0892 332.5L0 315Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-2-inside-1_564_25)" />
+</g>
+<text id="Empire State Building_3" fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="51" y="343.302">Empire State Building</tspan></text>
+</g>
+<defs><pattern id="pattern0_564_25" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_564_25" transform="matrix(0.000976562 0 0 0.000652072 0 -0.000791139)" />
+</pattern>
+</defs></svg>

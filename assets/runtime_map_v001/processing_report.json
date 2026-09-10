@@ -1,0 +1,99 @@
+{
+  "source": {
+    "file": "metropolis_handoff_1788840097378.zip",
+    "sha256": "cd9102c32e9162731248f86e732aa067b7e66470b459fbf1bef804ef9b312873",
+    "bytes": 1258748423,
+    "exportMode": "fast",
+    "warnings": []
+  },
+  "output": {
+    "directory": "runtime_map_v001",
+    "bytes": 17210383,
+    "reductionPercent": 98.63,
+    "fileCount": 111
+  },
+  "landmarks": {
+    "count": 52,
+    "rawPngBytes": 538361943,
+    "optimizedWebpBytes": 15687246,
+    "imageReductionPercent": 97.09,
+    "normalizedIds": [
+      {
+        "source": "manhattan_bridge_transparent",
+        "runtime": "landmark_manhattan_bridge"
+      },
+      {
+        "source": "american_seamens_institute_transparent",
+        "runtime": "landmark_american_seamens_institute"
+      },
+      {
+        "source": "St. Anthony",
+        "runtime": "landmark_st_anthony"
+      },
+      {
+        "source": "St. Patrick’s Cathedral",
+        "runtime": "landmark_st_patricks_cathedral"
+      },
+      {
+        "source": "St. Thomas Church",
+        "runtime": "landmark_st_thomas_church"
+      },
+      {
+        "source": "Little Ch. Around the Corner",
+        "runtime": "landmark_little_church_around_the_corner"
+      }
+    ]
+  },
+  "plots": {
+    "count": 30,
+    "tierCounts": {
+      "cheap": 5,
+      "medium": 23,
+      "expensive": 2
+    },
+    "pricesByTier": {
+      "cheap": [
+        9000,
+        9000,
+        8500,
+        9000,
+        7000
+      ],
+      "medium": [
+        12500,
+        16000,
+        11500,
+        16500,
+        16500,
+        16500,
+        16000,
+        15000,
+        17500,
+        16500,
+        13500,
+        18000,
+        17000,
+        11000,
+        17500,
+        14000,
+        14000,
+        14000,
+        13000,
+        12500,
+        15000,
+        14000,
+        11500
+      ],
+      "expensive": [
+        19000,
+        21500
+      ]
+    }
+  },
+  "knownFollowUp": [
+    "地标横幅 SVG 仍声明 Jacquard 24；接入网页前须随项目提供该字体或由老板批准替代字体。",
+    "仓库中的现有 .fig 本地副本早于本次 ZIP；老板仍须保存与 v004 内容同步的新版本化 .fig 快照。",
+    "本阶段不修改现有网页；alignment_review.html 只用于离线位置审查。",
+    "地块价格是内容构建时固定生成，不在每局开始时重新随机。"
+  ]
+}

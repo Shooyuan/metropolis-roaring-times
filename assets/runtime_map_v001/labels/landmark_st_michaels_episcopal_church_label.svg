@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="278" height="391" viewBox="0 0 278 391" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-2-inside-1_704_134" fill="white">
+<path d="M0 327H278L263.392 359L278 391H0L14.1656 359L0 327Z" />
+</mask>
+<path d="M0 327H278L263.392 359L278 391H0L14.1656 359L0 327Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-2-inside-1_704_134)" />
+</g>
+<text id="ST Michaels Episcopal Church" fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="68.09" y="352.302">ST Michaels </tspan><tspan x="41.6525" y="384.302">Episcopal Church</tspan></text>
+</g>
+<defs><pattern id="pattern0_704_134" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_704_134" transform="matrix(0.000957854 0 0 0.000664458 0 -0.000668772)" />
+</pattern>
+</defs></svg>

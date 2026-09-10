@@ -1,0 +1,492 @@
+{
+  "format": "metropolis_runtime_plots",
+  "formatVersion": 1,
+  "master": {
+    "id": "329:2",
+    "name": "Frame 1",
+    "sourceKind": "FRAME",
+    "width": 10334,
+    "height": 14101,
+    "rotation": 0,
+    "absoluteBoundingBox": {
+      "x": -1457.85986328125,
+      "y": -9932,
+      "width": 10334,
+      "height": 14101
+    }
+  },
+  "idOrder": "north_to_south_then_west_to_east",
+  "priceGeneration": {
+    "timing": "content_build_time",
+    "algorithm": "sha256(seed|tier|svg_path_data) modulo inclusive $500 steps",
+    "seed": "metropolis_map_v001_price_seed_2026_09_08",
+    "bands": {
+      "cheap": {
+        "min": 6000,
+        "max": 10000
+      },
+      "medium": {
+        "min": 11000,
+        "max": 18000
+      },
+      "expensive": {
+        "min": 19000,
+        "max": 26000
+      }
+    },
+    "step": 500
+  },
+  "plotCount": 30,
+  "plots": [
+    {
+      "sourceNodeId": "732:76",
+      "sourceName": "27",
+      "sourceSvgId": "27",
+      "priceTier": "cheap",
+      "bounds": {
+        "x": 3235.7468,
+        "y": 4863.2446,
+        "width": 301.0176,
+        "height": 692.7556
+      },
+      "geometrySha256": "4d9e84c8c32e73fe431466276776e7263c5a8c4d5b971dce453d2af689f1377b",
+      "id": "plot_001",
+      "basePrice": 9000
+    },
+    {
+      "sourceNodeId": "732:80",
+      "sourceName": "29",
+      "sourceSvgId": "29",
+      "priceTier": "cheap",
+      "bounds": {
+        "x": 3054.323,
+        "y": 4865.5,
+        "width": 163.4668,
+        "height": 690.5
+      },
+      "geometrySha256": "0d345eea41df0457090bbd764528e5b9ca64aeb9c2ecf88806291d68550fd0be",
+      "id": "plot_002",
+      "basePrice": 9000
+    },
+    {
+      "sourceNodeId": "732:78",
+      "sourceName": "28",
+      "sourceSvgId": "28",
+      "priceTier": "cheap",
+      "bounds": {
+        "x": 3233.0466,
+        "y": 4926.499,
+        "width": 111.5213,
+        "height": 629.501
+      },
+      "geometrySha256": "d069169526f51117ed87d39afcf8f9df34e54d4eaffafaf0095ce6ebd03e9c2f",
+      "id": "plot_003",
+      "basePrice": 8500
+    },
+    {
+      "sourceNodeId": "732:74",
+      "sourceName": "26",
+      "sourceSvgId": "26",
+      "priceTier": "cheap",
+      "bounds": {
+        "x": 3551.658,
+        "y": 4931.5684,
+        "width": 167.7021,
+        "height": 624.4316
+      },
+      "geometrySha256": "40801c5a148fd6392b5438249bf371e851989f3bb00d1d973d0b4da1a91aaf04",
+      "id": "plot_004",
+      "basePrice": 9000
+    },
+    {
+      "sourceNodeId": "732:82",
+      "sourceName": "30",
+      "sourceSvgId": "30",
+      "priceTier": "cheap",
+      "bounds": {
+        "x": 3739.3601,
+        "y": 5258.6816,
+        "width": 122.083,
+        "height": 297.3184
+      },
+      "geometrySha256": "7f834cfbfaa06b02764aeed0012ec755de5a905fb549c2b78badd7aa758b0112",
+      "id": "plot_005",
+      "basePrice": 7000
+    },
+    {
+      "sourceNodeId": "732:70",
+      "sourceName": "24",
+      "sourceSvgId": "24",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 3294.3591,
+        "y": 10811.5,
+        "width": 149.0654,
+        "height": 320.5
+      },
+      "geometrySha256": "392fab3ca88f5ad754edbcdc7f9e7ecfd57fc34e1df31b2771faac2ca76648c4",
+      "id": "plot_006",
+      "basePrice": 12500
+    },
+    {
+      "sourceNodeId": "732:72",
+      "sourceName": "25",
+      "sourceSvgId": "25",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 3457.5447,
+        "y": 10811.5,
+        "width": 154.9404,
+        "height": 320.5
+      },
+      "geometrySha256": "b5548c020fe2f26a6793fc04461fc49d2a80114c667e77b0726403657953dc75",
+      "id": "plot_007",
+      "basePrice": 16000
+    },
+    {
+      "sourceNodeId": "732:34",
+      "sourceName": "13",
+      "sourceSvgId": "13",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 4850.3604,
+        "y": 10928.3809,
+        "width": 107.0,
+        "height": 203.6191
+      },
+      "geometrySha256": "7cef558f2bdff6229968021bc339735bbeed0fb33cee27817ab561bc86bb1449",
+      "id": "plot_008",
+      "basePrice": 11500
+    },
+    {
+      "sourceNodeId": "732:36",
+      "sourceName": "14",
+      "sourceSvgId": "14",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 4977.3604,
+        "y": 11011.4131,
+        "width": 82.5,
+        "height": 120.5869
+      },
+      "geometrySha256": "83a2b67c814efb81e9cffa8e0d5f31cdbce596319ee88ff8eafed8ccc88da714",
+      "id": "plot_009",
+      "basePrice": 16500
+    },
+    {
+      "sourceNodeId": "732:42",
+      "sourceName": "15",
+      "sourceSvgId": "15",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 5079.8604,
+        "y": 11046.7188,
+        "width": 71.0,
+        "height": 85.2812
+      },
+      "geometrySha256": "206be8157ae60d683ec20e7aa5d76dc04820ace458a138260693f1a37619b8cd",
+      "id": "plot_010",
+      "basePrice": 16500
+    },
+    {
+      "sourceNodeId": "731:32",
+      "sourceName": "12",
+      "sourceSvgId": "12",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 5170.8604,
+        "y": 11115.8057,
+        "width": 69.1748,
+        "height": 195.1943
+      },
+      "geometrySha256": "02e3d1fd5b00129b7961ea6a6810f6313fff8d5f1a302b44c20d4fe0c22ea51f",
+      "id": "plot_011",
+      "basePrice": 16500
+    },
+    {
+      "sourceNodeId": "465:10",
+      "sourceName": "1",
+      "sourceSvgId": "1",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 4849.8599,
+        "y": 11152.0,
+        "width": 107.0,
+        "height": 159.0
+      },
+      "geometrySha256": "df0a9f51eff6883a7377bb43378a768cdc51ed97d1572d350d7f33fc9045fe7d",
+      "id": "plot_012",
+      "basePrice": 16000
+    },
+    {
+      "sourceNodeId": "730:8",
+      "sourceName": "4",
+      "sourceSvgId": "4_2",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 4977.3604,
+        "y": 11152.0,
+        "width": 82.5,
+        "height": 159.0
+      },
+      "geometrySha256": "f06854a12e48a8115f26fa53737a1db832a33228a9a48e396cfcef8a410b0d9e",
+      "id": "plot_013",
+      "basePrice": 15000
+    },
+    {
+      "sourceNodeId": "731:30",
+      "sourceName": "11",
+      "sourceSvgId": "11",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 5079.8604,
+        "y": 11152.0,
+        "width": 71.0,
+        "height": 159.0
+      },
+      "geometrySha256": "5b9ce50c6ead6a0d00fe04d8dd40a09afbc16d9115329239a8b363c5572c597e",
+      "id": "plot_014",
+      "basePrice": 17500
+    },
+    {
+      "sourceNodeId": "730:4",
+      "sourceName": "2",
+      "sourceSvgId": "2",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 4848.7539,
+        "y": 11331.0,
+        "width": 125.5126,
+        "height": 416.9834
+      },
+      "geometrySha256": "1bca3b9e74adb5d7b9e068744b80b11a28e7bb7cf1a0066c50acba80ce7f89b7",
+      "id": "plot_015",
+      "basePrice": 16500
+    },
+    {
+      "sourceNodeId": "730:10",
+      "sourceName": "4",
+      "sourceSvgId": "4",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 4977.4229,
+        "y": 11331.0,
+        "width": 91.1748,
+        "height": 390.1514
+      },
+      "geometrySha256": "3c32e817daa59ecad274342af4c944d831e6b983ce58631bde7ee3d963da538d",
+      "id": "plot_016",
+      "basePrice": 13500
+    },
+    {
+      "sourceNodeId": "731:28",
+      "sourceName": "10",
+      "sourceSvgId": "10",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 5077.2368,
+        "y": 11331.0,
+        "width": 88.0726,
+        "height": 372.916
+      },
+      "geometrySha256": "458c2a9e07e820ebdeccbf2fdc368e74c8b862986695565f4ff40080519ee3b2",
+      "id": "plot_017",
+      "basePrice": 18000
+    },
+    {
+      "sourceNodeId": "730:20",
+      "sourceName": "8",
+      "sourceSvgId": "8",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 5170.9014,
+        "y": 11331.0,
+        "width": 126.7607,
+        "height": 353.3496
+      },
+      "geometrySha256": "0a18be9b9f5bccab3025c97935dbcb2f8f9a55d30ae0d915f80946579e296d46",
+      "id": "plot_018",
+      "basePrice": 17000
+    },
+    {
+      "sourceNodeId": "731:26",
+      "sourceName": "9",
+      "sourceSvgId": "9",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 5187.4863,
+        "y": 11690.4697,
+        "width": 177.3682,
+        "height": 187.8389
+      },
+      "geometrySha256": "698a24ddaa5f6408d00546beb044b50a6750a8f3e65076b9292849f9b327f47b",
+      "id": "plot_019",
+      "basePrice": 11000
+    },
+    {
+      "sourceNodeId": "731:24",
+      "sourceName": "7",
+      "sourceSvgId": "7",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 5090.6768,
+        "y": 11707.3311,
+        "width": 116.2305,
+        "height": 184.8955
+      },
+      "geometrySha256": "73f5384e4c00180646a5372cf2ee8c6618af96cd9c6d7c6a44d62a13112db9fc",
+      "id": "plot_020",
+      "basePrice": 17500
+    },
+    {
+      "sourceNodeId": "730:12",
+      "sourceName": "6",
+      "sourceSvgId": "6",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 4996.2002,
+        "y": 11726.834,
+        "width": 102.2529,
+        "height": 177.6104
+      },
+      "geometrySha256": "f7e990865b3fc00a0d4fc0edef9d8498df43d2b2330a567153678cb544107034",
+      "id": "plot_021",
+      "basePrice": 14000
+    },
+    {
+      "sourceNodeId": "730:6",
+      "sourceName": "3",
+      "sourceSvgId": "3",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 4868.8564,
+        "y": 11745.3057,
+        "width": 134.0684,
+        "height": 176.2109
+      },
+      "geometrySha256": "de769ee3aafea8cf4caa5d3c8feffbc9f8138c2b5ecff282a22a2672f3cae2e8",
+      "id": "plot_022",
+      "basePrice": 14000
+    },
+    {
+      "sourceNodeId": "732:44",
+      "sourceName": "16",
+      "sourceSvgId": "16",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 4892.8604,
+        "y": 11879.915,
+        "width": 495.8213,
+        "height": 125.5645
+      },
+      "geometrySha256": "fc91096f0e6f9416dc26a998157d1053d731c9b37c7650b39d7d4d1c1a606247",
+      "id": "plot_023",
+      "basePrice": 14000
+    },
+    {
+      "sourceNodeId": "732:46",
+      "sourceName": "17",
+      "sourceSvgId": "17",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 4908.3076,
+        "y": 11941.8457,
+        "width": 508.6904,
+        "height": 133.1016
+      },
+      "geometrySha256": "ce5cacf5b355f8f74961a89472efc1d473d2cd25febd011913cc5e90661f925b",
+      "id": "plot_024",
+      "basePrice": 13000
+    },
+    {
+      "sourceNodeId": "732:58",
+      "sourceName": "19",
+      "sourceSvgId": "19",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 5239.083,
+        "y": 12018.2783,
+        "width": 208.5291,
+        "height": 220.2686
+      },
+      "geometrySha256": "ef12bbaa810a67c95c2285b5c4d4b97f4e215af6f4c5d2781dcb021d5e1c8ec2",
+      "id": "plot_025",
+      "basePrice": 12500
+    },
+    {
+      "sourceNodeId": "732:48",
+      "sourceName": "18",
+      "sourceSvgId": "18",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 4921.0977,
+        "y": 12053.1807,
+        "width": 323.0205,
+        "height": 86.3145
+      },
+      "geometrySha256": "6bee45600e07cd5dc3a13b6c8f9a3f34cae57ac7d4631d33a02a110931e4e6bc",
+      "id": "plot_026",
+      "basePrice": 15000
+    },
+    {
+      "sourceNodeId": "732:66",
+      "sourceName": "22",
+      "sourceSvgId": "22",
+      "priceTier": "expensive",
+      "bounds": {
+        "x": 4007.3435,
+        "y": 12056.2676,
+        "width": 292.3701,
+        "height": 180.8223
+      },
+      "geometrySha256": "a380c102630ff2ea745fa99bed8f7e8104b134b00ade1fd18c2e0c19f91e56ea",
+      "id": "plot_027",
+      "basePrice": 19000
+    },
+    {
+      "sourceNodeId": "732:68",
+      "sourceName": "23",
+      "sourceSvgId": "23",
+      "priceTier": "expensive",
+      "bounds": {
+        "x": 4316.4802,
+        "y": 12093.0225,
+        "width": 320.5275,
+        "height": 145.0322
+      },
+      "geometrySha256": "2444eca3ae67e6884ab271d41aa03c257bb8912c7dd4a93e97c4ebf06a0b4201",
+      "id": "plot_028",
+      "basePrice": 21500
+    },
+    {
+      "sourceNodeId": "732:62",
+      "sourceName": "21",
+      "sourceSvgId": "21",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 4932.9766,
+        "y": 12104.7695,
+        "width": 352.2539,
+        "height": 117.8467
+      },
+      "geometrySha256": "18833777a102038f5bd7429e81c42d6e40c45850cd342f651b809a3aa39b3ad7",
+      "id": "plot_029",
+      "basePrice": 14000
+    },
+    {
+      "sourceNodeId": "732:60",
+      "sourceName": "20",
+      "sourceSvgId": "20",
+      "priceTier": "medium",
+      "bounds": {
+        "x": 5076.6934,
+        "y": 12150.6504,
+        "width": 314.2324,
+        "height": 214.0859
+      },
+      "geometrySha256": "35fe18a5525d1c42a94618c3f1892cabe9db11ca5b415263c1d6e3b28d659b8e",
+      "id": "plot_030",
+      "basePrice": 11500
+    }
+  ]
+}

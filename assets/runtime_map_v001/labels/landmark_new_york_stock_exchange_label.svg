@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="225" height="143" viewBox="0 0 225 143" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-1-inside-1_397_62" fill="white">
+<path d="M0 108H225L213.177 125.5L225 143H0L11.465 125.5L0 108Z" />
+</mask>
+<path d="M0 108H225L213.177 125.5L225 143H0L11.465 125.5L0 108Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-1-inside-1_397_62)" />
+</g>
+<text id="Stock Ex." fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="59" y="136.302">Stock Ex.</tspan></text>
+</g>
+<defs><pattern id="pattern0_397_62" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_397_62" transform="translate(0 -0.000374625) scale(0.00024975)" />
+</pattern>
+</defs></svg>

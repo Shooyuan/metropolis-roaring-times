@@ -175,7 +175,7 @@ Required systems:
 - deterministic once-per-turn securities pricing and portfolio valuation;
 - securities excluded from property-backed credit capacity.
 
-The opening land-price bands are `$6,000–$10,000`, `$11,000–$18,000` and `$19,000–$26,000`. The first building-income baselines are fixed in `02_GAME_RULES.md`; economy, district and event multipliers remain balance data requiring simulation.
+开局地价层级为 `cheap $6,000–$10,000`、`medium $11,000–$18,000`、`expensive $19,000–$26,000`。层级来自老板在 Figma 中对每个地块的分组；精确价格在内容构建时按固定种子生成并版本化，不在每局开局时重抽。首批建筑收入基线见 `02_GAME_RULES.md`；经济、街区和事件倍率仍属于必须模拟校准的平衡数据。
 
 ## 7. Fixed Auction Scope
 

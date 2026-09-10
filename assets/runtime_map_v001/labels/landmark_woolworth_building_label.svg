@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="296" height="348" viewBox="0 0 296 348" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-1-inside-1_396_39" fill="white">
+<path d="M0 313H296L280.446 330.5L296 348H0L15.0828 330.5L0 313Z" />
+</mask>
+<path d="M0 313H296L280.446 330.5L296 348H0L15.0828 330.5L0 313Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-1-inside-1_396_39)" />
+</g>
+<text id="Woolworth building_2" fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="38" y="340.302">Woolworth building</tspan></text>
+</g>
+<defs><pattern id="pattern0_396_39" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_396_39" transform="matrix(0.000849618 0 0 0.000245082 0 -0.00192798)" />
+</pattern>
+</defs></svg>

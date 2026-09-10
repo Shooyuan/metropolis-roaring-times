@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="384" height="327" viewBox="0 0 384 327" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-1-inside-1_654_62" fill="white">
+<path d="M0 292H384L363.822 309.5L384 327H0L19.5669 309.5L0 292Z" />
+</mask>
+<path d="M0 292H384L363.822 309.5L384 327H0L19.5669 309.5L0 292Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-1-inside-1_654_62)" />
+</g>
+<text id="Maine National Monument" fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="44.3065" y="320.302">Maine National Monument</tspan></text>
+</g>
+<defs><pattern id="pattern0_654_62" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_654_62" transform="matrix(0.000481683 0 0 0.000244141 -0.00167269 0)" />
+</pattern>
+</defs></svg>

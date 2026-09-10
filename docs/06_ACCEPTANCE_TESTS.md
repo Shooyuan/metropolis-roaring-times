@@ -203,6 +203,19 @@ Pass when each plot polygon:
 - has a valid area, owner eligibility, adjacency list and district;
 - has no unapproved overlap or unusably thin clickable shape.
 
+### `DOC-007C` 轻量运行素材与固定地价
+
+通过条件：
+
+- 源 ZIP 被移出网页公开目录并保留在 Git 忽略的源档案区，不能删除或提交到远程仓库；
+- 派生包必须有 52 个唯一地标 ID、52 个可解码透明 `WebP`、52 个不再内嵌位图的横幅 SVG，以及 30 个唯一闭合地块路径；
+- 底图、街区、地块 SVG 的 `viewBox` 均为源清单记录的 `0 0 10334 14101`，所有地块和地标边界位于该画布内；
+- 地块按从北到南、同排从西到东连续编号；源 Figma 的重复名称不得造成重复运行时 ID；
+- `cheap | medium | expensive` 数量分别为 5、23、2，价格分别落在 `$6,000–$10,000`、`$11,000–$18,000`、`$19,000–$26,000`，且都是 `$500` 的整数倍；
+- 使用同一源包和种子重复计算，每个地块必须得到相同价格；新一局不得重抽；
+- 接触表不得出现错图、裁切、背景丢失或明显压缩损伤；离线对齐页必须保持 Figma 原始坐标；
+- 自动校验无错误后仍需老板查看接触表与对齐页。老板视觉批准前，运行素材可以提交为待审版本，但不得接入正式网页或 Godot。
+
 ### `SCN-004` Geographic Legibility
 
 Pass when the north-up Godot map matches the owner-approved Figma source and shared-viewBox programmatic overlay report, plus the full-mode alignment preview when supplied, and preserves the approved relative arrangement of Manhattan, the two rivers, all twelve districts, Central Park and the two bridges. Manhattan must not rotate sideways, land across the rivers remains non-interactive background, and any conversion difference requires owner review.
@@ -654,11 +667,12 @@ Owner approves the submitted Figma source, base/district/plot/landmark/alignment
 4. 程序导入的地块数量恰好等于老板交付的实际数量，代码和测试不存在固定数量常量。
 5. 每个地标组可建立稳定 ID，插画、独立英文横幅文字与可选命中区仍保持一个选择实体。
 6. 青绿色仅是 Figma 审查色，不出现在运行时状态色；地块资格只来自几何层。
-7. `100/125/156/195/244/305/381/477/500` 九级缩放全部可达，最高值精确为 `500%`，地图不可旋转。
-8. `100—477` 地标不可点击且悬停只亮街区，地块/开发建筑/地标横幅不开放；精确 `500` 时地块和地标可点击，开发建筑出现，地标横幅与插画共同高亮。
-9. 街区、地块、地标严格互斥；点击空白清空选择和详情；新选择正确替换右侧 File 类型。
-10. 每条获批街区/地标文案具备 EN/ZH 短长文本、English Wikipedia 页面标题、URL、访问日期和老板审批状态；来源图标使用 `assets/wikipedia-w.svg`，点击后在游戏内弹窗展示来源。
-11. 当前未交付的五套开发建筑插画和未完成的 Figma 不得用 Codex 占位地理冒充验收通过。
+7. `cheap | medium | expensive` 父组只决定开局价格层级；精确价格由版本化构建工具固定生成，且运行时视觉不依赖这三个父组的 Figma 填色。
+8. `100/125/156/195/244/305/381/477/500` 九级缩放全部可达，最高值精确为 `500%`，地图不可旋转。
+9. `100—477` 地标不可点击且悬停只亮街区，地块/开发建筑/地标横幅不开放；精确 `500` 时地块和地标可点击，开发建筑出现，地标横幅与插画共同高亮。
+10. 街区、地块、地标严格互斥；点击空白清空选择和详情；新选择正确替换右侧 File 类型。
+11. 每条获批街区/地标文案具备 EN/ZH 短长文本、English Wikipedia 页面标题、URL、访问日期和老板审批状态；来源图标使用 `assets/wikipedia-w.svg`，点击后在游戏内弹窗展示来源。
+12. 当前未交付的五套开发建筑插画不得用 Codex 占位地理冒充验收通过。
 
 ### `VIS-002` Interaction-State Gate
 

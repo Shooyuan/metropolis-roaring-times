@@ -251,6 +251,8 @@ The vertical slice succeeds when:
 - 历史地标来自 `07_HISTORICAL_LANDMARKS`，长期保留在地图上帮助识别城市。其事实只取自 English Wikipedia，并为英文玩家和简体中文玩家分别提供短、长介绍。
 - 地图选择严格互斥：同一时间只选择一个街区、地块或地标。右侧详情随选择切换；点击空白清空。
 - 最高缩放提高到 `500%`；详细层级、地标横幅和交互阈值以 `04_MAP_AND_ART_DIRECTION.md` 为准。
+- 2026-09-08 的 `v004` 地图交付已验收 30 个地块和 52 个历史地标。此数量是当前交付版本事实，不是以后版本的硬编码上限。
+- 老板在 Figma 中用 `cheap | medium | expensive` 指定地块初始价格层级；程序只在已批准区间内生成并固化精确基础地价，不能在每局开局时重抽。
 - The economy can become unreadable if formulas are exposed before they are calibrated.
 - A narrative auction can become cosmetic if its story is not connected to the plot, price and rival behavior.
 - Securities can overpower the property loop or create borrowing arbitrage unless action cost, fees, collateral treatment and simulations are enforced.

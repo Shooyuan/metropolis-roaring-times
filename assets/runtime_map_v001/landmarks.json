@@ -1,0 +1,1898 @@
+{
+  "format": "metropolis_runtime_landmarks",
+  "formatVersion": 1,
+  "master": {
+    "id": "329:2",
+    "name": "Frame 1",
+    "sourceKind": "FRAME",
+    "width": 10334,
+    "height": 14101,
+    "rotation": 0,
+    "absoluteBoundingBox": {
+      "x": -1457.85986328125,
+      "y": -9932,
+      "width": 10334,
+      "height": 14101
+    }
+  },
+  "displayThresholdPercent": 500,
+  "selectionIsMutuallyExclusiveWith": [
+    "district",
+    "plot"
+  ],
+  "landmarkCount": 52,
+  "landmarks": [
+    {
+      "id": "landmark_manhattan_bridge",
+      "sourceName": "manhattan_bridge_transparent",
+      "sourceStableId": "landmark_manhattan_bridge_transparent",
+      "sourceNodeId": "397:44",
+      "bounds": {
+        "x": 4858.8599,
+        "y": 12323.0,
+        "width": 685.0,
+        "height": 539.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_manhattan_bridge.webp",
+        "bounds": {
+          "x": 4858.8599,
+          "y": 12323.0,
+          "width": 685.0,
+          "height": 539.0
+        },
+        "sourceImageHash": "0afb14fa1056654429d20d5ba90baefaf98e38c0",
+        "sourcePixelWidth": 1409,
+        "sourcePixelHeight": 1109,
+        "pixelWidth": 1409,
+        "pixelHeight": 1108
+      },
+      "label": {
+        "file": "labels/landmark_manhattan_bridge_label.svg",
+        "bounds": {
+          "x": 4981.8599,
+          "y": 12626.0,
+          "width": 364.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_brooklyn_bridge",
+      "sourceName": "brooklyn_bridge",
+      "sourceStableId": "landmark_brooklyn_bridge",
+      "sourceNodeId": "403:10",
+      "bounds": {
+        "x": 4609.8599,
+        "y": 12661.0,
+        "width": 772.0,
+        "height": 363.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_brooklyn_bridge.webp",
+        "bounds": {
+          "x": 4609.8599,
+          "y": 12661.0,
+          "width": 772.0,
+          "height": 363.0
+        },
+        "sourceImageHash": "8bf86c078dd21dd1a7f6b5d77589625718fd25d2",
+        "sourcePixelWidth": 1829,
+        "sourcePixelHeight": 860,
+        "pixelWidth": 1829,
+        "pixelHeight": 860
+      },
+      "label": {
+        "file": "labels/landmark_brooklyn_bridge_label.svg",
+        "bounds": {
+          "x": 4799.8599,
+          "y": 12901.0,
+          "width": 364.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_new_york_aquarium",
+      "sourceName": "New York Aquarium",
+      "sourceStableId": "landmark_new_york_aquarium",
+      "sourceNodeId": "403:9",
+      "bounds": {
+        "x": 4178.8599,
+        "y": 13311.0,
+        "width": 364.0,
+        "height": 134.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_new_york_aquarium.webp",
+        "bounds": {
+          "x": 4233.8599,
+          "y": 13311.0,
+          "width": 253.0,
+          "height": 99.0
+        },
+        "sourceImageHash": "825249b4199ae5f26a77a50b29ef987e0c74c595",
+        "sourcePixelWidth": 4096,
+        "sourcePixelHeight": 1598,
+        "pixelWidth": 1012,
+        "pixelHeight": 396
+      },
+      "label": {
+        "file": "labels/landmark_new_york_aquarium_label.svg",
+        "bounds": {
+          "x": 4178.8599,
+          "y": 13410.0,
+          "width": 364.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_trinity_church",
+      "sourceName": "Trinity Church",
+      "sourceStableId": "landmark_trinity_church",
+      "sourceNodeId": "397:50",
+      "bounds": {
+        "x": 4038.8599,
+        "y": 12772.0,
+        "width": 279.0,
+        "height": 395.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_trinity_church.webp",
+        "bounds": {
+          "x": 4096.8599,
+          "y": 12772.0,
+          "width": 164.0,
+          "height": 360.0
+        },
+        "sourceImageHash": "72c202a91e15e8eee476b63022a8516180ae90e0",
+        "sourcePixelWidth": 1868,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 656,
+        "pixelHeight": 1440
+      },
+      "label": {
+        "file": "labels/landmark_trinity_church_label.svg",
+        "bounds": {
+          "x": 4038.8599,
+          "y": 13132.0,
+          "width": 279.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_woolworth_building",
+      "sourceName": "Woolworth building",
+      "sourceStableId": "landmark_woolworth_building",
+      "sourceNodeId": "396:39",
+      "bounds": {
+        "x": 4081.8599,
+        "y": 12349.0,
+        "width": 296.0,
+        "height": 348.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_woolworth_building.webp",
+        "bounds": {
+          "x": 4184.8599,
+          "y": 12349.0,
+          "width": 90.0,
+          "height": 312.0
+        },
+        "sourceImageHash": "f32d5ea190ffd1aa431f0bda27d10ebd1315c4ff",
+        "sourcePixelWidth": 1177,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 360,
+        "pixelHeight": 1248
+      },
+      "label": {
+        "file": "labels/landmark_woolworth_building_label.svg",
+        "bounds": {
+          "x": 4081.8599,
+          "y": 12662.0,
+          "width": 296.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_washington_square_arch",
+      "sourceName": "washington_square_arch",
+      "sourceStableId": "landmark_washington_square_arch",
+      "sourceNodeId": "397:56",
+      "bounds": {
+        "x": 4007.8599,
+        "y": 11372.0,
+        "width": 296.0,
+        "height": 241.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_washington_square_arch.webp",
+        "bounds": {
+          "x": 4057.8599,
+          "y": 11372.0,
+          "width": 195.0,
+          "height": 206.0
+        },
+        "sourceImageHash": "60e6a37086f86c44faeaf35b8abb0628a3ac6dc3",
+        "sourcePixelWidth": 1047,
+        "sourcePixelHeight": 1107,
+        "pixelWidth": 780,
+        "pixelHeight": 824
+      },
+      "label": {
+        "file": "labels/landmark_washington_square_arch_label.svg",
+        "bounds": {
+          "x": 4007.8599,
+          "y": 11578.0,
+          "width": 296.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_new_york_stock_exchange",
+      "sourceName": "New York Stock Exchange",
+      "sourceStableId": "landmark_new_york_stock_exchange",
+      "sourceNodeId": "397:62",
+      "bounds": {
+        "x": 4321.8599,
+        "y": 12958.0,
+        "width": 225.0,
+        "height": 143.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_new_york_stock_exchange.webp",
+        "bounds": {
+          "x": 4380.8599,
+          "y": 12958.0,
+          "width": 108.0,
+          "height": 108.0
+        },
+        "sourceImageHash": "4bec6c5a0eec1577f64754835b177ed8e25539e4",
+        "sourcePixelWidth": 4004,
+        "sourcePixelHeight": 4007,
+        "pixelWidth": 432,
+        "pixelHeight": 432
+      },
+      "label": {
+        "file": "labels/landmark_new_york_stock_exchange_label.svg",
+        "bounds": {
+          "x": 4321.8599,
+          "y": 13066.0,
+          "width": 225.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_fraunces_tavern",
+      "sourceName": "Fraunces Tavern",
+      "sourceStableId": "landmark_fraunces_tavern",
+      "sourceNodeId": "398:68",
+      "bounds": {
+        "x": 4381.8599,
+        "y": 13154.0,
+        "width": 261.0,
+        "height": 129.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_fraunces_tavern.webp",
+        "bounds": {
+          "x": 4454.8599,
+          "y": 13154.0,
+          "width": 115.0,
+          "height": 94.0
+        },
+        "sourceImageHash": "f0c1f1c5a73f80b8746361844d4c638ca373de77",
+        "sourcePixelWidth": 3648,
+        "sourcePixelHeight": 2969,
+        "pixelWidth": 460,
+        "pixelHeight": 376
+      },
+      "label": {
+        "file": "labels/landmark_fraunces_tavern_label.svg",
+        "bounds": {
+          "x": 4381.8599,
+          "y": 13248.0,
+          "width": 261.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_new_york_city_hall",
+      "sourceName": "New York City Hall",
+      "sourceStableId": "landmark_new_york_city_hall",
+      "sourceNodeId": "403:7",
+      "bounds": {
+        "x": 4436.8599,
+        "y": 12507.0,
+        "width": 185.0,
+        "height": 189.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_new_york_city_hall.webp",
+        "bounds": {
+          "x": 4436.8599,
+          "y": 12507.0,
+          "width": 185.0,
+          "height": 155.0
+        },
+        "sourceImageHash": "0fd2f464f9f4a6a78b08bcb5283b6675e517c92c",
+        "sourcePixelWidth": 4096,
+        "sourcePixelHeight": 3435,
+        "pixelWidth": 740,
+        "pixelHeight": 620
+      },
+      "label": {
+        "file": "labels/landmark_new_york_city_hall_label.svg",
+        "bounds": {
+          "x": 4444.8599,
+          "y": 12661.0,
+          "width": 170.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_american_seamens_institute",
+      "sourceName": "american_seamens_institute_transparent",
+      "sourceStableId": "landmark_american_seamens_institute_transparent",
+      "sourceNodeId": "403:17",
+      "bounds": {
+        "x": 3210.8599,
+        "y": 11151.0,
+        "width": 403.0,
+        "height": 198.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_american_seamens_institute.webp",
+        "bounds": {
+          "x": 3329.8599,
+          "y": 11151.0,
+          "width": 166.0,
+          "height": 163.0
+        },
+        "sourceImageHash": "e6510fcd93e703ed570e021e2d4d52d26aa4ef6d",
+        "sourcePixelWidth": 1037,
+        "sourcePixelHeight": 1021,
+        "pixelWidth": 664,
+        "pixelHeight": 652
+      },
+      "label": {
+        "file": "labels/landmark_american_seamens_institute_label.svg",
+        "bounds": {
+          "x": 3210.8599,
+          "y": 11314.0,
+          "width": 403.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_bowery_savings_bank",
+      "sourceName": "Bowery Savings Bank",
+      "sourceStableId": "landmark_bowery_savings_bank",
+      "sourceNodeId": "465:2",
+      "bounds": {
+        "x": 4544.8599,
+        "y": 11704.0,
+        "width": 349.0,
+        "height": 144.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_bowery_savings_bank.webp",
+        "bounds": {
+          "x": 4627.8599,
+          "y": 11704.0,
+          "width": 183.0,
+          "height": 109.0
+        },
+        "sourceImageHash": "24c51c1e655c883c0fa37e544221b5e3854c110a",
+        "sourcePixelWidth": 4096,
+        "sourcePixelHeight": 2438,
+        "pixelWidth": 732,
+        "pixelHeight": 436
+      },
+      "label": {
+        "file": "labels/landmark_bowery_savings_bank_label.svg",
+        "bounds": {
+          "x": 4544.8599,
+          "y": 11813.0,
+          "width": 349.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_our_lady_of_pompeii",
+      "sourceName": "our_lady_of_pompeii",
+      "sourceStableId": "landmark_our_lady_of_pompeii",
+      "sourceNodeId": "465:7",
+      "bounds": {
+        "x": 3688.8599,
+        "y": 11474.0,
+        "width": 349.0,
+        "height": 275.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_our_lady_of_pompeii.webp",
+        "bounds": {
+          "x": 3766.8599,
+          "y": 11474.0,
+          "width": 194.0,
+          "height": 240.0
+        },
+        "sourceImageHash": "0eb77d810286cab150a27538e838dcc1834bce8a",
+        "sourcePixelWidth": 1062,
+        "sourcePixelHeight": 1312,
+        "pixelWidth": 776,
+        "pixelHeight": 960
+      },
+      "label": {
+        "file": "labels/landmark_our_lady_of_pompeii_label.svg",
+        "bounds": {
+          "x": 3688.8599,
+          "y": 11714.0,
+          "width": 349.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_police_headquarters",
+      "sourceName": "Police Headquarters",
+      "sourceStableId": "landmark_police_headquarters",
+      "sourceNodeId": "564:7",
+      "bounds": {
+        "x": 4295.8599,
+        "y": 11768.0,
+        "width": 349.0,
+        "height": 236.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_police_headquarters.webp",
+        "bounds": {
+          "x": 4348.8599,
+          "y": 11768.0,
+          "width": 244.0,
+          "height": 201.0
+        },
+        "sourceImageHash": "5999d28ad0ae20ce22a49ee9f393a38a85393a40",
+        "sourcePixelWidth": 4096,
+        "sourcePixelHeight": 3374,
+        "pixelWidth": 976,
+        "pixelHeight": 804
+      },
+      "label": {
+        "file": "labels/landmark_police_headquarters_label.svg",
+        "bounds": {
+          "x": 4295.8599,
+          "y": 11969.0,
+          "width": 349.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_st_anthony",
+      "sourceName": "St. Anthony",
+      "sourceStableId": "landmark_st__anthony",
+      "sourceNodeId": "564:14",
+      "bounds": {
+        "x": 4037.8599,
+        "y": 11730.0,
+        "width": 265.0,
+        "height": 234.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_st_anthony.webp",
+        "bounds": {
+          "x": 4084.8599,
+          "y": 11730.0,
+          "width": 172.0,
+          "height": 202.0
+        },
+        "sourceImageHash": "82878a9211984a3ef0c1f4a8ac2f9f49e6d05d6b",
+        "sourcePixelWidth": 3487,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 688,
+        "pixelHeight": 808
+      },
+      "label": {
+        "file": "labels/landmark_st_anthony_label.svg",
+        "bounds": {
+          "x": 4037.8599,
+          "y": 11929.0,
+          "width": 265.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_the_tombs",
+      "sourceName": "The Tombs",
+      "sourceStableId": "landmark_the_tombs",
+      "sourceNodeId": "564:19",
+      "bounds": {
+        "x": 4321.8599,
+        "y": 12267.0,
+        "width": 265.0,
+        "height": 187.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_the_tombs.webp",
+        "bounds": {
+          "x": 4377.8599,
+          "y": 12267.0,
+          "width": 153.0,
+          "height": 152.0
+        },
+        "sourceImageHash": "aa5e1d390b84a2f74011614605b79c3767e92fd1",
+        "sourcePixelWidth": 3743,
+        "sourcePixelHeight": 3716,
+        "pixelWidth": 612,
+        "pixelHeight": 608
+      },
+      "label": {
+        "file": "labels/landmark_the_tombs_label.svg",
+        "bounds": {
+          "x": 4321.8599,
+          "y": 12419.0,
+          "width": 265.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_empire_state_building",
+      "sourceName": "Empire State Building",
+      "sourceStableId": "landmark_empire_state_building",
+      "sourceNodeId": "564:25",
+      "bounds": {
+        "x": 3896.8599,
+        "y": 9965.0,
+        "width": 355.0,
+        "height": 350.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_empire_state_building.webp",
+        "bounds": {
+          "x": 3968.8599,
+          "y": 9965.0,
+          "width": 211.0,
+          "height": 316.0
+        },
+        "sourceImageHash": "0088ebd0cd4b4b3b8c8bb6710bfd6787ef54dc82",
+        "sourcePixelWidth": 1024,
+        "sourcePixelHeight": 1536,
+        "pixelWidth": 844,
+        "pixelHeight": 1264
+      },
+      "label": {
+        "file": "labels/landmark_empire_state_building_label.svg",
+        "bounds": {
+          "x": 3896.8599,
+          "y": 10280.0,
+          "width": 355.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_rockefeller_center",
+      "sourceName": "Rockefeller Center",
+      "sourceStableId": "landmark_rockefeller_center",
+      "sourceNodeId": "569:31",
+      "bounds": {
+        "x": 3805.8599,
+        "y": 9524.0,
+        "width": 300.0,
+        "height": 200.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_rockefeller_center.webp",
+        "bounds": {
+          "x": 3828.8599,
+          "y": 9524.0,
+          "width": 254.0,
+          "height": 165.0
+        },
+        "sourceImageHash": "bd145a45d3c0ea608b12da73eefc243352de72b3",
+        "sourcePixelWidth": 4096,
+        "sourcePixelHeight": 2655,
+        "pixelWidth": 1016,
+        "pixelHeight": 660
+      },
+      "label": {
+        "file": "labels/landmark_rockefeller_center_label.svg",
+        "bounds": {
+          "x": 3805.8599,
+          "y": 9689.0,
+          "width": 300.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_st_patricks_cathedral",
+      "sourceName": "St. Patrick’s Cathedral",
+      "sourceStableId": "landmark_st__patrick_s_cathedral",
+      "sourceNodeId": "571:38",
+      "bounds": {
+        "x": 4022.8599,
+        "y": 9175.0,
+        "width": 346.0,
+        "height": 348.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_st_patricks_cathedral.webp",
+        "bounds": {
+          "x": 4082.8599,
+          "y": 9175.0,
+          "width": 225.0,
+          "height": 313.0
+        },
+        "sourceImageHash": "f35f2c2aad9c502cce7c4c3ddca647248dc9920d",
+        "sourcePixelWidth": 2944,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 900,
+        "pixelHeight": 1252
+      },
+      "label": {
+        "file": "labels/landmark_st_patricks_cathedral_label.svg",
+        "bounds": {
+          "x": 4022.8599,
+          "y": 9488.0,
+          "width": 346.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_salvation_army_headquarters",
+      "sourceName": "Salvation Army Headquarters",
+      "sourceStableId": "landmark_salvation_army_headquarters",
+      "sourceNodeId": "571:43",
+      "bounds": {
+        "x": 3739.8599,
+        "y": 10836.0,
+        "width": 254.0,
+        "height": 254.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_salvation_army_headquarters.webp",
+        "bounds": {
+          "x": 3791.8599,
+          "y": 10836.0,
+          "width": 149.0,
+          "height": 190.0
+        },
+        "sourceImageHash": "1498bb1e78964dfe966c25b54310e37d05933b46",
+        "sourcePixelWidth": 3207,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 596,
+        "pixelHeight": 760
+      },
+      "label": {
+        "file": "labels/landmark_salvation_army_headquarters_label.svg",
+        "bounds": {
+          "x": 3739.8599,
+          "y": 11023.0,
+          "width": 254.0,
+          "height": 67.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_queensboro_bridge",
+      "sourceName": "queensboro-bridge",
+      "sourceStableId": "landmark_queensboro_bridge",
+      "sourceNodeId": "574:9",
+      "bounds": {
+        "x": 4665.8599,
+        "y": 9103.0,
+        "width": 816.0,
+        "height": 273.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_queensboro_bridge.webp",
+        "bounds": {
+          "x": 4665.8599,
+          "y": 9103.0,
+          "width": 816.0,
+          "height": 273.0
+        },
+        "sourceImageHash": "a0cbadbb533fbff6464b76dc6feb8f6cf01ef346",
+        "sourcePixelWidth": 2166,
+        "sourcePixelHeight": 726,
+        "pixelWidth": 2048,
+        "pixelHeight": 685
+      },
+      "label": {
+        "file": "labels/landmark_queensboro_bridge_label.svg",
+        "bounds": {
+          "x": 4891.8599,
+          "y": 9296.0,
+          "width": 364.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_metropolitan_life_tower",
+      "sourceName": "Metropolitan Life Tower",
+      "sourceStableId": "landmark_metropolitan_life_tower",
+      "sourceNodeId": "654:14",
+      "bounds": {
+        "x": 4051.8599,
+        "y": 10441.0,
+        "width": 420.0,
+        "height": 381.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_metropolitan_life_tower.webp",
+        "bounds": {
+          "x": 4163.8599,
+          "y": 10441.0,
+          "width": 196.0,
+          "height": 346.0
+        },
+        "sourceImageHash": "766d104a5021d1509e2c9bdff02105d894d152d9",
+        "sourcePixelWidth": 2320,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 784,
+        "pixelHeight": 1384
+      },
+      "label": {
+        "file": "labels/landmark_metropolitan_life_tower_label.svg",
+        "bounds": {
+          "x": 4051.8599,
+          "y": 10787.0,
+          "width": 420.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_western_union_building",
+      "sourceName": "western-union-building",
+      "sourceStableId": "landmark_western_union_building",
+      "sourceNodeId": "654:26",
+      "bounds": {
+        "x": 3767.8599,
+        "y": 12251.0,
+        "width": 360.0,
+        "height": 203.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_western_union_building.webp",
+        "bounds": {
+          "x": 3885.8599,
+          "y": 12251.0,
+          "width": 160.0,
+          "height": 168.0
+        },
+        "sourceImageHash": "d48b803e8e513ac870158eec69df054ff95d7fcf",
+        "sourcePixelWidth": 1223,
+        "sourcePixelHeight": 1286,
+        "pixelWidth": 640,
+        "pixelHeight": 672
+      },
+      "label": {
+        "file": "labels/landmark_western_union_building_label.svg",
+        "bounds": {
+          "x": 3767.8599,
+          "y": 12419.0,
+          "width": 360.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_eldorado",
+      "sourceName": "eldorado",
+      "sourceStableId": "landmark_eldorado",
+      "sourceNodeId": "654:33",
+      "bounds": {
+        "x": 3390.8599,
+        "y": 7548.0,
+        "width": 205.0,
+        "height": 390.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_eldorado.webp",
+        "bounds": {
+          "x": 3408.8599,
+          "y": 7548.0,
+          "width": 169.0,
+          "height": 358.0
+        },
+        "sourceImageHash": "12a0e00048985a1b0459bb74d22682b53d9e11bf",
+        "sourcePixelWidth": 862,
+        "sourcePixelHeight": 1825,
+        "pixelWidth": 676,
+        "pixelHeight": 1432
+      },
+      "label": {
+        "file": "labels/landmark_eldorado_label.svg",
+        "bounds": {
+          "x": 3390.8599,
+          "y": 7903.0,
+          "width": 205.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_metropolitan_museum_of_art",
+      "sourceName": "metropolitan-museum-of-art",
+      "sourceStableId": "landmark_metropolitan_museum_of_art",
+      "sourceNodeId": "654:39",
+      "bounds": {
+        "x": 3694.8599,
+        "y": 8097.0,
+        "width": 417.0,
+        "height": 291.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_metropolitan_museum_of_art.webp",
+        "bounds": {
+          "x": 3699.8599,
+          "y": 8097.0,
+          "width": 407.0,
+          "height": 291.0
+        },
+        "sourceImageHash": "e8c0480fb01dd11545cfd579357a2d3e6e32499a",
+        "sourcePixelWidth": 1484,
+        "sourcePixelHeight": 1060,
+        "pixelWidth": 1483,
+        "pixelHeight": 1060
+      },
+      "label": {
+        "file": "labels/landmark_metropolitan_museum_of_art_label.svg",
+        "bounds": {
+          "x": 3694.8599,
+          "y": 8318.0,
+          "width": 417.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_temple_beth_el",
+      "sourceName": "temple-beth-el",
+      "sourceStableId": "landmark_temple_beth_el",
+      "sourceNodeId": "654:45",
+      "bounds": {
+        "x": 4007.8599,
+        "y": 8665.0,
+        "width": 370.0,
+        "height": 264.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_temple_beth_el.webp",
+        "bounds": {
+          "x": 4064.8599,
+          "y": 8665.0,
+          "width": 256.0,
+          "height": 229.0
+        },
+        "sourceImageHash": "bf08b35a962c4f6c764e71596529ebebe12b6f29",
+        "sourcePixelWidth": 1326,
+        "sourcePixelHeight": 1187,
+        "pixelWidth": 1024,
+        "pixelHeight": 916
+      },
+      "label": {
+        "file": "labels/landmark_temple_beth_el_label.svg",
+        "bounds": {
+          "x": 4007.8599,
+          "y": 8894.0,
+          "width": 370.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_penn_station",
+      "sourceName": "Penn Station",
+      "sourceStableId": "landmark_penn_station",
+      "sourceNodeId": "654:50",
+      "bounds": {
+        "x": 3617.8599,
+        "y": 10281.0,
+        "width": 300.0,
+        "height": 210.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_penn_station.webp",
+        "bounds": {
+          "x": 3617.8599,
+          "y": 10281.0,
+          "width": 300.0,
+          "height": 175.0
+        },
+        "sourceImageHash": "05ab1b24cbb57eaf6d0371a2d3249ec6fe11788c",
+        "sourcePixelWidth": 4096,
+        "sourcePixelHeight": 2398,
+        "pixelWidth": 1200,
+        "pixelHeight": 700
+      },
+      "label": {
+        "file": "labels/landmark_penn_station_label.svg",
+        "bounds": {
+          "x": 3638.8599,
+          "y": 10456.0,
+          "width": 258.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_riverside_museum",
+      "sourceName": "riverside-museum",
+      "sourceStableId": "landmark_riverside_museum",
+      "sourceNodeId": "654:57",
+      "bounds": {
+        "x": 2867.8599,
+        "y": 7170.0,
+        "width": 300.0,
+        "height": 403.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_riverside_museum.webp",
+        "bounds": {
+          "x": 2921.8599,
+          "y": 7170.0,
+          "width": 191.0,
+          "height": 396.0
+        },
+        "sourceImageHash": "884be6cdd6eeec64f5199760c6418570c620349e",
+        "sourcePixelWidth": 872,
+        "sourcePixelHeight": 1804,
+        "pixelWidth": 764,
+        "pixelHeight": 1584
+      },
+      "label": {
+        "file": "labels/landmark_riverside_museum_label.svg",
+        "bounds": {
+          "x": 2867.8599,
+          "y": 7538.0,
+          "width": 300.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_uss_maine_national_monument",
+      "sourceName": "uss-maine-national-monument",
+      "sourceStableId": "landmark_uss_maine_national_monument",
+      "sourceNodeId": "654:62",
+      "bounds": {
+        "x": 3428.8599,
+        "y": 8920.0,
+        "width": 384.0,
+        "height": 327.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_uss_maine_national_monument.webp",
+        "bounds": {
+          "x": 3546.8599,
+          "y": 8920.0,
+          "width": 148.0,
+          "height": 292.0
+        },
+        "sourceImageHash": "0b352ab079490c4c03fe32b9fd104501d7bd9957",
+        "sourcePixelWidth": 2083,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 592,
+        "pixelHeight": 1168
+      },
+      "label": {
+        "file": "labels/landmark_uss_maine_national_monument_label.svg",
+        "bounds": {
+          "x": 3428.8599,
+          "y": 9212.0,
+          "width": 384.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_central_park_arsenal",
+      "sourceName": "central-park-arsenal",
+      "sourceStableId": "landmark_central_park_arsenal",
+      "sourceNodeId": "683:75",
+      "bounds": {
+        "x": 3718.8599,
+        "y": 8700.0,
+        "width": 370.0,
+        "height": 185.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_central_park_arsenal.webp",
+        "bounds": {
+          "x": 3812.8599,
+          "y": 8700.0,
+          "width": 202.0,
+          "height": 159.0
+        },
+        "sourceImageHash": "e8491549675fdfd51ac6e23de579b5a743e0ac55",
+        "sourcePixelWidth": 1415,
+        "sourcePixelHeight": 1111,
+        "pixelWidth": 808,
+        "pixelHeight": 636
+      },
+      "label": {
+        "file": "labels/landmark_central_park_arsenal_label.svg",
+        "bounds": {
+          "x": 3718.8599,
+          "y": 8850.0,
+          "width": 370.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_temple_emanu_el",
+      "sourceName": "temple-emanu-el",
+      "sourceStableId": "landmark_temple_emanu_el",
+      "sourceNodeId": "683:70",
+      "bounds": {
+        "x": 4000.8599,
+        "y": 8955.0,
+        "width": 384.0,
+        "height": 241.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_temple_emanu_el.webp",
+        "bounds": {
+          "x": 4068.8599,
+          "y": 8955.0,
+          "width": 280.0,
+          "height": 206.0
+        },
+        "sourceImageHash": "d7772190f4bf15959b9e9fecd3aa82ed247c59b1",
+        "sourcePixelWidth": 4096,
+        "sourcePixelHeight": 3017,
+        "pixelWidth": 1120,
+        "pixelHeight": 824
+      },
+      "label": {
+        "file": "labels/landmark_temple_emanu_el_label.svg",
+        "bounds": {
+          "x": 4000.8599,
+          "y": 9161.0,
+          "width": 384.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_new_york_hospital_cornell",
+      "sourceName": "new-york-hospital-cornell",
+      "sourceStableId": "landmark_new_york_hospital_cornell",
+      "sourceNodeId": "688:85",
+      "bounds": {
+        "x": 4567.8599,
+        "y": 8700.0,
+        "width": 391.0,
+        "height": 270.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_new_york_hospital_cornell.webp",
+        "bounds": {
+          "x": 4584.8599,
+          "y": 8700.0,
+          "width": 357.0,
+          "height": 238.0
+        },
+        "sourceImageHash": "ed231e8dd5330aadf83b4f6c35f11e0bf9d84291",
+        "sourcePixelWidth": 1536,
+        "sourcePixelHeight": 1024,
+        "pixelWidth": 1428,
+        "pixelHeight": 952
+      },
+      "label": {
+        "file": "labels/landmark_new_york_hospital_cornell_label.svg",
+        "bounds": {
+          "x": 4567.8599,
+          "y": 8935.0,
+          "width": 391.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_rockefeller_institute_medical_research",
+      "sourceName": "rockefeller-institute-medical-research",
+      "sourceStableId": "landmark_rockefeller_institute_medical_research",
+      "sourceNodeId": "688:90",
+      "bounds": {
+        "x": 4493.8599,
+        "y": 8969.0,
+        "width": 302.0,
+        "height": 258.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_rockefeller_institute_medical_research.webp",
+        "bounds": {
+          "x": 4505.8599,
+          "y": 8969.0,
+          "width": 278.0,
+          "height": 192.0
+        },
+        "sourceImageHash": "ce4b4c8ad6081edb30f6a673d983e452c5072d66",
+        "sourcePixelWidth": 4096,
+        "sourcePixelHeight": 2825,
+        "pixelWidth": 1112,
+        "pixelHeight": 768
+      },
+      "label": {
+        "file": "labels/landmark_rockefeller_institute_medical_research_label.svg",
+        "bounds": {
+          "x": 4493.8599,
+          "y": 9159.0,
+          "width": 302.0,
+          "height": 68.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_bellevue_hospital",
+      "sourceName": "bellevue-hospital",
+      "sourceStableId": "landmark_bellevue_hospital",
+      "sourceNodeId": "689:97",
+      "bounds": {
+        "x": 4620.8599,
+        "y": 10515.0,
+        "width": 302.0,
+        "height": 232.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_bellevue_hospital.webp",
+        "bounds": {
+          "x": 4644.8599,
+          "y": 10515.0,
+          "width": 254.0,
+          "height": 198.0
+        },
+        "sourceImageHash": "417276a3dff00e14e890ff1bb971927cd0e06d9d",
+        "sourcePixelWidth": 4096,
+        "sourcePixelHeight": 3197,
+        "pixelWidth": 1016,
+        "pixelHeight": 792
+      },
+      "label": {
+        "file": "labels/landmark_bellevue_hospital_label.svg",
+        "bounds": {
+          "x": 4620.8599,
+          "y": 10713.0,
+          "width": 302.0,
+          "height": 34.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_ny_public_library",
+      "sourceName": "NY Public Library",
+      "sourceStableId": "landmark_ny_public_library",
+      "sourceNodeId": "704:108",
+      "bounds": {
+        "x": 3790.8599,
+        "y": 9821.0,
+        "width": 355.0,
+        "height": 198.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_ny_public_library.webp",
+        "bounds": {
+          "x": 3860.8599,
+          "y": 9821.0,
+          "width": 215.0,
+          "height": 163.0
+        },
+        "sourceImageHash": "586a9f376e41e84ec640152d1745e76e2832d90c",
+        "sourcePixelWidth": 4096,
+        "sourcePixelHeight": 3101,
+        "pixelWidth": 860,
+        "pixelHeight": 652
+      },
+      "label": {
+        "file": "labels/landmark_ny_public_library_label.svg",
+        "bounds": {
+          "x": 3790.8599,
+          "y": 9984.0,
+          "width": 355.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_st_thomas_church",
+      "sourceName": "St. Thomas Church",
+      "sourceStableId": "landmark_st__thomas_church",
+      "sourceNodeId": "704:115",
+      "bounds": {
+        "x": 3728.8599,
+        "y": 9215.0,
+        "width": 370.0,
+        "height": 259.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_st_thomas_church.webp",
+        "bounds": {
+          "x": 3817.8599,
+          "y": 9215.0,
+          "width": 211.0,
+          "height": 235.0
+        },
+        "sourceImageHash": "1f573603dd946ad4eea3728e572c962e1e1fca18",
+        "sourcePixelWidth": 1188,
+        "sourcePixelHeight": 1324,
+        "pixelWidth": 844,
+        "pixelHeight": 940
+      },
+      "label": {
+        "file": "labels/landmark_st_thomas_church_label.svg",
+        "bounds": {
+          "x": 3728.8599,
+          "y": 9439.0,
+          "width": 370.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_general_post_office",
+      "sourceName": "General Post Office",
+      "sourceStableId": "landmark_general_post_office",
+      "sourceNodeId": "704:121",
+      "bounds": {
+        "x": 3272.8599,
+        "y": 10392.0,
+        "width": 370.0,
+        "height": 163.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_general_post_office.webp",
+        "bounds": {
+          "x": 3305.8599,
+          "y": 10392.0,
+          "width": 303.0,
+          "height": 128.0
+        },
+        "sourceImageHash": "0516e0e1e27451a82fed21d09600735cb8f99792",
+        "sourcePixelWidth": 4096,
+        "sourcePixelHeight": 1730,
+        "pixelWidth": 1212,
+        "pixelHeight": 512
+      },
+      "label": {
+        "file": "labels/landmark_general_post_office_label.svg",
+        "bounds": {
+          "x": 3272.8599,
+          "y": 10520.0,
+          "width": 370.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_madison_square_garden",
+      "sourceName": "Madison Square Garden",
+      "sourceStableId": "landmark_madison_square_garden",
+      "sourceNodeId": "722:25",
+      "bounds": {
+        "x": 3184.8599,
+        "y": 9523.0,
+        "width": 388.0,
+        "height": 201.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_madison_square_garden.webp",
+        "bounds": {
+          "x": 3222.8599,
+          "y": 9523.0,
+          "width": 312.0,
+          "height": 167.0
+        },
+        "sourceImageHash": "23bfdae0e0a22bb1f58e74f94e7f96f590cf3d5f",
+        "sourcePixelWidth": 4096,
+        "sourcePixelHeight": 2189,
+        "pixelWidth": 1248,
+        "pixelHeight": 668
+      },
+      "label": {
+        "file": "labels/landmark_madison_square_garden_label.svg",
+        "bounds": {
+          "x": 3184.8599,
+          "y": 9689.0,
+          "width": 388.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_soldiers_and_sailors_monument",
+      "sourceName": "soldiers-and-sailors-monument",
+      "sourceStableId": "landmark_soldiers_and_sailors_monument",
+      "sourceNodeId": "704:129",
+      "bounds": {
+        "x": 2733.8599,
+        "y": 7818.0,
+        "width": 426.0,
+        "height": 314.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_soldiers_and_sailors_monument.webp",
+        "bounds": {
+          "x": 2867.8599,
+          "y": 7818.0,
+          "width": 157.0,
+          "height": 279.0
+        },
+        "sourceImageHash": "c40129d0f168177f5d697f1e0aaa7cd371745f7a",
+        "sourcePixelWidth": 941,
+        "sourcePixelHeight": 1672,
+        "pixelWidth": 628,
+        "pixelHeight": 1116
+      },
+      "label": {
+        "file": "labels/landmark_soldiers_and_sailors_monument_label.svg",
+        "bounds": {
+          "x": 2733.8599,
+          "y": 8094.0,
+          "width": 426.0,
+          "height": 38.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_st_michaels_episcopal_church",
+      "sourceName": "st-michaels-episcopal-church",
+      "sourceStableId": "landmark_st_michaels_episcopal_church",
+      "sourceNodeId": "704:134",
+      "bounds": {
+        "x": 3144.8599,
+        "y": 7353.0,
+        "width": 278.0,
+        "height": 391.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_st_michaels_episcopal_church.webp",
+        "bounds": {
+          "x": 3167.8599,
+          "y": 7353.0,
+          "width": 231.0,
+          "height": 333.0
+        },
+        "sourceImageHash": "d0ca8c3769fc203993180afda84ae8e9a4f3ff61",
+        "sourcePixelWidth": 1044,
+        "sourcePixelHeight": 1507,
+        "pixelWidth": 924,
+        "pixelHeight": 1332
+      },
+      "label": {
+        "file": "labels/landmark_st_michaels_episcopal_church_label.svg",
+        "bounds": {
+          "x": 3144.8599,
+          "y": 7680.0,
+          "width": 278.0,
+          "height": 64.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_hellenic_church",
+      "sourceName": "hellenic-church",
+      "sourceStableId": "landmark_hellenic_church",
+      "sourceNodeId": "704:141",
+      "bounds": {
+        "x": 4328.8599,
+        "y": 8639.0,
+        "width": 308.0,
+        "height": 262.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_hellenic_church.webp",
+        "bounds": {
+          "x": 4357.8599,
+          "y": 8639.0,
+          "width": 250.0,
+          "height": 237.0
+        },
+        "sourceImageHash": "c25da6a6a8f7296eaf444703252da92ee03f9528",
+        "sourcePixelWidth": 1289,
+        "sourcePixelHeight": 1221,
+        "pixelWidth": 1000,
+        "pixelHeight": 948
+      },
+      "label": {
+        "file": "labels/landmark_hellenic_church_label.svg",
+        "bounds": {
+          "x": 4328.8599,
+          "y": 8866.0,
+          "width": 308.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_grand_central_terminal",
+      "sourceName": "Grand Central Terminal",
+      "sourceStableId": "landmark_grand_central_terminal",
+      "sourceNodeId": "704:148",
+      "bounds": {
+        "x": 4118.8599,
+        "y": 9717.0,
+        "width": 355.0,
+        "height": 201.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_grand_central_terminal.webp",
+        "bounds": {
+          "x": 4157.8599,
+          "y": 9717.0,
+          "width": 277.0,
+          "height": 165.0
+        },
+        "sourceImageHash": "a65c83a367c39c24432421836bd91674f2bf97fc",
+        "sourcePixelWidth": 4049,
+        "sourcePixelHeight": 2417,
+        "pixelWidth": 1108,
+        "pixelHeight": 660
+      },
+      "label": {
+        "file": "labels/landmark_grand_central_terminal_label.svg",
+        "bounds": {
+          "x": 4118.8599,
+          "y": 9883.0,
+          "width": 355.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_tatham_house_ywca",
+      "sourceName": "Tatham House YWCA",
+      "sourceStableId": "landmark_tatham_house_ywca",
+      "sourceNodeId": "704:154",
+      "bounds": {
+        "x": 4129.8599,
+        "y": 9941.0,
+        "width": 355.0,
+        "height": 275.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_tatham_house_ywca.webp",
+        "bounds": {
+          "x": 4231.8599,
+          "y": 9941.0,
+          "width": 181.0,
+          "height": 240.0
+        },
+        "sourceImageHash": "fb453de8e1d9955c0cdea0c68e6bc11763eaf6f4",
+        "sourcePixelWidth": 3093,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 724,
+        "pixelHeight": 960
+      },
+      "label": {
+        "file": "labels/landmark_tatham_house_ywca_label.svg",
+        "bounds": {
+          "x": 4129.8599,
+          "y": 10181.0,
+          "width": 355.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_mcburney_ymca",
+      "sourceName": "McBurney YMCA",
+      "sourceStableId": "landmark_mcburney_ymca",
+      "sourceNodeId": "704:160",
+      "bounds": {
+        "x": 3215.8599,
+        "y": 9987.0,
+        "width": 326.0,
+        "height": 306.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_mcburney_ymca.webp",
+        "bounds": {
+          "x": 3298.8599,
+          "y": 9987.0,
+          "width": 159.0,
+          "height": 271.0
+        },
+        "sourceImageHash": "89f599d88319339c1257b2f7aaf6118b096f4ead",
+        "sourcePixelWidth": 2403,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 636,
+        "pixelHeight": 1084
+      },
+      "label": {
+        "file": "labels/landmark_mcburney_ymca_label.svg",
+        "bounds": {
+          "x": 3215.8599,
+          "y": 10258.0,
+          "width": 326.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_central_branch_ymca",
+      "sourceName": "Central Branch YMCA",
+      "sourceStableId": "landmark_central_branch_ymca",
+      "sourceNodeId": "722:30",
+      "bounds": {
+        "x": 4236.8599,
+        "y": 9178.0,
+        "width": 363.0,
+        "height": 253.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_central_branch_ymca.webp",
+        "bounds": {
+          "x": 4348.8599,
+          "y": 9178.0,
+          "width": 140.0,
+          "height": 218.0
+        },
+        "sourceImageHash": "5b90fd653af685641a6a690d0580b2045a579f25",
+        "sourcePixelWidth": 2625,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 560,
+        "pixelHeight": 872
+      },
+      "label": {
+        "file": "labels/landmark_central_branch_ymca_label.svg",
+        "bounds": {
+          "x": 4236.8599,
+          "y": 9396.0,
+          "width": 363.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_new_yorker_hotel",
+      "sourceName": "New Yorker Hotel",
+      "sourceStableId": "landmark_new_yorker_hotel",
+      "sourceNodeId": "735:102",
+      "bounds": {
+        "x": 3562.8599,
+        "y": 9994.0,
+        "width": 326.0,
+        "height": 299.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_new_yorker_hotel.webp",
+        "bounds": {
+          "x": 3659.8599,
+          "y": 9994.0,
+          "width": 131.0,
+          "height": 264.0
+        },
+        "sourceImageHash": "94d0af72ba9929eef4ff35921dd9fed4df4da86e",
+        "sourcePixelWidth": 2025,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 524,
+        "pixelHeight": 1056
+      },
+      "label": {
+        "file": "labels/landmark_new_yorker_hotel_label.svg",
+        "bounds": {
+          "x": 3562.8599,
+          "y": 10258.0,
+          "width": 326.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_little_church_around_the_corner",
+      "sourceName": "Little Ch. Around the Corner",
+      "sourceStableId": "landmark_little_ch__around_the_corner",
+      "sourceNodeId": "717:10",
+      "bounds": {
+        "x": 3974.8599,
+        "y": 10308.0,
+        "width": 411.0,
+        "height": 237.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_little_church_around_the_corner.webp",
+        "bounds": {
+          "x": 4069.8599,
+          "y": 10308.0,
+          "width": 220.0,
+          "height": 220.0
+        },
+        "sourceImageHash": "307f360332256ed8f85aec2bf4b387933d19cad5",
+        "sourcePixelWidth": 1254,
+        "sourcePixelHeight": 1254,
+        "pixelWidth": 880,
+        "pixelHeight": 880
+      },
+      "label": {
+        "file": "labels/landmark_little_church_around_the_corner_label.svg",
+        "bounds": {
+          "x": 3974.8599,
+          "y": 10510.0,
+          "width": 411.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_hotel_riverside_plaza",
+      "sourceName": "hotel-riverside-plaza",
+      "sourceStableId": "landmark_hotel_riverside_plaza",
+      "sourceNodeId": "719:15",
+      "bounds": {
+        "x": 2919.8599,
+        "y": 8394.0,
+        "width": 370.0,
+        "height": 306.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_hotel_riverside_plaza.webp",
+        "bounds": {
+          "x": 3003.8599,
+          "y": 8394.0,
+          "width": 201.0,
+          "height": 271.0
+        },
+        "sourceImageHash": "74a553a651bb37a7c233dca97c1d6151d66423e6",
+        "sourcePixelWidth": 3040,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 804,
+        "pixelHeight": 1084
+      },
+      "label": {
+        "file": "labels/landmark_hotel_riverside_plaza_label.svg",
+        "bounds": {
+          "x": 2919.8599,
+          "y": 8665.0,
+          "width": 370.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_st_veronicas_church",
+      "sourceName": "st-veronicas-church",
+      "sourceStableId": "landmark_st_veronicas_church",
+      "sourceNodeId": "719:20",
+      "bounds": {
+        "x": 3391.8599,
+        "y": 11389.0,
+        "width": 323.0,
+        "height": 205.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_st_veronicas_church.webp",
+        "bounds": {
+          "x": 3455.8599,
+          "y": 11389.0,
+          "width": 196.0,
+          "height": 170.0
+        },
+        "sourceImageHash": "2aef500c4b0ddd99ebf50cbc0cb8d319d2cde382",
+        "sourcePixelWidth": 1345,
+        "sourcePixelHeight": 1169,
+        "pixelWidth": 784,
+        "pixelHeight": 680
+      },
+      "label": {
+        "file": "labels/landmark_st_veronicas_church_label.svg",
+        "bounds": {
+          "x": 3391.8599,
+          "y": 11559.0,
+          "width": 323.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_william_sloane_house_ymca",
+      "sourceName": "William Sloane House YMCA",
+      "sourceStableId": "landmark_william_sloane_house_ymca",
+      "sourceNodeId": "722:35",
+      "bounds": {
+        "x": 4412.8599,
+        "y": 11384.0,
+        "width": 453.0,
+        "height": 265.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_william_sloane_house_ymca.webp",
+        "bounds": {
+          "x": 4578.8599,
+          "y": 11384.0,
+          "width": 121.0,
+          "height": 228.0
+        },
+        "sourceImageHash": "92e5087fd7f2e4571ff1144d4f1dec2622e67bae",
+        "sourcePixelWidth": 2170,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 484,
+        "pixelHeight": 912
+      },
+      "label": {
+        "file": "labels/landmark_william_sloane_house_ymca_label.svg",
+        "bounds": {
+          "x": 4412.8599,
+          "y": 11614.0,
+          "width": 453.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_hayden_planetarium",
+      "sourceName": "hayden-planetarium",
+      "sourceStableId": "landmark_hayden_planetarium",
+      "sourceNodeId": "722:40",
+      "bounds": {
+        "x": 3229.8599,
+        "y": 8190.0,
+        "width": 370.0,
+        "height": 198.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_hayden_planetarium.webp",
+        "bounds": {
+          "x": 3295.8599,
+          "y": 8190.0,
+          "width": 237.0,
+          "height": 178.0
+        },
+        "sourceImageHash": "a029fdea47a44475aeac9849e09fc0b9b52bf8b1",
+        "sourcePixelWidth": 1446,
+        "sourcePixelHeight": 1088,
+        "pixelWidth": 948,
+        "pixelHeight": 712
+      },
+      "label": {
+        "file": "labels/landmark_hayden_planetarium_label.svg",
+        "bounds": {
+          "x": 3229.8599,
+          "y": 8353.0,
+          "width": 370.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_west_side_ymca",
+      "sourceName": "west-side-ymca",
+      "sourceStableId": "landmark_west_side_ymca",
+      "sourceNodeId": "722:45",
+      "bounds": {
+        "x": 3276.8599,
+        "y": 8634.0,
+        "width": 370.0,
+        "height": 297.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_west_side_ymca.webp",
+        "bounds": {
+          "x": 3346.8599,
+          "y": 8634.0,
+          "width": 230.0,
+          "height": 262.0
+        },
+        "sourceImageHash": "e8b7786185aba667c4b6b7cd3565e6685abc28c0",
+        "sourcePixelWidth": 3596,
+        "sourcePixelHeight": 4096,
+        "pixelWidth": 920,
+        "pixelHeight": 1048
+      },
+      "label": {
+        "file": "labels/landmark_west_side_ymca_label.svg",
+        "bounds": {
+          "x": 3276.8599,
+          "y": 8896.0,
+          "width": 370.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    },
+    {
+      "id": "landmark_st_paul_the_apostle_church",
+      "sourceName": "st-paul-the-apostle-church",
+      "sourceStableId": "landmark_st_paul_the_apostle_church",
+      "sourceNodeId": "722:50",
+      "bounds": {
+        "x": 3042.8599,
+        "y": 8931.0,
+        "width": 345.0,
+        "height": 265.0
+      },
+      "artwork": {
+        "file": "illustrations/landmark_st_paul_the_apostle_church.webp",
+        "bounds": {
+          "x": 3042.8599,
+          "y": 8931.0,
+          "width": 345.0,
+          "height": 230.0
+        },
+        "sourceImageHash": "bd17e779d7211777570720f196a84a27abc0f41f",
+        "sourcePixelWidth": 1536,
+        "sourcePixelHeight": 1024,
+        "pixelWidth": 1380,
+        "pixelHeight": 920
+      },
+      "label": {
+        "file": "labels/landmark_st_paul_the_apostle_church_label.svg",
+        "bounds": {
+          "x": 3059.8599,
+          "y": 9161.0,
+          "width": 311.0,
+          "height": 35.0
+        },
+        "fontDependency": "Jacquard 24"
+      }
+    }
+  ]
+}

@@ -316,11 +316,12 @@ Validate and integrate the owner-authored Figma map package, then obtain owner a
 
 ### 9.2 Work
 
-- Wait for the complete owner Figma handoff defined by `MAP_ASSET_PIPELINE.md`; missing inputs are a dependency, not authorization for placeholders.
-- Preserve the `.fig`, exporter ZIP and owner notes unchanged in `references/incoming/`; the quick package must contain structure JSON plus base, district, historical-landmark and purchasable-block SVGs, while composite/PNG previews remain optional.
+- 2026-09-08：`v004` 快速交付包已经到达并通过结构验收，包含 30 个地块和 52 个历史地标；不再把“等待 ZIP”列为当前阻塞。
+- Preserve the versioned `.fig` and owner notes unchanged; archive the 1.2GB exporter ZIP under ignored `assets/source_handoffs/`, never in the Web public directory or Git history.
 - Verify filenames, dimensions, shared SVG viewBox/layer IDs, registration, checksums, closed shapes or recorded owner-approved vector-network exceptions, overlap/gap conditions and programmatic overlay alignment.
 - Produce an intake report and return every ambiguity to the owner without editing source geography.
-- After owner accepts intake, convert the submitted SVG coordinates reproducibly to normalized runtime JSON without smoothing, deleting or moving vertices.
+- Build `assets/runtime_map_v001/` reproducibly with the lightweight processor: preserve geometry, split landmark art/labels, normalize IDs, number plots geographically and freeze tier-constrained generated prices.
+- After owner accepts the contact sheet and alignment review, convert the submitted SVG coordinates reproducibly to normalized gameplay JSON without smoothing, deleting or moving vertices.
 - Render the owner base and derived boundaries in Godot and compare them with the owner source plus the programmatic overlay report at target screen ratios; use a full-mode alignment preview only when supplied.
 - Demonstrate one district's hover border, locked selection and detail-page handoff.
 - Demonstrate far/middle district summaries and always-visible landmark art, then exact-`500%` plot/landmark selection, development-building visibility and landmark-banner visibility with owner assets only.
@@ -328,7 +329,7 @@ Validate and integrate the owner-authored Figma map package, then obtain owner a
 
 ### 9.3 Not Yet
 
-- No complete owner-approved plot dataset.
+- The 30-plot/52-landmark runtime package has passed automation but not the owner's visual approval gate.
 - No Codex-authored or substitute base/district geometry.
 - No bulk building or portrait production.
 - No rule implementation attached to prototype plots.
@@ -337,6 +338,7 @@ Validate and integrate the owner-authored Figma map package, then obtain owner a
 ### 9.4 Gate and Evidence
 
 - `DOC-007A` passes before map code begins.
+- `DOC-007C` automation passes, then the owner approves the contact sheet and offline alignment review before Web or Godot integration.
 - Owner approves `VIS-001` Map Composition Gate for the submitted Figma package and its exact Godot overlay.
 - Hudson/west, East River/east and Lower Manhattan/south remain correct.
 - All twelve owner-approved district IDs are present exactly once and their relative geometry matches the Figma source.

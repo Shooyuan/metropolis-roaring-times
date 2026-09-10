@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="370" height="163" viewBox="0 0 370 163" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-1-inside-1_704_121" fill="white">
+<path d="M20 128H350L332.659 145.5L350 163H20L36.8153 145.5L20 128Z" />
+</mask>
+<path d="M20 128H350L332.659 145.5L350 163H20L36.8153 145.5L20 128Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-1-inside-1_704_121)" />
+</g>
+<text id="General Post Office_2" fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="74.1094" y="154.302">General Post Office</tspan></text>
+</g>
+<defs><pattern id="pattern0_704_121" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_704_121" transform="scale(0.000244186 0.000578035)" />
+</pattern>
+</defs></svg>
