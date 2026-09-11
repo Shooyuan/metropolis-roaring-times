@@ -41,7 +41,8 @@ assert(i18n.includes('new URLSearchParams(window.location.search).get("lang")'),
 assert(i18n.includes('window.dispatchEvent(new CustomEvent("m1w:locale-changed"'), "Runtime language changes must notify gameplay rendering");
 assert(i18n.indexOf('dictionaries[requested]?.[sharedKey]') < i18n.indexOf('dictionaries["en-US"]?.[key]'), "Requested-language shared static text must win over the generated English occurrence");
 assert(i18n.includes('if (!(key in english)) english[key] = source;'), "English accessibility attributes must register their readable fallback");
-assert(app.includes('const SAVE_KEY = "metropolis_roaring_times_m1w_unified_save_v3";'), "Bilingual build needs one unified save key");
+assert(app.includes('const SAVE_KEY = "metropolis_roaring_times_m1w_unified_save_v4";'), "Bilingual build needs one current unified save key");
+assert(app.includes('"metropolis_roaring_times_m1w_unified_save_v3"'), "Runtime-map migration must retain the previous unified save key as read-only input");
 for (const legacyKey of ["metropolis_roaring_times_m01_save_v2", "metropolis_roaring_times_m01_save_zh_cn_v1", "roaring_times_m0_web_save_v1"]) {
   assert(app.includes(`"${legacyKey}"`), `Missing read-only legacy save migration source: ${legacyKey}`);
 }

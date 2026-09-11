@@ -53,13 +53,13 @@
         </div>
         <div id="home-about-panel" class="home-panel-body" hidden>
           <p class="home-panel-copy">A historical New York property strategy prototype about land, credit, auctions and market timing.</p>
-          <p class="home-panel-copy">This M1W build is a producer demo. Final plots, balance, stories and Godot production remain under staged approval.</p>
+          <p class="home-panel-copy">This M1W build is a producer demo. The approved v004 plots and landmarks are active; balance, historical copy and Godot production remain under staged approval.</p>
         </div>
       </div>
     </section>
   </section>
 
-  <div class="prototype-ribbon">M1W PRODUCER MAP DEMO — FIGMA MAP INTEGRATION · NOT FINAL PLOTS OR BALANCE</div>
+  <div class="prototype-ribbon">M1W PRODUCER MAP DEMO — FIGMA MAP INTEGRATION · NOT FINAL CONTENT OR BALANCE</div>
 
   <main class="game-shell" aria-label="Metropolis: Roaring Times M1W producer map demo">
     <header class="masthead">
@@ -125,7 +125,7 @@
             <li>Use sales, banking and securities to manage liquidity.</li>
             <li>Finish turn 8 with the highest net worth.</li>
           </ol>
-          <p class="scope-note">This build validates the owner-authored 12-district map. The production plot set and 20-turn balance remain a later approval gate.</p>
+          <p class="scope-note">This build validates the owner-authored 12-district, 30-plot and 52-landmark map. Historical copy and 20-turn balance remain later approval gates.</p>
         </section>
 
         <section id="tab-advice" class="operations-page" role="tabpanel" data-operations-page="advice" hidden>
@@ -170,8 +170,10 @@
           <div id="map-loading" class="map-loading" role="status">Preparing owner-authored vector map…</div>
           <div id="map-anchor" class="map-anchor" aria-hidden="true">
             <div id="map-canvas" class="map-canvas">
-              <img id="map-base" class="map-base" src="assets/metropolis_map_base.svg" alt="Owner-authored illustrated Manhattan map" draggable="false">
+              <img id="map-base" class="map-base" src="assets/runtime_map_v001/base/metropolis_map_base.svg" alt="Owner-authored illustrated Manhattan map" draggable="false">
               <svg id="district-overlay" class="district-overlay" viewBox="0 0 10334 14101" aria-label="Twelve selectable Manhattan districts"></svg>
+              <svg id="plot-overlay" class="plot-overlay" viewBox="0 0 10334 14101" aria-label="Thirty owner-authored purchasable plots"><g id="plot-mark-layer"></g></svg>
+              <div id="landmark-layer" class="landmark-layer" aria-label="Fifty-two historical landmarks"></div>
             </div>
           </div>
           <div class="map-instruction">DRAG TO PAN · SCROLL OR USE CONTROLS TO ZOOM · NO ROTATION</div>
@@ -181,14 +183,14 @@
           <output id="map-zoom-value" for="map-zoom-out map-zoom-in">100%</output>
           <button id="map-zoom-in" type="button" aria-label="Zoom in">+</button>
           <button id="map-reset" type="button">Reset View</button>
-          <span id="map-status">12 districts · Owner geometry</span>
+          <span id="map-status">12 districts · 30 plots · 52 landmarks</span>
         </div>
         <div class="legend map-legend" aria-label="Map legend"><span><i class="legend-key legend-key--district"></i>District hit area</span><span><i class="legend-key legend-key--hover"></i>Hover border</span><span><i class="legend-key legend-key--selected"></i>Locked selection</span></div>
       </section>
 
-      <aside class="property-panel panel" aria-label="District file">
-        <div class="panel-heading"><span>District File</span><span class="panel-number">02</span></div>
-        <div id="empty-district" class="empty-property district-empty"><strong>Select a district</strong><p>Hover the map to reveal its boundary. Click once to lock the border and open this file.</p></div>
+      <aside class="property-panel panel" aria-label="Selected map entity file">
+        <div class="panel-heading"><span id="entity-file-title">Map File</span><span class="panel-number">02</span></div>
+        <div id="empty-district" class="empty-property district-empty"><strong>Select a district, plot or landmark</strong><p>Districts are available at every zoom. At 500%, plots and landmark labels become selectable.</p></div>
         <div id="district-details" class="property-details district-details" hidden>
           <button id="district-close-button" class="district-close-button" type="button" aria-label="Close selected district">×</button>
           <p class="plot-code" id="district-code">—</p><h2 id="district-name">—</h2>
@@ -201,16 +203,17 @@
             <div><dt>Major Transit</dt><dd id="district-transit">Pending</dd></div>
             <div><dt>Prosperity</dt><dd id="district-prosperity">—</dd></div>
           </dl>
-          <div class="district-note"><strong>M1W map scope</strong><p id="district-note">Geometry and selection are under review. Gameplay figures wait for the approved 64-plot dataset.</p></div>
-          <p class="district-source">Source: owner-authored Figma handoff v003.</p>
+          <div class="district-note"><strong>M1W map scope</strong><p id="district-note">The approved 30-plot and 52-landmark runtime package is active. Prosperity and transit effects remain pending.</p></div>
+          <p class="district-source">Source: owner-authored Figma handoff v004.</p>
         </div>
-        <div class="legacy-property-runtime" hidden>
-          <div id="plot-layer"></div>
-          <div id="empty-property">Select a plot on the map.</div>
-          <div id="property-details">
+        <div id="plot-layer" hidden></div>
+        <div id="empty-property" hidden>Select a plot on the map.</div>
+        <div id="property-details" class="property-details" hidden>
+          <button class="district-close-button" type="button" data-clear-map-selection aria-label="Close selected plot">×</button>
           <p class="plot-code" id="plot-code">—</p><h2 id="plot-name">—</h2>
           <dl class="property-grid">
             <div><dt>District</dt><dd id="plot-district">—</dd></div><div><dt>Zone</dt><dd id="plot-zone">—</dd></div>
+            <div><dt>Price Tier</dt><dd id="plot-tier">—</dd></div>
             <div><dt>Owner</dt><dd id="plot-owner">—</dd></div><div><dt>Market</dt><dd id="plot-price">—</dd></div>
             <div><dt>Building</dt><dd id="plot-building">—</dd></div><div><dt>Income</dt><dd id="plot-income">—</dd></div>
           </dl>
@@ -231,7 +234,15 @@
             <button id="sell-property-button" type="button">Brokered Sale</button>
           </div>
           <p id="property-reason" class="reason-copy" aria-live="polite"></p>
-          </div>
+        </div>
+        <div id="landmark-details" class="property-details landmark-details" hidden>
+          <button class="district-close-button" type="button" data-clear-map-selection aria-label="Close selected landmark">×</button>
+          <p class="plot-code" id="landmark-code">—</p>
+          <h2 id="landmark-name">—</h2>
+          <p id="landmark-district" class="district-location">Manhattan, New York</p>
+          <p id="landmark-short" class="landmark-short">Historical summary pending review.</p>
+          <details id="landmark-more" class="landmark-more"><summary>Read more</summary><p id="landmark-long">Long-form historical copy is awaiting owner approval.</p></details>
+          <a class="wikipedia-source" href="https://en.wikipedia.org/" target="_blank" rel="noreferrer"><img src="assets/wikipedia-w.svg" alt="Wikipedia"><span>Source review: English Wikipedia</span></a>
         </div>
       </aside>
     </section>
@@ -262,9 +273,9 @@
   <div id="result-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="result-title"><section class="modal-card result-card"><p class="eyebrow">Prototype Result</p><h2 id="result-title">Match Complete</h2><p id="result-summary"></p><div class="result-grid"><div><span>Your Net Worth</span><strong id="result-player-worth">—</strong></div><div><span>Rival Net Worth</span><strong id="result-rival-worth">—</strong></div><div><span>Your Securities</span><strong id="result-player-securities">—</strong></div><div><span>Rival Securities</span><strong id="result-rival-securities">—</strong></div></div><button id="result-restart-button" class="primary-button" type="button">Choose Another Rival</button></section></div>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="locales/en-US.js?v=m1w-i18n2"></script>
-  <script src="locales/zh-CN.js?v=m1w-i18n2"></script>
-  <script src="i18n.js?v=m1w-i18n2"></script>
-  <script src="app.js?v=m1w-home5"></script>
+  <script src="locales/en-US.js?v=m1w-i18n3"></script>
+  <script src="locales/zh-CN.js?v=m1w-i18n3"></script>
+  <script src="i18n.js?v=m1w-i18n3"></script>
+  <script src="app.js?v=m1w-map4"></script>
 </body>
 </html>

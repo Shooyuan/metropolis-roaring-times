@@ -96,7 +96,8 @@ assert(brand.toString("utf8").includes('id="brand-title-colon"'), "Approved Bran
 
 for (const id of expectedDistricts) assert(script.includes(`id: "${id}"`), `Missing district metadata: ${id}`);
 assert(script.includes("const MAP_ZOOM_FACTOR = 1.25;"), "Map zoom must use the approved fixed 125% factor");
-assert(script.includes("const MAP_MAX_ZOOM_STEP = 5;"), "Map zoom step limit must remain explicit");
+assert(script.includes("const MAP_ZOOM_STEPS = [1, 1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5];"), "Map zoom must use the approved nine-step ladder ending at 500%");
+assert(script.includes("const MAP_DETAIL_ZOOM_STEP = MAP_MAX_ZOOM_STEP;"), "Plot and landmark selection must be gated at the 500% detail step");
 assert(!script.includes("rotate("), "M1W map transforms must not introduce rotation");
 assert(script.includes('dom.mapAnchor.style.height = `${zoom * 100}%`;'), "Map zoom must resize the SVG layout box for sharp Safari rendering");
 assert(!script.includes("dom.mapCanvas.style.transform = `scale(${zoom})`;"), "Map zoom must not enlarge a cached composited bitmap");

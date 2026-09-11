@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="391" height="270" viewBox="0 0 391 270" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-1-inside-1_688_85" fill="white">
+<path d="M0 235H391L370.454 252.5L391 270H0L19.9236 252.5L0 235Z" />
+</mask>
+<path d="M0 235H391L370.454 252.5L391 270H0L19.9236 252.5L0 235Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-1-inside-1_688_85)" />
+</g>
+<text id="N.Y Hospital Cornell" fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="76.7813" y="260.302">N.Y Hospital Cornell</tspan></text>
+</g>
+<defs><pattern id="pattern0_688_85" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_688_85" transform="scale(0.000651042 0.000976562)" />
+</pattern>
+</defs></svg>

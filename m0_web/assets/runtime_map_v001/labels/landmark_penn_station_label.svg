@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="210" viewBox="0 0 300 210" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-1-inside-1_654_50" fill="white">
+<path d="M21 175H279L265.443 192.5L279 210H21L34.1465 192.5L21 175Z" />
+</mask>
+<path d="M21 175H279L265.443 192.5L279 210H21L34.1465 192.5L21 175Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-1-inside-1_654_50)" />
+</g>
+<text id="Penn Station_2" fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="76.6602" y="203.302">Penn Station</tspan></text>
+</g>
+<defs><pattern id="pattern0_654_50" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_654_50" transform="matrix(0.000244141 0 0 0.000418527 0 -0.00181362)" />
+</pattern>
+</defs></svg>

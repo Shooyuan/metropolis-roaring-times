@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="355" height="275" viewBox="0 0 355 275" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-1-inside-1_704_154" fill="white">
+<path d="M0 240H355L336.346 257.5L355 275H0L18.0892 257.5L0 240Z" />
+</mask>
+<path d="M0 240H355L336.346 257.5L355 275H0L18.0892 257.5L0 240Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-1-inside-1_704_154)" />
+</g>
+<text id="Tatham House YWCA_2" fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="51" y="268.302">Tatham House YWCA</tspan></text>
+</g>
+<defs><pattern id="pattern0_704_154" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_704_154" transform="matrix(0.000323722 0 0 0.000244141 -0.000636654 0)" />
+</pattern>
+</defs></svg>

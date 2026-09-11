@@ -1,6 +1,6 @@
 # Metropolis: Roaring Times — Vertical Slice Scope
 
-> 当前前置交付：现有 M1W 已验证地图、Brand、缩放拖拽、街区悬停/选择和双语详情。老板正在 Figma 中制作可购买地块与历史地标；完整新包交付并验收前，不接入新图层，也不启动 Godot 地图实现。
+> 当前前置交付：现有 M1W 已接入并验证 v004 正式底图、12 个街区、30 个可购买地块和 52 个历史地标，包含固定缩放、互斥选择、双语详情及原 M0.1 地产经济演示。该网页仍是制作人验证层；老板验收前不启动 Godot 地图实现。
 
 > Document role: binding content and feature boundary for the first playable release
 >

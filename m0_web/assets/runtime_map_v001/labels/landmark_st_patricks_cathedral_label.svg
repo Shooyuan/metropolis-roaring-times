@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="346" height="348" viewBox="0 0 346 348" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-2-inside-1_571_38" fill="white">
+<path d="M0 313H346L327.818 330.5L346 348H0L17.6306 330.5L0 313Z" />
+</mask>
+<path d="M0 313H346L327.818 330.5L346 348H0L17.6306 330.5L0 313Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-2-inside-1_571_38)" />
+</g>
+<text id="St. Patrickâs Cathedral_3" fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="46.8125" y="341.302">St. Patrick’s Cathedral</tspan></text>
+</g>
+<defs><pattern id="pattern0_571_38" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_571_38" transform="scale(0.000339674 0.000244175)" />
+</pattern>
+</defs></svg>

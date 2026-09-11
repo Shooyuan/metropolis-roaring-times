@@ -221,6 +221,8 @@ ZIP 不限制固定像素尺寸。底图 SVG 不得包含参考图层、分区�
 
 插件 ZIP 是源交付证据，不直接放在网页公开资源目录，也不提交 Git。Codex 将其归档到 `assets/source_handoffs/<map_version>/`，再用 `tools/map_handoff_processor/` 生成 `assets/runtime_map_<version>/`：保留底图和几何 SVG，把每座地标拆为轻量透明 `WebP` 插画与独立横幅 SVG，生成 `landmarks.json`、`plots.json`、接触表、离线对齐页和处理报告。源 ZIP 不删除；派生文件必须能由同一源包重复生成。
 
+> 2026-09-11 运行状态：v004 派生包已复制到 `m0_web/assets/runtime_map_v001/` 并接入 M1W。网页只消费轻量派生文件，不读取源 ZIP；12 街区、30 地块和 52 地标使用同一主画布登记。此接入只用于浏览器验证，不构成 Godot 阶段授权。
+
 即使老板提供了在线 Figma 链接，在该素材包成为正式项目依赖前，仍必须提供 `.fig` 快照。
 
 ## 八、底图与分区为什么能够准确对位

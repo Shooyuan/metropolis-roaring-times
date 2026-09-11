@@ -28,7 +28,7 @@ The first documentation-reconciliation stage consists of:
 | D6 | Acceptance Tests | Complete |
 | D7 | Implementation Plan | Complete after this document passes tests and is committed |
 
-The standalone M0W Web Graybox was completed in commit `ee6eccf`, the M0.1D specification synchronization was completed in commit `0cd57f4`, and the M0.1W revision was completed in commit `baef8ea`. The Codex/DeepSeek collaboration boundary was committed as `0885c3f`. The owner subsequently approved M0G, which now establishes the verified production Godot baseline without beginning gameplay implementation.
+The standalone M0W Web Graybox was completed in commit `ee6eccf`, the M0.1D specification synchronization was completed in commit `0cd57f4`, and the M0.1W revision was completed in commit `baef8ea`. The Codex/DeepSeek collaboration boundary was committed as `0885c3f`. M0G established the verified production Godot baseline without beginning gameplay implementation. M1W now includes the owner-approved v004 runtime package with 12 districts, 30 plots and 52 landmarks for browser validation; historical copy, production building art and Godot M1B remain separately gated.
 
 ## 3. Mandatory Stage Protocol
 

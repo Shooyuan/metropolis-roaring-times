@@ -1,8 +1,9 @@
 "use strict";
 
 const MAX_TURN = 8;
-const SAVE_KEY = "metropolis_roaring_times_m1w_unified_save_v3";
+const SAVE_KEY = "metropolis_roaring_times_m1w_unified_save_v4";
 const LEGACY_SAVE_KEYS = [
+  "metropolis_roaring_times_m1w_unified_save_v3",
   "metropolis_roaring_times_m01_save_v2",
   "metropolis_roaring_times_m01_save_zh_cn_v1",
   "roaring_times_m0_web_save_v1",
@@ -12,9 +13,9 @@ const locale = () => window.M1WI18n.getLocale();
 const HOME_LANGUAGE_NAMES = { "en-US": "English", "zh-CN": "中文（简体）" };
 
 const RIVALS = {
-  tycoon: { name: "Tycoon", style: "Industry & transport", preferredPlots: ["hk_01", "mt_01"], building: "factory", reserve: 8000, security: "industrial_shares" },
-  landlady: { name: "Landlady", style: "Residential income", preferredPlots: ["cp_01", "les_01"], building: "standard_apartment", reserve: 12000, security: "municipal_bonds" },
-  shark: { name: "Shark", style: "Cheap land & liquidity", preferredPlots: ["bb_01", "hk_02"], building: "department_store", reserve: 26000, security: "investment_trust" },
+  tycoon: { name: "Tycoon", style: "Industry & transport", preferredPlots: ["plot_027", "plot_028"], building: "factory", reserve: 8000, security: "industrial_shares" },
+  landlady: { name: "Landlady", style: "Residential income", preferredPlots: ["plot_013", "plot_014"], building: "standard_apartment", reserve: 12000, security: "municipal_bonds" },
+  shark: { name: "Shark", style: "Cheap land & liquidity", preferredPlots: ["plot_005", "plot_003"], building: "department_store", reserve: 26000, security: "investment_trust" },
 };
 
 const BUILDINGS = {
@@ -55,36 +56,21 @@ const DISTRICTS = [
   { id: "district_financial_district", name: "Financial District", label: ["FINANCIAL", "DISTRICT"], location: "Southern Manhattan", note: "The southernmost approved playable district in the M1W map." },
 ];
 
+const MAP_ZOOM_STEPS = [1, 1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5];
 const MAP_ZOOM_FACTOR = 1.25;
-const MAP_MAX_ZOOM_STEP = 5;
+const MAP_MAX_ZOOM_STEP = MAP_ZOOM_STEPS.length - 1;
+const MAP_DETAIL_ZOOM_STEP = MAP_MAX_ZOOM_STEP;
 const MAP_PAN_KEY_STEP = 38;
 
-const PLOT_BLUEPRINTS = [
-  { id: "cp_01", name: "Riverside Heights", district: "Unmapped M0 Fixture", zone: "Residential", price: 21000, x: 35, y: 8, w: 14, h: 9, shape: "polygon(6% 9%, 91% 0, 100% 89%, 12% 100%)" },
-  { id: "cp_02", name: "Museum Row", district: "Unmapped M0 Fixture", zone: "Residential", price: 23000, x: 50, y: 8, w: 14, h: 9, shape: "polygon(0 0, 92% 7%, 100% 100%, 8% 91%)" },
-  { id: "cp_public", name: "Central Park", district: "Unmapped M0 Fixture", zone: "Public", price: 0, x: 41, y: 18, w: 19, h: 13, owner: "government", shape: "polygon(10% 0, 93% 8%, 100% 90%, 0 100%)" },
-  { id: "uw_01", name: "West End Blocks", district: "Unmapped M0 Fixture", zone: "Residential", price: 15000, x: 30, y: 24, w: 11, h: 10, shape: "polygon(8% 0, 100% 8%, 92% 100%, 0 89%)" },
-  { id: "ue_01", name: "East Side Court", district: "Unmapped M0 Fixture", zone: "Residential", price: 17000, x: 60, y: 24, w: 11, h: 10, shape: "polygon(0 7%, 88% 0, 100% 92%, 9% 100%)" },
-  { id: "mt_01", name: "Garment Square", district: "Unmapped M0 Fixture", zone: "Business", price: 15000, x: 35, y: 36, w: 14, h: 10, shape: "polygon(0 7%, 93% 0, 100% 88%, 8% 100%)" },
-  { id: "mt_02", name: "Grand Avenue", district: "Unmapped M0 Fixture", zone: "Business", price: 24000, x: 50, y: 36, w: 15, h: 10, shape: "polygon(7% 0, 100% 9%, 92% 100%, 0 89%)" },
-  { id: "hk_01", name: "Rail Yard West", district: "Unmapped M0 Fixture", zone: "Unrestricted", price: 9000, x: 27, y: 48, w: 14, h: 10, shape: "polygon(12% 0, 100% 8%, 88% 100%, 0 91%)" },
-  { id: "mt_03", name: "Herald Blocks", district: "Unmapped M0 Fixture", zone: "Business", price: 16000, x: 43, y: 48, w: 14, h: 10, shape: "polygon(0 8%, 90% 0, 100% 91%, 8% 100%)" },
-  { id: "les_01", name: "Orchard Courts", district: "Unmapped M0 Fixture", zone: "Residential", price: 11000, x: 58, y: 48, w: 14, h: 10, shape: "polygon(8% 0, 100% 10%, 91% 100%, 0 88%)" },
-  { id: "hk_02", name: "Foundry Lane", district: "Unmapped M0 Fixture", zone: "Unrestricted", price: 7000, x: 29, y: 60, w: 13, h: 10, shape: "polygon(0 6%, 90% 0, 100% 90%, 10% 100%)" },
-  { id: "les_02", name: "Essex Market", district: "Unmapped M0 Fixture", zone: "Business", price: 12000, x: 57, y: 60, w: 14, h: 10, shape: "polygon(9% 0, 100% 7%, 90% 100%, 0 92%)" },
-  { id: "lm_01", name: "Civic Exchange", district: "Unmapped M0 Fixture", zone: "Business", price: 18000, x: 37, y: 70, w: 14, h: 9, shape: "polygon(0 9%, 92% 0, 100% 91%, 7% 100%)" },
-  { id: "lm_public", name: "City Hall", district: "Unmapped M0 Fixture", zone: "Public", price: 0, x: 52, y: 70, w: 12, h: 9, owner: "government", shape: "polygon(8% 0, 100% 8%, 91% 100%, 0 90%)" },
-  { id: "lm_02", name: "Wall Street Corner", district: "Unmapped M0 Fixture", zone: "Business", price: 26000, x: 39, y: 81, w: 13, h: 9, shape: "polygon(0 5%, 91% 0, 100% 87%, 10% 100%)" },
-  { id: "lm_03", name: "Battery Warehouses", district: "Unmapped M0 Fixture", zone: "Unrestricted", price: 14000, x: 49, y: 88, w: 12, h: 8, shape: "polygon(10% 0, 100% 12%, 88% 100%, 0 86%)" },
-  { id: "bb_01", name: "Bridge Landing", district: "Unmapped M0 Fixture", zone: "Unrestricted", price: 6000, x: 76, y: 75, w: 13, h: 10, shape: "polygon(0 11%, 90% 0, 100% 89%, 9% 100%)" },
-  { id: "bb_02", name: "Dockside Lots", district: "Unmapped M0 Fixture", zone: "Business", price: 8000, x: 80, y: 87, w: 13, h: 9, shape: "polygon(8% 0, 100% 9%, 92% 100%, 0 88%)" },
-];
+let PLOT_BLUEPRINTS = [];
+let LANDMARKS = [];
 
 const dom = {};
 let state = null;
 let busy = false;
 let toastTimer = null;
 let selectedDistrictId = null;
+let selectedLandmarkId = null;
 let activeHomePanel = null;
 let selectedRivalId = null;
 
@@ -100,7 +86,8 @@ const mapView = {
   pointerStartY: 0,
   panStartX: 0,
   panStartY: 0,
-  pressedDistrictId: null,
+  pressedEntityType: null,
+  pressedEntityId: null,
   lastWheelAt: 0,
 };
 
@@ -118,8 +105,10 @@ const districtLocation = (district) => t(`district.${district.id}.location`);
 const districtNote = (district) => t(`district.${district.id}.note`);
 const plotName = (plotOrId) => {
   const plot = typeof plotOrId === "string" ? PLOT_BLUEPRINTS.find((item) => item.id === plotOrId) : plotOrId;
-  return plot ? t(`plot.${plot.id}.name`) : "";
+  return plot ? t("plot.runtime_name", { number: plot.id.slice(-3) }) : "";
 };
+const landmarkMeta = (id) => LANDMARKS.find((landmark) => landmark.id === id) || null;
+const landmarkName = (landmark) => landmark?.displayName || landmark?.sourceName || landmark?.id || "";
 
 function economyForTurn(turn) {
   if (turn <= 2) return { id: "opening", market: 1, income: 1, credit: 100000, rate: 0.0025 };
@@ -133,12 +122,12 @@ const securityPriceForTurn = (id, turn) => SECURITIES[id].prices[turn - 1];
 const zoningActive = () => Boolean(state && state.turn >= 6);
 
 function clonePlots() {
-  return PLOT_BLUEPRINTS.map((plot) => ({ ...plot, owner: plot.owner || "unowned", building: null, invested: 0, salePending: null }));
+  return PLOT_BLUEPRINTS.map((plot) => ({ ...plot, owner: "unowned", building: null, invested: 0, salePending: null }));
 }
 
 function createInitialState(rivalId) {
   const plots = clonePlots();
-  const rivalStarts = { tycoon: ["hk_01", "mt_01"], landlady: ["cp_01", "les_01"], shark: ["bb_01", "hk_02"] };
+  const rivalStarts = { tycoon: ["plot_027", "plot_028"], landlady: ["plot_013", "plot_014"], shark: ["plot_005", "plot_003"] };
   let aiCash = 50000;
   for (const id of rivalStarts[rivalId]) {
     const plot = plots.find((item) => item.id === id);
@@ -147,7 +136,7 @@ function createInitialState(rivalId) {
     aiCash -= plot.price;
   }
   return {
-    version: 3, rivalId, turn: 1, ap: 3, cash: 50000, aiCash, loans: [], plots,
+    version: 4, rivalId, turn: 1, ap: 3, cash: 50000, aiCash, loans: [], plots,
     selectedPlotId: null, activeOperationsTab: "brief", finished: false, transactionSequence: 1,
     playerHoldings: blankHoldings(), aiHoldings: blankHoldings(),
     securitiesPrices: Object.fromEntries(Object.keys(SECURITIES).map((id) => [id, securityPriceForTurn(id, 1)])),
@@ -235,28 +224,34 @@ function plotMark(plot) {
 }
 
 function renderMap() {
-  dom.plotLayer.replaceChildren();
+  if (!mapView.loaded || !state) return;
+  dom.plotMarkLayer.replaceChildren();
   for (const plot of state.plots) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = `plot${state.selectedPlotId === plot.id ? " is-selected" : ""}`;
-    button.dataset.plotId = plot.id;
-    button.dataset.owner = plot.owner;
-    Object.assign(button.style, { left: `${plot.x}%`, top: `${plot.y}%`, width: `${plot.w}%`, height: `${plot.h}%` });
-    button.style.setProperty("--shape", plot.shape);
-    button.setAttribute("aria-label", t("aria.plot", { plot: plotName(plot), owner: t(`owner.${plot.owner}`), building: plot.building ? buildingName(plot.building.type) : t("property.empty_land") }));
-    const mark = document.createElement("span");
-    mark.className = "plot-mark";
+    const group = dom.plotOverlay.querySelector(`[data-plot-id="${plot.id}"]`);
+    if (!group) continue;
+    group.dataset.owner = plot.owner;
+    group.classList.toggle("is-selected", state.selectedPlotId === plot.id);
+    group.setAttribute("aria-pressed", String(state.selectedPlotId === plot.id));
+    group.setAttribute("aria-label", t("aria.plot", { plot: plotName(plot), owner: t(`owner.${plot.owner}`), building: plot.building ? buildingName(plot.building.type) : t("property.empty_land") }));
+
+    const mark = document.createElementNS(svgNamespace, "text");
+    mark.setAttribute("class", "runtime-plot-mark");
+    mark.setAttribute("x", String(plot.bounds.x + plot.bounds.width / 2));
+    mark.setAttribute("y", String(plot.bounds.y + plot.bounds.height / 2));
     mark.textContent = plotMark(plot);
-    button.append(mark);
-    button.addEventListener("click", () => { state.selectedPlotId = plot.id; render(); });
-    dom.plotLayer.append(button);
+    dom.plotMarkLayer.append(mark);
+  }
+  for (const card of dom.landmarkLayer.querySelectorAll("[data-landmark-id]")) {
+    const selected = card.dataset.landmarkId === selectedLandmarkId;
+    card.classList.toggle("is-selected", selected);
+    card.setAttribute("aria-pressed", String(selected));
   }
 }
 
 const svgNamespace = "http://www.w3.org/2000/svg";
 const districtMeta = (id) => DISTRICTS.find((district) => district.id === id) || null;
-const currentMapZoom = () => MAP_ZOOM_FACTOR ** mapView.zoomStep;
+const currentMapZoom = () => MAP_ZOOM_STEPS[mapView.zoomStep];
+const isDetailZoom = () => mapView.zoomStep >= MAP_DETAIL_ZOOM_STEP;
 
 function clampMapPan() {
   if (!mapView.loaded) return;
@@ -277,6 +272,7 @@ function applyMapView() {
   dom.mapAnchor.style.height = `${zoom * 100}%`;
   clampMapPan();
   dom.mapAnchor.style.transform = `translate(-50%, -50%) translate3d(${mapView.panX}px, ${mapView.panY}px, 0)`;
+  dom.mapCanvas.classList.toggle("is-detail-zoom", isDetailZoom());
   dom.mapZoomValue.value = `${Math.round(zoom * 100)}%`;
   dom.mapZoomOut.disabled = mapView.zoomStep === 0;
   dom.mapZoomIn.disabled = mapView.zoomStep === MAP_MAX_ZOOM_STEP;
@@ -307,7 +303,6 @@ function resetMapView() {
 
 function renderDistrictDetails() {
   const district = districtMeta(selectedDistrictId);
-  dom.emptyDistrict.hidden = Boolean(district);
   dom.districtDetails.hidden = !district;
   for (const group of dom.districtOverlay.querySelectorAll("[data-district-id]")) {
     const selected = group.dataset.districtId === selectedDistrictId;
@@ -315,32 +310,85 @@ function renderDistrictDetails() {
     group.setAttribute("aria-pressed", String(selected));
   }
   if (!district) {
-    dom.mapHint.textContent = t("map.hover_lock");
     return;
   }
   dom.districtCode.textContent = district.id.toUpperCase();
   dom.districtName.textContent = districtName(district);
   dom.districtLocation.textContent = t("district.location_line", { location: districtLocation(district) });
-  dom.districtPlots.textContent = t("district.pending_plots");
-  dom.districtApartments.textContent = "—";
-  dom.districtFactories.textContent = "—";
-  dom.districtStores.textContent = "—";
+  const districtPlots = state?.plots.filter((plot) => plot.districtId === district.id) || [];
+  dom.districtPlots.textContent = String(districtPlots.filter((plot) => plot.owner === "unowned").length);
+  dom.districtApartments.textContent = String(districtPlots.filter((plot) => plot.owner === "player" && ["standard_apartment", "luxury_apartment"].includes(plot.building?.type)).length);
+  dom.districtFactories.textContent = String(districtPlots.filter((plot) => plot.owner === "player" && plot.building?.type === "factory").length);
+  dom.districtStores.textContent = String(districtPlots.filter((plot) => plot.owner === "player" && plot.building?.type === "department_store").length);
   dom.districtTransit.textContent = t("district.pending_transit");
   dom.districtProsperity.textContent = t("district.pending_prosperity");
   dom.districtNote.textContent = t("district.note_line", { note: districtNote(district) });
   dom.mapHint.textContent = t("map.selection_locked", { district: districtName(district) });
 }
 
+function renderLandmarkDetails() {
+  const landmark = landmarkMeta(selectedLandmarkId);
+  dom.landmarkDetails.hidden = !landmark;
+  if (!landmark) return;
+  dom.landmarkCode.textContent = landmark.id.toUpperCase();
+  dom.landmarkName.textContent = landmarkName(landmark);
+  dom.landmarkDistrict.textContent = landmark.districtId ? districtName(landmark.districtId) : t("map.outside_district");
+  dom.landmarkShort.textContent = t("landmark.content_pending");
+  dom.landmarkLong.textContent = t("landmark.long_pending");
+  dom.landmarkMore.open = false;
+  dom.mapHint.textContent = t("map.landmark_selected", { landmark: landmarkName(landmark) });
+}
+
+function renderMapDetails() {
+  const hasDistrict = Boolean(selectedDistrictId);
+  const hasPlot = Boolean(state?.selectedPlotId);
+  const hasLandmark = Boolean(selectedLandmarkId);
+  dom.emptyDistrict.hidden = hasDistrict || hasPlot || hasLandmark;
+  dom.propertyDetails.hidden = !hasPlot;
+  renderDistrictDetails();
+  renderLandmarkDetails();
+  dom.entityFileTitle.textContent = hasDistrict ? t("entity_file.district") : hasPlot ? t("entity_file.plot") : hasLandmark ? t("entity_file.landmark") : t("entity_file.empty");
+}
+
 function selectDistrict(id) {
   if (!districtMeta(id)) return false;
+  if (state) state.selectedPlotId = null;
+  selectedLandmarkId = null;
   selectedDistrictId = id;
-  renderDistrictDetails();
+  renderMap();
+  renderMapDetails();
   return true;
 }
 
 function clearDistrictSelection() {
+  if (state) state.selectedPlotId = null;
+  selectedLandmarkId = null;
   selectedDistrictId = null;
-  renderDistrictDetails();
+  renderMap();
+  renderMapDetails();
+  dom.mapHint.textContent = t("map.hover_lock");
+}
+
+function selectPlot(id) {
+  if (!isDetailZoom() || !getPlot(id)) return false;
+  selectedDistrictId = null;
+  selectedLandmarkId = null;
+  state.selectedPlotId = id;
+  renderMap();
+  renderMapDetails();
+  renderProperty();
+  dom.mapHint.textContent = t("map.plot_selected", { plot: plotName(id) });
+  return true;
+}
+
+function selectLandmark(id) {
+  if (!state || !isDetailZoom() || !landmarkMeta(id)) return false;
+  selectedDistrictId = null;
+  state.selectedPlotId = null;
+  selectedLandmarkId = id;
+  renderMap();
+  renderMapDetails();
+  return true;
 }
 
 function refreshDistrictLocalization() {
@@ -354,7 +402,12 @@ function refreshDistrictLocalization() {
     group.setAttribute("aria-label", t("aria.select_district", { district: districtName(meta) }));
     labelLayer.append(createDistrictLabel(meta, group.getBBox()));
   }
-  renderDistrictDetails();
+  for (const card of dom.landmarkLayer.querySelectorAll("[data-landmark-id]")) {
+    const landmark = landmarkMeta(card.dataset.landmarkId);
+    card.setAttribute("aria-label", t("aria.landmark", { landmark: landmarkName(landmark) }));
+  }
+  dom.mapStatus.textContent = t("map.status_runtime", { districts: DISTRICTS.length, plots: PLOT_BLUEPRINTS.length, landmarks: LANDMARKS.length });
+  renderMapDetails();
 }
 
 function createDistrictPath(sourcePath, className) {
@@ -384,12 +437,95 @@ function createDistrictLabel(meta, bounds) {
   return text;
 }
 
+function readableLandmarkName(sourceName) {
+  const cleaned = sourceName.replace(/_transparent$/i, "").replace(/[-_]+/g, " ").trim();
+  return cleaned.replace(/\b\w/g, (letter) => letter.toUpperCase()).replace(/^Ny\b/, "NY").replace(/Ymca\b/g, "YMCA").replace(/Ywca\b/g, "YWCA").replace(/Uss\b/g, "USS");
+}
+
+function districtForPoint(x, y) {
+  const point = dom.districtOverlay.createSVGPoint();
+  point.x = x;
+  point.y = y;
+  for (const meta of DISTRICTS) {
+    const group = dom.districtOverlay.querySelector(`[data-district-id="${meta.id}"]`);
+    if ([...group.querySelectorAll(".district-hit")].some((path) => path.isPointInFill(point))) return meta.id;
+  }
+  return null;
+}
+
+function setDistrictContextHover(id, active) {
+  if (!id || id === selectedDistrictId) return;
+  dom.districtOverlay.querySelector(`[data-district-id="${id}"]`)?.classList.toggle("is-context-hover", active);
+}
+
+function positionPercent(value, total) {
+  return `${(value / total) * 100}%`;
+}
+
+function createLandmarkCard(landmark, master) {
+  const card = document.createElement("button");
+  card.type = "button";
+  card.className = "landmark-entity";
+  card.dataset.mapEntity = "landmark";
+  card.dataset.landmarkId = landmark.id;
+  card.setAttribute("aria-pressed", "false");
+  card.setAttribute("aria-label", t("aria.landmark", { landmark: landmarkName(landmark) }));
+  Object.assign(card.style, {
+    left: positionPercent(landmark.bounds.x, master.width),
+    top: positionPercent(landmark.bounds.y, master.height),
+    width: positionPercent(landmark.bounds.width, master.width),
+    height: positionPercent(landmark.bounds.height, master.height),
+  });
+
+  for (const [kind, asset] of [["artwork", landmark.artwork], ["label", landmark.label]]) {
+    const image = document.createElement("img");
+    image.className = `landmark-${kind}`;
+    image.src = `assets/runtime_map_v001/${asset.file}`;
+    image.alt = "";
+    image.draggable = false;
+    Object.assign(image.style, {
+      left: positionPercent(asset.bounds.x - landmark.bounds.x, landmark.bounds.width),
+      top: positionPercent(asset.bounds.y - landmark.bounds.y, landmark.bounds.height),
+      width: positionPercent(asset.bounds.width, landmark.bounds.width),
+      height: positionPercent(asset.bounds.height, landmark.bounds.height),
+    });
+    card.append(image);
+  }
+  card.addEventListener("pointerenter", () => {
+    setDistrictContextHover(landmark.districtId, true);
+    dom.mapHint.textContent = isDetailZoom() ? t("map.open_landmark", { landmark: landmarkName(landmark) }) : t("map.zoom_for_landmark");
+  });
+  card.addEventListener("pointerleave", () => {
+    setDistrictContextHover(landmark.districtId, false);
+    const district = districtMeta(selectedDistrictId);
+    dom.mapHint.textContent = district ? t("map.selection_locked", { district: districtName(district) }) : t("map.hover_lock");
+  });
+  card.addEventListener("keydown", (event) => {
+    if (!["Enter", " "].includes(event.key)) return;
+    event.preventDefault();
+    if (isDetailZoom()) selectLandmark(landmark.id);
+    else if (landmark.districtId) selectDistrict(landmark.districtId);
+  });
+  return card;
+}
+
 async function initializeProducerMap() {
-  const response = await window.fetch("assets/metropolis_district_geometry.svg", { cache: "no-store" });
-  if (!response.ok) throw new Error(`District SVG returned HTTP ${response.status}`);
-  const sourceText = await response.text();
-  const sourceDocument = new DOMParser().parseFromString(sourceText, "image/svg+xml");
-  if (sourceDocument.querySelector("parsererror")) throw new Error("District SVG could not be parsed");
+  const root = "assets/runtime_map_v001";
+  const [districtResponse, plotResponse, plotDataResponse, landmarkDataResponse] = await Promise.all([
+    window.fetch(`${root}/geometry/metropolis_district_geometry.svg`, { cache: "no-store" }),
+    window.fetch(`${root}/geometry/metropolis_purchasable_blocks.svg`, { cache: "no-store" }),
+    window.fetch(`${root}/plots.json`, { cache: "no-store" }),
+    window.fetch(`${root}/landmarks.json`, { cache: "no-store" }),
+  ]);
+  for (const response of [districtResponse, plotResponse, plotDataResponse, landmarkDataResponse]) {
+    if (!response.ok) throw new Error(`Runtime map asset returned HTTP ${response.status}`);
+  }
+  const [districtText, plotText, plotData, landmarkData] = await Promise.all([
+    districtResponse.text(), plotResponse.text(), plotDataResponse.json(), landmarkDataResponse.json(),
+  ]);
+  const sourceDocument = new DOMParser().parseFromString(districtText, "image/svg+xml");
+  const plotDocument = new DOMParser().parseFromString(plotText, "image/svg+xml");
+  if (sourceDocument.querySelector("parsererror") || plotDocument.querySelector("parsererror")) throw new Error("Runtime map SVG could not be parsed");
 
   dom.districtOverlay.replaceChildren();
   const interactionLayer = document.createElementNS(svgNamespace, "g");
@@ -404,6 +540,7 @@ async function initializeProducerMap() {
 
     const group = document.createElementNS(svgNamespace, "g");
     group.setAttribute("class", "district-interaction");
+    group.setAttribute("data-map-entity", "district");
     group.setAttribute("data-district-id", meta.id);
     group.setAttribute("tabindex", "0");
     group.setAttribute("role", "button");
@@ -437,12 +574,54 @@ async function initializeProducerMap() {
   }
   dom.districtOverlay.append(labelLayer);
 
+  PLOT_BLUEPRINTS = plotData.plots.map((plot) => ({
+    id: plot.id,
+    price: plot.basePrice,
+    priceTier: plot.priceTier,
+    bounds: plot.bounds,
+    districtId: districtForPoint(plot.bounds.x + plot.bounds.width / 2, plot.bounds.y + plot.bounds.height / 2),
+    zone: "Unrestricted",
+  }));
+  dom.plotOverlay.replaceChildren();
+  const plotInteractionLayer = document.createElementNS(svgNamespace, "g");
+  plotInteractionLayer.setAttribute("id", "plot-interaction-layer");
+  for (const plot of PLOT_BLUEPRINTS) {
+    const sourcePath = plotDocument.getElementById(plot.id);
+    if (!sourcePath) throw new Error(`Missing plot geometry: ${plot.id}`);
+    const group = document.createElementNS(svgNamespace, "g");
+    group.setAttribute("class", "plot-interaction");
+    group.setAttribute("data-map-entity", "plot");
+    group.setAttribute("data-plot-id", plot.id);
+    group.setAttribute("tabindex", "0");
+    group.setAttribute("role", "button");
+    group.setAttribute("aria-pressed", "false");
+    group.append(createDistrictPath(sourcePath, "plot-fill"), createDistrictPath(sourcePath, "plot-outline-outer"), createDistrictPath(sourcePath, "plot-outline-inner"));
+    group.addEventListener("pointerenter", () => { dom.mapHint.textContent = isDetailZoom() ? t("map.open_plot", { plot: plotName(plot) }) : t("map.zoom_for_plot"); });
+    group.addEventListener("pointerleave", () => { dom.mapHint.textContent = t("map.hover_lock"); });
+    group.addEventListener("keydown", (event) => {
+      if (!["Enter", " "].includes(event.key)) return;
+      event.preventDefault();
+      if (isDetailZoom()) selectPlot(plot.id);
+      else if (plot.districtId) selectDistrict(plot.districtId);
+    });
+    plotInteractionLayer.append(group);
+  }
+  dom.plotOverlay.append(plotInteractionLayer, dom.plotMarkLayer);
+
+  LANDMARKS = landmarkData.landmarks.map((landmark) => ({
+    ...landmark,
+    displayName: readableLandmarkName(landmark.sourceName),
+    districtId: districtForPoint(landmark.bounds.x + landmark.bounds.width / 2, landmark.bounds.y + landmark.bounds.height / 2),
+  }));
+  dom.landmarkLayer.replaceChildren(...LANDMARKS.map((landmark) => createLandmarkCard(landmark, landmarkData.master)));
+
   mapView.loaded = true;
   dom.mapAnchor.removeAttribute("aria-hidden");
   dom.mapLoading.hidden = true;
-  dom.mapStatus.textContent = t("map.status", { count: DISTRICTS.length });
+  dom.mapStatus.textContent = t("map.status_runtime", { districts: DISTRICTS.length, plots: PLOT_BLUEPRINTS.length, landmarks: LANDMARKS.length });
   dom.mapHint.textContent = t("map.hover_lock");
   applyMapView();
+  syncHomeLoadState();
 }
 
 function failProducerMap(error) {
@@ -456,7 +635,7 @@ function failProducerMap(error) {
 
 function mapPointerDown(event) {
   if (!mapView.loaded || event.button !== 0) return;
-  const district = event.target.closest?.("[data-district-id]");
+  const entity = event.target.closest?.("[data-map-entity]");
   mapView.dragging = true;
   mapView.moved = false;
   mapView.pointerId = event.pointerId;
@@ -464,7 +643,8 @@ function mapPointerDown(event) {
   mapView.pointerStartY = event.clientY;
   mapView.panStartX = mapView.panX;
   mapView.panStartY = mapView.panY;
-  mapView.pressedDistrictId = district?.dataset.districtId || null;
+  mapView.pressedEntityType = entity?.dataset.mapEntity || null;
+  mapView.pressedEntityId = entity?.dataset.districtId || entity?.dataset.plotId || entity?.dataset.landmarkId || null;
   dom.mapStage.classList.add("is-dragging");
   dom.mapStage.setPointerCapture(event.pointerId);
 }
@@ -481,10 +661,22 @@ function mapPointerMove(event) {
 
 function mapPointerEnd(event) {
   if (!mapView.dragging || event.pointerId !== mapView.pointerId) return;
-  if (!mapView.moved && mapView.pressedDistrictId) selectDistrict(mapView.pressedDistrictId);
+  if (!mapView.moved) {
+    if (mapView.pressedEntityType === "district") selectDistrict(mapView.pressedEntityId);
+    else if (mapView.pressedEntityType === "plot") {
+      const plot = getPlot(mapView.pressedEntityId);
+      if (isDetailZoom()) selectPlot(mapView.pressedEntityId);
+      else if (plot?.districtId) selectDistrict(plot.districtId);
+    } else if (mapView.pressedEntityType === "landmark") {
+      const landmark = landmarkMeta(mapView.pressedEntityId);
+      if (isDetailZoom()) selectLandmark(mapView.pressedEntityId);
+      else if (landmark?.districtId) selectDistrict(landmark.districtId);
+    } else clearDistrictSelection();
+  }
   mapView.dragging = false;
   mapView.pointerId = null;
-  mapView.pressedDistrictId = null;
+  mapView.pressedEntityType = null;
+  mapView.pressedEntityId = null;
   dom.mapStage.classList.remove("is-dragging");
   if (dom.mapStage.hasPointerCapture(event.pointerId)) dom.mapStage.releasePointerCapture(event.pointerId);
 }
@@ -561,14 +753,14 @@ function selectedActionReason(plot) {
 
 function renderProperty() {
   const plot = getPlot(state.selectedPlotId);
-  dom.emptyProperty.hidden = Boolean(plot);
   dom.propertyDetails.hidden = !plot;
   if (!plot) return;
 
   dom.plotCode.textContent = plot.id.toUpperCase();
   dom.plotName.textContent = plotName(plot);
-  dom.plotDistrict.textContent = t("plot.unmapped_fixture");
-  dom.plotZone.textContent = t(`zone.${plot.zone.toLowerCase()}`);
+  dom.plotDistrict.textContent = plot.districtId ? districtName(plot.districtId) : t("map.outside_district");
+  dom.plotZone.textContent = t("plot.law_dependent_zone");
+  dom.plotTier.textContent = t(`plot.price_tier.${plot.priceTier}`);
   dom.plotOwner.textContent = plot.owner === "ai" ? rivalName(state.rivalId) : t(`owner.${plot.owner}`);
   dom.plotPrice.textContent = plot.owner === "government" ? t("property.not_for_sale") : money(propertyMarketValue(plot));
   dom.plotBuilding.textContent = plot.building ? `${buildingName(plot.building.type)}${plot.building.activeTurn > state.turn ? t("property.building_suffix") : ""}` : t("property.empty_land");
@@ -752,6 +944,7 @@ function render() {
   renderOperations();
   renderMap();
   renderProperty();
+  renderMapDetails();
 }
 
 function buySelectedPlot() {
@@ -1019,7 +1212,7 @@ function switchOperationsTab(tab) {
 
 function saveGame() {
   if (!state) return;
-  state.version = 3;
+  state.version = 4;
   window.localStorage.setItem(SAVE_KEY, JSON.stringify(state));
   setToast(t("toast.match_saved"));
   renderStatus();
@@ -1027,7 +1220,7 @@ function saveGame() {
 
 function migrateState(raw) {
   const migrated = structuredClone(raw);
-  migrated.version = 3;
+  migrated.version = 4;
   migrated.activeOperationsTab = migrated.activeOperationsTab || "brief";
   migrated.playerHoldings = { ...blankHoldings(), ...(migrated.playerHoldings || {}) };
   migrated.aiHoldings = { ...blankHoldings(), ...(migrated.aiHoldings || {}) };
@@ -1035,14 +1228,14 @@ function migrateState(raw) {
   migrated.securitiesPreviousPrices = migrated.securitiesPreviousPrices || { ...migrated.securitiesPrices };
   migrated.plots = migrated.plots.map((oldPlot) => {
     const blueprint = PLOT_BLUEPRINTS.find((plot) => plot.id === oldPlot.id);
-    return { ...blueprint, ...oldPlot, district: blueprint?.district || "Unmapped M0 Fixture", price: blueprint?.price ?? oldPlot.price, salePending: oldPlot.salePending || null };
+    return { ...blueprint, ...oldPlot, districtId: blueprint?.districtId || null, price: blueprint?.price ?? oldPlot.price, salePending: oldPlot.salePending || null };
   });
   migrated.log = (migrated.log || []).map((entry) => entry.key ? ({ type: entry.type || "Activity", ...entry }) : ({ type: entry.type || "Activity", turn: entry.turn, key: "activity.legacy_text", values: { text: entry.text || "" } }));
   return migrated;
 }
 
 function validLoadedState(candidate) {
-  return candidate && [1, 2, 3].includes(candidate.version) && RIVALS[candidate.rivalId] && Number.isInteger(candidate.turn) && candidate.turn >= 1 && candidate.turn <= MAX_TURN && Number.isFinite(candidate.cash) && Number.isFinite(candidate.aiCash) && Array.isArray(candidate.plots) && candidate.plots.length === PLOT_BLUEPRINTS.length;
+  return candidate && [4].includes(candidate.version) && RIVALS[candidate.rivalId] && Number.isInteger(candidate.turn) && candidate.turn >= 1 && candidate.turn <= MAX_TURN && Number.isFinite(candidate.cash) && Number.isFinite(candidate.aiCash) && Array.isArray(candidate.plots) && candidate.plots.length === PLOT_BLUEPRINTS.length;
 }
 
 function saveKeyInUse() {
@@ -1116,6 +1309,10 @@ function selectRival(rivalId) {
 }
 
 function openNewGameFlow() {
+  if (!mapView.loaded || PLOT_BLUEPRINTS.length !== 30) {
+    setToast(t("toast.map_preparing"));
+    return false;
+  }
   showHomeScreen();
   selectRival(null);
   dom.startLoadButton.hidden = !hasAnySave();
@@ -1150,7 +1347,7 @@ function loadGame() {
 }
 
 function startMatch(rivalId) {
-  if (!RIVALS[rivalId]) return false;
+  if (!RIVALS[rivalId] || PLOT_BLUEPRINTS.length !== 30) return false;
   state = createInitialState(rivalId);
   dom.buildingSelect.value = "standard_apartment";
   dom.stockOrderAmount.value = "1000";
@@ -1170,7 +1367,7 @@ function restartFlow() {
 }
 
 function collectDom() {
-  const ids = ["home-screen", "home-panel", "home-panel-back", "home-panel-title", "home-load-panel", "home-load-save-button", "home-load-empty", "home-config-panel", "home-about-panel", "home-language-value", "toast", "plot-layer", "empty-property", "property-details", "plot-code", "plot-name", "plot-district", "plot-zone", "plot-owner", "plot-price", "plot-building", "plot-income", "buy-button", "building-select", "build-button", "redevelop-select", "redevelop-preview", "redevelop-button", "sell-property-button", "sale-preview", "property-reason", "turn-value", "economy-value", "cash-value", "debt-value", "credit-value", "worth-value", "ap-value", "turn-prompt", "end-turn-button", "rival-name", "rival-style", "rival-condition", "rival-worth", "law-status", "market-brief", "news-list", "bank-credit", "bank-rate", "borrow-button", "repay-button", "loan-list", "stock-order-amount", "stock-list", "save-button", "load-button", "restart-button", "start-modal", "start-modal-back", "start-confirm-button", "start-load-button", "help-modal", "settings-modal", "language-select", "result-modal", "result-title", "result-summary", "result-player-worth", "result-rival-worth", "result-player-securities", "result-rival-securities", "result-restart-button", "help-button", "settings-button", "map-stage", "map-anchor", "map-canvas", "map-base", "district-overlay", "map-loading", "map-hint", "map-zoom-out", "map-zoom-value", "map-zoom-in", "map-reset", "map-status", "empty-district", "district-details", "district-close-button", "district-code", "district-name", "district-location", "district-plots", "district-apartments", "district-factories", "district-stores", "district-transit", "district-prosperity", "district-note"];
+  const ids = ["home-screen", "home-panel", "home-panel-back", "home-panel-title", "home-load-panel", "home-load-save-button", "home-load-empty", "home-config-panel", "home-about-panel", "home-language-value", "toast", "plot-layer", "empty-property", "property-details", "plot-code", "plot-name", "plot-district", "plot-zone", "plot-tier", "plot-owner", "plot-price", "plot-building", "plot-income", "buy-button", "building-select", "build-button", "redevelop-select", "redevelop-preview", "redevelop-button", "sell-property-button", "sale-preview", "property-reason", "turn-value", "economy-value", "cash-value", "debt-value", "credit-value", "worth-value", "ap-value", "turn-prompt", "end-turn-button", "rival-name", "rival-style", "rival-condition", "rival-worth", "law-status", "market-brief", "news-list", "bank-credit", "bank-rate", "borrow-button", "repay-button", "loan-list", "stock-order-amount", "stock-list", "save-button", "load-button", "restart-button", "start-modal", "start-modal-back", "start-confirm-button", "start-load-button", "help-modal", "settings-modal", "language-select", "result-modal", "result-title", "result-summary", "result-player-worth", "result-rival-worth", "result-player-securities", "result-rival-securities", "result-restart-button", "help-button", "settings-button", "map-stage", "map-anchor", "map-canvas", "map-base", "district-overlay", "plot-overlay", "plot-mark-layer", "landmark-layer", "map-loading", "map-hint", "map-zoom-out", "map-zoom-value", "map-zoom-in", "map-reset", "map-status", "entity-file-title", "empty-district", "district-details", "district-close-button", "district-code", "district-name", "district-location", "district-plots", "district-apartments", "district-factories", "district-stores", "district-transit", "district-prosperity", "district-note", "landmark-details", "landmark-code", "landmark-name", "landmark-district", "landmark-short", "landmark-more", "landmark-long"];
   for (const id of ids) dom[id.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())] = document.getElementById(id);
   dom.homeActions = [...document.querySelectorAll("[data-home-action]")];
   dom.homeLanguageButtons = [...document.querySelectorAll("[data-home-language-step]")];
@@ -1227,6 +1424,7 @@ function bindEvents() {
   dom.mapZoomIn.addEventListener("click", () => setMapZoomStep(mapView.zoomStep + 1));
   dom.mapReset.addEventListener("click", resetMapView);
   dom.districtCloseButton.addEventListener("click", clearDistrictSelection);
+  document.querySelectorAll("[data-clear-map-selection]").forEach((button) => button.addEventListener("click", clearDistrictSelection));
   dom.mapStage.addEventListener("pointerdown", mapPointerDown);
   dom.mapStage.addEventListener("pointermove", mapPointerMove);
   dom.mapStage.addEventListener("pointerup", mapPointerEnd);
@@ -1267,8 +1465,8 @@ const testApi = {
   startMatch, switchOperationsTab, buySelectedPlot, buildSelectedPlot, redevelopSelectedPlot, sellSelectedProperty,
   tradeSecurity, borrowMoney, repayMoney, endTurn, saveGame, loadGame,
   economyForTurn, participantWorth, propertyMarketValue, securitiesValue,
-  selectDistrict, clearDistrictSelection, setMapZoomStep, resetMapView,
-  getMapState: () => ({ loaded: mapView.loaded, zoomStep: mapView.zoomStep, zoom: currentMapZoom(), panX: mapView.panX, panY: mapView.panY, selectedDistrictId }),
+  selectDistrict, selectPlot, selectLandmark, clearDistrictSelection, setMapZoomStep, resetMapView,
+  getMapState: () => ({ loaded: mapView.loaded, zoomStep: mapView.zoomStep, zoom: currentMapZoom(), panX: mapView.panX, panY: mapView.panY, selectedDistrictId, selectedPlotId: state?.selectedPlotId || null, selectedLandmarkId }),
 };
 
 if (Object.isExtensible(window)) window.M0Game = testApi;

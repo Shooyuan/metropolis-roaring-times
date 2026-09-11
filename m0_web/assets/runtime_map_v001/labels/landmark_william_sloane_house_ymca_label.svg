@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="453" height="265" viewBox="0 0 453 265" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-2-inside-1_722_35" fill="white">
+<path d="M0 230H453L429.196 247.5L453 265H0L23.0828 247.5L0 230Z" />
+</mask>
+<path d="M0 230H453L429.196 247.5L453 265H0L23.0828 247.5L0 230Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-2-inside-1_722_35)" />
+</g>
+<text id="William Sloane House YMCA_3" fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="58.7969" y="257.302">William Sloane House YMCA</tspan></text>
+</g>
+<defs><pattern id="pattern0_722_35" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_722_35" transform="matrix(0.000460829 0 0 0.000244563 0 -0.000865066)" />
+</pattern>
+</defs></svg>

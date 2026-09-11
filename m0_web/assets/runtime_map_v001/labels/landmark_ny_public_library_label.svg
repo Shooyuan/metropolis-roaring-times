@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="355" height="198" viewBox="0 0 355 198" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-1-inside-1_704_108" fill="white">
+<path d="M0 163H355L336.346 180.5L355 198H0L18.0892 180.5L0 163Z" />
+</mask>
+<path d="M0 163H355L336.346 180.5L355 198H0L18.0892 180.5L0 163Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-1-inside-1_704_108)" />
+</g>
+<text id="N.Y. Public Library" fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="67.1094" y="191.302">N.Y. Public Library</tspan></text>
+</g>
+<defs><pattern id="pattern0_704_108" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_704_108" transform="matrix(0.000244482 0 0 0.000322477 -0.000699699 0)" />
+</pattern>
+</defs></svg>

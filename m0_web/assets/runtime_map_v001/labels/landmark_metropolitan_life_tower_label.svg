@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="420" height="381" viewBox="0 0 420 381" fill="none"><g id="title">
+<g id="Rectangle 6">
+<mask id="path-2-inside-1_654_14" fill="white">
+<path d="M0 346H420L397.93 363.5L420 381H0L21.4013 363.5L0 346Z" />
+</mask>
+<path d="M0 346H420L397.93 363.5L420 381H0L21.4013 363.5L0 346Z" fill="#EBDDC0" stroke="#21140D" stroke-width="4" mask="url(#path-2-inside-1_654_14)" />
+</g>
+<text id="Metropolitan Life Tower_3" fill="#21140D" style="white-space: pre" xml:space="preserve" font-family="Jacquard 24" font-size="32" letter-spacing="0em"><tspan x="69.6166" y="373.302">Metropolitan Life Tower</tspan></text>
+</g>
+<defs><pattern id="pattern0_654_14" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_654_14" transform="scale(0.000431034 0.00024417)" />
+</pattern>
+</defs></svg>
