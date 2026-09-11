@@ -83,7 +83,7 @@ Relative direction must remain recognizable. Street-level and cadastral accuracy
 - Hovering uncovered district space displays an indicative district border. Clicking locks the border and opens the district detail page until another district is selected or the selection is explicitly closed.
 - At near zoom, a plot or building hit target takes priority over the underlying district.
 - Far and middle zoom keep historical-landmark illustrations visible for recognition, hide landmark banners and development-building illustrations, and show a district summary in this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities, district prosperity.
-- `100%—477%` remains district-oriented browsing: landmark illustrations stay visible for recognition, while plot/landmark selection, development-building illustrations and landmark banners remain disabled. From `500%` through the `1000%` maximum, plot boundaries, development-building illustrations, landmark banners and plot/landmark selection remain enabled together.
+- `100%—477%` remains district-oriented browsing: landmark illustrations stay visible for recognition, while plot/landmark selection, development-building illustrations and landmark banners remain disabled. From `500%` through the `1500%` maximum, plot boundaries, development-building illustrations and plot/landmark selection remain enabled; landmark banners appear only from `1250%` through `1500%`.
 - District prosperity is derived jointly from human and active-AI development, is clamped to `50.0 <= score < 100.0`, and is displayed to one decimal place. Its formula and English level bands are a later owner approval gate.
 
 ## 4. Fixed Building Scope

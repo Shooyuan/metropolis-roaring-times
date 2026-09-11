@@ -466,12 +466,14 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
 .plot-interaction[data-owner="player"] .plot-fill { fill: #904eb3; }
 .plot-interaction[data-owner="ai"] .plot-fill { fill: #df3f3c; }
 .plot-interaction[data-owner="market"] .plot-fill { fill: #817b76; }
-.runtime-plot-mark { display: none; fill: #211a17; stroke: rgba(242,228,202,.96); stroke-width: 18px; paint-order: stroke fill; pointer-events: none; font-family: Arial, Helvetica, sans-serif; font-size: 92px; font-weight: 900; text-anchor: middle; dominant-baseline: middle; }
-.map-canvas.is-detail-zoom .runtime-plot-mark { display: block; }
+.runtime-plot-mark { display: none; fill: #211a17; stroke: rgba(242,228,202,.96); stroke-width: 12px; paint-order: stroke fill; pointer-events: none; font-family: Arial, Helvetica, sans-serif; font-size: 64px; font-weight: 900; text-anchor: middle; dominant-baseline: middle; }
+.runtime-plot-asset { display: none; pointer-events: none; filter: drop-shadow(0 9px 7px rgba(42,32,26,.32)); }
+.map-canvas.is-detail-zoom .runtime-plot-mark,
+.map-canvas.is-detail-zoom .runtime-plot-asset { display: block; }
 .landmark-entity { position: absolute; margin: 0; padding: 0; border: 0; background: transparent; box-shadow: none; pointer-events: auto; cursor: pointer; }
 .landmark-entity img { position: absolute; display: block; max-width: none; pointer-events: none; transition: filter 90ms ease, opacity 90ms ease; }
-.landmark-label { opacity: 0; }
-.map-canvas.is-detail-zoom .landmark-label { opacity: 1; }
+.landmark-label { opacity: 0; transform-origin: center; transform: translateX(-3%) scale(1.12, 1.04); }
+.map-canvas.is-landmark-label-zoom .landmark-label { opacity: 1; }
 .landmark-entity:hover img,
 .landmark-entity:focus img,
 .landmark-entity.is-selected img { filter: brightness(1.24) drop-shadow(0 0 5px #f08b64); }
@@ -670,6 +672,15 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
 .result-grid strong { font-family: "Courier New", monospace; }
 .toast { position: fixed; z-index: 150; right: 24px; bottom: 24px; max-width: 360px; padding: 12px 16px; border: 2px solid var(--line); color: white; background: var(--ink); box-shadow: 4px 4px 0 rgba(0,0,0,.3); opacity: 0; transform: translateY(16px); pointer-events: none; transition: opacity .16s, transform .16s; }
 .toast.is-visible { opacity: 1; transform: none; }
+
+html[lang="en-US"] .prototype-ribbon,
+html[lang="en-US"] .game-shell,
+html[lang="en-US"] .game-shell :where(*),
+html[lang="en-US"] .modal-card,
+html[lang="en-US"] .modal-card :where(*),
+html[lang="en-US"] .toast {
+  font-family: "Inknut Antiqua M1W", Georgia, serif;
+}
 
 @media (max-width: 1200px) {
   .workspace { grid-template-columns: 250px minmax(500px,1fr) 250px; }

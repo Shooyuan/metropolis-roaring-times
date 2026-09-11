@@ -25,6 +25,14 @@ const BUILDINGS = {
   department_store: { name: "Department Store", short: "STORE", cost: 30000, gross: 5200, maintenance: 1000 },
 };
 
+const BUILDING_ASSETS = {
+  construction_site: "assets/buildings/construction_site.png",
+  standard_apartment: "assets/buildings/standard_apartment.png",
+  factory: "assets/buildings/factory.png",
+  luxury_apartment: "assets/buildings/luxury_apartment.png",
+  department_store: "assets/buildings/department_store.png",
+};
+
 const SECURITIES = {
   municipal_bonds: { name: "Municipal & Railroad Bonds", ticker: "BONDS", risk: "Low", opens: 1, prices: [100, 101, 101, 100, 99, 98, 99, 100] },
   industrial_shares: { name: "Industrial Shares Basket", ticker: "IND", risk: "Medium–High", opens: 1, prices: [100, 103, 108, 116, 122, 112, 87, 80] },
@@ -56,10 +64,11 @@ const DISTRICTS = [
   { id: "district_financial_district", name: "Financial District", label: ["FINANCIAL", "DISTRICT"], location: "Southern Manhattan", note: "The southernmost approved playable district in the M1W map." },
 ];
 
-const MAP_ZOOM_STEPS = [1, 1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5, 6.25, 7.81, 9.77, 10];
+const MAP_ZOOM_STEPS = [1, 1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5, 6.25, 7.81, 9.77, 10, 12.5, 15];
 const MAP_ZOOM_FACTOR = 1.25;
 const MAP_MAX_ZOOM_STEP = MAP_ZOOM_STEPS.length - 1;
 const MAP_DETAIL_ZOOM_STEP = MAP_ZOOM_STEPS.indexOf(5);
+const MAP_LANDMARK_LABEL_ZOOM_STEP = MAP_ZOOM_STEPS.indexOf(12.5);
 const MAP_PAN_KEY_STEP = 38;
 
 let PLOT_BLUEPRINTS = [];
@@ -213,14 +222,35 @@ function withCommitLock(action) {
 function plotMark(plot) {
   if (plot.salePending) return t("plot_mark.sale_pending");
   if (plot.owner === "market") return t("plot_mark.sold");
-  if (plot.building) {
-    const short = buildingShort(plot.building.type);
-    return plot.building.activeTurn > state.turn ? t("plot_mark.building", { building: short }) : short;
-  }
-  if (plot.owner === "player") return t("plot_mark.player");
-  if (plot.owner === "ai") return t("plot_mark.rival");
   if (plot.owner === "government") return t("plot_mark.public");
   return compactMoney(marketPrice(plot));
+}
+
+function plotAssetId(plot) {
+  if (!plot || plot.salePending || plot.owner === "unowned" || plot.owner === "market" || plot.owner === "government") return "";
+  if (!plot.building) return "construction_site";
+  return plot.building.activeTurn > state.turn ? "construction_site" : plot.building.type;
+}
+
+function plotAssetAlt(plot, assetId) {
+  if (assetId === "construction_site") return t("property.construction_site");
+  return buildingName(plot.building.type);
+}
+
+function createPlotAssetImage(plot, assetId) {
+  const minSide = Math.min(plot.bounds.width, plot.bounds.height);
+  const maxSide = Math.max(plot.bounds.width, plot.bounds.height);
+  const size = Math.max(76, Math.min(420, minSide * 0.9, maxSide * 0.58));
+  const image = document.createElementNS(svgNamespace, "image");
+  image.setAttribute("class", "runtime-plot-asset");
+  image.setAttribute("href", BUILDING_ASSETS[assetId]);
+  image.setAttribute("x", String(plot.bounds.x + plot.bounds.width / 2 - size / 2));
+  image.setAttribute("y", String(plot.bounds.y + plot.bounds.height / 2 - size / 2));
+  image.setAttribute("width", String(size));
+  image.setAttribute("height", String(size));
+  image.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  image.setAttribute("aria-label", plotAssetAlt(plot, assetId));
+  return image;
 }
 
 function renderMap() {
@@ -234,12 +264,17 @@ function renderMap() {
     group.setAttribute("aria-pressed", String(state.selectedPlotId === plot.id));
     group.setAttribute("aria-label", t("aria.plot", { plot: plotName(plot), owner: t(`owner.${plot.owner}`), building: plot.building ? buildingName(plot.building.type) : t("property.empty_land") }));
 
-    const mark = document.createElementNS(svgNamespace, "text");
-    mark.setAttribute("class", "runtime-plot-mark");
-    mark.setAttribute("x", String(plot.bounds.x + plot.bounds.width / 2));
-    mark.setAttribute("y", String(plot.bounds.y + plot.bounds.height / 2));
-    mark.textContent = plotMark(plot);
-    dom.plotMarkLayer.append(mark);
+    const assetId = plotAssetId(plot);
+    if (assetId) {
+      dom.plotMarkLayer.append(createPlotAssetImage(plot, assetId));
+    } else {
+      const mark = document.createElementNS(svgNamespace, "text");
+      mark.setAttribute("class", "runtime-plot-mark");
+      mark.setAttribute("x", String(plot.bounds.x + plot.bounds.width / 2));
+      mark.setAttribute("y", String(plot.bounds.y + plot.bounds.height / 2));
+      mark.textContent = plotMark(plot);
+      dom.plotMarkLayer.append(mark);
+    }
   }
   for (const card of dom.landmarkLayer.querySelectorAll("[data-landmark-id]")) {
     const selected = card.dataset.landmarkId === selectedLandmarkId;
@@ -252,6 +287,7 @@ const svgNamespace = "http://www.w3.org/2000/svg";
 const districtMeta = (id) => DISTRICTS.find((district) => district.id === id) || null;
 const currentMapZoom = () => MAP_ZOOM_STEPS[mapView.zoomStep];
 const isDetailZoom = () => mapView.zoomStep >= MAP_DETAIL_ZOOM_STEP;
+const isLandmarkLabelZoom = () => mapView.zoomStep >= MAP_LANDMARK_LABEL_ZOOM_STEP;
 
 function clampMapPan() {
   if (!mapView.loaded) return;
@@ -273,6 +309,7 @@ function applyMapView() {
   clampMapPan();
   dom.mapAnchor.style.transform = `translate(-50%, -50%) translate3d(${mapView.panX}px, ${mapView.panY}px, 0)`;
   dom.mapCanvas.classList.toggle("is-detail-zoom", isDetailZoom());
+  dom.mapCanvas.classList.toggle("is-landmark-label-zoom", isLandmarkLabelZoom());
   dom.mapZoomValue.value = `${Math.round(zoom * 100)}%`;
   dom.mapZoomOut.disabled = mapView.zoomStep === 0;
   dom.mapZoomIn.disabled = mapView.zoomStep === MAP_MAX_ZOOM_STEP;

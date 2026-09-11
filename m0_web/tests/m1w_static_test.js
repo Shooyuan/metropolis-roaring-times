@@ -55,6 +55,10 @@ for (const asset of ["right-menu-panel-complete.png", "1.png", "2.png", "3.png",
   assert(html.includes(`assets/home_png_complete/${asset}`) || styles.includes(`assets/home_png_complete/${asset}`), `Home screen must reference ${asset}`);
   assert(fs.existsSync(path.join(webRoot, "assets", "home_png_complete", asset)), `Missing home screen asset: ${asset}`);
 }
+for (const asset of ["construction_site.png", "standard_apartment.png", "luxury_apartment.png", "department_store.png", "factory.png"]) {
+  assert(script.includes(`assets/buildings/${asset}`), `Runtime map must reference building asset: ${asset}`);
+  assert(fs.existsSync(path.join(webRoot, "assets", "buildings", asset)), `Missing runtime building asset: ${asset}`);
+}
 const homePanel = path.join(webRoot, "assets", "home_png_complete", "panel_center_large.png");
 for (const font of ["InknutAntiqua-Regular.ttf", "InknutAntiqua-Bold.ttf"]) {
   assert(fs.existsSync(path.join(webRoot, "assets", "fonts", font)), `Missing approved home font: ${font}`);
@@ -65,6 +69,7 @@ assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
 assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
+assert(styles.includes('html[lang="en-US"] .game-shell'), "English in-game UI must be explicitly scoped to Inknut Antiqua");
 assert(/\.home-menu-actions button \{[\s\S]*?font-weight: 400;/.test(styles), "Home menu must use Inknut Antiqua Regular without changing its size");
 assert(styles.includes("top: 3.7%") && styles.includes("left: 34.8%") && styles.includes("top: 50.2%") && styles.includes("left: 35.5%"), "Home documents must retain the approved Group 11 composition anchors");
 assert(!html.includes('id="home-language-select"'), "Home Config must not use a native language selector");
@@ -96,11 +101,15 @@ assert(brand.toString("utf8").includes('id="brand-title-colon"'), "Approved Bran
 
 for (const id of expectedDistricts) assert(script.includes(`id: "${id}"`), `Missing district metadata: ${id}`);
 assert(script.includes("const MAP_ZOOM_FACTOR = 1.25;"), "Map zoom must use the approved fixed 125% factor");
-assert(script.includes("const MAP_ZOOM_STEPS = [1, 1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5, 6.25, 7.81, 9.77, 10];"), "Map zoom must use the approved thirteen-step ladder ending at 1000%");
-assert(script.includes("const MAP_DETAIL_ZOOM_STEP = MAP_ZOOM_STEPS.indexOf(5);"), "Plot and landmark selection must remain available from the 500% detail threshold through 1000%");
+assert(script.includes("const MAP_ZOOM_STEPS = [1, 1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5, 6.25, 7.81, 9.77, 10, 12.5, 15];"), "Map zoom must use the approved fifteen-step ladder ending at 1500%");
+assert(script.includes("const MAP_DETAIL_ZOOM_STEP = MAP_ZOOM_STEPS.indexOf(5);"), "Plot and landmark selection must remain available from the 500% detail threshold through 1500%");
+assert(script.includes("const MAP_LANDMARK_LABEL_ZOOM_STEP = MAP_ZOOM_STEPS.indexOf(12.5);"), "Landmark labels must appear only from the approved 1250% threshold");
 assert(!script.includes("rotate("), "M1W map transforms must not introduce rotation");
 assert(script.includes('dom.mapAnchor.style.height = `${zoom * 100}%`;'), "Map zoom must resize the SVG layout box for sharp Safari rendering");
 assert(!script.includes("dom.mapCanvas.style.transform = `scale(${zoom})`;"), "Map zoom must not enlarge a cached composited bitmap");
 assert(!styles.includes(".map-canvas { position: absolute; inset: 0; transform-origin:"), "Map canvas must not advertise a composited scale transform");
+assert(styles.includes(".map-canvas.is-landmark-label-zoom .landmark-label"), "Landmark labels must use the high-zoom label gate");
+assert(styles.includes(".map-canvas.is-detail-zoom .runtime-plot-asset"), "Development building assets must appear from the detail zoom gate");
+assert(styles.includes("font-size: 64px"), "Purchasable plot price marks must use the approved compact label size");
 
 console.log(`M1W_STATIC_TEST_PASS districts=${expectedDistricts.length} map_sha=${sha256(mapBase).slice(0, 12)} brand_sha=${sha256(brand).slice(0, 12)}`);
