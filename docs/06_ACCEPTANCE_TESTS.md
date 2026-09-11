@@ -148,7 +148,7 @@ Pass when content validation confirms:
 
 Pass when all player-facing labels, buttons, errors, events, tutorials, tooltips, rival profiles and result text are complete in English and Simplified Chinese, with English as the first-run default. Internal content IDs, localization keys and file names use stable English `snake_case`.
 
-Changing language in Settings must update static labels, dynamic financial/gameplay text, map district labels, news/activity records, dialogs and accessibility names without resetting the match, camera, selection, open tab or modal. Both languages must use the same gameplay source and interface structure. A missing key, mixed-language current event or separate diverging gameplay implementation fails this test.
+Changing language in Settings must update static labels, dynamic financial/gameplay text, news/activity records, dialogs and accessibility names without resetting the match, camera, selection, open tab or modal. The map-body district labels are the intentional exception: they remain fixed English cartographic labels using the approved period font, while the right-side district details and accessibility names localize normally. Both languages must use the same gameplay source and interface structure. A missing key, mixed-language current event or separate diverging gameplay implementation fails this test.
 
 The product title must appear as `Metropolis: Roaring Times`. Government-source rumors use `Sources familiar with the New York State Government`.
 
@@ -227,6 +227,8 @@ At minimum, test an unowned, human, rival, government, selected, auction, constr
 ### `SCN-005A` District Hover, Selection and Detail
 
 Pass when hovering uncovered district space shows the approved indicative border without changing ownership presentation; clicking locks the border and opens the matching district detail page; the selection persists until another district is selected or explicitly closed; and at near zoom a plot/building hit target takes priority over its underlying district.
+
+District map labels pass when they use `Kings-Regular.ttf`, stay as English cartographic names in both language modes, split multi-word names one word per line, remain visually inside their district boundaries, show `#bdb199` at rest and switch to `#4e403e` on hover, focus or locked selection.
 
 ### `SCN-006` Pan
 

@@ -55,11 +55,9 @@ html[lang="zh-CN"] .map-legend {
   letter-spacing: .05em;
 }
 
-html[lang="zh-CN"] .district-label-text {
-  font-family: var(--zh-title) !important;
-  font-size: 152px;
-  font-weight: 700;
-  letter-spacing: 6px;
+html[lang] .district-label-text {
+  font-family: "Kings M1W", Georgia, serif !important;
+  font-weight: 400;
 }
 
 html[lang="zh-CN"] .operations-tabs button { font-size: .61rem; }

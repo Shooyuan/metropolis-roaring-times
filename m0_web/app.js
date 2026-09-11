@@ -53,8 +53,8 @@ const DISTRICTS = [
   { id: "district_inwood", name: "Inwood", label: ["INWOOD"], location: "Northern Manhattan", note: "The northernmost approved district in the M1W map." },
   { id: "district_washington_heights", name: "Washington Heights", label: ["WASHINGTON", "HEIGHTS"], location: "Upper northern Manhattan", note: "Owner-authored geometry between Inwood and Harlem." },
   { id: "district_harlem", name: "Harlem", label: ["HARLEM"], location: "Upper Manhattan", note: "The approved cross-island district north of Central Park." },
-  { id: "district_upper_east", name: "Upper East Side", label: ["UPPER EAST", "SIDE"], location: "East of Central Park", note: "The approved district on Central Park’s eastern side." },
-  { id: "district_upper_west", name: "Upper West Side", label: ["UPPER WEST", "SIDE"], location: "West of Central Park", note: "The approved district on Central Park’s western side." },
+  { id: "district_upper_east", name: "Upper East Side", label: ["UPPER", "EAST", "SIDE"], location: "East of Central Park", note: "The approved district on Central Park’s eastern side." },
+  { id: "district_upper_west", name: "Upper West Side", label: ["UPPER", "WEST", "SIDE"], location: "West of Central Park", note: "The approved district on Central Park’s western side." },
   { id: "district_midtown_west", name: "Midtown West", label: ["MIDTOWN", "WEST"], location: "Western Midtown", note: "The approved western half of the Midtown map area." },
   { id: "district_midtown_east", name: "Midtown East", label: ["MIDTOWN", "EAST"], location: "Eastern Midtown", note: "The approved eastern half of the Midtown map area." },
   { id: "district_chelsea", name: "Chelsea", label: ["CHELSEA"], location: "West Side, south of Midtown", note: "Owner-approved Figma vector network; M1W verifies its real browser hit area without redrawing it." },
@@ -63,6 +63,21 @@ const DISTRICTS = [
   { id: "district_soho", name: "SoHo", label: ["SOHO"], location: "Lower Manhattan", note: "The approved district immediately north of Financial District." },
   { id: "district_financial_district", name: "Financial District", label: ["FINANCIAL", "DISTRICT"], location: "Southern Manhattan", note: "The southernmost approved playable district in the M1W map." },
 ];
+
+const DISTRICT_LABEL_LAYOUT = {
+  district_inwood: { x: 0.5, y: 0.5, size: 98, lineHeight: 0.9, tracking: 1.5 },
+  district_washington_heights: { x: 0.48, y: 0.53, size: 86, lineHeight: 0.92, tracking: 1.3 },
+  district_harlem: { x: 0.5, y: 0.52, size: 110, lineHeight: 0.9, tracking: 1.8 },
+  district_upper_east: { x: 0.55, y: 0.53, size: 90, lineHeight: 0.88, tracking: 1.4 },
+  district_upper_west: { x: 0.47, y: 0.53, size: 90, lineHeight: 0.88, tracking: 1.4 },
+  district_midtown_west: { x: 0.46, y: 0.52, size: 96, lineHeight: 0.9, tracking: 1.5 },
+  district_midtown_east: { x: 0.54, y: 0.52, size: 96, lineHeight: 0.9, tracking: 1.5 },
+  district_chelsea: { x: 0.5, y: 0.52, size: 104, lineHeight: 0.9, tracking: 1.7 },
+  district_west_village: { x: 0.47, y: 0.54, size: 86, lineHeight: 0.9, tracking: 1.3 },
+  district_east_village: { x: 0.55, y: 0.54, size: 86, lineHeight: 0.9, tracking: 1.3 },
+  district_soho: { x: 0.5, y: 0.55, size: 102, lineHeight: 0.9, tracking: 1.6 },
+  district_financial_district: { x: 0.5, y: 0.54, size: 78, lineHeight: 0.9, tracking: 1.2 },
+};
 
 const MAP_ZOOM_STEPS = [1, 1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5, 6.25, 7.81, 9.77, 10, 12.5, 15];
 const MAP_ZOOM_FACTOR = 1.25;
@@ -109,7 +124,7 @@ const buildingShort = (id) => t(`building.${id}.short`);
 const securityName = (id) => t(`security.${id}.name`);
 const securityRisk = (id) => t(`security.${id}.risk`);
 const districtName = (districtOrId) => t(`district.${typeof districtOrId === "string" ? districtOrId : districtOrId.id}.name`);
-const districtLabel = (district) => t(`district.${district.id}.label`).split("|");
+const districtLabel = (district) => district.label;
 const districtLocation = (district) => t(`district.${district.id}.location`);
 const districtNote = (district) => t(`district.${district.id}.note`);
 const plotName = (plotOrId) => {
@@ -345,6 +360,7 @@ function renderDistrictDetails() {
     const selected = group.dataset.districtId === selectedDistrictId;
     group.classList.toggle("is-selected", selected);
     group.setAttribute("aria-pressed", String(selected));
+    setDistrictLabelClass(group.dataset.districtId, "is-selected", selected);
   }
   if (!district) {
     return;
@@ -457,21 +473,30 @@ function createDistrictPath(sourcePath, className) {
 }
 
 function createDistrictLabel(meta, bounds) {
+  const layout = DISTRICT_LABEL_LAYOUT[meta.id] || { x: 0.5, y: 0.5, size: 92, lineHeight: 0.9, tracking: 1.4 };
+  const centerX = bounds.x + bounds.width * layout.x;
+  const centerY = bounds.y + bounds.height * layout.y;
+  const lineHeight = layout.size * layout.lineHeight;
+  const label = districtLabel(meta);
+  const firstY = centerY - ((label.length - 1) * lineHeight) / 2;
   const text = document.createElementNS(svgNamespace, "text");
   text.setAttribute("class", "district-label-text");
   text.setAttribute("data-label-for", meta.id);
-  text.setAttribute("x", String(bounds.x + bounds.width / 2));
-  const lineHeight = 170;
-  const label = districtLabel(meta);
-  const firstY = bounds.y + bounds.height / 2 - ((label.length - 1) * lineHeight) / 2;
+  text.setAttribute("x", String(centerX));
+  text.setAttribute("font-size", String(layout.size));
+  text.setAttribute("letter-spacing", String(layout.tracking));
   label.forEach((line, index) => {
     const span = document.createElementNS(svgNamespace, "tspan");
-    span.setAttribute("x", String(bounds.x + bounds.width / 2));
+    span.setAttribute("x", String(centerX));
     span.setAttribute("y", String(firstY + index * lineHeight));
     span.textContent = line;
     text.append(span);
   });
   return text;
+}
+
+function setDistrictLabelClass(id, className, active) {
+  dom.districtOverlay.querySelector(`[data-label-for="${id}"]`)?.classList.toggle(className, active);
 }
 
 function readableLandmarkName(sourceName) {
@@ -493,6 +518,7 @@ function districtForPoint(x, y) {
 function setDistrictContextHover(id, active) {
   if (!id || id === selectedDistrictId) return;
   dom.districtOverlay.querySelector(`[data-district-id="${id}"]`)?.classList.toggle("is-context-hover", active);
+  setDistrictLabelClass(id, "is-hovered", active);
 }
 
 function positionPercent(value, total) {
@@ -588,12 +614,22 @@ async function initializeProducerMap() {
     for (const sourcePath of sourcePaths) group.append(createDistrictPath(sourcePath, "district-outline-outer"));
     for (const sourcePath of sourcePaths) group.append(createDistrictPath(sourcePath, "district-outline-inner"));
 
-    group.addEventListener("pointerenter", () => { dom.mapHint.textContent = t("map.open_file", { district: districtName(meta) }); });
+    group.addEventListener("pointerenter", () => {
+      setDistrictLabelClass(meta.id, "is-hovered", true);
+      dom.mapHint.textContent = t("map.open_file", { district: districtName(meta) });
+    });
     group.addEventListener("pointerleave", () => {
+      setDistrictLabelClass(meta.id, "is-hovered", false);
       const selected = districtMeta(selectedDistrictId);
       dom.mapHint.textContent = selected ? t("map.selection_locked", { district: districtName(selected) }) : t("map.hover_lock");
     });
-    group.addEventListener("focus", () => { dom.mapHint.textContent = t("map.press_enter", { district: districtName(meta) }); });
+    group.addEventListener("focus", () => {
+      setDistrictLabelClass(meta.id, "is-hovered", true);
+      dom.mapHint.textContent = t("map.press_enter", { district: districtName(meta) });
+    });
+    group.addEventListener("blur", () => {
+      setDistrictLabelClass(meta.id, "is-hovered", false);
+    });
     group.addEventListener("keydown", (event) => {
       if (["Enter", " "].includes(event.key)) {
         event.preventDefault();

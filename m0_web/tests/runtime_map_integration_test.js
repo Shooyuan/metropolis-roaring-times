@@ -30,6 +30,10 @@ assert(app.includes('selectedDistrictId = null;') && app.includes('selectedLandm
 assert(styles.includes(".map-canvas.is-detail-zoom .plot-interaction"), "Plot interaction must be gated by detail zoom");
 assert(styles.includes(".map-canvas.is-landmark-label-zoom .landmark-label"), "Landmark labels must appear at high label zoom");
 assert(styles.includes(".map-canvas.is-detail-zoom .runtime-plot-asset"), "Plot building assets must appear at detail zoom");
+assert(styles.includes('font-family: "Kings M1W"'), "Runtime district labels must use the approved Kings font");
+assert(styles.includes(".district-label-text.is-hovered") && styles.includes(".district-label-text.is-selected"), "Runtime district labels must react to hover and locked selection");
+assert(app.includes("setDistrictLabelClass(meta.id, \"is-hovered\", true)"), "District hover must activate the matching map label color");
+assert(app.includes("setDistrictLabelClass(group.dataset.districtId, \"is-selected\", selected)"), "District selection must lock the matching map label color");
 assert(styles.includes("stroke-width: 1.5px"), "Runtime purchasable plot strokes must use the approved half-width visual treatment");
 assert(styles.includes("stroke-width: 3.5px") && styles.includes("stroke-width: 1px"), "Runtime plot hover/selection outlines must use the approved thinner border pair");
 assert(styles.includes(".landmark-entity:hover .landmark-artwork"), "Runtime landmark hover must glow only on the artwork cutout");

@@ -201,7 +201,8 @@ Each interactive polygon and collision shape is generated from the same source c
 - Plots are irregular but must not contain extremely thin, self-intersecting or visually ambiguous shapes.
 - Shared boundaries align without visible cracks at normal zoom.
 - Road width communicates hierarchy without recreating every Manhattan street.
-- District labels use English names and avoid overlapping interactive plot labels.
+- District labels use fixed English map names, even when the surrounding UI is Simplified Chinese. They use `Kings-Regular.ttf`, split multi-word names into one word per line, and are individually positioned and sized to remain inside the owner-approved district boundary wherever the shape allows.
+- District label color is `#bdb199` at rest and changes to `#4e403e` on hover, keyboard focus or locked district selection.
 - Plot labels can hide at far zoom and appear at near zoom.
 - Value heat treatment uses tonal density and hatching within the approved palette, not a rainbow heatmap.
 

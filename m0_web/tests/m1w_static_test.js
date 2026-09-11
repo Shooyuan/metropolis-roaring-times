@@ -11,6 +11,7 @@ const projectRoot = path.resolve(webRoot, "..");
 const html = fs.readFileSync(path.join(webRoot, "index.html"), "utf8");
 const script = fs.readFileSync(path.join(webRoot, "app.js"), "utf8");
 const styles = fs.readFileSync(path.join(webRoot, "styles.css"), "utf8");
+const localization = fs.readFileSync(path.join(webRoot, "localization.css"), "utf8");
 const brand = fs.readFileSync(path.join(webRoot, "assets", "00_BRAND.svg"));
 const mapBase = fs.readFileSync(path.join(webRoot, "assets", "metropolis_map_base.svg"));
 const districts = fs.readFileSync(path.join(webRoot, "assets", "metropolis_district_geometry.svg"));
@@ -60,7 +61,7 @@ for (const asset of ["construction_site.png", "standard_apartment.png", "luxury_
   assert(fs.existsSync(path.join(webRoot, "assets", "buildings", asset)), `Missing runtime building asset: ${asset}`);
 }
 const homePanel = path.join(webRoot, "assets", "home_png_complete", "panel_center_large.png");
-for (const font of ["InknutAntiqua-Regular.ttf", "InknutAntiqua-Bold.ttf"]) {
+for (const font of ["InknutAntiqua-Regular.ttf", "InknutAntiqua-Bold.ttf", "Kings-Regular.ttf"]) {
   assert(fs.existsSync(path.join(webRoot, "assets", "fonts", font)), `Missing approved home font: ${font}`);
 }
 for (const font of ["SourceHanSerifCN-Bold-2.otf", "SourceHanSerifCN-Medium-6.otf"]) {
@@ -71,9 +72,16 @@ assert(html.includes('src="assets/home_png_complete/panel_center_large.png"'), "
 assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
+assert(html.includes("styles.css?v=m1w-label1"), "Main stylesheet cachebuster must advance after the district-label font switch");
 assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
+assert(styles.includes('font-family: "Kings M1W"'), "District map labels must use the approved Kings font");
+assert(styles.includes("fill: #bdb199") && styles.includes("fill: #4e403e"), "District map labels must use the approved inactive and hover/selected colors");
+assert(script.includes('district_upper_east", name: "Upper East Side", label: ["UPPER", "EAST", "SIDE"]'), "Upper East Side map label must be split one word per line");
+assert(script.includes('district_west_village", name: "West Village", label: ["WEST", "VILLAGE"]'), "Village map labels must be split one word per line");
+assert(script.includes("const DISTRICT_LABEL_LAYOUT = {"), "District labels must use per-district layout controls instead of one global size");
 assert(styles.includes('html[lang="en-US"] .game-shell'), "English in-game UI must be explicitly scoped to Inknut Antiqua");
-assert(html.includes("localization.css?v=m1w-zhfont1"), "Chinese font stylesheet cachebuster must advance after the OTF switch");
+assert(html.includes("localization.css?v=m1w-label1"), "Localization stylesheet cachebuster must advance after the district-label font override");
+assert(localization.includes('html[lang] .district-label-text') && localization.includes('font-family: "Kings M1W", Georgia, serif !important;'), "Localization must not override map labels away from the approved Kings font");
 assert(/\.home-menu-actions button \{[\s\S]*?font-weight: 400;/.test(styles), "Home menu must use Inknut Antiqua Regular without changing its size");
 assert(styles.includes("top: 3.7%") && styles.includes("left: 34.8%") && styles.includes("top: 50.2%") && styles.includes("left: 35.5%"), "Home documents must retain the approved Group 11 composition anchors");
 assert(!html.includes('id="home-language-select"'), "Home Config must not use a native language selector");

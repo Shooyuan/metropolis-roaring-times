@@ -36,3 +36,11 @@
 | `m0_web/assets/fonts/SourceHanSerifCN-Medium-6.otf` | 简体中文正文、按钮、详情栏、普通 UI 文案 |
 
 这两份 OTF 文件由老板指定为当前中文界面的权威字体。旧 `m0_web/fonts/SourceHanSerifSC-M1W.woff2` 和 `m0_web/fonts/SourceHanSansSC-M1W.woff2` 暂不删除，作为历史合版兼容资料保留；新实现不再把它们作为中文界面首选字体。
+
+## 地图街区标签字体 V001
+
+| 运行时文件 | 用途 |
+|---|---|
+| `m0_web/assets/fonts/Kings-Regular.ttf` | 地图本体上的街区英文地名标签 |
+
+这份 TTF 由老板指定为当前 M1W 地图街区标签字体。地图标签固定使用英文地名，不随界面语言切换；右侧详情栏和无障碍名称继续走本地化文案。
