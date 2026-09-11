@@ -450,10 +450,10 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
 .district-interaction.is-context-hover .district-outline-outer,
 .district-interaction.is-context-hover .district-outline-inner { opacity: 1; }
 .plot-interaction { pointer-events: none; }
-.plot-fill { fill: #2ab799; fill-opacity: .82; stroke: #735e59; stroke-width: 3px; vector-effect: non-scaling-stroke; transition: fill 90ms ease, filter 90ms ease; }
+.plot-fill { fill: #2ab799; fill-opacity: .82; stroke: #735e59; stroke-width: 1.5px; vector-effect: non-scaling-stroke; transition: fill 90ms ease, filter 90ms ease; }
 .plot-outline-outer, .plot-outline-inner { fill: none; opacity: 0; pointer-events: none; vector-effect: non-scaling-stroke; transition: opacity 90ms ease; }
-.plot-outline-outer { stroke: #f6d9a6; stroke-width: 7px; }
-.plot-outline-inner { stroke: #322824; stroke-width: 2px; }
+.plot-outline-outer { stroke: #f6d9a6; stroke-width: 3.5px; }
+.plot-outline-inner { stroke: #322824; stroke-width: 1px; }
 .map-canvas.is-detail-zoom .plot-interaction { pointer-events: fill; cursor: pointer; }
 .map-canvas.is-detail-zoom .plot-interaction:hover .plot-fill,
 .map-canvas.is-detail-zoom .plot-interaction:focus .plot-fill { fill: #52d9be; filter: brightness(1.12); }
@@ -474,11 +474,10 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
 .landmark-entity img { position: absolute; display: block; max-width: none; pointer-events: none; transition: filter 90ms ease, opacity 90ms ease; }
 .landmark-label { opacity: 0; transform-origin: center; transform: translateX(-3%) scale(1.12, 1.04); }
 .map-canvas.is-landmark-label-zoom .landmark-label { opacity: 1; }
-.landmark-entity:hover img,
-.landmark-entity:focus img,
-.landmark-entity.is-selected img { filter: brightness(1.24) drop-shadow(0 0 5px #f08b64); }
+.landmark-entity:hover .landmark-artwork,
+.landmark-entity:focus .landmark-artwork,
+.landmark-entity.is-selected .landmark-artwork { filter: brightness(1.18) saturate(1.08) drop-shadow(0 0 2px #fff2d0) drop-shadow(0 0 7px #f08b64) drop-shadow(0 0 14px rgba(172,64,52,.78)); }
 .landmark-entity:focus { outline: none; }
-.landmark-entity.is-selected::after { content: ""; position: absolute; inset: -3px; border: 2px solid #f08b64; background: rgba(240,139,100,.08); pointer-events: none; }
 .district-label-text { fill: #322824; stroke: rgba(255,248,225,.92); stroke-width: 8px; paint-order: stroke fill; pointer-events: none; font-family: Arial, Helvetica, sans-serif; font-size: 136px; font-weight: 900; letter-spacing: 4px; text-anchor: middle; text-transform: uppercase; }
 .map-loading { position: absolute; z-index: 6; top: 50%; left: 50%; width: min(320px, 72%); padding: 12px 14px; border: 2px solid var(--line); background: rgba(255,253,245,.94); box-shadow: 4px 4px 0 rgba(0,0,0,.2); transform: translate(-50%,-50%); text-align: center; font-size: .78rem; }
 .map-loading.is-error { color: white; background: var(--accent); }

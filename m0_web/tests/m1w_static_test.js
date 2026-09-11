@@ -115,5 +115,11 @@ assert(!styles.includes(".map-canvas { position: absolute; inset: 0; transform-o
 assert(styles.includes(".map-canvas.is-landmark-label-zoom .landmark-label"), "Landmark labels must use the high-zoom label gate");
 assert(styles.includes(".map-canvas.is-detail-zoom .runtime-plot-asset"), "Development building assets must appear from the detail zoom gate");
 assert(styles.includes("font-size: 64px"), "Purchasable plot price marks must use the approved compact label size");
+assert(styles.includes(".plot-fill { fill: #2ab799; fill-opacity: .82; stroke: #735e59; stroke-width: 1.5px;"), "Purchasable plot fill stroke must be reduced to half of the previous M1W width");
+assert(styles.includes(".plot-outline-outer { stroke: #f6d9a6; stroke-width: 3.5px; }"), "Purchasable plot hover outer border must be reduced to half width");
+assert(styles.includes(".plot-outline-inner { stroke: #322824; stroke-width: 1px; }"), "Purchasable plot hover inner border must be reduced to half width");
+assert(styles.includes(".landmark-entity:hover .landmark-artwork"), "Landmark hover must target the transparent artwork, not every image in the landmark group");
+assert(styles.includes(".landmark-entity.is-selected .landmark-artwork"), "Landmark selection must lock the red glow on the artwork itself");
+assert(!styles.includes(".landmark-entity.is-selected::after"), "Landmark selection must not draw a full rectangular image-frame border");
 
 console.log(`M1W_STATIC_TEST_PASS districts=${expectedDistricts.length} map_sha=${sha256(mapBase).slice(0, 12)} brand_sha=${sha256(brand).slice(0, 12)}`);

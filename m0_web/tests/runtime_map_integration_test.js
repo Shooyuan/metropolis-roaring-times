@@ -30,6 +30,11 @@ assert(app.includes('selectedDistrictId = null;') && app.includes('selectedLandm
 assert(styles.includes(".map-canvas.is-detail-zoom .plot-interaction"), "Plot interaction must be gated by detail zoom");
 assert(styles.includes(".map-canvas.is-landmark-label-zoom .landmark-label"), "Landmark labels must appear at high label zoom");
 assert(styles.includes(".map-canvas.is-detail-zoom .runtime-plot-asset"), "Plot building assets must appear at detail zoom");
+assert(styles.includes("stroke-width: 1.5px"), "Runtime purchasable plot strokes must use the approved half-width visual treatment");
+assert(styles.includes("stroke-width: 3.5px") && styles.includes("stroke-width: 1px"), "Runtime plot hover/selection outlines must use the approved thinner border pair");
+assert(styles.includes(".landmark-entity:hover .landmark-artwork"), "Runtime landmark hover must glow only on the artwork cutout");
+assert(styles.includes(".landmark-entity.is-selected .landmark-artwork"), "Runtime landmark selection must persist the artwork glow after click");
+assert(!styles.includes(".landmark-entity.is-selected::after"), "Runtime landmark selection must not render the old rectangular frame overlay");
 assert(!app.includes('id: "cp_01"') && !app.includes('id: "fd_01"'), "Retired M0 representative plots must not remain in runtime data");
 assert(app.includes('metropolis_roaring_times_m1w_unified_save_v4'), "Geometry migration must use the v4 save namespace");
 

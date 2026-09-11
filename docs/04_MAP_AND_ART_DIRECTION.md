@@ -170,7 +170,8 @@ Each interactive polygon and collision shape is generated from the same source c
 ### 7.4 LOD 与命中优先级
 
 - `100%—477%`：街区识别和浏览优先；历史地标插画始终可见但不能选择，地标横幅、开发建筑和地块精细命中隐藏；悬停地标只高亮所属街区。
-- `500%—1500%`：显示地块边界、已购地块的工地或当前开发建筑，并开放地块和历史地标点击；`1250%—1500%` 额外显示历史地标英文横幅。横幅与插画组成同一个地标选择目标并同时高亮。
+- `500%—1500%`：显示地块边界、已购地块的工地或当前开发建筑，并开放地块和历史地标点击；`1250%—1500%` 额外显示历史地标英文横幅。横幅与插画组成同一个地标选择目标，但视觉反馈只在透明建筑插画本体上显示红色辉光，不围绕整张图片、横幅或父组绘制矩形红框。
+- 可购买地块边框从 2026-09-12 起采用 M1W 细边框：填充层描边 `1.5px`，悬停/选中外线 `3.5px`，内线 `1px`；这是上一版厚度的 50%，目的是减少对道路、地块和地标细节的遮挡。
 - 输入优先级由当前 LOD 明确决定，不提供玩家手工图层开关。任何时刻只允许一个街区、地块或地标处于选中状态。
 
 ### 7.3 Focus
@@ -351,6 +352,7 @@ Motion respects a reduced-motion setting where practical.
 - Text and icons are checked against their actual paper background.
 - Minimum interactive plot size is verified at the farthest allowed zoom.
 - Selected and hover states remain distinct for player, rival, public and unowned plots.
+- Historical landmarks use only artwork-body glow for hover and locked selection; rectangular parent-frame outlines are prohibited because they expose the source image bounds instead of the landmark silhouette.
 - Debt warnings cannot be confused with player ownership red; warning uses a hazard icon, diagonal hatch and explicit label.
 - Required information remains visible at 1920×1080, 1440×900 and 1366×768.
 
