@@ -63,6 +63,9 @@ const homePanel = path.join(webRoot, "assets", "home_png_complete", "panel_cente
 for (const font of ["InknutAntiqua-Regular.ttf", "InknutAntiqua-Bold.ttf"]) {
   assert(fs.existsSync(path.join(webRoot, "assets", "fonts", font)), `Missing approved home font: ${font}`);
 }
+for (const font of ["SourceHanSerifCN-Bold-2.otf", "SourceHanSerifCN-Medium-6.otf"]) {
+  assert(fs.existsSync(path.join(webRoot, "assets", "fonts", font)), `Missing approved Chinese UI font: ${font}`);
+}
 assert(html.includes('class="home-map-scroll"') && html.includes('src="assets/home_png_complete/manhattan_map_reference.png"'), "Home must render the owner-selected PNG map as its scrolling background");
 assert(html.includes('src="assets/home_png_complete/panel_center_large.png"'), "Load, Config, About and the rival chooser must share the available owner-provided center panel asset");
 assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
@@ -70,6 +73,7 @@ assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"),
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
 assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
 assert(styles.includes('html[lang="en-US"] .game-shell'), "English in-game UI must be explicitly scoped to Inknut Antiqua");
+assert(html.includes("localization.css?v=m1w-zhfont1"), "Chinese font stylesheet cachebuster must advance after the OTF switch");
 assert(/\.home-menu-actions button \{[\s\S]*?font-weight: 400;/.test(styles), "Home menu must use Inknut Antiqua Regular without changing its size");
 assert(styles.includes("top: 3.7%") && styles.includes("left: 34.8%") && styles.includes("top: 50.2%") && styles.includes("left: 35.5%"), "Home documents must retain the approved Group 11 composition anchors");
 assert(!html.includes('id="home-language-select"'), "Home Config must not use a native language selector");

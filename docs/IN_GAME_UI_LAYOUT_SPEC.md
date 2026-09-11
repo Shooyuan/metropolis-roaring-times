@@ -130,7 +130,7 @@
 - 确认弹窗、债务处置、拍卖、资料来源、法令新闻、帮助、结果和 Config 共用结构化标题区、正文区、操作区。
 - 危险动作使用深红、文字和图标三重提示，不能只依赖颜色。
 - 地图、数字和正文保持稳定，不持续摇摆；橡皮管动画只用于看板娘、拟人物件图标和短促按钮反馈。
-- 玩家默认英文，中文复用相同布局。M1W 当前游戏内英文界面统一使用 `InknutAntiqua-Regular.ttf` 对应的 `Inknut Antiqua M1W`；中文界面继续使用中文字体方案，不强行套用英文字体。标题字体可装饰，正文和数字优先可读。
+- 玩家默认英文，中文复用相同布局。M1W 当前游戏内英文界面统一使用 `InknutAntiqua-Regular.ttf` 对应的 `Inknut Antiqua M1W`；中文标题统一使用 `m0_web/assets/fonts/SourceHanSerifCN-Bold-2.otf`，中文正文、按钮、详情和普通 UI 文字统一使用 `m0_web/assets/fonts/SourceHanSerifCN-Medium-6.otf`。中文界面不强行套用英文字体，标题字体可装饰，正文和数字优先可读。
 
 ## 七、设计与实现尺寸
 

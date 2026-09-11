@@ -1,5 +1,27 @@
 # Metropolis: Roaring Times — Development Log
 
+## M1W-HOTFIX-07 — 中文界面字体指定
+
+### 老板决定
+
+- 之后中文标题字体使用 `m0_web/assets/fonts/SourceHanSerifCN-Bold-2.otf`；
+- 中文正文、按钮、详情和普通 UI 文字使用 `m0_web/assets/fonts/SourceHanSerifCN-Medium-6.otf`；
+- 英文界面继续使用既有 `Inknut Antiqua M1W`，不因中文字体规则变更而改变。
+
+### 本阶段实现
+
+- `localization.css` 切换到老板指定的两份 OTF 文件；
+- 中文标题变量 `--zh-title` 指向 Bold，中文正文变量 `--zh-body` 指向 Medium；
+- 中文启动页菜单、子面板标题、对手选择弹窗标题、对手名、Start 按钮、游戏主标题、详情标题和回合重点文字统一走中文标题字体；
+- 中文普通正文和 UI 文案统一走中文正文字体；
+- 推进 CSS 缓存版本号，避免浏览器继续读取旧中文字体规则；
+- 更新静态验收合同、资产清单和 UI 文档。
+
+### 风险与后续门槛
+
+- 两份 OTF 合计约 23MB，会增加网页包体；当前先按老板指定执行，公开部署前可再评估是否需要子集化；
+- 旧 `m0_web/fonts/*.woff2` 暂不删除，避免误伤历史合版资料；若后续确认不再需要，可单独进入清理阶段。
+
 ## M1W-HOTFIX-05 — 启动弹窗贴图恢复与 1000% 地图缩放
 
 ### 老板决定

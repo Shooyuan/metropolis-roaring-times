@@ -294,6 +294,7 @@ The vertical slice uses the five approved deterministic states: default/welcome,
 - Primary text uses `ink_primary`; secondary text uses `ink_secondary` only when contrast remains readable.
 - Numbers use stable-width figures to prevent layout movement during settlement.
 - Player-facing text, buttons, events, tooltips and rival labels are English.
+- Simplified Chinese UI keeps the same layout but uses owner-approved Source Han Serif CN files: `SourceHanSerifCN-Bold-2.otf` for Chinese titles and `SourceHanSerifCN-Medium-6.otf` for Chinese body/UI copy.
 - `Choose Rival` presents Tycoon, Landlady and Shark as strategy/personality profiles.
 - The vertical slice has no difficulty selector.
 - Destructive, debt and violation actions use `warning_deep` plus explicit English labels and symbols.

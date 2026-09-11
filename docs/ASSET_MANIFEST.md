@@ -27,3 +27,12 @@
 | `m0_web/assets/buildings/factory.png` | `assets/工厂.png` | Factory 建成后显示 |
 
 这五张图由老板上传，原始文件保留在 `assets/`。网页运行时使用英文稳定文件名副本，避免中文路径、浏览器编码和后续 GitHub 部署造成资源引用风险。
+
+## 中文界面字体 V001
+
+| 运行时文件 | 用途 |
+|---|---|
+| `m0_web/assets/fonts/SourceHanSerifCN-Bold-2.otf` | 简体中文标题、弹窗标题、重要菜单和重点控件 |
+| `m0_web/assets/fonts/SourceHanSerifCN-Medium-6.otf` | 简体中文正文、按钮、详情栏、普通 UI 文案 |
+
+这两份 OTF 文件由老板指定为当前中文界面的权威字体。旧 `m0_web/fonts/SourceHanSerifSC-M1W.woff2` 和 `m0_web/fonts/SourceHanSansSC-M1W.woff2` 暂不删除，作为历史合版兼容资料保留；新实现不再把它们作为中文界面首选字体。

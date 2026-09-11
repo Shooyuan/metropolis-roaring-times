@@ -53,11 +53,15 @@ assert(redirect.includes("../?lang=zh-CN"), "Old Chinese URL must redirect to th
 assert(!fs.existsSync(path.join(webRoot, "zh-CN", "app.js")), "Duplicate Chinese gameplay code must be removed");
 assert(!fs.existsSync(path.join(webRoot, "zh-CN", "zh-CN.css")), "Duplicate Chinese layout stylesheet must be removed");
 
-for (const file of ["SourceHanSerifSC-M1W.woff2", "SourceHanSansSC-M1W.woff2"]) {
-  const font = fs.readFileSync(path.join(webRoot, "fonts", file));
-  assert.equal(font.subarray(0, 4).toString("ascii"), "wOF2", `${file} must be a valid WOFF2 font`);
-  assert(font.length > 100000, `${file} subset is unexpectedly small`);
+for (const file of ["SourceHanSerifCN-Bold-2.otf", "SourceHanSerifCN-Medium-6.otf"]) {
+  const font = fs.readFileSync(path.join(webRoot, "assets", "fonts", file));
+  assert.equal(font.subarray(0, 4).toString("ascii"), "OTTO", `${file} must be a valid OpenType font`);
+  assert(font.length > 1000000, `${file} is unexpectedly small`);
 }
 assert(localizationStyles.includes('html[lang="zh-CN"]'), "Chinese font overrides must be scoped by the document language");
+assert(localizationStyles.includes('SourceHanSerifCN-Bold-2.otf'), "Chinese title font must use the owner-approved Bold OTF");
+assert(localizationStyles.includes('SourceHanSerifCN-Medium-6.otf'), "Chinese body font must use the owner-approved Medium OTF");
+assert(localizationStyles.includes('--zh-title: "Source Han Serif CN M1W Title"'), "Chinese title variable must point to the approved title family");
+assert(localizationStyles.includes('--zh-body: "Source Han Serif CN M1W Body"'), "Chinese body variable must point to the approved body family");
 
 console.log(`M1W_I18N_STATIC_TEST_PASS locales=2 dynamic_keys=${dynamicEnglishKeys.length} fonts=2`);

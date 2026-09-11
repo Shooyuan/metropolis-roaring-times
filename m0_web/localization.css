@@ -1,22 +1,22 @@
 @font-face {
-  font-family: "Source Han Serif SC M1W";
-  src: url("fonts/SourceHanSerifSC-M1W.woff2") format("woff2");
+  font-family: "Source Han Serif CN M1W Title";
+  src: url("assets/fonts/SourceHanSerifCN-Bold-2.otf") format("opentype");
   font-style: normal;
-  font-weight: 200 900;
+  font-weight: 700;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Source Han Sans SC M1W";
-  src: url("fonts/SourceHanSansSC-M1W.woff2") format("woff2");
+  font-family: "Source Han Serif CN M1W Body";
+  src: url("assets/fonts/SourceHanSerifCN-Medium-6.otf") format("opentype");
   font-style: normal;
-  font-weight: 200 900;
+  font-weight: 500;
   font-display: swap;
 }
 
 html[lang="zh-CN"] {
-  --zh-title: "Source Han Serif SC M1W", "Songti SC", serif;
-  --zh-body: "Source Han Sans SC M1W", "PingFang SC", sans-serif;
+  --zh-title: "Source Han Serif CN M1W Title", "Source Han Serif SC", "Songti SC", serif;
+  --zh-body: "Source Han Serif CN M1W Body", "Source Han Serif SC", "Songti SC", serif;
   font-family: var(--zh-body);
 }
 
@@ -26,12 +26,19 @@ html[lang="zh-CN"] body * {
 }
 
 html[lang="zh-CN"] .masthead h1,
+html[lang="zh-CN"] .home-menu-actions button,
+html[lang="zh-CN"] .home-panel h2,
+html[lang="zh-CN"] .rival-modal h2,
+html[lang="zh-CN"] .rival-option strong,
+html[lang="zh-CN"] .start-confirm-button,
 html[lang="zh-CN"] .modal-card h2,
 html[lang="zh-CN"] .property-panel h2,
+html[lang="zh-CN"] .district-empty strong,
+html[lang="zh-CN"] .operations-page h3,
 html[lang="zh-CN"] .empty-docket h2,
 html[lang="zh-CN"] .status-end-turn strong {
   font-family: var(--zh-title) !important;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 html[lang="zh-CN"] .prototype-ribbon,
@@ -51,7 +58,7 @@ html[lang="zh-CN"] .map-legend {
 html[lang="zh-CN"] .district-label-text {
   font-family: var(--zh-title) !important;
   font-size: 152px;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 6px;
 }
 
