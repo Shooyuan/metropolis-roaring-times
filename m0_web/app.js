@@ -56,10 +56,10 @@ const DISTRICTS = [
   { id: "district_financial_district", name: "Financial District", label: ["FINANCIAL", "DISTRICT"], location: "Southern Manhattan", note: "The southernmost approved playable district in the M1W map." },
 ];
 
-const MAP_ZOOM_STEPS = [1, 1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5];
+const MAP_ZOOM_STEPS = [1, 1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5, 6.25, 7.81, 9.77, 10];
 const MAP_ZOOM_FACTOR = 1.25;
 const MAP_MAX_ZOOM_STEP = MAP_ZOOM_STEPS.length - 1;
-const MAP_DETAIL_ZOOM_STEP = MAP_MAX_ZOOM_STEP;
+const MAP_DETAIL_ZOOM_STEP = MAP_ZOOM_STEPS.indexOf(5);
 const MAP_PAN_KEY_STEP = 38;
 
 let PLOT_BLUEPRINTS = [];

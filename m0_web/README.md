@@ -10,12 +10,12 @@ M1W 在原有 M0.1 网页的状态栏、综合操作栏和八回合经济演示�
 - 正式地图底图：`assets/runtime_map_v001/base/metropolis_map_base.svg`；
 - 12 个权威街区：`assets/runtime_map_v001/geometry/metropolis_district_geometry.svg`；
 - 30 个老板绘制并批准的可购买地块及其稳定 ID、价格层级和固定基础地价；
-- 52 个老板放置的历史地标插画，以及在 `500%` 显示的英文横幅；
+- 52 个老板放置的历史地标插画，以及从 `500%` 起显示的英文横幅；
 - 地图拖拽、固定倍率缩放、边界限制和禁止旋转；
 - SVG 按实际显示尺寸重新绘制，避免 Safari 把低分辨率合成层放大后出现模糊；
 - 街区悬停边框、点击锁定、关闭选择和双语街区详情；
 - 街区、地块、历史地标严格互斥选择，点击地图空白处清空右侧详情；
-- `100%—500%` 固定缩放：街区始终可选择；地块精细交互和地标横幅只在 `500%` 开放；
+- `100%—1000%` 十三级固定缩放：街区始终可选择；地块精细交互和地标横幅从 `500%` 起开放；
 - 地块接入原 M0.1 的购买、建造、改建、经纪出售、银行、股票、AI 和回合流程；
 - Chelsea 保留老板批准的 Figma 矢量网络，并纳入真实浏览器命中专项测试。
 - 英文与简体中文合并为同一个网页实现，在设置中即时切换且不重置对局状态；
@@ -29,7 +29,7 @@ M1W 在原有 M0.1 网页的状态栏、综合操作栏和八回合经济演示�
 > 历史原型说明：以下五页签与顶部结束回合布局描述的是当前已提交 M1W 网页事实。最终游戏内 UI 已由 `../docs/IN_GAME_UI_LAYOUT_SPEC.md` 改为五模块、左侧四页签和右下回合控制区；U1—U3 审批完成前不回写本网页。
 
 - 打开网页后先进入 Art Deco 风格启动页：老板指定的曼哈顿参考地图以 70% 不透明度在 60 秒内从底部向顶部循环浏览，四张票据独立定位，天际线等比铺满屏幕宽度；
-- 启动页英文菜单与弹窗正文使用 Inknut Antiqua Regular，弹窗标题与返回键使用 Inknut Antiqua Bold；Load、Config 与 About 共同使用老板提供的 `assets/cutouts/panel_center_large.png`，不由 CSS 重画；Load 存档项和 Config 语言项使用 `assets/home_png_complete/Vector.png`，语言通过左右三角切换而非系统下拉框；
+- 启动页英文菜单与弹窗正文使用 Inknut Antiqua Regular，弹窗标题与返回键使用 Inknut Antiqua Bold；Load、Config、About 与对手选择共同使用老板提供的 `assets/home_png_complete/panel_center_large.png`，不由 CSS 重画；Load 存档项和 Config 语言项使用 `assets/home_png_complete/Vector.png`，语言通过左右三角切换而非系统下拉框；
 - 可从启动页选择开始新游戏、读取存档、设置语言或查看 About；
 - 选择 Tycoon、Landlady 或 Shark 作为 1v1 对手；
 - 查看 Game Brief、Investment Advice、Bank、Auction House 和 Stock Market 五个页签；
@@ -37,7 +37,7 @@ M1W 在原有 M0.1 网页的状态栏、综合操作栏和八回合经济演示�
 - 通过按钮、滚轮或键盘按固定倍率缩放；
 - 使用鼠标拖拽或方向键平移；
 - 查看街区、地块与历史地标三类右侧详情；
-- 在 `500%` 选择地块并演示购买、建造、改建和出售；
+- 在 `500%—1000%` 选择地块并演示购买、建造、改建和出售；
 - 运行原 M0.1 的八回合经济、借款、证券和存档演示。
 
 ## 暂未包含

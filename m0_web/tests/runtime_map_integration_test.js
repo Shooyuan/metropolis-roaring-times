@@ -22,7 +22,7 @@ for (const id of ["plot-overlay", "plot-mark-layer", "landmark-layer", "landmark
   assert(html.includes(`id="${id}"`), `Missing runtime-map DOM node: ${id}`);
 }
 assert(html.includes("assets/runtime_map_v001/base/metropolis_map_base.svg"), "M1W must use the v004 runtime map base");
-assert(html.includes("app.js?v=m1w-map4"), "M1W must cache-bust the v004 integration script");
+assert(html.includes("app.js?v=m1w-map5"), "M1W must cache-bust the 1000% zoom hotfix script");
 assert(app.includes('window.fetch(`${root}/plots.json`'), "Plot data must load from the generated runtime manifest");
 assert(app.includes('window.fetch(`${root}/landmarks.json`'), "Landmark data must load from the generated runtime manifest");
 assert(app.includes('data-map-entity'), "Map interactions must use the shared entity contract");
@@ -38,4 +38,4 @@ for (const landmark of landmarks.landmarks) {
   }
 }
 
-console.log("RUNTIME_MAP_INTEGRATION_TEST_PASS plots=30 landmarks=52 zoom=500 selection=exclusive");
+console.log("RUNTIME_MAP_INTEGRATION_TEST_PASS plots=30 landmarks=52 zoom=1000 detail_from=500 selection=exclusive");

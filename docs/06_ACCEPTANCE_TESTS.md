@@ -243,9 +243,9 @@ Pass when:
 Pass when:
 
 - default zoom is `100%`;
-- visible steps are exactly `100/125/156/195/244/305/381/477/500%`;
+- visible steps are exactly `100/125/156/195/244/305/381/477/500/625/781/977/1000%`;
 - zoom-in and zoom-out move to adjacent approved steps;
-- the target clamps exactly at `100%` and `500%`;
+- the target clamps exactly at `100%` and `1000%`;
 - wheel and visible controls use the same calculation;
 - zoom remains pointer-anchored where possible;
 - the current approved percentage is displayed;
@@ -254,7 +254,7 @@ Pass when:
 
 ### `SCN-008` Information Density
 
-Pass when `100%—477%` keeps historical-landmark illustrations visible for orientation but disables plot/landmark direct hit targets and hides landmark banners and development-building illustrations. Each district summary uses this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities and prosperity. At exactly `500%`, plot boundaries, development buildings, landmark banners and landmark/plot clicks enable together. Standard and Luxury Apartments combine into the apartment count.
+Pass when `100%—477%` keeps historical-landmark illustrations visible for orientation but disables plot/landmark direct hit targets and hides landmark banners and development-building illustrations. Each district summary uses this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities and prosperity. From `500%` through `1000%`, plot boundaries, development buildings, landmark banners and landmark/plot clicks remain enabled together. Standard and Luxury Apartments combine into the apartment count.
 
 ### `AUT-040` District Summary and Prosperity Contract
 
@@ -668,8 +668,8 @@ Owner approves the submitted Figma source, base/district/plot/landmark/alignment
 5. 每个地标组可建立稳定 ID，插画、独立英文横幅文字与可选命中区仍保持一个选择实体。
 6. 青绿色仅是 Figma 审查色，不出现在运行时状态色；地块资格只来自几何层。
 7. `cheap | medium | expensive` 父组只决定开局价格层级；精确价格由版本化构建工具固定生成，且运行时视觉不依赖这三个父组的 Figma 填色。
-8. `100/125/156/195/244/305/381/477/500` 九级缩放全部可达，最高值精确为 `500%`，地图不可旋转。
-9. `100—477` 地标不可点击且悬停只亮街区，地块/开发建筑/地标横幅不开放；精确 `500` 时地块和地标可点击，开发建筑出现，地标横幅与插画共同高亮。
+8. `100/125/156/195/244/305/381/477/500/625/781/977/1000` 十三级缩放全部可达，最高值精确为 `1000%`，地图不可旋转。
+9. `100—477` 地标不可点击且悬停只亮街区，地块/开发建筑/地标横幅不开放；`500—1000` 时地块和地标可点击，开发建筑出现，地标横幅与插画共同高亮。
 10. 街区、地块、地标严格互斥；点击空白清空选择和详情；新选择正确替换右侧 File 类型。
 11. 每条获批街区/地标文案具备 EN/ZH 短长文本、English Wikipedia 页面标题、URL、访问日期和老板审批状态；来源图标使用 `assets/wikipedia-w.svg`，点击后在游戏内弹窗展示来源。
 12. 当前未交付的五套开发建筑插画不得用 Codex 占位地理冒充验收通过。

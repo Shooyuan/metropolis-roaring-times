@@ -38,7 +38,7 @@ for (const layer of [
 }
 
 assert(!/exactly 64|all 64|64 个可购买|64 production plots/i.test(combined), "Retired fixed plot count remains active");
-assert(combined.includes("100%`, `125%`, `156%`, `195%`, `244%`, `305%`, `381%`, `477%`, `500%"), "Approved zoom ladder missing");
+assert(combined.includes("100%`, `125%`, `156%`, `195%`, `244%`, `305%`, `381%`, `477%`, `500%`, `625%`, `781%`, `977%`, `1000%"), "Approved zoom ladder missing");
 assert(combined.includes("English Wikipedia"), "Single-source content rule missing");
 assert(combined.includes("district | plot | landmark | null"), "Mutually exclusive selection contract missing");
 
@@ -62,4 +62,4 @@ for (const reviewFile of [
   assert(fs.existsSync(path.join(root, reviewFile)), `Missing review file: ${reviewFile}`);
 }
 
-console.log("MAP_CONTENT_CONTRACT_TEST_PASS layers=8 zoom_steps=9 locales=2");
+console.log("MAP_CONTENT_CONTRACT_TEST_PASS layers=8 zoom_steps=13 locales=2");

@@ -158,9 +158,9 @@ Each interactive polygon and collision shape is generated from the same source c
 ### 7.2 Fixed-Step Zoom
 
 - Default and minimum zoom: `100%`.
-- Authoritative steps: `100%`, `125%`, `156%`, `195%`, `244%`, `305%`, `381%`, `477%`, `500%`.
-- The final step clamps to exactly `500%`; it is intentionally not another full `1.25×` multiplication.
-- Boundary steps clamp to `100%` or `500%`.
+- Authoritative steps: `100%`, `125%`, `156%`, `195%`, `244%`, `305%`, `381%`, `477%`, `500%`, `625%`, `781%`, `977%`, `1000%`.
+- The final step clamps to exactly `1000%`; it is intentionally not another full `1.25×` multiplication.
+- Boundary steps clamp to `100%` or `1000%`.
 - Mouse-wheel and visible `+`/`−` buttons use the same rule.
 - Zoom is anchored at the pointer position when possible.
 - The UI displays the rounded current percentage.
@@ -170,7 +170,7 @@ Each interactive polygon and collision shape is generated from the same source c
 ### 7.4 LOD 与命中优先级
 
 - `100%—477%`：街区识别和浏览优先；历史地标插画始终可见但不能选择，地标横幅、开发建筑和地块精细命中隐藏；悬停地标只高亮所属街区。
-- `500%`：显示地块边界、未开发荒地或当前开发建筑、历史地标英文横幅，并开放地块和历史地标点击；横幅与插画组成同一个地标选择目标并同时高亮。
+- `500%—1000%`：显示地块边界、未开发荒地或当前开发建筑、历史地标英文横幅，并开放地块和历史地标点击；横幅与插画组成同一个地标选择目标并同时高亮。
 - 输入优先级由当前 LOD 明确决定，不提供玩家手工图层开关。任何时刻只允许一个街区、地块或地标处于选中状态。
 
 ### 7.3 Focus
@@ -183,7 +183,7 @@ Each interactive polygon and collision shape is generated from the same source c
 
 - Far and middle view: historical-landmark illustrations remain visible for recognition, but their banners and direct hit targets are hidden. Development-building illustrations are hidden. Each district shows, in order, human-purchasable plot count, human-owned apartment count, human-owned Factory count, human-owned Department Store count, major transit facilities and prosperity level.
 - Standard and Luxury Apartments are combined in the apartment count.
-- Near view: at exactly `500%`, development-building illustrations appear together with plot name, building state, income indicator, compliance and construction details; historical landmarks become selectable and their English banners appear.
+- Near view: from `500%` through `1000%`, development-building illustrations appear together with plot name, building state, income indicator, compliance and construction details; historical landmarks become selectable and their English banners appear.
 - Any short crossfade is data-driven, but the approved thresholds are fixed by section 7.2 and 7.4.
 - HUD text and action icons remain screen-space readable instead of shrinking with the map.
 

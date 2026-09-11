@@ -604,7 +604,7 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
   min-width: 0;
   min-height: clamp(120px, 17vh, 150px);
   border: 0;
-  background: url("assets/cutouts/panel_center_large.png") center / 100% 100% no-repeat;
+  background: url("assets/home_png_complete/panel_center_large.png") center / 100% 100% no-repeat;
   box-shadow: none;
   padding: clamp(16px, 2vw, 25px);
   color: #201b19;
@@ -613,7 +613,7 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
 .rival-option:hover:not(:disabled),
 .rival-option:focus-visible:not(:disabled) {
   color: #9d342c;
-  background: url("assets/cutouts/panel_center_large.png") center / 100% 100% no-repeat;
+  background: url("assets/home_png_complete/panel_center_large.png") center / 100% 100% no-repeat;
   outline: 0;
   transform: translateY(-2px);
 }

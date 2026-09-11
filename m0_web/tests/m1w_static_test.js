@@ -55,12 +55,12 @@ for (const asset of ["right-menu-panel-complete.png", "1.png", "2.png", "3.png",
   assert(html.includes(`assets/home_png_complete/${asset}`) || styles.includes(`assets/home_png_complete/${asset}`), `Home screen must reference ${asset}`);
   assert(fs.existsSync(path.join(webRoot, "assets", "home_png_complete", asset)), `Missing home screen asset: ${asset}`);
 }
-const homePanel = path.join(webRoot, "assets", "cutouts", "panel_center_large.png");
+const homePanel = path.join(webRoot, "assets", "home_png_complete", "panel_center_large.png");
 for (const font of ["InknutAntiqua-Regular.ttf", "InknutAntiqua-Bold.ttf"]) {
   assert(fs.existsSync(path.join(webRoot, "assets", "fonts", font)), `Missing approved home font: ${font}`);
 }
 assert(html.includes('class="home-map-scroll"') && html.includes('src="assets/home_png_complete/manhattan_map_reference.png"'), "Home must render the owner-selected PNG map as its scrolling background");
-assert(html.includes('src="assets/cutouts/panel_center_large.png"'), "Load, Config and About must share the owner-provided center panel asset");
+assert(html.includes('src="assets/home_png_complete/panel_center_large.png"'), "Load, Config, About and the rival chooser must share the available owner-provided center panel asset");
 assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
@@ -79,7 +79,7 @@ assert(script.includes('button.addEventListener("click", () => selectRival(butto
 assert(script.includes('dom.startConfirmButton.addEventListener("click"'), "The framed Start control must launch the selected match");
 assert(/function openNewGameFlow\(\) \{[\s\S]*?showHomeScreen\(\);[\s\S]*?dom\.startModal\.classList\.add\("is-open"\);/.test(script), "New Game must open the rival chooser over the home screen");
 assert(styles.includes('color: #9b7242;'), "Rival explanations must use the approved brown text color");
-assert(styles.includes('background: url("assets/cutouts/panel_center_large.png")'), "Rival cards must use the approved panel center artwork");
+assert(styles.includes('background: url("assets/home_png_complete/panel_center_large.png")'), "Rival cards must use the approved panel center artwork");
 assert(styles.includes('background: url("assets/home_png_complete/button_frame_default.png")'), "Start must use the approved framed button artwork");
 assert(styles.includes("grid-template-columns: repeat(3, minmax(0, 1fr))"), "Rival choices must remain exactly equal width even when a name has a larger intrinsic width");
 assert(styles.includes("aspect-ratio: 364 / 90"), "Start must preserve the source frame's native aspect ratio");
@@ -96,8 +96,8 @@ assert(brand.toString("utf8").includes('id="brand-title-colon"'), "Approved Bran
 
 for (const id of expectedDistricts) assert(script.includes(`id: "${id}"`), `Missing district metadata: ${id}`);
 assert(script.includes("const MAP_ZOOM_FACTOR = 1.25;"), "Map zoom must use the approved fixed 125% factor");
-assert(script.includes("const MAP_ZOOM_STEPS = [1, 1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5];"), "Map zoom must use the approved nine-step ladder ending at 500%");
-assert(script.includes("const MAP_DETAIL_ZOOM_STEP = MAP_MAX_ZOOM_STEP;"), "Plot and landmark selection must be gated at the 500% detail step");
+assert(script.includes("const MAP_ZOOM_STEPS = [1, 1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5, 6.25, 7.81, 9.77, 10];"), "Map zoom must use the approved thirteen-step ladder ending at 1000%");
+assert(script.includes("const MAP_DETAIL_ZOOM_STEP = MAP_ZOOM_STEPS.indexOf(5);"), "Plot and landmark selection must remain available from the 500% detail threshold through 1000%");
 assert(!script.includes("rotate("), "M1W map transforms must not introduce rotation");
 assert(script.includes('dom.mapAnchor.style.height = `${zoom * 100}%`;'), "Map zoom must resize the SVG layout box for sharp Safari rendering");
 assert(!script.includes("dom.mapCanvas.style.transform = `scale(${zoom})`;"), "Map zoom must not enlarge a cached composited bitmap");
