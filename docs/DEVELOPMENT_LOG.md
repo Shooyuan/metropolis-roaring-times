@@ -12,7 +12,7 @@
 
 - 老板确认仍能看到浅色矩形底和边框感，要求变通处理红光外的矩形底；
 - 诊断确认继续对原始 `.landmark-artwork` 做 CSS 滤镜会把地标图里的低透明底纹、浅色底和边框一起发光；
-- 新增 `tools/map_handoff_processor/build_landmark_glow_assets.py`，为 52 个历史地标生成独立透明红光 PNG；
+- 新增 `tools/map_handoff_processor/build_landmark_glow_assets.py`，先清理 52 个历史地标插画中的低透明残渣、浅色矩形底和淡边框，再生成独立透明红光 PNG；
 - 地标 DOM 增加 `.landmark-glow` 图层，位于原建筑插画下方；悬停/选中只显示红光层，原建筑图不再被滤镜提亮、染色或投影；
 - 网页运行包和项目运行包各新增 52 张红光遮罩，测试检查每个地标都有对应遮罩文件。
 
