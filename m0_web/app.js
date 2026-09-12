@@ -50,18 +50,18 @@ const NEWS_ITEMS = [
 ];
 
 const DISTRICTS = [
-  { id: "district_inwood", name: "Inwood", label: ["INWOOD"], location: "Northern Manhattan", note: "The northernmost approved district in the M1W map." },
-  { id: "district_washington_heights", name: "Washington Heights", label: ["WASHINGTON", "HEIGHTS"], location: "Upper northern Manhattan", note: "Owner-authored geometry between Inwood and Harlem." },
-  { id: "district_harlem", name: "Harlem", label: ["HARLEM"], location: "Upper Manhattan", note: "The approved cross-island district north of Central Park." },
-  { id: "district_upper_east", name: "Upper East Side", label: ["UPPER", "EAST", "SIDE"], location: "East of Central Park", note: "The approved district on Central Park’s eastern side." },
-  { id: "district_upper_west", name: "Upper West Side", label: ["UPPER", "WEST", "SIDE"], location: "West of Central Park", note: "The approved district on Central Park’s western side." },
-  { id: "district_midtown_west", name: "Midtown West", label: ["MIDTOWN", "WEST"], location: "Western Midtown", note: "The approved western half of the Midtown map area." },
-  { id: "district_midtown_east", name: "Midtown East", label: ["MIDTOWN", "EAST"], location: "Eastern Midtown", note: "The approved eastern half of the Midtown map area." },
-  { id: "district_chelsea", name: "Chelsea", label: ["CHELSEA"], location: "West Side, south of Midtown", note: "Owner-approved Figma vector network; M1W verifies its real browser hit area without redrawing it." },
-  { id: "district_west_village", name: "West Village", label: ["WEST", "VILLAGE"], location: "Lower West Side", note: "The approved western Village district in the M1W map." },
-  { id: "district_east_village", name: "East Village", label: ["EAST", "VILLAGE"], location: "Lower East Side", note: "The approved eastern Village district in the M1W map." },
-  { id: "district_soho", name: "SoHo", label: ["SOHO"], location: "Lower Manhattan", note: "The approved district immediately north of Financial District." },
-  { id: "district_financial_district", name: "Financial District", label: ["FINANCIAL", "DISTRICT"], location: "Southern Manhattan", note: "The southernmost approved playable district in the M1W map." },
+  { id: "district_inwood", name: "Inwood", label: ["INWOOD"], location: "Northern Manhattan" },
+  { id: "district_washington_heights", name: "Washington Heights", label: ["WASHINGTON", "HEIGHTS"], location: "Upper northern Manhattan" },
+  { id: "district_harlem", name: "Harlem", label: ["HARLEM"], location: "Upper Manhattan" },
+  { id: "district_upper_east", name: "Upper East Side", label: ["UPPER", "EAST", "SIDE"], location: "East of Central Park" },
+  { id: "district_upper_west", name: "Upper West Side", label: ["UPPER", "WEST", "SIDE"], location: "West of Central Park" },
+  { id: "district_midtown_west", name: "Midtown West", label: ["MIDTOWN", "WEST"], location: "Western Midtown" },
+  { id: "district_midtown_east", name: "Midtown East", label: ["MIDTOWN", "EAST"], location: "Eastern Midtown" },
+  { id: "district_chelsea", name: "Chelsea", label: ["CHELSEA"], location: "West Side, south of Midtown" },
+  { id: "district_west_village", name: "West Village", label: ["WEST", "VILLAGE"], location: "Lower West Side" },
+  { id: "district_east_village", name: "East Village", label: ["EAST", "VILLAGE"], location: "Lower East Side" },
+  { id: "district_soho", name: "SoHo", label: ["SOHO"], location: "Lower Manhattan" },
+  { id: "district_financial_district", name: "Financial District", label: ["FINANCIAL", "DISTRICT"], location: "Southern Manhattan" },
 ];
 
 const DISTRICT_LABEL_LAYOUT = {
@@ -132,7 +132,8 @@ const plotName = (plotOrId) => {
   return plot ? t("plot.runtime_name", { number: plot.id.slice(-3) }) : "";
 };
 const landmarkMeta = (id) => LANDMARKS.find((landmark) => landmark.id === id) || null;
-const landmarkName = (landmark) => landmark?.displayName || landmark?.sourceName || landmark?.id || "";
+const landmarkCopy = (landmark) => window.M1W_LANDMARK_COPY?.[landmark?.id]?.[locale()] || window.M1W_LANDMARK_COPY?.[landmark?.id]?.["en-US"] || null;
+const landmarkName = (landmark) => landmarkCopy(landmark)?.name || landmark?.displayName || landmark?.sourceName || landmark?.id || "";
 
 function economyForTurn(turn) {
   if (turn <= 2) return { id: "opening", market: 1, income: 1, credit: 100000, rate: 0.0025 };
@@ -383,11 +384,14 @@ function renderLandmarkDetails() {
   const landmark = landmarkMeta(selectedLandmarkId);
   dom.landmarkDetails.hidden = !landmark;
   if (!landmark) return;
+  const copy = landmarkCopy(landmark);
   dom.landmarkCode.textContent = landmark.id.toUpperCase();
   dom.landmarkName.textContent = landmarkName(landmark);
   dom.landmarkDistrict.textContent = landmark.districtId ? districtName(landmark.districtId) : t("map.outside_district");
-  dom.landmarkShort.textContent = t("landmark.content_pending");
-  dom.landmarkLong.textContent = t("landmark.long_pending");
+  dom.landmarkShort.textContent = copy?.short || t("landmark.content_unavailable");
+  dom.landmarkLong.textContent = copy?.long || t("landmark.long_unavailable");
+  dom.landmarkSource.href = copy?.sourceUrl || "https://en.wikipedia.org/";
+  dom.landmarkSourceText.textContent = t("landmark.source", { title: copy?.sourceTitle || "English Wikipedia" });
   dom.landmarkMore.open = false;
   dom.mapHint.textContent = t("map.landmark_selected", { landmark: landmarkName(landmark) });
 }
@@ -1463,6 +1467,8 @@ function collectDom() {
   dom.buildSection = document.querySelector(".build-section");
   dom.redevelopSection = document.querySelector(".redevelop-section");
   dom.saleSection = document.querySelector(".sale-section");
+  dom.landmarkSource = document.querySelector(".wikipedia-source");
+  dom.landmarkSourceText = document.querySelector(".wikipedia-source span");
 }
 
 function bindEvents() {

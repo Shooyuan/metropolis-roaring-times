@@ -1,6 +1,8 @@
-# M1W 文案定位总表（老板可编辑版）
+# M1W 文案定位总表（内部编辑版）
 
-> 目的：把当前游戏所有可见/半可见文案按界面位置归档，方便老板修改、增加、删除。本文档是文案审查台，不会自动改游戏；通过审查后再进入实现阶段。
+> 目的：把当前游戏所有可见/半可见文案按界面位置归档，方便修改、增加、删除。本文档是内部文案审查台；最终玩家文案以 `m0_web/` 中的运行时词条为准。
+
+> 红线：任何玩家可见文案都不得出现“老板绘制”“等待批准”“制作人演示”“正式制作输入”等工程身份或审批流程措辞。内部风险和审批记录应写在项目管理文档，不进入游戏界面。
 
 > 主要来源：`m0_web/locales/en-US.js`、`m0_web/locales/zh-CN.js`、`m0_web/index.html` 中由 i18n 管理的静态文本。
 
@@ -9,7 +11,7 @@
 - 想改英文：优先改“英文当前文案”。
 - 想改中文：优先改“中文当前文案”。
 - 想删某类文案：先看“界面定位”，确认它是否是按钮、弹窗、错误提示或无障碍文本。
-- `static.*` 里有一部分旧原型兼容文案，最适合后续集中清理。
+- `static.*`：HTML 中直接显示的静态文案及其中文翻译。
 
 ## 分区索引
 
@@ -85,12 +87,12 @@
 | Key | 英文当前文案 | 中文当前文案 | 修改备注 |
 |---|---|---|---|
 | `attribute.Close help` |  | 关闭玩法说明 |  |
-| `attribute.Close selected district` |  | 关闭所选分区 |  |
+| `attribute.Close selected district` |  | 关闭所选街区 |  |
 | `attribute.Close settings` |  | 关闭设置 |  |
-| `attribute.District file` |  | 分区档案 |  |
+| `attribute.Selected map entity file` |  | 地图对象档案 |  |
 | `attribute.Future board mascot placeholder` |  | 未来看板玩偶占位区 |  |
 | `attribute.Home language` |  | 启动页语言 |  |
-| `attribute.Interactive Manhattan map. Drag to pan, use plus and minus to zoom, and select a district for details.` |  | 曼哈顿交互地图。拖动以平移，使用加减按钮缩放，选择分区查看详情。 |  |
+| `attribute.Interactive Manhattan map. Drag to pan, use plus and minus to zoom, and select a district for details.` |  | 曼哈顿交互地图。拖动以平移，使用加减按钮缩放，选择街区查看详情。 |  |
 | `attribute.Language` |  | 语言 |  |
 | `attribute.Main menu` |  | 主菜单 |  |
 | `attribute.Main menu actions` |  | 主菜单操作 |  |
@@ -98,16 +100,17 @@
 | `attribute.Map legend` |  | 地图图例 |  |
 | `attribute.Match status` |  | 对局状态 |  |
 | `attribute.Metropolis: Roaring Times` |  | Metropolis: Roaring Times |  |
-| `attribute.Metropolis: Roaring Times M1W producer map demo` |  | Metropolis: Roaring Times M1W 制作人地图演示 |  |
+| `attribute.Metropolis: Roaring Times map demo` |  | Metropolis: Roaring Times 地图演示 |  |
 | `attribute.Next language` |  | 下一种语言 |  |
 | `attribute.Opening menu` |  | 启动菜单 |  |
 | `attribute.Operations Desk` |  | 综合操作栏 |  |
 | `attribute.Operations pages` |  | 综合操作页面 |  |
-| `attribute.Owner-authored Manhattan district map` |  | 老板绘制的曼哈顿分区地图 |  |
-| `attribute.Owner-authored illustrated Manhattan map` |  | 老板绘制的曼哈顿插画地图 |  |
+| `attribute.Manhattan district map` |  | 曼哈顿街区地图 |  |
+| `attribute.Illustrated Manhattan map` |  | 曼哈顿插画地图 |  |
+| `attribute.Thirty purchasable plots` |  | 三十个可购地块 |  |
 | `attribute.Previous language` |  | 上一种语言 |  |
 | `attribute.System actions` |  | 系统操作 |  |
-| `attribute.Twelve selectable Manhattan districts` |  | 十二个可选曼哈顿分区 |  |
+| `attribute.Twelve selectable Manhattan districts` |  | 十二个可选曼哈顿街区 |  |
 | `attribute.Zoom in` |  | 放大 |  |
 | `attribute.Zoom out` |  | 缩小 |  |
 
@@ -162,56 +165,56 @@
 | `district.district_chelsea.label` | CHELSEA | 切尔西 |  |
 | `district.district_chelsea.location` | West Side, south of Midtown | 西区，中城以南 |  |
 | `district.district_chelsea.name` | Chelsea | 切尔西 |  |
-| `district.district_chelsea.note` | Owner-approved Figma vector network; M1W verifies its real browser hit area without redrawing it. | 老板批准的 Figma 矢量网络；M1W 在不重新绘制的前提下验证其真实浏览器感应区。 |  |
+| `district.district_chelsea.note` | A West Side district between Midtown bustle and Village streets. | 夹在中城喧闹与乡区街道之间的西区街区。 |  |
 | `district.district_east_village.label` | EAST\|VILLAGE | 东乡 |  |
 | `district.district_east_village.location` | Lower East Side | 下东区 |  |
 | `district.district_east_village.name` | East Village | 东乡 |  |
-| `district.district_east_village.note` | The approved eastern Village district in the M1W map. | M1W 地图中已批准的东乡街区。 |  |
+| `district.district_east_village.note` | Dense neighborhood streets on the eastern side of the Village. | 乡区东侧街道密集、生活繁忙的街区。 |  |
 | `district.district_financial_district.label` | FINANCIAL\|DISTRICT | 金融区 |  |
 | `district.district_financial_district.location` | Southern Manhattan | 曼哈顿南部 |  |
 | `district.district_financial_district.name` | Financial District | 金融区 |  |
-| `district.district_financial_district.note` | The southernmost approved playable district in the M1W map. | M1W 地图最南端的已批准可玩分区。 |  |
+| `district.district_financial_district.note` | Banks, exchanges and old streets crowd Manhattan’s southern tip. | 银行、交易所与古老街道挤在曼哈顿南端。 |  |
 | `district.district_harlem.label` | HARLEM | 哈莱姆 |  |
 | `district.district_harlem.location` | Upper Manhattan | 曼哈顿上城 |  |
 | `district.district_harlem.name` | Harlem | 哈莱姆 |  |
-| `district.district_harlem.note` | The approved cross-island district north of Central Park. | 中央公园以北、横跨曼哈顿岛的已批准分区。 |  |
+| `district.district_harlem.note` | The broad uptown district north of Central Park. | 中央公园以北、横跨曼哈顿岛的上城街区。 |  |
 | `district.district_inwood.label` | INWOOD | 因伍德 |  |
 | `district.district_inwood.location` | Northern Manhattan | 曼哈顿北部 |  |
 | `district.district_inwood.name` | Inwood | 因伍德 |  |
-| `district.district_inwood.note` | The northernmost approved district in the M1W map. | M1W 地图最北端的已批准分区。 |  |
+| `district.district_inwood.note` | Manhattan’s northern tip, framed by hills and waterways. | 曼哈顿最北端，丘陵与水道环绕。 |  |
 | `district.district_midtown_east.label` | MIDTOWN\|EAST | 中城东 |  |
 | `district.district_midtown_east.location` | Eastern Midtown | 曼哈顿中城东部 |  |
 | `district.district_midtown_east.name` | Midtown East | 中城东 |  |
-| `district.district_midtown_east.note` | The approved eastern half of the Midtown map area. | 中城地图区域东半部的已批准分区。 |  |
+| `district.district_midtown_east.note` | An eastern Midtown hub of offices, institutions and grand avenues. | 办公、机构与宏伟大道集中的中城东部。 |  |
 | `district.district_midtown_west.label` | MIDTOWN\|WEST | 中城西 |  |
 | `district.district_midtown_west.location` | Western Midtown | 曼哈顿中城西部 |  |
 | `district.district_midtown_west.name` | Midtown West | 中城西 |  |
-| `district.district_midtown_west.note` | The approved western half of the Midtown map area. | 中城地图区域西半部的已批准分区。 |  |
+| `district.district_midtown_west.note` | A busy western Midtown corridor of stations, offices and entertainment. | 车站、办公与娱乐交织的中城西部走廊。 |  |
 | `district.district_soho.label` | SOHO | 苏豪区 |  |
 | `district.district_soho.location` | Lower Manhattan | 曼哈顿下城 |  |
 | `district.district_soho.name` | SoHo | 苏豪区 |  |
-| `district.district_soho.note` | The approved district immediately north of Financial District. | 金融区正北方的已批准分区。 |  |
+| `district.district_soho.note` | A cast-iron crossroads between the Village and the Financial District. | 连接乡区与金融区的铸铁街区。 |  |
 | `district.district_upper_east.label` | UPPER EAST\|SIDE | 上东区 |  |
 | `district.district_upper_east.location` | East of Central Park | 中央公园以东 |  |
 | `district.district_upper_east.name` | Upper East Side | 上东区 |  |
-| `district.district_upper_east.note` | The approved district on Central Park’s eastern side. | 中央公园东侧的已批准分区。 |  |
+| `district.district_upper_east.note` | Central Park’s eastern neighbor, lined with residences and institutions. | 中央公园东侧，住宅与文化机构林立。 |  |
 | `district.district_upper_west.label` | UPPER WEST\|SIDE | 上西区 |  |
 | `district.district_upper_west.location` | West of Central Park | 中央公园以西 |  |
 | `district.district_upper_west.name` | Upper West Side | 上西区 |  |
-| `district.district_upper_west.note` | The approved district on Central Park’s western side. | 中央公园西侧的已批准分区。 |  |
+| `district.district_upper_west.note` | Central Park’s western neighbor, shaped by homes, culture and the river. | 中央公园西侧，住宅、文化与河岸相接。 |  |
 | `district.district_washington_heights.label` | WASHINGTON\|HEIGHTS | 华盛顿高地 |  |
 | `district.district_washington_heights.location` | Upper northern Manhattan | 曼哈顿上北部 |  |
 | `district.district_washington_heights.name` | Washington Heights | 华盛顿高地 |  |
-| `district.district_washington_heights.note` | Owner-authored geometry between Inwood and Harlem. | 老板绘制的因伍德与哈莱姆之间分区几何。 |  |
+| `district.district_washington_heights.note` | A high northern stretch between Inwood and Harlem. | 位于因伍德与哈莱姆之间的北部高地。 |  |
 | `district.district_west_village.label` | WEST\|VILLAGE | 西乡 |  |
 | `district.district_west_village.location` | Lower West Side | 下西区 |  |
 | `district.district_west_village.name` | West Village | 西乡 |  |
-| `district.district_west_village.note` | The approved western Village district in the M1W map. | M1W 地图中已批准的西乡街区。 |  |
+| `district.district_west_village.note` | Winding streets, residences and neighborhood life on the Lower West Side. | 弯曲街道、住宅与邻里生活组成的下西区。 |  |
 | `district.location_line` | {location} · Manhattan, New York | {location} · 纽约曼哈顿 |  |
-| `district.note_line` | {note} Transit and prosperity remain intentionally unset until their data and formula are approved. | {note} 在相关数据与公式获批前，玩法数量和繁荣度将有意保持未设定状态。 |  |
-| `district.pending_plots` | Pending | 等待 64 地块阶段 |  |
+| `district.note_line` | {note} | {note} |  |
+| `district.pending_plots` | Not yet listed | 暂未挂牌 |  |
 | `district.pending_prosperity` | — (50.0 to <100.0) | —（50.0 至低于 100.0） |  |
-| `district.pending_transit` | Pending owner review | 等待老板审核 |  |
+| `district.pending_transit` | Not yet assessed | 暂未评估 |  |
 
 ## 经济周期（`economy.*`）
 
@@ -244,21 +247,22 @@
 | `home.panel.about` | About Us | 关于我们 |  |
 | `home.panel.config` | Config | 设置 |  |
 | `home.panel.load` | Load | 读取 |  |
-| `home.rival.intro` | Choose a rival to preserve the existing 1 vs 1 economy context, then inspect the owner-authored Manhattan map. | 选择一名对手，保留现有的一对一经济玩法，然后进入老板绘制的曼哈顿地图。 |  |
+| `home.rival.intro` | Choose a rival and enter a one-on-one economic contest. | 选择一名对手，进入一对一的经济对战。 |  |
 | `home.rival.landlady.description` | Residential income and steady holdings. | 重视住宅收入与稳健持有。 |  |
 | `home.rival.shark.description` | Cheap land, liquidity and opportunism. | 重视廉价土地、流动性与投机机会。 |  |
 | `home.rival.start` | Start | 开始 |  |
 | `home.rival.title` | Choose Your Rival | 选择你的对手 |  |
 | `home.rival.tycoon.description` | Industrial expansion and transport value. | 重视工业扩张与交通价值。 |  |
 
-## 历史地标详情占位文案（`landmark.*`）
+## 历史地标详情文案（`landmark.*`）
 
-- 界面定位：右侧历史地标详情栏；当前仍为占位，正式简介见 `LANDMARK_COPY_DRAFT.md`。
+- 界面定位：右侧历史地标详情栏。52 个地标的正式中英文名称、单句短介绍、长介绍和英文维基百科链接集中维护于 `LANDMARK_COPY_DRAFT.md` 与 `m0_web/landmark-content.js`。
 
 | Key | 英文当前文案 | 中文当前文案 | 修改备注 |
 |---|---|---|---|
-| `landmark.content_pending` | A concise historical introduction will appear here after the English Wikipedia source text is reviewed. | 英文维基百科资料完成审核后，这里将显示约 20 字的幽默短介绍。 |  |
-| `landmark.long_pending` | The approximately 200-word historical article is intentionally reserved for the separate owner content-approval phase. | 约 200 字的历史正文被有意留到独立的老板内容审批阶段，不在本次接入中虚构。 |  |
+| `landmark.content_unavailable` | Historical introduction unavailable. | 暂无历史简介。 | 仅在单个地标资料缺失时显示 |
+| `landmark.long_unavailable` | Historical article unavailable. | 暂无历史长文。 | 仅在单个地标资料缺失时显示 |
+| `landmark.source` | Source: {title} | 资料来源：{title} | `{title}` 当前均指向英文维基百科词条 |
 
 ## 法令状态（`law.*`）
 
@@ -278,7 +282,7 @@
 |---|---|---|---|
 | `map.hover_lock` | Hover a district · Zoom to 500% or above for plots and landmarks | 悬停查看街区 · 放大至 500% 及以上可选择地块和地标 |  |
 | `map.landmark_selected` | {landmark} · Selection locked | {landmark} · 已锁定选择 |  |
-| `map.load_error` | The official map could not be prepared. Check the local HTTP server and asset files. | 无法准备正式地图，请检查本地 HTTP 服务器和素材文件。 |  |
+| `map.load_error` | The map could not be loaded. Check the local server and asset files. | 无法载入地图，请检查本地服务器和素材文件。 |  |
 | `map.load_failed` | Map load failed | 地图载入失败 |  |
 | `map.open_file` | {district} · Click to open district file | {district} · 单击打开街区档案 |  |
 | `map.open_landmark` | {landmark} · Click to open historical file | {landmark} · 单击打开历史档案 |  |
@@ -287,9 +291,9 @@
 | `map.plot_selected` | {plot} · Selection locked | {plot} · 已锁定选择 |  |
 | `map.press_enter` | {district} · Press Enter to select | {district} · 按 Enter 键选择 |  |
 | `map.selection_locked` | {district} · Selection locked | {district} · 已锁定选择 |  |
-| `map.status` | {count} districts · Owner geometry | {count} 个街区 · 老板定稿几何 |  |
+| `map.status` | {count} districts | {count} 个街区 |  |
 | `map.status_runtime` | {districts} districts · {plots} plots · {landmarks} landmarks | {districts} 个街区 · {plots} 个地块 · {landmarks} 个地标 |  |
-| `map.unavailable` | Official map unavailable | 正式地图不可用 |  |
+| `map.unavailable` | Map unavailable | 地图不可用 |  |
 | `map.zoom_for_landmark` | Zoom to 500% or above to inspect this landmark; labels appear from 1250% | 放大至 500% 及以上可查看此历史地标；地标横幅从 1250% 起显示 |  |
 | `map.zoom_for_plot` | Zoom to 500% or above to select this plot | 放大至 500% 及以上可选择此地块 |  |
 
@@ -311,8 +315,8 @@
 
 | Key | 英文当前文案 | 中文当前文案 | 修改备注 |
 |---|---|---|---|
-| `meta.description` | An M1W producer map demo for Metropolis: Roaring Times, a historical New York property strategy game. | 《Metropolis: Roaring Times》M1W 制作人地图演示——一款纽约历史地产策略游戏。 |  |
-| `meta.title` | Metropolis: Roaring Times — M1W Producer Map Demo | Metropolis: Roaring Times — M1W 制作人地图演示 |  |
+| `meta.description` | Metropolis: Roaring Times is a historical New York property strategy game about land, credit, auctions and market timing. | 《Metropolis: Roaring Times》是一款关于土地、信贷、拍卖与市场时机的纽约历史地产策略游戏。 |  |
+| `meta.title` | Metropolis: Roaring Times — Map Demo | Metropolis: Roaring Times — 地图演示 |  |
 
 ## 新闻/投资建议消息（`news.*`）
 
@@ -408,7 +412,7 @@
 | `reason.operational_next_turn` | Construction becomes operational next turn. | 建筑将在下一回合投入运营。 |  |
 | `reason.own_developed_property` | Own a developed property before redevelopment. | 需要先拥有已开发地产才能改建。 |  |
 | `reason.own_empty_plot` | Own an empty plot before building. | 需要先拥有一块空地才能建造。 |  |
-| `reason.public_unavailable` | Public land is not available in this prototype. | 本原型暂不开放公共土地。 |  |
+| `reason.public_unavailable` | Public land is not available for purchase. | 公共土地不可购买。 |  |
 | `reason.rival_property` | This property belongs to your rival. | 该地产属于你的对手。 |  |
 | `reason.sale_pending` | This property is already committed to a brokered sale. | 该地产已提交经纪出售。 |  |
 | `reason.sale_settlement` | Brokered sale settles for {amount} at the start of turn {turn}. | 经纪出售将在第 {turn} 回合开始时以 {amount} 结算。 |  |
@@ -435,9 +439,9 @@
 
 | Key | 英文当前文案 | 中文当前文案 | 修改备注 |
 |---|---|---|---|
-| `rival.landlady.name` | Landlady | 女房东 |  |
+| `rival.landlady.name` | Landlady | 房东 |  |
 | `rival.landlady.style` | Residential income | 住宅收入 |  |
-| `rival.shark.name` | Shark | 资本鲨客 |  |
+| `rival.shark.name` | Shark | 资本大鳄 |  |
 | `rival.shark.style` | Cheap land & liquidity | 廉价土地与流动性 |  |
 | `rival.tycoon.name` | Tycoon | 实业大亨 |  |
 | `rival.tycoon.style` | Industry & transport | 工业与交通 |  |
@@ -468,26 +472,26 @@
 
 ## HTML 静态文案/兼容翻译（`static.*`）
 
-- 界面定位：`zh-CN.js` 里为 HTML 旧静态文本准备的翻译映射；部分是历史原型文案，适合重点清理。
+- 界面定位：`zh-CN.js` 里为 HTML 直接显示文本准备的翻译映射。
 
 | Key | 英文当前文案 | 中文当前文案 | 修改备注 |
 |---|---|---|---|
 | `static.12 districts · 30 plots · 52 landmarks` |  | 12 个街区 · 30 个地块 · 52 个地标 |  |
-| `static.1v1 · M1W Map Demo` |  | 1v1 · M1W 地图演示 |  |
+| `static.1v1` |  | 1v1 |  |
 | `static.6 turns` |  | 6 回合 |  |
 | `static.A brokered sale locks 90% of current property value and settles next turn.` |  | 经纪出售会锁定当前地产价值的 90%，并在下一回合结算。 |  |
-| `static.A historical New York property strategy prototype about land, credit, auctions and market timing.` |  | 一款关于土地、信贷、拍卖与市场时机的纽约历史地产策略原型。 |  |
+| `static.A historical New York property strategy game about land, credit, auctions and market timing.` |  | 一款关于土地、信贷、拍卖与市场时机的纽约历史地产策略游戏。 |  |
 | `static.About Us` |  | 关于我们 |  |
 | `static.Action Points` |  | 行动点 |  |
 | `static.Activity` |  | 动态 |  |
 | `static.Advice` |  | 建议 |  |
 | `static.Auction` |  | 拍卖 |  |
-| `static.Auction stories and bidder content require owner approval. This graybox does not invent them.` |  | 拍卖故事与竞拍者内容需要老板批准，本灰盒版本不会擅自编写。 |  |
+| `static.Auction stories and bidder events are not yet available.` |  | 拍卖故事与竞拍者事件暂未开放。 |  |
 | `static.Available Credit` |  | 可用授信 |  |
 | `static.Available Plots` |  | 可购入地块 |  |
 | `static.Bank` |  | 银行 |  |
 | `static.Bank borrowing and repayment cost no action points; loans mature in six turns.` |  | 银行借款和还款不消耗行动点；贷款在 6 回合后到期。 |  |
-| `static.Board Mascot Office` |  | 看板玩偶办公室 |  |
+| `static.Office` |  | 办公室 |  |
 | `static.Borrow $10,000` |  | 借款 $10,000 |  |
 | `static.Brief` |  | 简报 |  |
 | `static.Brokered Sale` |  | 经纪出售 |  |
@@ -503,7 +507,7 @@
 | `static.Choose Another Rival` |  | 选择其他对手 |  |
 | `static.Choose Rival` |  | 选择对手 |  |
 | `static.Choose a rival to begin.` |  | 选择一名对手开始游戏。 |  |
-| `static.Choose a rival to preserve the existing 1v1 economy context, then inspect the owner-authored Manhattan map.` |  | 选择一名对手以保留现有 1v1 经济玩法，然后查看老板绘制的曼哈顿地图。 |  |
+| `static.Choose a rival and enter a one-on-one economic contest.` |  | 选择一名对手，进入一对一的经济对战。 |  |
 | `static.Condition` |  | 状态 |  |
 | `static.Config` |  | 设置 |  |
 | `static.Continue Saved Match` |  | 继续已保存对局 |  |
@@ -536,17 +540,16 @@
 | `static.Income` |  | 收入 |  |
 | `static.Industrial expansion and transport value.` |  | 重视工业扩张与交通价值。 |  |
 | `static.Investment` |  | 投资 |  |
-| `static.Landlady` |  | 女房东 |  |
+| `static.Landlady` |  | 房东 |  |
 | `static.Language` |  | 语言 |  |
 | `static.Lead after turn 8` |  | 第 8 回合结束时领先 |  |
 | `static.Load` |  | 读取 |  |
-| `static.Loading official map…` |  | 正在载入正式地图… |  |
+| `static.Loading Manhattan…` |  | 正在载入曼哈顿… |  |
 | `static.Loan Book` |  | 贷款账簿 |  |
 | `static.Locked selection` |  | 已锁定选择 |  |
 | `static.Luxury Apartment — $25,000` |  | 豪华公寓 — $25,000 |  |
-| `static.M1W PRODUCER MAP DEMO — FIGMA MAP INTEGRATION · NOT FINAL CONTENT OR BALANCE` |  | M1W 制作人地图演示 — FIGMA 地图集成 · 非最终内容与数值平衡 |  |
-| `static.M1W Producer Map Demo` |  | M1W 制作人地图演示 |  |
-| `static.M1W map scope` |  | M1W 地图范围 |  |
+| `static.NEW YORK PROPERTY EXCHANGE · MANHATTAN EDITION` |  | 纽约地产交易所 · 曼哈顿版 |  |
+| `static.Map overview` |  | 地图概览 |  |
 | `static.Major Transit` |  | 大型交通设施 |  |
 | `static.Manhattan District Map` |  | 曼哈顿街区地图 |  |
 | `static.Manhattan, New York` |  | 纽约 · 曼哈顿 |  |
@@ -567,21 +570,22 @@
 | `static.Operations Desk` |  | 综合操作栏 |  |
 | `static.Order value` |  | 委托金额 |  |
 | `static.Owner` |  | 业主 |  |
-| `static.Pending` |  | 待定 |  |
-| `static.Planned production formats: government land auctions and emergency debt auctions.` |  | 计划中的正式形式：政府土地拍卖与紧急债务拍卖。 |  |
-| `static.Preparing owner-authored vector map…` |  | 正在准备老板绘制的矢量地图… |  |
+| `static.Not yet listed` |  | 暂未挂牌 |  |
+| `static.Not yet assessed` |  | 暂未评估 |  |
+| `static.Upcoming formats include government land auctions and emergency debt auctions.` |  | 后续拍卖包括政府土地拍卖与紧急债务拍卖。 |  |
+| `static.Preparing vector map…` |  | 正在准备矢量地图… |  |
 | `static.Price Tier` |  | 价格层级 |  |
 | `static.Prosperity` |  | 繁荣度 |  |
-| `static.Prototype Result` |  | 原型对局结果 |  |
-| `static.Prototype Settings` |  | 原型设置 |  |
-| `static.Prototype baskets use fictional aggregate instruments. No futures, short selling, broker margin or live prices.` |  | 原型证券篮子使用虚构的综合投资标的，不包含期货、做空、融资融券或实时行情。 |  |
+| `static.Match Result` |  | 对局结果 |  |
+| `static.Game Settings` |  | 游戏设置 |  |
+| `static.These baskets are fictional aggregate instruments. Futures, short selling, broker margin and live prices are unavailable.` |  | 这些证券篮子是虚构的综合投资标的，不提供期货、做空、融资融券或实时行情。 |  |
 | `static.Read more` |  | 查看更多 |  |
 | `static.Redevelop` |  | 改建 |  |
 | `static.Redevelop into a higher-cost building` |  | 改建为成本更高的建筑 |  |
 | `static.Redevelop only into a higher-cost legal building. The old building contributes a 120% upgrade credit, but never pays cash back.` |  | 只能改建为成本更高且符合法令的建筑。旧建筑提供建造费 120% 的升级抵扣，但不会返还现金。 |  |
 | `static.Redevelop upward when a better legal use appears.` |  | 出现更优且合法的用途时，向上改建建筑。 |  |
 | `static.Repay up to $10,000` |  | 最多偿还 $10,000 |  |
-| `static.Reserved for a future rubber-hose adviser. This map demo uses deterministic text only.` |  | 此处预留给未来的橡皮管风格顾问。本地图演示目前只使用确定性文本。 |  |
+| `static.Your rubber-hose adviser will report here.` |  | 你的橡皮管风格顾问会在这里提供建议。 |  |
 | `static.Reset View` |  | 重置视图 |  |
 | `static.Residential income and steady holdings.` |  | 重视住宅收入与稳健持有。 |  |
 | `static.Rival` |  | 对手 |  |
@@ -594,10 +598,9 @@
 | `static.Select a district, plot or landmark` |  | 请选择街区、地块或历史地标 |  |
 | `static.Select a plot on the map.` |  | 请在地图上选择地块。 |  |
 | `static.Settings` |  | 设置 |  |
-| `static.Shark` |  | 资本鲨客 |  |
-| `static.Source review: English Wikipedia` |  | 资料审查来源：英文维基百科 |  |
-| `static.Source: owner-authored Figma handoff v003.` |  | 来源：老板绘制的 Figma 交付包 v003。 |  |
-| `static.Source: owner-authored Figma handoff v004.` |  | 来源：老板绘制的 Figma 交付包 v004。 |  |
+| `static.Shark` |  | 资本大鳄 |  |
+| `static.Source: English Wikipedia` |  | 来源：英文维基百科 |  |
+| `static.Map edition: Manhattan v004.` |  | 地图版本：曼哈顿 v004。 |  |
 | `static.Standard` |  | 标准 |  |
 | `static.Standard Apartment — $8,000` |  | 标准公寓 — $8,000 |  |
 | `static.Start A New Game` |  | 开始新游戏 |  |
@@ -606,10 +609,9 @@
 | `static.Style` |  | 风格 |  |
 | `static.System` |  | 系统 |  |
 | `static.Term` |  | 期限 |  |
-| `static.The approved 30-plot and 52-landmark runtime package is active. Prosperity and transit effects remain pending.` |  | 已启用获批的 30 地块、52 地标运行包；繁荣度和交通效果仍待后续审批。 |  |
-| `static.The map and district geometry are production inputs. Plot boundaries, balances and auction stories remain pending.` |  | 地图与分区几何属于正式制作输入。地块边界、数值平衡和拍卖故事仍待审批。 |  |
-| `static.This M1W build is a producer demo. The approved v004 plots and landmarks are active; balance, historical copy and Godot production remain under staged approval.` |  | 当前 M1W 版本是制作人演示。已启用获批的 v004 地块和地标；数值平衡、历史正文与 Godot 制作仍需分阶段审批。 |  |
-| `static.This build validates the owner-authored 12-district, 30-plot and 52-landmark map. Historical copy and 20-turn balance remain later approval gates.` |  | 此版本用于验证老板绘制的 12 街区、30 地块和 52 地标地图。历史正文与 20 回合数值平衡仍需后续审批。 |  |
+| `static.Manhattan contains 30 purchasable plots and 52 historical landmarks. Prosperity and transit effects are not yet active.` |  | 曼哈顿包含 30 个可购地块与 52 处历史地标；繁荣度与交通效果暂未启用。 |  |
+| `static.Explore 12 districts, 30 purchasable plots and 52 historical landmarks across Manhattan.` |  | 探索曼哈顿的 12 个街区、30 个可购地块与 52 处历史地标。 |  |
+| `static.Explore Manhattan, develop property, manage credit and outmaneuver a rival across the market cycle.` |  | 探索曼哈顿、开发地产、管理信贷，并在市场周期中胜过对手。 |  |
 | `static.Three-Minute Walkthrough` |  | 三分钟玩法导览 |  |
 | `static.Turn` |  | 回合 |  |
 | `static.Tycoon` |  | 实业大亨 |  |
@@ -655,9 +657,9 @@
 | `toast.instrument_unavailable` | This instrument is not available yet. | 该投资标的尚未开放。 |  |
 | `toast.invalid_order` | Use an order value of at least $1,000 in $1,000 steps. | 委托额至少为 $1,000，并须以 $1,000 为步进。 |  |
 | `toast.invalid_save` | The saved match is invalid and was not loaded. | 存档无效，未能载入。 |  |
-| `toast.legacy_loaded` | Legacy prototype save migrated and loaded. | 旧版原型存档已迁移并载入。 |  |
+| `toast.legacy_loaded` | Older saved match migrated and loaded. | 旧版存档已迁移并载入。 |  |
 | `toast.loan_funded` | Loan funded. No action point used. | 贷款已经到账，未消耗行动点。 |  |
-| `toast.map_preparing` | The official map data is still being prepared. | 正式地图数据仍在准备中。 |  |
+| `toast.map_preparing` | The Manhattan map is still being prepared. | 曼哈顿地图仍在准备中。 |  |
 | `toast.match_saved` | Match saved in this browser. | 对局已保存在此浏览器中。 |  |
 | `toast.match_started` | Match started against {rival}. | 与{rival}的对局已经开始。 |  |
 | `toast.no_save` | No saved match was found. | 未找到已保存的对局。 |  |

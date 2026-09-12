@@ -3,12 +3,16 @@
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
+const vm = require("node:vm");
 
 const webRoot = path.resolve(__dirname, "..");
 const read = (relative) => fs.readFileSync(path.join(webRoot, relative), "utf8");
 const html = read("index.html");
 const app = read("app.js");
 const styles = read("styles.css");
+const landmarkContentScript = read("landmark-content.js");
+const enLocale = read("locales/en-US.js");
+const zhLocale = read("locales/zh-CN.js");
 const plots = JSON.parse(read("assets/runtime_map_v001/plots.json"));
 const landmarks = JSON.parse(read("assets/runtime_map_v001/landmarks.json"));
 
@@ -18,11 +22,48 @@ assert.deepEqual([...new Set(plots.plots.map((plot) => plot.priceTier))].sort(),
 assert.equal(new Set(plots.plots.map((plot) => plot.id)).size, 30, "Plot IDs must be unique");
 assert.equal(new Set(landmarks.landmarks.map((landmark) => landmark.id)).size, 52, "Landmark IDs must be unique");
 
+const contentSandbox = { window: {} };
+vm.runInNewContext(landmarkContentScript, contentSandbox, { filename: "landmark-content.js" });
+const landmarkCopy = contentSandbox.window.M1W_LANDMARK_COPY;
+assert.equal(Object.keys(landmarkCopy).length, 52, "The bilingual copy deck must contain exactly 52 landmarks");
+for (const landmark of landmarks.landmarks) {
+  const copy = landmarkCopy[landmark.id];
+  assert(copy, `Missing landmark copy: ${landmark.id}`);
+  for (const locale of ["en-US", "zh-CN"]) {
+    for (const field of ["name", "short", "long", "sourceTitle", "sourceUrl"]) {
+      assert(copy[locale][field]?.trim(), `Missing ${locale}.${field}: ${landmark.id}`);
+    }
+  }
+  assert(copy["zh-CN"].short.startsWith(`${copy["zh-CN"].name}，`), `Chinese short must start with the landmark name: ${landmark.id}`);
+  assert(copy["en-US"].sourceUrl.startsWith("https://en.wikipedia.org/wiki/"), `Source must be English Wikipedia: ${landmark.id}`);
+}
+
+const playerCopyFiles = { html, enLocale, zhLocale, landmarkContentScript };
+const bannedEngineeringCopy = [
+  /owner-authored/i,
+  /owner-approved/i,
+  /owner approval/i,
+  /producer demo/i,
+  /approval gate/i,
+  /老板/,
+  /制作人地图演示/,
+  /本灰盒/,
+  /老板审核/,
+  /老板绘制/,
+  /老板定稿/,
+];
+for (const [file, source] of Object.entries(playerCopyFiles)) {
+  for (const pattern of bannedEngineeringCopy) {
+    assert(!pattern.test(source), `Player-facing ${file} contains engineering-language pattern ${pattern}`);
+  }
+}
+
 for (const id of ["plot-overlay", "plot-mark-layer", "landmark-layer", "landmark-details", "entity-file-title"]) {
   assert(html.includes(`id="${id}"`), `Missing runtime-map DOM node: ${id}`);
 }
 assert(html.includes("assets/runtime_map_v001/base/metropolis_map_base.svg"), "M1W must use the v004 runtime map base");
-assert(html.includes("app.js?v=m1w-map6"), "M1W must cache-bust the 1500% zoom and building-asset script");
+assert(html.includes("app.js?v=m1w-map7"), "M1W must cache-bust the 1500% zoom, building assets and formal landmark copy");
+assert(html.includes("landmark-content.js?v=m1w-copy1"), "M1W must load the formal bilingual landmark copy deck");
 assert(app.includes('window.fetch(`${root}/plots.json`'), "Plot data must load from the generated runtime manifest");
 assert(app.includes('window.fetch(`${root}/landmarks.json`'), "Landmark data must load from the generated runtime manifest");
 assert(app.includes('data-map-entity'), "Map interactions must use the shared entity contract");
