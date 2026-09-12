@@ -36,16 +36,16 @@ assert(app.includes("setDistrictLabelClass(meta.id, \"is-hovered\", true)"), "Di
 assert(app.includes("setDistrictLabelClass(group.dataset.districtId, \"is-selected\", selected)"), "District selection must lock the matching map label color");
 assert(styles.includes("stroke-width: 1.5px"), "Runtime purchasable plot strokes must use the approved half-width visual treatment");
 assert(styles.includes("stroke-width: 3.5px") && styles.includes("stroke-width: 1px"), "Runtime plot hover/selection outlines must use the approved thinner border pair");
-assert(styles.includes(".landmark-entity:hover .landmark-artwork"), "Runtime landmark hover must glow only on the artwork cutout");
-assert(styles.includes(".landmark-entity.is-selected .landmark-artwork"), "Runtime landmark selection must persist the artwork glow after click");
+assert(styles.includes(".landmark-entity:hover .landmark-glow"), "Runtime landmark hover must use the separate transparent red glow overlay");
+assert(styles.includes(".landmark-entity.is-selected .landmark-glow"), "Runtime landmark selection must persist the separate glow overlay after click");
+assert(app.includes("landmark-glow") && app.includes("glow/${landmark.id}_glow.png"), "Runtime landmarks must load generated glow mask assets");
 assert(!styles.includes(".landmark-entity.is-selected::after"), "Runtime landmark selection must not render the old rectangular frame overlay");
-assert(!styles.includes("brightness(1.24)") && !styles.includes("sepia(.24)"), "Runtime landmark glow must not brighten or recolor the landmark artwork body");
-assert(!styles.includes("drop-shadow(0 0 14px"), "Runtime landmark glow must not use the broadest shadow that reveals image rectangles");
+assert(!styles.includes(".landmark-entity:hover .landmark-artwork") && !styles.includes("drop-shadow(0 0 14px"), "Runtime landmark glow must not filter the artwork image or restore the broad image-bound shadow");
 assert(!app.includes('id: "cp_01"') && !app.includes('id: "fd_01"'), "Retired M0 representative plots must not remain in runtime data");
 assert(app.includes('metropolis_roaring_times_m1w_unified_save_v4'), "Geometry migration must use the v4 save namespace");
 
 for (const landmark of landmarks.landmarks) {
-  for (const asset of [landmark.artwork.file, landmark.label.file]) {
+  for (const asset of [landmark.artwork.file, landmark.label.file, `glow/${landmark.id}_glow.png`]) {
     assert(fs.existsSync(path.join(webRoot, "assets/runtime_map_v001", asset)), `Missing landmark asset: ${asset}`);
   }
 }

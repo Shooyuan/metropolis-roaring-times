@@ -541,6 +541,20 @@ function createLandmarkCard(landmark, master) {
   });
 
   for (const [kind, asset] of [["artwork", landmark.artwork], ["label", landmark.label]]) {
+    if (kind === "artwork") {
+      const glow = document.createElement("img");
+      glow.className = "landmark-glow";
+      glow.src = `assets/runtime_map_v001/glow/${landmark.id}_glow.png`;
+      glow.alt = "";
+      glow.draggable = false;
+      Object.assign(glow.style, {
+        left: positionPercent(asset.bounds.x - landmark.bounds.x, landmark.bounds.width),
+        top: positionPercent(asset.bounds.y - landmark.bounds.y, landmark.bounds.height),
+        width: positionPercent(asset.bounds.width, landmark.bounds.width),
+        height: positionPercent(asset.bounds.height, landmark.bounds.height),
+      });
+      card.append(glow);
+    }
     const image = document.createElement("img");
     image.className = `landmark-${kind}`;
     image.src = `assets/runtime_map_v001/${asset.file}`;

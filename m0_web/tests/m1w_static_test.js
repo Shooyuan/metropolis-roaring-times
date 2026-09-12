@@ -127,10 +127,10 @@ assert(styles.includes("font-size: 64px"), "Purchasable plot price marks must us
 assert(styles.includes(".plot-fill { fill: #2ab799; fill-opacity: .82; stroke: #735e59; stroke-width: 1.5px;"), "Purchasable plot fill stroke must be reduced to half of the previous M1W width");
 assert(styles.includes(".plot-outline-outer { stroke: #f6d9a6; stroke-width: 3.5px; }"), "Purchasable plot hover outer border must be reduced to half width");
 assert(styles.includes(".plot-outline-inner { stroke: #322824; stroke-width: 1px; }"), "Purchasable plot hover inner border must be reduced to half width");
-assert(styles.includes(".landmark-entity:hover .landmark-artwork"), "Landmark hover must target the transparent artwork, not every image in the landmark group");
-assert(styles.includes(".landmark-entity.is-selected .landmark-artwork"), "Landmark selection must lock the red glow on the artwork itself");
+assert(styles.includes(".landmark-entity:hover .landmark-glow"), "Landmark hover must show a separate transparent red glow overlay");
+assert(styles.includes(".landmark-entity.is-selected .landmark-glow"), "Landmark selection must lock the separate red glow overlay");
+assert(script.includes("landmark-glow") && script.includes("glow/${landmark.id}_glow.png"), "Landmark cards must include generated glow mask assets");
 assert(!styles.includes(".landmark-entity.is-selected::after"), "Landmark selection must not draw a full rectangular image-frame border");
-assert(!styles.includes("brightness(1.24)") && !styles.includes("sepia(.24)"), "Landmark glow must not brighten or recolor the artwork body");
-assert(!styles.includes("drop-shadow(0 0 14px"), "Landmark glow must not restore the broadest image-bound shadow");
+assert(!styles.includes(".landmark-entity:hover .landmark-artwork") && !styles.includes("drop-shadow(0 0 14px"), "Landmark glow must not filter the artwork image or restore the broadest image-bound shadow");
 
 console.log(`M1W_STATIC_TEST_PASS districts=${expectedDistricts.length} map_sha=${sha256(mapBase).slice(0, 12)} brand_sha=${sha256(brand).slice(0, 12)}`);
