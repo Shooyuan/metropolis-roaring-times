@@ -1,5 +1,12 @@
 # Metropolis: Roaring Times — Development Log
 
+## M1W-HOTFIX-11 — 地标桥梁辉光矩形感修正
+
+- 诊断确认旧的 `.landmark-entity.is-selected::after` 矩形框没有恢复，问题来自历史地标图片上的大半径 `drop-shadow`；
+- 桥梁等长条复杂线稿在 7px/14px 红色阴影下会把透明通道外接范围扩散成矩形红雾；
+- 网页原型改用 1px 级别的本体红亮效果，保留悬停/选中反馈，但避免整张图片矩形发光；
+- 静态测试和运行地图集成测试新增防回归检查，禁止恢复大半径地标阴影。
+
 ## M1W-HOTFIX-09 — 街区英文地图标签字体与状态色
 
 ### 老板决定
