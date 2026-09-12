@@ -39,7 +39,8 @@ assert(styles.includes("stroke-width: 3.5px") && styles.includes("stroke-width: 
 assert(styles.includes(".landmark-entity:hover .landmark-artwork"), "Runtime landmark hover must glow only on the artwork cutout");
 assert(styles.includes(".landmark-entity.is-selected .landmark-artwork"), "Runtime landmark selection must persist the artwork glow after click");
 assert(!styles.includes(".landmark-entity.is-selected::after"), "Runtime landmark selection must not render the old rectangular frame overlay");
-assert(!styles.includes("drop-shadow(0 0 7px") && !styles.includes("drop-shadow(0 0 14px"), "Runtime landmark glow must not use broad shadows that reveal image rectangles");
+assert(!styles.includes("brightness(1.24)") && !styles.includes("sepia(.24)"), "Runtime landmark glow must not brighten or recolor the landmark artwork body");
+assert(!styles.includes("drop-shadow(0 0 14px"), "Runtime landmark glow must not use the broadest shadow that reveals image rectangles");
 assert(!app.includes('id: "cp_01"') && !app.includes('id: "fd_01"'), "Retired M0 representative plots must not remain in runtime data");
 assert(app.includes('metropolis_roaring_times_m1w_unified_save_v4'), "Geometry migration must use the v4 save namespace");
 

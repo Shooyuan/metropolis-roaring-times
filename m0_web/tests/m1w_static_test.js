@@ -130,6 +130,7 @@ assert(styles.includes(".plot-outline-inner { stroke: #322824; stroke-width: 1px
 assert(styles.includes(".landmark-entity:hover .landmark-artwork"), "Landmark hover must target the transparent artwork, not every image in the landmark group");
 assert(styles.includes(".landmark-entity.is-selected .landmark-artwork"), "Landmark selection must lock the red glow on the artwork itself");
 assert(!styles.includes(".landmark-entity.is-selected::after"), "Landmark selection must not draw a full rectangular image-frame border");
-assert(!styles.includes("drop-shadow(0 0 7px") && !styles.includes("drop-shadow(0 0 14px"), "Landmark glow must stay tight enough to avoid rectangular image-bound artifacts");
+assert(!styles.includes("brightness(1.24)") && !styles.includes("sepia(.24)"), "Landmark glow must not brighten or recolor the artwork body");
+assert(!styles.includes("drop-shadow(0 0 14px"), "Landmark glow must not restore the broadest image-bound shadow");
 
 console.log(`M1W_STATIC_TEST_PASS districts=${expectedDistricts.length} map_sha=${sha256(mapBase).slice(0, 12)} brand_sha=${sha256(brand).slice(0, 12)}`);
