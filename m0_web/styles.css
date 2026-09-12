@@ -640,7 +640,8 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
   font-weight: 400;
   line-height: 1.2;
 }
-.rival-option[data-rival="landlady"] strong { transform: translateX(-16px); }
+html[lang="en-US"] .rival-option[data-rival="landlady"] strong { transform: translateX(-16px); }
+html[lang="zh-CN"] .rival-option[data-rival="landlady"] strong { transform: translateX(0); }
 .rival-option span {
   display: block;
   color: #9b7242;
