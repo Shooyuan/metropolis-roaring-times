@@ -128,7 +128,8 @@ assert(!styles.includes(".map-canvas { position: absolute; inset: 0; transform-o
 assert(!styles.includes("landmark-label"), "Landmark map labels must not have runtime CSS");
 assert(!html.includes("landmark labels appear"), "Map helper copy must not promise hidden landmark labels");
 assert(styles.includes(".map-canvas.is-detail-zoom .runtime-plot-asset"), "Development building assets must appear from the detail zoom gate");
-assert(styles.includes("font-size: 64px"), "Purchasable plot price marks must use the approved compact label size");
+assert(styles.includes("font-size: 32px"), "Purchasable plot price marks must use the owner-approved half-size label");
+assert(styles.includes("stroke-width: 6px"), "Purchasable plot price mark stroke must scale with the half-size label");
 assert(styles.includes(".plot-fill { fill: #2ab799; fill-opacity: .82; stroke: #735e59; stroke-width: 1.5px;"), "Purchasable plot fill stroke must be reduced to half of the previous M1W width");
 assert(styles.includes(".plot-outline-outer { stroke: #f6d9a6; stroke-width: 3.5px; }"), "Purchasable plot hover outer border must be reduced to half width");
 assert(styles.includes(".plot-outline-inner { stroke: #322824; stroke-width: 1px; }"), "Purchasable plot hover inner border must be reduced to half width");

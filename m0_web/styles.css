@@ -476,7 +476,7 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
 .plot-interaction[data-owner="player"] .plot-fill { fill: #904eb3; }
 .plot-interaction[data-owner="ai"] .plot-fill { fill: #df3f3c; }
 .plot-interaction[data-owner="market"] .plot-fill { fill: #817b76; }
-.runtime-plot-mark { display: none; fill: #211a17; stroke: rgba(242,228,202,.96); stroke-width: 12px; paint-order: stroke fill; pointer-events: none; font-family: Arial, Helvetica, sans-serif; font-size: 64px; font-weight: 900; text-anchor: middle; dominant-baseline: middle; }
+.runtime-plot-mark { display: none; fill: #211a17; stroke: rgba(242,228,202,.96); stroke-width: 6px; paint-order: stroke fill; pointer-events: none; font-family: Arial, Helvetica, sans-serif; font-size: 32px; font-weight: 900; text-anchor: middle; dominant-baseline: middle; }
 .runtime-plot-asset { display: none; pointer-events: none; filter: drop-shadow(0 9px 7px rgba(42,32,26,.32)); }
 .map-canvas.is-detail-zoom .runtime-plot-mark,
 .map-canvas.is-detail-zoom .runtime-plot-asset { display: block; }
