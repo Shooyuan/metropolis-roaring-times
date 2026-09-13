@@ -132,8 +132,11 @@ assert(styles.includes("font-size: 64px"), "Purchasable plot price marks must us
 assert(styles.includes(".plot-fill { fill: #2ab799; fill-opacity: .82; stroke: #735e59; stroke-width: 1.5px;"), "Purchasable plot fill stroke must be reduced to half of the previous M1W width");
 assert(styles.includes(".plot-outline-outer { stroke: #f6d9a6; stroke-width: 3.5px; }"), "Purchasable plot hover outer border must be reduced to half width");
 assert(styles.includes(".plot-outline-inner { stroke: #322824; stroke-width: 1px; }"), "Purchasable plot hover inner border must be reduced to half width");
+assert(styles.includes(".plot-interaction:focus,\n.plot-interaction:focus-visible { outline: none; }"), "Plot focus must not show the browser default blue outline");
 assert(styles.includes(".landmark-entity:hover .landmark-glow"), "Landmark hover must show a separate transparent red glow overlay");
 assert(styles.includes(".landmark-entity.is-selected .landmark-glow"), "Landmark selection must lock the separate red glow overlay");
+assert(script.includes("clearDistrictContextHover(landmark.districtId);"), "Selecting a landmark must clear its district context highlight");
+assert(script.includes("active && selectedLandmarkId"), "Selected landmarks must not keep their district context-highlighted");
 assert(styles.includes("button.landmark-entity:hover:not(:disabled)") && styles.includes("background: transparent;") && styles.includes("appearance: none;"), "Landmark buttons must override generic button hover backgrounds and outlines");
 assert(styles.includes(".map-canvas.is-map-moving .landmark-glow"), "Map dragging must suppress hover glow and outline transitions");
 assert(script.includes("landmark-glow") && script.includes("glow/${landmark.id}_glow.png"), "Landmark cards must include generated glow mask assets");

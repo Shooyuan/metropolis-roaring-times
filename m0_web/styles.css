@@ -458,6 +458,8 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
 .district-interaction.is-context-hover .district-outline-outer,
 .district-interaction.is-context-hover .district-outline-inner { opacity: 1; }
 .plot-interaction { pointer-events: none; }
+.plot-interaction:focus,
+.plot-interaction:focus-visible { outline: none; }
 .plot-fill { fill: #2ab799; fill-opacity: .82; stroke: #735e59; stroke-width: 1.5px; vector-effect: non-scaling-stroke; transition: fill 90ms ease, filter 90ms ease; }
 .plot-outline-outer, .plot-outline-inner { fill: none; opacity: 0; pointer-events: none; vector-effect: non-scaling-stroke; transition: opacity 90ms ease; }
 .plot-outline-outer { stroke: #f6d9a6; stroke-width: 3.5px; }

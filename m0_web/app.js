@@ -451,10 +451,12 @@ function selectPlot(id) {
 }
 
 function selectLandmark(id) {
-  if (!state || !isDetailZoom() || !landmarkMeta(id)) return false;
+  const landmark = landmarkMeta(id);
+  if (!state || !isDetailZoom() || !landmark) return false;
   selectedDistrictId = null;
   state.selectedPlotId = null;
   selectedLandmarkId = id;
+  clearDistrictContextHover(landmark.districtId);
   renderMap();
   renderMapDetails();
   return true;
@@ -532,9 +534,15 @@ function districtForPoint(x, y) {
 }
 
 function setDistrictContextHover(id, active) {
-  if (!id || id === selectedDistrictId) return;
+  if (!id || id === selectedDistrictId || (active && selectedLandmarkId)) return;
   dom.districtOverlay.querySelector(`[data-district-id="${id}"]`)?.classList.toggle("is-context-hover", active);
   setDistrictLabelClass(id, "is-hovered", active);
+}
+
+function clearDistrictContextHover(id) {
+  if (!id) return;
+  dom.districtOverlay.querySelector(`[data-district-id="${id}"]`)?.classList.remove("is-context-hover");
+  setDistrictLabelClass(id, "is-hovered", false);
 }
 
 function positionPercent(value, total) {
