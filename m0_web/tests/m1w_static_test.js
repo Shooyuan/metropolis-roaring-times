@@ -72,7 +72,7 @@ assert(html.includes('src="assets/home_png_complete/panel_center_large.png"'), "
 assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
-assert(html.includes("styles.css?v=m1w-label1"), "Main stylesheet cachebuster must advance after the district-label font switch");
+assert(html.includes("styles.css?v=m1w-perf1"), "Main stylesheet cachebuster must advance after landmark hover and map performance fixes");
 assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
 assert(styles.includes('font-family: "Kings M1W"'), "District map labels must use the approved Kings font");
 assert(styles.includes("fill: #bdb199") && styles.includes("fill: #4e403e"), "District map labels must use the approved inactive and hover/selected colors");
@@ -119,9 +119,12 @@ assert(script.includes("const MAP_DETAIL_ZOOM_STEP = MAP_ZOOM_STEPS.indexOf(5);"
 assert(script.includes("const MAP_LANDMARK_LABEL_ZOOM_STEP = MAP_ZOOM_STEPS.indexOf(12.5);"), "Landmark labels must appear only from the approved 1250% threshold");
 assert(!script.includes("rotate("), "M1W map transforms must not introduce rotation");
 assert(script.includes('dom.mapAnchor.style.height = `${zoom * 100}%`;'), "Map zoom must resize the SVG layout box for sharp Safari rendering");
+assert(script.includes("window.requestAnimationFrame") && script.includes("scheduleMapView()"), "Map drag must be throttled through requestAnimationFrame");
+assert(script.includes("cachedMaxPanX") && script.includes("cachedMaxPanY"), "Map drag must cache pan bounds instead of reading layout on every pointer move");
 assert(!script.includes("dom.mapCanvas.style.transform = `scale(${zoom})`;"), "Map zoom must not enlarge a cached composited bitmap");
 assert(!styles.includes(".map-canvas { position: absolute; inset: 0; transform-origin:"), "Map canvas must not advertise a composited scale transform");
 assert(styles.includes(".map-canvas.is-landmark-label-zoom .landmark-label"), "Landmark labels must use the high-zoom label gate");
+assert(styles.includes("scale(2.2, 1.9)"), "Landmark labels must be enlarged for owner review readability");
 assert(styles.includes(".map-canvas.is-detail-zoom .runtime-plot-asset"), "Development building assets must appear from the detail zoom gate");
 assert(styles.includes("font-size: 64px"), "Purchasable plot price marks must use the approved compact label size");
 assert(styles.includes(".plot-fill { fill: #2ab799; fill-opacity: .82; stroke: #735e59; stroke-width: 1.5px;"), "Purchasable plot fill stroke must be reduced to half of the previous M1W width");
@@ -129,6 +132,8 @@ assert(styles.includes(".plot-outline-outer { stroke: #f6d9a6; stroke-width: 3.5
 assert(styles.includes(".plot-outline-inner { stroke: #322824; stroke-width: 1px; }"), "Purchasable plot hover inner border must be reduced to half width");
 assert(styles.includes(".landmark-entity:hover .landmark-glow"), "Landmark hover must show a separate transparent red glow overlay");
 assert(styles.includes(".landmark-entity.is-selected .landmark-glow"), "Landmark selection must lock the separate red glow overlay");
+assert(styles.includes("button.landmark-entity:hover:not(:disabled)") && styles.includes("background: transparent;") && styles.includes("appearance: none;"), "Landmark buttons must override generic button hover backgrounds and outlines");
+assert(styles.includes(".map-canvas.is-map-moving .landmark-glow"), "Map dragging must suppress hover glow and outline transitions");
 assert(script.includes("landmark-glow") && script.includes("glow/${landmark.id}_glow.png"), "Landmark cards must include generated glow mask assets");
 assert(!styles.includes(".landmark-entity.is-selected::after"), "Landmark selection must not draw a full rectangular image-frame border");
 assert(!styles.includes(".landmark-entity:hover .landmark-artwork") && !styles.includes("drop-shadow(0 0 14px"), "Landmark glow must not filter the artwork image or restore the broadest image-bound shadow");

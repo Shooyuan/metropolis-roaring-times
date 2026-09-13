@@ -113,6 +113,11 @@ const mapView = {
   pressedEntityType: null,
   pressedEntityId: null,
   lastWheelAt: 0,
+  viewFrame: 0,
+  cachedStageWidth: 0,
+  cachedStageHeight: 0,
+  cachedMaxPanX: null,
+  cachedMaxPanY: null,
 };
 
 const money = (value) => new Intl.NumberFormat(locale(), { style: "currency", currency: "USD", currencyDisplay: "narrowSymbol", maximumFractionDigits: 0 }).format(Math.round(value));
@@ -309,8 +314,10 @@ function clampMapPan() {
   if (!mapView.loaded) return;
   const renderedWidth = dom.mapAnchor.offsetWidth;
   const renderedHeight = dom.mapAnchor.offsetHeight;
-  const maxX = Math.max(0, (renderedWidth - dom.mapStage.clientWidth) / 2);
-  const maxY = Math.max(0, (renderedHeight - dom.mapStage.clientHeight) / 2);
+  const stageWidth = mapView.cachedStageWidth || dom.mapStage.clientWidth;
+  const stageHeight = mapView.cachedStageHeight || dom.mapStage.clientHeight;
+  const maxX = mapView.cachedMaxPanX ?? Math.max(0, (renderedWidth - stageWidth) / 2);
+  const maxY = mapView.cachedMaxPanY ?? Math.max(0, (renderedHeight - stageHeight) / 2);
   mapView.panX = Math.max(-maxX, Math.min(maxX, mapView.panX));
   mapView.panY = Math.max(-maxY, Math.min(maxY, mapView.panY));
 }
@@ -329,6 +336,14 @@ function applyMapView() {
   dom.mapZoomValue.value = `${Math.round(zoom * 100)}%`;
   dom.mapZoomOut.disabled = mapView.zoomStep === 0;
   dom.mapZoomIn.disabled = mapView.zoomStep === MAP_MAX_ZOOM_STEP;
+}
+
+function scheduleMapView() {
+  if (mapView.viewFrame) return;
+  mapView.viewFrame = window.requestAnimationFrame(() => {
+    mapView.viewFrame = 0;
+    applyMapView();
+  });
 }
 
 function setMapZoomStep(nextStep, focusPoint = null) {
@@ -727,6 +742,10 @@ function failProducerMap(error) {
 function mapPointerDown(event) {
   if (!mapView.loaded || event.button !== 0) return;
   const entity = event.target.closest?.("[data-map-entity]");
+  mapView.cachedStageWidth = dom.mapStage.clientWidth;
+  mapView.cachedStageHeight = dom.mapStage.clientHeight;
+  mapView.cachedMaxPanX = Math.max(0, (dom.mapAnchor.offsetWidth - mapView.cachedStageWidth) / 2);
+  mapView.cachedMaxPanY = Math.max(0, (dom.mapAnchor.offsetHeight - mapView.cachedStageHeight) / 2);
   mapView.dragging = true;
   mapView.moved = false;
   mapView.pointerId = event.pointerId;
@@ -737,6 +756,7 @@ function mapPointerDown(event) {
   mapView.pressedEntityType = entity?.dataset.mapEntity || null;
   mapView.pressedEntityId = entity?.dataset.districtId || entity?.dataset.plotId || entity?.dataset.landmarkId || null;
   dom.mapStage.classList.add("is-dragging");
+  dom.mapCanvas.classList.add("is-map-moving");
   dom.mapStage.setPointerCapture(event.pointerId);
 }
 
@@ -747,7 +767,7 @@ function mapPointerMove(event) {
   if (Math.hypot(dx, dy) > 4) mapView.moved = true;
   mapView.panX = mapView.panStartX + dx;
   mapView.panY = mapView.panStartY + dy;
-  applyMapView();
+  scheduleMapView();
 }
 
 function mapPointerEnd(event) {
@@ -768,7 +788,17 @@ function mapPointerEnd(event) {
   mapView.pointerId = null;
   mapView.pressedEntityType = null;
   mapView.pressedEntityId = null;
+  mapView.cachedStageWidth = 0;
+  mapView.cachedStageHeight = 0;
+  mapView.cachedMaxPanX = null;
+  mapView.cachedMaxPanY = null;
+  if (mapView.viewFrame) {
+    window.cancelAnimationFrame(mapView.viewFrame);
+    mapView.viewFrame = 0;
+  }
+  applyMapView();
   dom.mapStage.classList.remove("is-dragging");
+  dom.mapCanvas.classList.remove("is-map-moving");
   if (dom.mapStage.hasPointerCapture(event.pointerId)) dom.mapStage.releasePointerCapture(event.pointerId);
 }
 

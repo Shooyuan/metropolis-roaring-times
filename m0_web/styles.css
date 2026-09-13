@@ -435,7 +435,7 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
 .map-stage:focus-visible { outline: 4px solid rgba(172,64,52,.72); outline-offset: -4px; }
 .map-stage.is-dragging { cursor: grabbing; }
 .map-stage::before { content: ""; position: absolute; z-index: -1; inset: 0; opacity: .24; background: repeating-linear-gradient(12deg, transparent 0 14px, rgba(83,51,27,.22) 15px 16px); }
-.map-anchor { position: absolute; top: 50%; left: 50%; height: 100%; aspect-ratio: 10334 / 14101; transform: translate(-50%, -50%); will-change: transform; }
+.map-anchor { position: absolute; top: 50%; left: 50%; height: 100%; aspect-ratio: 10334 / 14101; contain: layout paint style; transform: translate(-50%, -50%); will-change: transform; }
 .map-canvas { position: absolute; inset: 0; }
 .map-base, .district-overlay, .plot-overlay, .landmark-layer { position: absolute; display: block; inset: 0; width: 100%; height: 100%; }
 .map-base { z-index: 1; pointer-events: none; }
@@ -478,15 +478,48 @@ dd { margin: 0; text-align: right; font-size: .83rem; }
 .runtime-plot-asset { display: none; pointer-events: none; filter: drop-shadow(0 9px 7px rgba(42,32,26,.32)); }
 .map-canvas.is-detail-zoom .runtime-plot-mark,
 .map-canvas.is-detail-zoom .runtime-plot-asset { display: block; }
-.landmark-entity { position: absolute; margin: 0; padding: 0; border: 0; background: transparent; box-shadow: none; pointer-events: auto; cursor: pointer; }
+.landmark-entity,
+button.landmark-entity,
+.landmark-entity:hover,
+button.landmark-entity:hover:not(:disabled),
+.landmark-entity:focus,
+button.landmark-entity:focus-visible:not(:disabled),
+.landmark-entity:focus-visible,
+.landmark-entity:active,
+button.landmark-entity:active:not(:disabled) {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  outline-offset: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  appearance: none;
+  -webkit-appearance: none;
+  pointer-events: auto;
+  cursor: pointer;
+}
 .landmark-entity img { position: absolute; display: block; max-width: none; pointer-events: none; transition: filter 90ms ease, opacity 90ms ease; }
 .landmark-glow { opacity: 0; }
-.landmark-label { opacity: 0; transform-origin: center; transform: translateX(-3%) scale(1.12, 1.04); }
+.landmark-label { opacity: 0; transform-origin: center; transform: translate(-22%, -10%) scale(2.2, 1.9); filter: drop-shadow(0 2px 1px rgba(255,250,232,.75)) drop-shadow(0 0 2px rgba(255,250,232,.8)); }
 .map-canvas.is-landmark-label-zoom .landmark-label { opacity: 1; }
 .landmark-entity:hover .landmark-glow,
 .landmark-entity:focus .landmark-glow,
 .landmark-entity.is-selected .landmark-glow { opacity: 1; }
 .landmark-entity:focus { outline: none; }
+.map-canvas.is-map-moving .district-outline-outer,
+.map-canvas.is-map-moving .district-outline-inner,
+.map-canvas.is-map-moving .plot-outline-outer,
+.map-canvas.is-map-moving .plot-outline-inner,
+.map-canvas.is-map-moving .landmark-glow { opacity: 0 !important; }
+.map-canvas.is-map-moving .district-outline-outer,
+.map-canvas.is-map-moving .district-outline-inner,
+.map-canvas.is-map-moving .plot-fill,
+.map-canvas.is-map-moving .plot-outline-outer,
+.map-canvas.is-map-moving .plot-outline-inner,
+.map-canvas.is-map-moving .landmark-entity img { transition: none; }
 .district-label-text { fill: #bdb199; stroke: rgba(255,248,225,.86); stroke-width: 4px; paint-order: stroke fill; pointer-events: none; font-family: "Kings M1W", Georgia, serif; font-weight: 400; letter-spacing: 2px; text-anchor: middle; text-transform: none; dominant-baseline: middle; transition: fill 90ms ease, stroke 90ms ease; }
 .district-label-text.is-hovered,
 .district-label-text.is-selected { fill: #4e403e; stroke: rgba(255,248,225,.94); }

@@ -62,7 +62,7 @@ for (const id of ["plot-overlay", "plot-mark-layer", "landmark-layer", "landmark
   assert(html.includes(`id="${id}"`), `Missing runtime-map DOM node: ${id}`);
 }
 assert(html.includes("assets/runtime_map_v001/base/metropolis_map_base.svg"), "M1W must use the v004 runtime map base");
-assert(html.includes("app.js?v=m1w-map7"), "M1W must cache-bust the 1500% zoom, building assets and formal landmark copy");
+assert(html.includes("app.js?v=m1w-perf1"), "M1W must cache-bust the landmark hover and map performance fixes");
 assert(html.includes("landmark-content.js?v=m1w-copy1"), "M1W must load the formal bilingual landmark copy deck");
 assert(app.includes('window.fetch(`${root}/plots.json`'), "Plot data must load from the generated runtime manifest");
 assert(app.includes('window.fetch(`${root}/landmarks.json`'), "Landmark data must load from the generated runtime manifest");
@@ -79,6 +79,10 @@ assert(styles.includes("stroke-width: 1.5px"), "Runtime purchasable plot strokes
 assert(styles.includes("stroke-width: 3.5px") && styles.includes("stroke-width: 1px"), "Runtime plot hover/selection outlines must use the approved thinner border pair");
 assert(styles.includes(".landmark-entity:hover .landmark-glow"), "Runtime landmark hover must use the separate transparent red glow overlay");
 assert(styles.includes(".landmark-entity.is-selected .landmark-glow"), "Runtime landmark selection must persist the separate glow overlay after click");
+assert(app.includes("window.requestAnimationFrame") && app.includes("scheduleMapView()"), "Runtime map drag must be requestAnimationFrame-throttled");
+assert(app.includes("cachedMaxPanX") && app.includes("cachedMaxPanY"), "Runtime map drag must cache pan bounds during pointer drag");
+assert(styles.includes("scale(2.2, 1.9)"), "Runtime landmark labels must be enlarged at high zoom");
+assert(styles.includes("button.landmark-entity:hover:not(:disabled)") && styles.includes("background: transparent;"), "Runtime landmark buttons must not show generic button hover backgrounds");
 assert(app.includes("landmark-glow") && app.includes("glow/${landmark.id}_glow.png"), "Runtime landmarks must load generated glow mask assets");
 assert(!styles.includes(".landmark-entity.is-selected::after"), "Runtime landmark selection must not render the old rectangular frame overlay");
 assert(!styles.includes(".landmark-entity:hover .landmark-artwork") && !styles.includes("drop-shadow(0 0 14px"), "Runtime landmark glow must not filter the artwork image or restore the broad image-bound shadow");
