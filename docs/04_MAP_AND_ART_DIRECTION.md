@@ -169,8 +169,8 @@ Each interactive polygon and collision shape is generated from the same source c
 
 ### 7.4 LOD 与命中优先级
 
-- `100%—477%`：街区识别和浏览优先；历史地标插画始终可见但不能选择，地标横幅、开发建筑和地块精细命中隐藏；悬停地标只高亮所属街区。
-- `500%—1500%`：显示地块边界、已购地块的工地或当前开发建筑，并开放地块和历史地标点击；`1250%—1500%` 额外显示历史地标英文横幅。横幅与插画组成同一个地标选择目标，但视觉反馈只在透明建筑插画本体上显示红色辉光，不围绕整张图片、横幅或父组绘制矩形红框。
+- `100%—477%`：街区识别和浏览优先；历史地标插画始终可见但不能选择，开发建筑和地块精细命中隐藏；悬停地标只高亮所属街区。
+- `500%—1500%`：显示地块边界、已购地块的工地或当前开发建筑，并开放地块和历史地标点击。历史地标英文横幅不在地图上渲染；地标名称与正文只在右侧 Historical File 中显示。视觉反馈只在透明建筑插画本体上显示红色辉光，不围绕整张图片或父组绘制矩形红框。
 - 可购买地块边框从 2026-09-12 起采用 M1W 细边框：填充层描边 `1.5px`，悬停/选中外线 `3.5px`，内线 `1px`；这是上一版厚度的 50%，目的是减少对道路、地块和地标细节的遮挡。
 - 输入优先级由当前 LOD 明确决定，不提供玩家手工图层开关。任何时刻只允许一个街区、地块或地标处于选中状态。
 
@@ -184,7 +184,7 @@ Each interactive polygon and collision shape is generated from the same source c
 
 - Far and middle view: historical-landmark illustrations remain visible for recognition, but their banners and direct hit targets are hidden. Development-building illustrations are hidden. Each district shows, in order, human-purchasable plot count, human-owned apartment count, human-owned Factory count, human-owned Department Store count, major transit facilities and prosperity level.
 - Standard and Luxury Apartments are combined in the apartment count.
-- Near view: from `500%` through `1500%`, development-building illustrations appear together with plot name, building state, income indicator, compliance and construction details; historical landmarks become selectable. Their English banners appear only from `1250%` through `1500%`.
+- Near view: from `500%` through `1500%`, development-building illustrations appear together with plot name, building state, income indicator, compliance and construction details; historical landmarks become selectable. Their English banners are not rendered on the map by owner decision.
 - Any short crossfade is data-driven, but the approved thresholds are fixed by section 7.2 and 7.4.
 - HUD text and action icons remain screen-space readable instead of shrinking with the map.
 
@@ -345,7 +345,7 @@ Motion respects a reduced-motion setting where practical.
 - Generated assets remain drafts until visually reviewed in the actual map or UI context.
 - The original reference image remains in `references/` and is never packaged as the playable map background.
 - `08_PURCHASABLE_BLOCK_GEOMETRY` 下的 `cheap | medium | expensive` 是老板指定的初始价格层级；青绿色填充和描边仍只用于 Figma 审查，运行时视觉不能把三种层级误画成该审查色。
-- 历史地标编辑源保留 PNG；运行包使用经过接触表审查的透明 `WebP` 插画与独立横幅 SVG。压缩不得移动地标、横幅或改变主地图坐标。
+- 历史地标编辑源保留 PNG；运行包使用经过接触表审查的透明 `WebP` 插画与独立横幅 SVG。压缩不得移动地标、横幅或改变主地图坐标；当前 M1W 网页只渲染插画，不渲染横幅。
 
 ## 15. Accessibility and Clarity
 

@@ -83,7 +83,6 @@ const MAP_ZOOM_STEPS = [1, 1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5, 6.25, 7.
 const MAP_ZOOM_FACTOR = 1.25;
 const MAP_MAX_ZOOM_STEP = MAP_ZOOM_STEPS.length - 1;
 const MAP_DETAIL_ZOOM_STEP = MAP_ZOOM_STEPS.indexOf(5);
-const MAP_LANDMARK_LABEL_ZOOM_STEP = MAP_ZOOM_STEPS.indexOf(12.5);
 const MAP_PAN_KEY_STEP = 38;
 
 let PLOT_BLUEPRINTS = [];
@@ -308,7 +307,6 @@ const svgNamespace = "http://www.w3.org/2000/svg";
 const districtMeta = (id) => DISTRICTS.find((district) => district.id === id) || null;
 const currentMapZoom = () => MAP_ZOOM_STEPS[mapView.zoomStep];
 const isDetailZoom = () => mapView.zoomStep >= MAP_DETAIL_ZOOM_STEP;
-const isLandmarkLabelZoom = () => mapView.zoomStep >= MAP_LANDMARK_LABEL_ZOOM_STEP;
 
 function clampMapPan() {
   if (!mapView.loaded) return;
@@ -332,7 +330,6 @@ function applyMapView() {
   clampMapPan();
   dom.mapAnchor.style.transform = `translate(-50%, -50%) translate3d(${mapView.panX}px, ${mapView.panY}px, 0)`;
   dom.mapCanvas.classList.toggle("is-detail-zoom", isDetailZoom());
-  dom.mapCanvas.classList.toggle("is-landmark-label-zoom", isLandmarkLabelZoom());
   dom.mapZoomValue.value = `${Math.round(zoom * 100)}%`;
   dom.mapZoomOut.disabled = mapView.zoomStep === 0;
   dom.mapZoomIn.disabled = mapView.zoomStep === MAP_MAX_ZOOM_STEP;
@@ -559,34 +556,32 @@ function createLandmarkCard(landmark, master) {
     height: positionPercent(landmark.bounds.height, master.height),
   });
 
-  for (const [kind, asset] of [["artwork", landmark.artwork], ["label", landmark.label]]) {
-    if (kind === "artwork") {
-      const glow = document.createElement("img");
-      glow.className = "landmark-glow";
-      glow.src = `assets/runtime_map_v001/glow/${landmark.id}_glow.png`;
-      glow.alt = "";
-      glow.draggable = false;
-      Object.assign(glow.style, {
-        left: positionPercent(asset.bounds.x - landmark.bounds.x, landmark.bounds.width),
-        top: positionPercent(asset.bounds.y - landmark.bounds.y, landmark.bounds.height),
-        width: positionPercent(asset.bounds.width, landmark.bounds.width),
-        height: positionPercent(asset.bounds.height, landmark.bounds.height),
-      });
-      card.append(glow);
-    }
-    const image = document.createElement("img");
-    image.className = `landmark-${kind}`;
-    image.src = `assets/runtime_map_v001/${asset.file}`;
-    image.alt = "";
-    image.draggable = false;
-    Object.assign(image.style, {
-      left: positionPercent(asset.bounds.x - landmark.bounds.x, landmark.bounds.width),
-      top: positionPercent(asset.bounds.y - landmark.bounds.y, landmark.bounds.height),
-      width: positionPercent(asset.bounds.width, landmark.bounds.width),
-      height: positionPercent(asset.bounds.height, landmark.bounds.height),
-    });
-    card.append(image);
-  }
+  const asset = landmark.artwork;
+  const glow = document.createElement("img");
+  glow.className = "landmark-glow";
+  glow.src = `assets/runtime_map_v001/glow/${landmark.id}_glow.png`;
+  glow.alt = "";
+  glow.draggable = false;
+  Object.assign(glow.style, {
+    left: positionPercent(asset.bounds.x - landmark.bounds.x, landmark.bounds.width),
+    top: positionPercent(asset.bounds.y - landmark.bounds.y, landmark.bounds.height),
+    width: positionPercent(asset.bounds.width, landmark.bounds.width),
+    height: positionPercent(asset.bounds.height, landmark.bounds.height),
+  });
+  card.append(glow);
+
+  const image = document.createElement("img");
+  image.className = "landmark-artwork";
+  image.src = `assets/runtime_map_v001/${asset.file}`;
+  image.alt = "";
+  image.draggable = false;
+  Object.assign(image.style, {
+    left: positionPercent(asset.bounds.x - landmark.bounds.x, landmark.bounds.width),
+    top: positionPercent(asset.bounds.y - landmark.bounds.y, landmark.bounds.height),
+    width: positionPercent(asset.bounds.width, landmark.bounds.width),
+    height: positionPercent(asset.bounds.height, landmark.bounds.height),
+  });
+  card.append(image);
   card.addEventListener("pointerenter", () => {
     setDistrictContextHover(landmark.districtId, true);
     dom.mapHint.textContent = isDetailZoom() ? t("map.open_landmark", { landmark: landmarkName(landmark) }) : t("map.zoom_for_landmark");

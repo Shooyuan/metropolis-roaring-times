@@ -62,14 +62,17 @@ for (const id of ["plot-overlay", "plot-mark-layer", "landmark-layer", "landmark
   assert(html.includes(`id="${id}"`), `Missing runtime-map DOM node: ${id}`);
 }
 assert(html.includes("assets/runtime_map_v001/base/metropolis_map_base.svg"), "M1W must use the v004 runtime map base");
-assert(html.includes("app.js?v=m1w-perf1"), "M1W must cache-bust the landmark hover and map performance fixes");
+assert(html.includes("app.js?v=m1w-no-labels1"), "M1W must cache-bust the landmark label removal");
 assert(html.includes("landmark-content.js?v=m1w-copy1"), "M1W must load the formal bilingual landmark copy deck");
 assert(app.includes('window.fetch(`${root}/plots.json`'), "Plot data must load from the generated runtime manifest");
 assert(app.includes('window.fetch(`${root}/landmarks.json`'), "Landmark data must load from the generated runtime manifest");
 assert(app.includes('data-map-entity'), "Map interactions must use the shared entity contract");
 assert(app.includes('selectedDistrictId = null;') && app.includes('selectedLandmarkId = null;') && app.includes('state.selectedPlotId = null;'), "District, plot and landmark selection must clear competing entity types");
 assert(styles.includes(".map-canvas.is-detail-zoom .plot-interaction"), "Plot interaction must be gated by detail zoom");
-assert(styles.includes(".map-canvas.is-landmark-label-zoom .landmark-label"), "Landmark labels must appear at high label zoom");
+assert(!app.includes("MAP_LANDMARK_LABEL_ZOOM_STEP") && !app.includes("isLandmarkLabelZoom"), "Landmark map labels must not have a high-zoom runtime gate");
+assert(!app.includes("landmark.label"), "Landmark label assets must not be rendered into landmark buttons");
+assert(!styles.includes("landmark-label"), "Landmark map labels must not have runtime CSS");
+assert(!html.includes("landmark labels appear"), "Map helper copy must not promise hidden landmark labels");
 assert(styles.includes(".map-canvas.is-detail-zoom .runtime-plot-asset"), "Plot building assets must appear at detail zoom");
 assert(styles.includes('font-family: "Kings M1W"'), "Runtime district labels must use the approved Kings font");
 assert(styles.includes(".district-label-text.is-hovered") && styles.includes(".district-label-text.is-selected"), "Runtime district labels must react to hover and locked selection");
@@ -81,7 +84,6 @@ assert(styles.includes(".landmark-entity:hover .landmark-glow"), "Runtime landma
 assert(styles.includes(".landmark-entity.is-selected .landmark-glow"), "Runtime landmark selection must persist the separate glow overlay after click");
 assert(app.includes("window.requestAnimationFrame") && app.includes("scheduleMapView()"), "Runtime map drag must be requestAnimationFrame-throttled");
 assert(app.includes("cachedMaxPanX") && app.includes("cachedMaxPanY"), "Runtime map drag must cache pan bounds during pointer drag");
-assert(styles.includes("scale(2.2, 1.9)"), "Runtime landmark labels must be enlarged at high zoom");
 assert(styles.includes("button.landmark-entity:hover:not(:disabled)") && styles.includes("background: transparent;"), "Runtime landmark buttons must not show generic button hover backgrounds");
 assert(app.includes("landmark-glow") && app.includes("glow/${landmark.id}_glow.png"), "Runtime landmarks must load generated glow mask assets");
 assert(!styles.includes(".landmark-entity.is-selected::after"), "Runtime landmark selection must not render the old rectangular frame overlay");
@@ -95,4 +97,4 @@ for (const landmark of landmarks.landmarks) {
   }
 }
 
-console.log("RUNTIME_MAP_INTEGRATION_TEST_PASS plots=30 landmarks=52 zoom=1500 detail_from=500 labels_from=1250 selection=exclusive");
+console.log("RUNTIME_MAP_INTEGRATION_TEST_PASS plots=30 landmarks=52 zoom=1500 detail_from=500 labels=hidden selection=exclusive");

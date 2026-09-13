@@ -325,7 +325,7 @@ Validate and integrate the owner-authored Figma map package, then obtain owner a
 - After owner accepts the contact sheet and alignment review, convert the submitted SVG coordinates reproducibly to normalized gameplay JSON without smoothing, deleting or moving vertices.
 - Render the owner base and derived boundaries in Godot and compare them with the owner source plus the programmatic overlay report at target screen ratios; use a full-mode alignment preview only when supplied.
 - Demonstrate one district's hover border, locked selection and detail-page handoff.
-- Demonstrate far/middle district summaries and always-visible landmark art, then `500%—1500%` plot/landmark selection and development-building visibility, plus `1250%—1500%` landmark-banner visibility with owner assets only.
+- Demonstrate far/middle district summaries and always-visible landmark art, then `500%—1500%` plot/landmark selection and development-building visibility. Landmark map banners remain hidden by owner decision; names and copy live in the right-side Historical File.
 - Record the owner revision, source checksums, deliberate geographic compression and date-sensitive landmarks.
 
 ### 9.3 Not Yet

@@ -503,8 +503,6 @@ button.landmark-entity:active:not(:disabled) {
 }
 .landmark-entity img { position: absolute; display: block; max-width: none; pointer-events: none; transition: filter 90ms ease, opacity 90ms ease; }
 .landmark-glow { opacity: 0; }
-.landmark-label { opacity: 0; transform-origin: center; transform: translate(-22%, -10%) scale(2.2, 1.9); filter: drop-shadow(0 2px 1px rgba(255,250,232,.75)) drop-shadow(0 0 2px rgba(255,250,232,.8)); }
-.map-canvas.is-landmark-label-zoom .landmark-label { opacity: 1; }
 .landmark-entity:hover .landmark-glow,
 .landmark-entity:focus .landmark-glow,
 .landmark-entity.is-selected .landmark-glow { opacity: 1; }

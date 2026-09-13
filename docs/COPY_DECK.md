@@ -294,7 +294,7 @@
 | `map.status` | {count} districts | {count} 个街区 |  |
 | `map.status_runtime` | {districts} districts · {plots} plots · {landmarks} landmarks | {districts} 个街区 · {plots} 个地块 · {landmarks} 个地标 |  |
 | `map.unavailable` | Map unavailable | 地图不可用 |  |
-| `map.zoom_for_landmark` | Zoom to 500% or above to inspect this landmark; labels appear from 1250% | 放大至 500% 及以上可查看此历史地标；地标横幅从 1250% 起显示 |  |
+| `map.zoom_for_landmark` | Zoom to 500% or above to inspect this landmark | 放大至 500% 及以上可查看此历史地标 |  |
 | `map.zoom_for_plot` | Zoom to 500% or above to select this plot | 放大至 500% 及以上可选择此地块 |  |
 
 ## 市场简报（`market_message.*`）
@@ -520,8 +520,7 @@
 | `static.Department Store — $30,000` |  | 百货商场 — $30,000 |  |
 | `static.District` |  | 街区 |  |
 | `static.District hit area` |  | 街区感应区 |  |
-| `static.Districts are available at every zoom. From 500% to 1000%, plots and landmark labels become selectable.` |  | 任何缩放级别都可以选择街区；在 500% 至 1000% 的精细视图中可选择地块和地标横幅。 |  |
-| `static.Districts are available at every zoom. From 500% to 1500%, plots and landmarks are selectable; landmark labels appear from 1250%.` |  | 任何缩放级别都可以选择街区；500% 至 1500% 可选择地块和地标，地标横幅从 1250% 起显示。 |  |
+| `static.Districts are available at every zoom. From 500% to 1500%, plots and landmarks are selectable.` |  | 任何缩放级别都可以选择街区；500% 至 1500% 可选择地块和地标。 |  |
 | `static.Each buy or sell uses 1 of the existing 3 action points. Minimum order $1,000; fee 1%.` |  | 每次买入或卖出消耗现有 3 点行动点中的 1 点。最低委托额 $1,000，手续费 1%。 |  |
 | `static.Economy` |  | 经济阶段 |  |
 | `static.End Turn` |  | 结束回合 |  |

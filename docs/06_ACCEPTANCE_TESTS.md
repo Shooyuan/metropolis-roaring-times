@@ -256,7 +256,7 @@ Pass when:
 
 ### `SCN-008` Information Density
 
-Pass when `100%—477%` keeps historical-landmark illustrations visible for orientation but disables plot/landmark direct hit targets and hides landmark banners and development-building illustrations. Each district summary uses this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities and prosperity. From `500%` through `1500%`, plot boundaries, development buildings and landmark/plot clicks remain enabled; landmark banners remain hidden until `1250%` and then stay visible through `1500%`. Historical landmark hover and locked selection must show a red glow on the transparent landmark artwork itself; a rectangular frame around the entire image group fails this test. Standard and Luxury Apartments combine into the apartment count.
+Pass when `100%—477%` keeps historical-landmark illustrations visible for orientation but disables plot/landmark direct hit targets and hides development-building illustrations. Each district summary uses this exact order: human-purchasable plots, human-owned apartments, human-owned factories, human-owned department stores, major transit facilities and prosperity. From `500%` through `1500%`, plot boundaries, development buildings and landmark/plot clicks remain enabled. Landmark banners must remain hidden at every zoom; landmark names and copy appear only in the right-side Historical File. Historical landmark hover and locked selection must show a red glow on the transparent landmark artwork itself; a rectangular frame around the entire image group fails this test. Standard and Luxury Apartments combine into the apartment count.
 
 ### `AUT-040` District Summary and Prosperity Contract
 
@@ -671,7 +671,7 @@ Owner approves the submitted Figma source, base/district/plot/landmark/alignment
 6. 青绿色仅是 Figma 审查色，不出现在运行时状态色；地块资格只来自几何层。
 7. `cheap | medium | expensive` 父组只决定开局价格层级；精确价格由版本化构建工具固定生成，且运行时视觉不依赖这三个父组的 Figma 填色。
 8. `100/125/156/195/244/305/381/477/500/625/781/977/1000/1250/1500` 十五级缩放全部可达，最高值精确为 `1500%`，地图不可旋转。
-9. `100—477` 地标不可点击且悬停只亮街区，地块/开发建筑/地标横幅不开放；`500—1500` 时地块和地标可点击，开发建筑出现；`1250—1500` 时地标横幅可见。地标悬停和选中只允许建筑插画本体出现红色辉光，不允许出现围绕整张图片或父组的矩形红框。
+9. `100—477` 地标不可点击且悬停只亮街区，地块/开发建筑不开放；`500—1500` 时地块和地标可点击，开发建筑出现；地标横幅在所有缩放级别都不渲染。地标悬停和选中只允许建筑插画本体出现红色辉光，不允许出现围绕整张图片或父组的矩形红框。
 10. 街区、地块、地标严格互斥；点击空白清空选择和详情；新选择正确替换右侧 File 类型。
 11. 每条历史地标文案具备 EN/ZH 名称、以名称开头的单句短介绍、长介绍、English Wikipedia 页面标题和 URL；来源图标使用 `assets/wikipedia-w.svg`。运行时 52 个地标 ID 必须与文案 52 条一一对应，不得显示内部来源状态或审批措辞。
 12. 当前五张通用开发建筑 PNG 必须来自老板交付素材，不得用 Codex 占位地理或随机图形冒充验收通过。

@@ -123,7 +123,7 @@ The supplied 1939 Manhattan map is an art and composition reference only. The ow
 
 At far and middle zoom, historical-landmark illustrations remain visible for orientation while their banners and hit targets are unavailable; development-building illustrations are hidden. Each district presents, in this exact order: plots currently purchasable by the human player; human-owned apartment buildings; human-owned factories; human-owned department stores; major transit facilities present; and district prosperity level. Standard and Luxury Apartments are combined in the apartment count.
 
-Historical-landmark illustrations remain visible for orientation, but `100%—477%` is district-oriented browsing: plot/landmark selection, development-building illustrations and landmark banners remain disabled. From `500%` through `1500%`, plot boundaries, development-building illustrations and plot/landmark selection are available; landmark banners appear only from `1250%` through `1500%`. Hovering a district reveals an indicative border; selecting it locks that border until another map entity is selected or empty map space is clicked. Landmark hover/selection feedback is a red glow on the transparent building artwork itself, not a rectangular frame around the whole image group.
+Historical-landmark illustrations remain visible for orientation, but `100%—477%` is district-oriented browsing: plot/landmark selection and development-building illustrations remain disabled. From `500%` through `1500%`, plot boundaries, development-building illustrations and plot/landmark selection are available. Historical-landmark map banners are hidden by owner decision; landmark names and copy appear in the right-side Historical File instead. Hovering a district reveals an indicative border; selecting it locks that border until another map entity is selected or empty map space is clicked. Landmark hover/selection feedback is a red glow on the transparent building artwork itself, not a rectangular frame around the whole image group.
 
 ### 7.2 Core Buildings
 
@@ -250,7 +250,7 @@ The vertical slice succeeds when:
 - “街区（district）”“地块（plot）”“历史地标（landmark）”是三个不同实体。可购买地块只来自老板的 `08_PURCHASABLE_BLOCK_GEOMETRY`，道路围合本身不自动产生地块。
 - 历史地标来自 `07_HISTORICAL_LANDMARKS`，长期保留在地图上帮助识别城市。其事实只取自 English Wikipedia，并为英文玩家和简体中文玩家分别提供短、长介绍。
 - 地图选择严格互斥：同一时间只选择一个街区、地块或地标。右侧详情随选择切换；点击空白清空。
-- 最高缩放提高到 `1500%`；`500%` 是精细交互起点，`1250%` 是历史地标横幅显示起点，详细层级和交互阈值以 `04_MAP_AND_ART_DIRECTION.md` 为准。
+- 最高缩放提高到 `1500%`；`500%` 是精细交互起点；历史地标地图横幅已按老板决定隐藏，详细层级和交互阈值以 `04_MAP_AND_ART_DIRECTION.md` 为准。
 - 2026-09-08 的 `v004` 地图交付已验收 30 个地块和 52 个历史地标。此数量是当前交付版本事实，不是以后版本的硬编码上限。
 - 老板在 Figma 中用 `cheap | medium | expensive` 指定地块初始价格层级；程序只在已批准区间内生成并固化精确基础地价，不能在每局开局时重抽。
 - 可购买地块在 M1W 中使用减半后的细边框，以免盖住老板绘制的道路与地块细节；历史地标选中不允许再出现整张图片外框。
