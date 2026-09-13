@@ -136,6 +136,7 @@ assert(styles.includes(".plot-outline-inner { stroke: #322824; stroke-width: 1px
 assert(styles.includes(".plot-interaction:focus,\n.plot-interaction:focus-visible { outline: none; }"), "Plot focus must not show the browser default blue outline");
 assert(styles.includes(".landmark-entity:hover .landmark-glow"), "Landmark hover must show a separate transparent red glow overlay");
 assert(styles.includes(".landmark-entity.is-selected .landmark-glow"), "Landmark selection must lock the separate red glow overlay");
+assert(styles.includes(".landmark-glow { opacity: 0; transform-origin: center; transform: scale(1.05); filter: blur(1.1px)"), "Landmark glow mask must be slightly expanded and softened");
 assert(script.includes("clearDistrictContextHover(landmark.districtId);"), "Selecting a landmark must clear its district context highlight");
 assert(script.includes("active && selectedLandmarkId"), "Selected landmarks must not keep their district context-highlighted");
 assert(styles.includes("button.landmark-entity:hover:not(:disabled)") && styles.includes("background: transparent;") && styles.includes("appearance: none;"), "Landmark buttons must override generic button hover backgrounds and outlines");
