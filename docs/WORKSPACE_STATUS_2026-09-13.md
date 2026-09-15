@@ -6,7 +6,7 @@
 
 ## 已确认处理
 
-- `m0_web/assets/cutouts/panel_center_large.png` 的删除可以保留。运行时代码、样式、测试和文档已经改用 `m0_web/assets/home_png_complete/panel_center_large.png`；旧路径不再是网页依赖。
+- `m0_web/assets/cutouts/panel_center_large.png` 和 `m0_web/assets/home_png_complete/panel_center_large.png` 的删除可以保留。运行时代码、样式、测试和文档已经改用 `m0_web/assets/new ui/01_plain_panel_2x.png`；旧路径不再是网页依赖。
 - `references/` 中未跟踪的大图、建筑图、字体和生成参考图按长期参考素材处理，不在本次整理中删除。
 - 未跟踪 UI 素材的正式归属尚未确认；本次不提交、不移动、不删除。
 - 当前主线优先进入 M1W 网页视觉验收，而不是继续 Godot、U1 实现或看板角色接入。

@@ -60,7 +60,7 @@ for (const asset of ["construction_site.png", "standard_apartment.png", "luxury_
   assert(script.includes(`assets/buildings/${asset}`), `Runtime map must reference building asset: ${asset}`);
   assert(fs.existsSync(path.join(webRoot, "assets", "buildings", asset)), `Missing runtime building asset: ${asset}`);
 }
-const homePanel = path.join(webRoot, "assets", "home_png_complete", "panel_center_large.png");
+const homePanel = path.join(webRoot, "assets", "new ui", "01_plain_panel_2x.png");
 for (const font of ["InknutAntiqua-Regular.ttf", "InknutAntiqua-Bold.ttf", "Kings-Regular.ttf"]) {
   assert(fs.existsSync(path.join(webRoot, "assets", "fonts", font)), `Missing approved home font: ${font}`);
 }
@@ -68,7 +68,7 @@ for (const font of ["SourceHanSerifCN-Bold-2.otf", "SourceHanSerifCN-Medium-6.ot
   assert(fs.existsSync(path.join(webRoot, "assets", "fonts", font)), `Missing approved Chinese UI font: ${font}`);
 }
 assert(html.includes('class="home-map-scroll"') && html.includes('src="assets/home_png_complete/manhattan_map_reference.png"'), "Home must render the owner-selected PNG map as its scrolling background");
-assert(html.includes('src="assets/home_png_complete/panel_center_large.png"'), "Load, Config, About and the rival chooser must share the available owner-provided center panel asset");
+assert(html.includes('src="assets/new%20ui/01_plain_panel_2x.png"'), "Load, Config, About and the rival chooser must use the approved plain panel asset");
 assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
@@ -96,7 +96,7 @@ assert(script.includes('button.addEventListener("click", () => selectRival(butto
 assert(script.includes('dom.startConfirmButton.addEventListener("click"'), "The framed Start control must launch the selected match");
 assert(/function openNewGameFlow\(\) \{[\s\S]*?showHomeScreen\(\);[\s\S]*?dom\.startModal\.classList\.add\("is-open"\);/.test(script), "New Game must open the rival chooser over the home screen");
 assert(styles.includes('color: #9b7242;'), "Rival explanations must use the approved brown text color");
-assert(styles.includes('background: url("assets/home_png_complete/panel_center_large.png")'), "Rival cards must use the approved panel center artwork");
+assert(styles.includes('background: url("assets/new%20ui/01_plain_panel_2x.png")'), "Rival cards must use the approved plain panel artwork");
 assert(styles.includes('background: url("assets/home_png_complete/button_frame_default.png")'), "Start must use the approved framed button artwork");
 assert(styles.includes("grid-template-columns: repeat(3, minmax(0, 1fr))"), "Rival choices must remain exactly equal width even when a name has a larger intrinsic width");
 assert(styles.includes("aspect-ratio: 364 / 90"), "Start must preserve the source frame's native aspect ratio");
