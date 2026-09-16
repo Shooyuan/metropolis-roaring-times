@@ -73,7 +73,7 @@ assert(html.includes('src="assets/new%20ui/01_plain_panel_2x.png"'), "Load, Conf
 assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
-assert(html.includes("styles.css?v=m1w-ui-topbar1"), "Main stylesheet cachebuster must advance after the top bar refinement");
+assert(html.includes("styles.css?v=m1w-ui-config1"), "Main stylesheet cachebuster must advance after the config modal refinement");
 assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
 assert(styles.includes('font-family: "Kings M1W"'), "District map labels must use the approved Kings font");
 assert(styles.includes("fill: #bdb199") && styles.includes("fill: #4e403e"), "District map labels must use the approved inactive and hover/selected colors");
@@ -112,6 +112,11 @@ assert(styles.includes("aspect-ratio: 364 / 90"), "Start must preserve the sourc
 assert(styles.includes('html[lang="en-US"] .rival-option[data-rival="landlady"] strong { transform: translateX(-16px); }'), "English Landlady needs the approved optical centering correction");
 assert(styles.includes('html[lang="zh-CN"] .rival-option[data-rival="landlady"] strong { transform: translateX(0); }'), "Chinese 女房东 must remain visually centered");
 assert(/\.start-confirm-button \{[\s\S]*?display: flex;[\s\S]*?align-items: center;[\s\S]*?line-height: 1;/.test(styles), "Start text must remain vertically centered inside its native-ratio frame");
+assert(html.includes('<h2 id="settings-title">Config</h2>') && !html.includes('<h2 id="settings-title">System</h2>'), "Config modal must promote Config as the title and remove the System heading");
+assert(html.includes('class="settings-description"'), "Config modal must include the concise game description requested by the owner");
+assert(styles.includes("#settings-modal {\n  z-index: 430;\n}"), "Config modal must appear above the home overlay when opened from the top bar");
+assert(/\.settings-card h2 \{[\s\S]*?font-size: clamp\(2\.35rem, 4vw, 3\.4rem\);/.test(styles), "Config heading must be enlarged inside the settings modal");
+assert(/\.config-actions button \{[\s\S]*?min-height: 36px;[\s\S]*?font-size: \.88rem;/.test(styles), "Config action buttons must be compact instead of oversized");
 assert(html.includes("Metropolis: Roaring Times"), "Player-facing title must include the colon");
 assert(html.includes('src="assets/metropolis-game-logo.png"'), "Header must use the owner-selected Metropolis game logo");
 assert.equal(sha256(fs.readFileSync(headerLogo)), sha256(fs.readFileSync(path.join(projectRoot, "assets", "metropolis game logo.png"))), "Header logo must match the owner-selected project asset");

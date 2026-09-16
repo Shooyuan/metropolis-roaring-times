@@ -110,6 +110,7 @@ Object.assign(staticText, {
   "No saved match was found.": "未找到已保存的对局。",
   "A historical New York property strategy game about land, credit, auctions and market timing.": "一款关于土地、信贷、拍卖与市场时机的纽约历史地产策略游戏。",
   "Explore Manhattan, develop property, manage credit and outmaneuver a rival across the market cycle.": "探索曼哈顿、开发地产、管理信贷，并在市场周期中胜过对手。",
+  "Buy land, raise buildings, manage debt and outmaneuver a rival across roaring Manhattan.": "购买土地，兴建楼宇，管理债务，在喧腾的曼哈顿市场中击败对手。",
   "Manhattan contains 30 purchasable plots and 52 historical landmarks. Prosperity and transit effects are not yet active.": "曼哈顿包含 30 个可购地块与 52 处历史地标；繁荣度与交通效果暂未启用。",
   "Districts are available at every zoom. From 500% to 1500%, plots and landmarks are selectable.": "任何缩放级别都可以选择街区；500% 至 1500% 可选择地块和地标。",
   "Map edition: Manhattan v004.": "地图版本：曼哈顿 v004。"
