@@ -23,15 +23,6 @@
 - 旧 `m0_web/assets/home_png_complete/panel_center_large.png` 不再作为网页运行时依赖；
 - 静态测试同步改为要求新面板贴图，防止后续回退到旧缺失路径。
 
-## U1-LAYOUT-01 — 新游戏 UI 文件与现有逻辑迁移
-
-- 按老板提供的 UI 参考图另起 `m0_web/u1_layout.html`，不覆盖当前 `m0_web/index.html`；
-- 新 UI 迁移现有浏览器版游戏逻辑、地图拖拽缩放、地块/地标选择、买地、建造、改建、出售、银行、拍卖、股票和回合控制；
-- 顶部状态栏精简为现金与本局收入 `xxk (+/-xxk)`、债务、回合数和当前日期，去掉 Influence、Properties、Rent Index 等参考图误生成字段；
-- 左侧竖栏仅保留 Portfolio、Bank、Auction、Stock；Portfolio 面板可关闭；News 改为地图左下角扁平浮动消息；
-- 右侧详情面板继续承载当前选中街区、地块或历史地标；右下角新增 Turn Control 与 City Overview 小地图区域；
-- 新增 `m0_web/u1_layout.css`、`m0_web/u1_layout.js` 和 `m0_web/tests/u1_layout_static_test.js`；`app.js` 新增 `m1w:render` 状态事件供新 HUD 同步，不改变旧页面行为。
-
 ## M1W-HOTFIX-13 — 地标横幅、hover 白底与地图交互性能
 
 - 老板确认地块可读性和通用建筑贴图落点正确，但指出历史地标横幅太小、地标 hover 出现边框和白色底图、地图拖动及点击地标/地块明显卡顿；
