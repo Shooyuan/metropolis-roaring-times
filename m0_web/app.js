@@ -1444,6 +1444,10 @@ function selectRival(rivalId) {
 }
 
 function openNewGameFlow() {
+  if (window.location.protocol === "file:") {
+    setToast(t("toast.local_server_required"));
+    return false;
+  }
   if (!mapView.loaded || PLOT_BLUEPRINTS.length !== 30) {
     setToast(t("toast.map_preparing"));
     return false;

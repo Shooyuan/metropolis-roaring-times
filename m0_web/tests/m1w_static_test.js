@@ -96,6 +96,8 @@ assert(html.includes('id="start-confirm-button"') && html.includes("disabled dat
 assert(script.includes('button.addEventListener("click", () => selectRival(button.dataset.rival))'), "Rival cards must select first instead of immediately starting a match");
 assert(script.includes('dom.startConfirmButton.addEventListener("click"'), "The framed Start control must launch the selected match");
 assert(/function openNewGameFlow\(\) \{[\s\S]*?showHomeScreen\(\);[\s\S]*?dom\.startModal\.classList\.add\("is-open"\);/.test(script), "New Game must open the rival chooser over the home screen");
+assert(script.includes('window.location.protocol === "file:"') && script.includes("toast.local_server_required"), "Direct file launches must explain that the local server is required");
+assert(styles.includes(".toast { position: fixed; z-index: 620;"), "Home-screen startup feedback must appear above the home overlay");
 assert(styles.includes('color: #9b7242;'), "Rival explanations must use the approved brown text color");
 assert(styles.includes('background: url("assets/new%20ui/01_plain_panel_2x.png")'), "Rival cards must use the approved plain panel artwork");
 assert(styles.includes('background: url("assets/home_png_complete/button_frame_default.png")'), "Start must use the approved framed button artwork");
