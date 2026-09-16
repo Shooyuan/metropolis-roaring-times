@@ -1069,6 +1069,7 @@ function render() {
   renderMap();
   renderProperty();
   renderMapDetails();
+  window.dispatchEvent(new CustomEvent("m1w:render", { detail: { state: structuredClone(state) } }));
 }
 
 function buySelectedPlot() {
