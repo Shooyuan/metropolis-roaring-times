@@ -11,6 +11,7 @@ const LEGACY_SAVE_KEYS = [
 const t = (key, values = {}) => window.M1WI18n.t(key, values);
 const locale = () => window.M1WI18n.getLocale();
 const HOME_LANGUAGE_NAMES = { "en-US": "English", "zh-CN": "中文（简体）" };
+const TURN_DATES = ["APR 14, 1926", "MAY 14, 1926", "JUN 14, 1926", "JUL 14, 1926", "AUG 14, 1926", "SEP 14, 1926", "OCT 14, 1926", "NOV 14, 1926"];
 
 const RIVALS = {
   tycoon: { name: "Tycoon", style: "Industry & transport", preferredPlots: ["plot_027", "plot_028"], building: "factory", reserve: 8000, security: "industrial_shares" },
@@ -119,8 +120,14 @@ const mapView = {
   cachedMaxPanY: null,
 };
 
-const money = (value) => new Intl.NumberFormat(locale(), { style: "currency", currency: "USD", currencyDisplay: "narrowSymbol", maximumFractionDigits: 0 }).format(Math.round(value));
-const compactMoney = (value) => Math.abs(value) >= 1000 ? `$${Math.round(value / 1000)}k` : `$${Math.round(value)}`;
+function moneyK(value, withCurrency = true) {
+  const rounded = Math.round((Math.abs(value) / 1000) * 10) / 10;
+  const digits = Number.isInteger(rounded) ? 0 : 1;
+  return `${value < 0 ? "-" : ""}${withCurrency ? "$" : ""}${rounded.toFixed(digits)}k`;
+}
+
+const money = (value) => moneyK(value);
+const compactMoney = (value) => moneyK(value);
 const rivalName = (id) => t(`rival.${id}.name`);
 const rivalStyle = (id) => t(`rival.${id}.style`);
 const buildingName = (id) => t(`building.${id}.name`);
@@ -1024,6 +1031,7 @@ function renderStocks() {
 }
 
 function renderOperations() {
+  if (state.activeOperationsTab === "advice") state.activeOperationsTab = "brief";
   for (const button of dom.operationsTabs) {
     const active = button.dataset.operationsTab === state.activeOperationsTab;
     button.setAttribute("aria-selected", String(active));
@@ -1048,9 +1056,12 @@ function renderOperations() {
 
 function renderStatus() {
   const economy = economyForTurn(state.turn);
+  const currentIncome = state.plots.filter((plot) => plot.owner === "player").reduce((sum, plot) => sum + operationalIncome(plot), 0);
+  const incomeText = `${currentIncome >= 0 ? "+" : "-"}${moneyK(currentIncome, false).replace("-", "")}`;
   dom.turnValue.textContent = `${state.turn} / ${MAX_TURN}`;
+  if (dom.dateValue) dom.dateValue.textContent = TURN_DATES[Math.max(0, Math.min(TURN_DATES.length - 1, state.turn - 1))];
   dom.economyValue.textContent = t(`economy.${economy.id}`);
-  dom.cashValue.textContent = money(state.cash);
+  dom.cashValue.textContent = `${money(state.cash)}（${incomeText}）`;
   dom.debtValue.textContent = money(currentDebt());
   dom.creditValue.textContent = money(Math.max(0, economy.credit - outstandingPrincipal()));
   dom.worthValue.textContent = money(participantWorth("player"));
@@ -1328,7 +1339,7 @@ function endTurn() {
 }
 
 function switchOperationsTab(tab) {
-  if (!state || !["brief", "advice", "bank", "auction", "stocks"].includes(tab)) return false;
+  if (!state || !["brief", "bank", "auction", "stocks"].includes(tab)) return false;
   state.activeOperationsTab = tab;
   render();
   return true;
@@ -1345,7 +1356,7 @@ function saveGame() {
 function migrateState(raw) {
   const migrated = structuredClone(raw);
   migrated.version = 4;
-  migrated.activeOperationsTab = migrated.activeOperationsTab || "brief";
+  migrated.activeOperationsTab = ["brief", "bank", "auction", "stocks"].includes(migrated.activeOperationsTab) ? migrated.activeOperationsTab : "brief";
   migrated.playerHoldings = { ...blankHoldings(), ...(migrated.playerHoldings || {}) };
   migrated.aiHoldings = { ...blankHoldings(), ...(migrated.aiHoldings || {}) };
   migrated.securitiesPrices = migrated.securitiesPrices || Object.fromEntries(Object.keys(SECURITIES).map((id) => [id, securityPriceForTurn(id, migrated.turn) ?? securityPriceForTurn(id, SECURITIES[id].opens)]));
@@ -1491,12 +1502,14 @@ function restartFlow() {
 }
 
 function collectDom() {
-  const ids = ["home-screen", "home-panel", "home-panel-back", "home-panel-title", "home-load-panel", "home-load-save-button", "home-load-empty", "home-config-panel", "home-about-panel", "home-language-value", "toast", "plot-layer", "empty-property", "property-details", "plot-code", "plot-name", "plot-district", "plot-zone", "plot-tier", "plot-owner", "plot-price", "plot-building", "plot-income", "buy-button", "building-select", "build-button", "redevelop-select", "redevelop-preview", "redevelop-button", "sell-property-button", "sale-preview", "property-reason", "turn-value", "economy-value", "cash-value", "debt-value", "credit-value", "worth-value", "ap-value", "turn-prompt", "end-turn-button", "rival-name", "rival-style", "rival-condition", "rival-worth", "law-status", "market-brief", "news-list", "bank-credit", "bank-rate", "borrow-button", "repay-button", "loan-list", "stock-order-amount", "stock-list", "save-button", "load-button", "restart-button", "start-modal", "start-modal-back", "start-confirm-button", "start-load-button", "help-modal", "settings-modal", "language-select", "result-modal", "result-title", "result-summary", "result-player-worth", "result-rival-worth", "result-player-securities", "result-rival-securities", "result-restart-button", "help-button", "settings-button", "map-stage", "map-anchor", "map-canvas", "map-base", "district-overlay", "plot-overlay", "plot-mark-layer", "landmark-layer", "map-loading", "map-hint", "map-zoom-out", "map-zoom-value", "map-zoom-in", "map-reset", "map-status", "entity-file-title", "empty-district", "district-details", "district-close-button", "district-code", "district-name", "district-location", "district-plots", "district-apartments", "district-factories", "district-stores", "district-transit", "district-prosperity", "district-note", "landmark-details", "landmark-code", "landmark-name", "landmark-district", "landmark-short", "landmark-more", "landmark-long"];
+  const ids = ["home-screen", "home-panel", "home-panel-back", "home-panel-title", "home-load-panel", "home-load-save-button", "home-load-empty", "home-config-panel", "home-about-panel", "home-language-value", "toast", "plot-layer", "empty-property", "property-details", "plot-code", "plot-name", "plot-district", "plot-zone", "plot-tier", "plot-owner", "plot-price", "plot-building", "plot-income", "buy-button", "building-select", "build-button", "redevelop-select", "redevelop-preview", "redevelop-button", "sell-property-button", "sale-preview", "property-reason", "turn-value", "date-value", "economy-value", "cash-value", "debt-value", "credit-value", "worth-value", "ap-value", "turn-prompt", "end-turn-button", "rival-name", "rival-style", "rival-condition", "rival-worth", "law-status", "market-brief", "news-list", "bank-credit", "bank-rate", "borrow-button", "repay-button", "loan-list", "stock-order-amount", "stock-list", "save-button", "load-button", "restart-button", "title-button", "start-modal", "start-modal-back", "start-confirm-button", "start-load-button", "settings-modal", "language-select", "result-modal", "result-title", "result-summary", "result-player-worth", "result-rival-worth", "result-player-securities", "result-rival-securities", "result-restart-button", "settings-button", "operations-collapse-button", "advice-expand-button", "map-stage", "map-anchor", "map-canvas", "map-base", "district-overlay", "plot-overlay", "plot-mark-layer", "landmark-layer", "map-loading", "map-hint", "map-zoom-out", "map-zoom-value", "map-zoom-in", "map-reset", "map-status", "entity-file-title", "empty-district", "district-details", "district-close-button", "district-code", "district-name", "district-location", "district-plots", "district-apartments", "district-factories", "district-stores", "district-transit", "district-prosperity", "district-note", "landmark-details", "landmark-code", "landmark-name", "landmark-district", "landmark-short", "landmark-more", "landmark-long"];
   for (const id of ids) dom[id.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())] = document.getElementById(id);
   dom.homeActions = [...document.querySelectorAll("[data-home-action]")];
   dom.homeLanguageButtons = [...document.querySelectorAll("[data-home-language-step]")];
   dom.operationsTabs = [...document.querySelectorAll("[data-operations-tab]")];
   dom.operationsPages = [...document.querySelectorAll("[data-operations-page]")];
+  dom.operationsPanel = document.querySelector(".operations-panel");
+  dom.advicePanel = document.querySelector(".advice-panel");
   dom.buildSection = document.querySelector(".build-section");
   dom.redevelopSection = document.querySelector(".redevelop-section");
   dom.saleSection = document.querySelector(".sale-section");
@@ -1535,9 +1548,23 @@ function bindEvents() {
   dom.loadButton.addEventListener("click", loadGame);
   dom.startLoadButton.addEventListener("click", loadGame);
   dom.restartButton.addEventListener("click", restartFlow);
+  dom.titleButton.addEventListener("click", () => {
+    dom.settingsModal.classList.remove("is-open");
+    dom.startModal.classList.remove("is-open");
+    dom.resultModal.classList.remove("is-open");
+    showHomeScreen();
+  });
   dom.resultRestartButton.addEventListener("click", restartFlow);
-  dom.helpButton.addEventListener("click", () => dom.helpModal.classList.add("is-open"));
   dom.settingsButton.addEventListener("click", () => dom.settingsModal.classList.add("is-open"));
+  dom.operationsCollapseButton.addEventListener("click", () => {
+    const isCollapsed = dom.operationsPanel.classList.toggle("is-collapsed");
+    dom.operationsCollapseButton.textContent = isCollapsed ? "+" : "−";
+    dom.operationsCollapseButton.setAttribute("aria-expanded", String(!isCollapsed));
+  });
+  dom.adviceExpandButton.addEventListener("click", () => {
+    const expanded = dom.advicePanel.classList.toggle("is-expanded");
+    dom.adviceExpandButton.setAttribute("aria-expanded", String(expanded));
+  });
   dom.languageSelect.addEventListener("change", () => window.M1WI18n.setLocale(dom.languageSelect.value));
   window.addEventListener("m1w:locale-changed", () => {
     renderHomeLanguagePicker();

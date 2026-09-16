@@ -62,7 +62,7 @@ for (const id of ["plot-overlay", "plot-mark-layer", "landmark-layer", "landmark
   assert(html.includes(`id="${id}"`), `Missing runtime-map DOM node: ${id}`);
 }
 assert(html.includes("assets/runtime_map_v001/base/metropolis_map_base.svg"), "M1W must use the v004 runtime map base");
-assert(html.includes("app.js?v=m1w-no-labels1"), "M1W must cache-bust the landmark label removal");
+assert(html.includes("app.js?v=m1w-ui-cleanup1"), "M1W must cache-bust the UI cleanup pass");
 assert(html.includes("landmark-content.js?v=m1w-copy1"), "M1W must load the formal bilingual landmark copy deck");
 assert(app.includes('window.fetch(`${root}/plots.json`'), "Plot data must load from the generated runtime manifest");
 assert(app.includes('window.fetch(`${root}/landmarks.json`'), "Landmark data must load from the generated runtime manifest");

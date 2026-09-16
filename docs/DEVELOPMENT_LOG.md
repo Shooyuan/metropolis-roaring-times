@@ -1,5 +1,15 @@
 # Metropolis: Roaring Times — Development Log
 
+## M1W-UI-CLEANUP-01 — 游戏主界面尺寸重排
+
+- 去掉游戏内黑色标语条，顶部标题区与状态栏合并，保留 `Metropolis: Roaring Times`，右侧显示 Cash 与 Debt，最右仅保留 Config；
+- 顶部 Logo 改用项目根目录的 `assets/metropolis game logo.png`，移除 `New York Property Strategy · Pre-Alpha` 与 How to Play；
+- 现金显示改为 k 单位并追加本回合经营净收入，例如 `$50k（+0k）`；其他金额也统一为 k 单位；
+- Investment Advice 从左操作 tab 移出，放到左栏底部独立区域，可向上展开；左操作区可收起，Game Brief 移除看板娘占位；
+- 地图顶部标题区移除，缩放控制与图例合并到底部一条，地图视窗在 1280×720 下从约 `644×365` 增至约 `696×547`；
+- 右侧详情区缩短，底部新增回合控制区：左侧显示日期、AP、回合数，右侧放置 End Turn；
+- Config 弹窗集中语言、存档、加载存档、新游戏和返回标题界面。
+
 ## WORKSPACE-STATUS-01 — 新任务接手与 M1W 验收准备
 
 - 旧 Codex 任务因模型上下文窗口耗尽，无法继续 remote compact；

@@ -17,6 +17,7 @@ const mapBase = fs.readFileSync(path.join(webRoot, "assets", "metropolis_map_bas
 const districts = fs.readFileSync(path.join(webRoot, "assets", "metropolis_district_geometry.svg"));
 const sourceZip = path.join(projectRoot, "assets", "metropolis_handoff_1786627051152.zip");
 const favicon = path.join(webRoot, "assets", "metropolis-game-logo-256.png");
+const headerLogo = path.join(webRoot, "assets", "metropolis-game-logo.png");
 
 const expectedDistricts = [
   "district_inwood",
@@ -72,7 +73,7 @@ assert(html.includes('src="assets/new%20ui/01_plain_panel_2x.png"'), "Load, Conf
 assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
-assert(html.includes("styles.css?v=m1w-no-labels1"), "Main stylesheet cachebuster must advance after landmark label removal");
+assert(html.includes("styles.css?v=m1w-ui-cleanup1"), "Main stylesheet cachebuster must advance after the UI cleanup pass");
 assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
 assert(styles.includes('font-family: "Kings M1W"'), "District map labels must use the approved Kings font");
 assert(styles.includes("fill: #bdb199") && styles.includes("fill: #4e403e"), "District map labels must use the approved inactive and hover/selected colors");
@@ -104,6 +105,8 @@ assert(styles.includes('html[lang="en-US"] .rival-option[data-rival="landlady"] 
 assert(styles.includes('html[lang="zh-CN"] .rival-option[data-rival="landlady"] strong { transform: translateX(0); }'), "Chinese 女房东 must remain visually centered");
 assert(/\.start-confirm-button \{[\s\S]*?display: flex;[\s\S]*?align-items: center;[\s\S]*?line-height: 1;/.test(styles), "Start text must remain vertically centered inside its native-ratio frame");
 assert(html.includes("Metropolis: Roaring Times"), "Player-facing title must include the colon");
+assert(html.includes('src="assets/metropolis-game-logo.png"'), "Header must use the owner-selected Metropolis game logo");
+assert.equal(sha256(fs.readFileSync(headerLogo)), sha256(fs.readFileSync(path.join(projectRoot, "assets", "metropolis game logo.png"))), "Header logo must match the owner-selected project asset");
 assert(html.includes('rel="icon" type="image/png" sizes="256x256" href="assets/metropolis-game-logo-256.png?v=1"'), "The browser tab must use the approved Metropolis game logo");
 assert(fs.existsSync(favicon), "Missing generated 256px Metropolis favicon");
 assert(!html.includes("BROOKLYN BRIDGEHEAD"), "Retired district label must not be visible in the M1W map");
