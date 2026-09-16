@@ -73,7 +73,7 @@ assert(html.includes('src="assets/new%20ui/01_plain_panel_2x.png"'), "Load, Conf
 assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
-assert(html.includes("styles.css?v=m1w-ui-config1"), "Main stylesheet cachebuster must advance after the config modal refinement");
+assert(html.includes("styles.css?v=m1w-ui-bottom1"), "Main stylesheet cachebuster must advance after the bottom controls refinement");
 assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
 assert(styles.includes('font-family: "Kings M1W"'), "District map labels must use the approved Kings font");
 assert(styles.includes("fill: #bdb199") && styles.includes("fill: #4e403e"), "District map labels must use the approved inactive and hover/selected colors");
@@ -104,6 +104,12 @@ assert(styles.includes(".brand-lockup > div { min-width: 0; }"), "Header title w
 assert(/\.top-status-cell \{[\s\S]*?min-width: 102px;[\s\S]*?height: 38px;[\s\S]*?border: 1px solid var\(--line\);/.test(styles), "Cash and debt cells must remain compact instead of oversized boxes");
 assert(/\.top-status-cell strong \{[\s\S]*?min-height: 14px;[\s\S]*?line-height: 1\.2;/.test(styles), "Cash and debt values must not be vertically clipped");
 assert(/\.header-actions \.quiet-button \{[\s\S]*?min-width: 88px;[\s\S]*?padding: 0 14px;/.test(styles), "Config button must keep enough horizontal breathing room");
+assert(html.includes('id="map-status" class="visually-hidden"') && !html.includes("12 districts · 30 plots · 52 landmarks</span>"), "Map count status must not remain visible in the toolbar");
+assert(/\.map-toolbar\.map-legend \{[\s\S]*?gap: 10px;/.test(styles), "Map zoom controls must keep enough spacing");
+assert(/\.map-toolbar #map-reset \{[\s\S]*?margin-right: auto;/.test(styles), "Map reset must separate zoom controls from the legend");
+assert(/\.turn-panel \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\);[\s\S]*?grid-template-rows: auto 38px;/.test(styles), "Turn panel must use stacked rows to avoid metric and button overlap");
+assert(/\.turn-metrics div \{[\s\S]*?height: 46px;/.test(styles) && /\.turn-metrics small \{[\s\S]*?height: 14px;/.test(styles), "Turn metrics must stay compact enough to keep End Turn inside the panel");
+assert(styles.includes("grid-template-rows: minmax(330px, 1fr) 132px;"), "Right column must reserve enough height for the turn controls");
 assert(styles.includes('color: #9b7242;'), "Rival explanations must use the approved brown text color");
 assert(styles.includes('background: url("assets/new%20ui/01_plain_panel_2x.png")'), "Rival cards must use the approved plain panel artwork");
 assert(styles.includes('background: url("assets/home_png_complete/button_frame_default.png")'), "Start must use the approved framed button artwork");
