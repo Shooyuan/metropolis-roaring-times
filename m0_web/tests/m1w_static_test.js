@@ -73,7 +73,7 @@ assert(html.includes('src="assets/new%20ui/01_plain_panel_2x.png"'), "Load, Conf
 assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
-assert(html.includes("styles.css?v=m1w-ui-cleanup1"), "Main stylesheet cachebuster must advance after the UI cleanup pass");
+assert(html.includes("styles.css?v=m1w-ui-topbar1"), "Main stylesheet cachebuster must advance after the top bar refinement");
 assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
 assert(styles.includes('font-family: "Kings M1W"'), "District map labels must use the approved Kings font");
 assert(styles.includes("fill: #bdb199") && styles.includes("fill: #4e403e"), "District map labels must use the approved inactive and hover/selected colors");
@@ -98,6 +98,12 @@ assert(script.includes('dom.startConfirmButton.addEventListener("click"'), "The 
 assert(/function openNewGameFlow\(\) \{[\s\S]*?showHomeScreen\(\);[\s\S]*?dom\.startModal\.classList\.add\("is-open"\);/.test(script), "New Game must open the rival chooser over the home screen");
 assert(script.includes('window.location.protocol === "file:"') && script.includes("toast.local_server_required"), "Direct file launches must explain that the local server is required");
 assert(styles.includes(".toast { position: fixed; z-index: 620;"), "Home-screen startup feedback must appear above the home overlay");
+assert(/\.masthead \{[\s\S]*?min-height: 54px;[\s\S]*?padding: 5px 12px;/.test(styles), "Top status bar must stay thin after the top bar refinement");
+assert(/\.masthead h1 \{[\s\S]*?white-space: nowrap;/.test(styles), "Header title must not wrap and inflate the top bar");
+assert(styles.includes(".brand-lockup > div { min-width: 0; }"), "Header title wrapper must be allowed to shrink before it pushes status controls away");
+assert(/\.top-status-cell \{[\s\S]*?min-width: 102px;[\s\S]*?height: 38px;[\s\S]*?border: 1px solid var\(--line\);/.test(styles), "Cash and debt cells must remain compact instead of oversized boxes");
+assert(/\.top-status-cell strong \{[\s\S]*?min-height: 14px;[\s\S]*?line-height: 1\.2;/.test(styles), "Cash and debt values must not be vertically clipped");
+assert(/\.header-actions \.quiet-button \{[\s\S]*?min-width: 88px;[\s\S]*?padding: 0 14px;/.test(styles), "Config button must keep enough horizontal breathing room");
 assert(styles.includes('color: #9b7242;'), "Rival explanations must use the approved brown text color");
 assert(styles.includes('background: url("assets/new%20ui/01_plain_panel_2x.png")'), "Rival cards must use the approved plain panel artwork");
 assert(styles.includes('background: url("assets/home_png_complete/button_frame_default.png")'), "Start must use the approved framed button artwork");
