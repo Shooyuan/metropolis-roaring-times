@@ -16,6 +16,8 @@
 
 > 当前任务授权（2026-09-17）：老板明确要求直接优化现有 M1W 网页 UI。地图最低缩放按地图区宽度适配；投资建议固定折叠面积、仅向上展开并联动操作台；单条新闻向上推入；两个左栏标题统一为 `#1c2b1f`，移除操作台收缩键，强化现有新粗野主义视觉。此次网页 UI 修订已获授权，优先于下文旧 U1/U2/U3 网页修改门禁；不变更玩法、地图几何或 Godot 阶段范围。具体行为见 `docs/IN_GAME_UI_LAYOUT_SPEC.md` 当前网页补充。
 
+> 治理变更（2026-09-17）：Codex 额度耗尽，老板批准 Trae 接替 Codex 的项目管理、架构、实现、测试、集成与阶段提交职责。本文所有针对实施代理（原 Codex）的约束——尤其不得自行绘制、猜测、平滑或移动老板 Figma 几何，不得擅自改变规格与验收——同等约束 Trae。详见 `docs/COLLABORATION_PROTOCOL_REVISION_2026-09-17.md`。
+
 ---
 
 ## 1. 文档目的
@@ -83,7 +85,7 @@ Metropolis: Roaring Times 是一款以纽约为舞台的单机回合制地产策
 - 引擎：Godot 4.x 稳定版。
 - 语言：GDScript，核心代码使用静态类型提示。
 - 渲染器：Compatibility。
-- 开发辅助：Codex + 可用的 Godot MCP。
+- 开发辅助：Trae + 可用的 Godot MCP（2026-09-17 起 Trae 接替 Codex，见 `docs/COLLABORATION_PROTOCOL_REVISION_2026-09-17.md`）。
 - 第一交付平台：浏览器 Web 导出。
 - 当前最近目标不是 Godot 地图接入，也不是修改现有网页。新版游戏内 UI 先完成 `U1` 全屏概念、`U2` 模块/弹窗样式板、`U3` 组件实现规格三个独立审批阶段；U3 批准并提交前不得启动 M2 界面实现，Godot M1A 仍需老板另行授权。
 - 玩家可见标题统一为 `Metropolis: Roaring Times`；仓库目录继续使用 `roaring-age`。

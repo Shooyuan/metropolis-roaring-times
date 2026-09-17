@@ -18,19 +18,19 @@
 14. 地图底图、分区几何、可购买地块几何与历史地标位置均由老板在 Figma 中创作和批准。Codex 只能检查、转换、优化和接入老板提交的 `.fig`、结构 JSON、各层 SVG、对齐 SVG 与可选预览；未收到完整交付包时不得自行绘制、猜测、近似或修正这些地理内容。
 15. 老板提交的 `03_DISTRICT_GEOMETRY`、`07_HISTORICAL_LANDMARKS` 与 `08_PURCHASABLE_BLOCK_GEOMETRY` 是各自几何和位置的权威。Codex 派生运行时数据时不得擅自平滑、删点、改变顶点、移动地标或补画地块；任何派生变化必须提交前后对比并获得老板批准。可购买地块数量不预设，只以老板实际绘制并批准的闭合地块为准。
 
-[CODEX] **Codex–DeepSeek 协作规则**
+[TRAE] **Trae 实施代理规则（2026-09-17 老板批准，取代旧 Codex–DeepSeek 协作规则）**
 
-[CODEX] 16. DeepSeek/Trae 必须在独立 Git worktree 和 `deepseek/DS-xxx` 分支工作，不得直接编辑 Codex 主工作区或 `main`。
+[TRAE] 16. Trae 直接在主工作区 `/Users/shuubun/roaring times/roaring-age` 的 `main` 分支工作，可编辑全部项目文件；不再要求独立 worktree 或 `deepseek/DS-xxx` 分支。
 
-[CODEX] 17. DeepSeek 在任何任务开始前必须完整读取根目录 `DEEPSEEK_OFFICE.md` 与 `docs/COLLABORATION_PROTOCOL.md`，并严格遵守活动任务单的允许路径。
+[TRAE] 17. Trae 在任何任务开始前必须完整读取 `AGENTS.md`、`00_PROJECT_CONTEXT.md`、`docs/COLLABORATION_PROTOCOL_REVISION_2026-09-17.md`、`DEEPSEEK_OFFICE.md` 与 Git 状态。
 
-[CODEX] 18. DeepSeek 默认只可修改任务单授权的 `scripts/domain/`、`tests/domain/` 与相邻 `*.gd.uid`；其他文件只读，除非老板先批准协议变更。
+[TRAE] 18. 老板在 Figma 创作的街区、地块、历史地标几何与位置是唯一权威；Trae 只可校验、转换、优化与接入，不得自行绘制、猜测、平滑、删点、移动或补画。
 
-[CODEX] 19. 跨 Agent 协作说明实行逐条作者标记：Codex 新写的每个非空说明行以 `[CODEX]` 开头，DeepSeek 新写的每个非空说明行以 `[DEEPSEEK]` 开头；无标记说明没有实施权威。
+[TRAE] 19. 协作说明实行逐条作者标记：Trae 新写的非空行以 `[TRAE]` 开头；既有 `[CODEX]`、`[DEEPSEEK]` 标记按原文保留；无标记说明没有实施权威。
 
-[CODEX] 20. DeepSeek 不得自行改变规格、数值、接口、场景、项目设置或验收标准；需要越界时先停止并提交带 `[DEEPSEEK]` 标记的问题。
+[TRAE] 20. Trae 不得自行改变玩法范围、规则、数值、接口、场景、项目设置或验收标准；需要变更时先同步更新总纲与受影响规格，经老板批准后再实现。
 
-[CODEX] 21. DeepSeek 分支交付只有在 Codex 完整审查、复测并集成后才进入项目事实；主分支阶段提交仍由 Codex 负责。
+[TRAE] 21. Trae 可执行阶段提交并合入 `main`，但须先完成测试、修复并保存；阶段完成仍需向老板报告证据与风险并获批后再进入下一阶段。
 
 22. 首版权威分区集合固定为老板批准的 12 个曼哈顿分区：`district_inwood`、`district_washington_heights`、`district_harlem`、`district_upper_east`、`district_upper_west`、`district_midtown_west`、`district_midtown_east`、`district_chelsea`、`district_west_village`、`district_east_village`、`district_soho`、`district_financial_district`。旧六分区/五玩法区模型和 `district_brooklyn_bridgehead` 不得重新引入；各区经济画像仍须老板另行批准。
 

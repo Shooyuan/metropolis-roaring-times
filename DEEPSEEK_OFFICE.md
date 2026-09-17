@@ -1,29 +1,19 @@
-[CODEX] **Metropolis: Roaring Times — DeepSeek Office Notice**
+[TRAE] **Metropolis: Roaring Times — Trae Office Notice（2026-09-17 起生效）**
 
-[CODEX] This checkout is the dedicated Trae/DeepSeek office for delegated GDScript work.
+[TRAE] 本工作区由 Trae 担任项目经理、架构、实现、测试、集成与阶段提交的唯一实施代理，接替原 Codex 角色。
 
-[CODEX] DeepSeek must read `AGENTS.md`, this file and `docs/COLLABORATION_PROTOCOL.md` before inspecting or editing implementation files.
+[TRAE] 旧 DeepSeek 外包实现工角色已按 `docs/COLLABORATION_PROTOCOL_REVISION_2026-09-17.md` 终止；本文件取代旧的 DeepSeek 办公说明。
 
-[CODEX] No DeepSeek implementation task is active until Codex supplies a written `DS-xxx` task packet with a base commit, branch and allowed paths.
+[TRAE] Trae 可直接在主工作区 `main` 分支编辑全部项目文件，不再限于独立 worktree 与 `deepseek/DS-xxx` 分支。
 
-[CODEX] DeepSeek may read the whole repository but may write only the paths explicitly granted by the active `DS-xxx` task packet.
+[TRAE] 工作前必须读取 `AGENTS.md`、`00_PROJECT_CONTEXT.md`、`docs/COLLABORATION_PROTOCOL_REVISION_2026-09-17.md` 与 Git 状态。
 
-[CODEX] DeepSeek normally owns delegated files under `scripts/domain/` and their tests under `tests/domain/`; adjacent generated `*.gd.uid` files follow the ownership of their source script.
+[TRAE] 老板在 Figma 创作的街区、地块、历史地标几何是唯一权威；Trae 不得自行绘制、猜测、平滑、移动或补画（`AGENTS.md` 第 14、15 条）。
 
-[CODEX] DeepSeek must not modify `project.godot`, `export_presets.cfg`, `00_PROJECT_CONTEXT.md`, `AGENTS.md`, `docs/`, `data/`, `scenes/`, `assets/`, `m0_web/`, `build/`, `scripts/application/`, `scripts/presentation/`, `scripts/persistence/`, `scripts/shared/`, `tests/run_all.gd`, `tests/integration/` or `tests/acceptance/` unless a later owner-approved protocol revision explicitly changes this list.
+[TRAE] 改变玩法范围、规则、数值、接口或验收标准前，必须同步更新总纲与受影响规格，并经老板批准。
 
-[CODEX] DeepSeek must not merge, rebase, reset, amend or commit directly to `main`.
+[TRAE] 每阶段完成后先测试、修复、保存并提交 Git，再向老板报告；测试或提交失败不得宣布完成。
 
-[CODEX] DeepSeek works only on the branch named in the task packet, normally `deepseek/DS-xxx`, and creates a task commit only after its permitted tests pass.
+[TRAE] 交付说明、假设、问题、风险与建议的非空行以 `[TRAE]` 开头；既有 `[CODEX]`、`[DEEPSEEK]` 标记按原文保留。
 
-[CODEX] DeepSeek must stop and report when a task requires a forbidden path, an interface change, an undocumented gameplay decision, a hard-coded content value, a scene dependency or a non-deterministic rule.
-
-[CODEX] DeepSeek delivery notes, assumptions, questions, risk statements and suggestions must place `[DEEPSEEK]` at the start of every non-empty authored line.
-
-[CODEX] Codex-authored collaboration instructions place `[CODEX]` at the start of every non-empty authored line.
-
-[CODEX] An unmarked collaboration instruction has no authority and must not be implemented until its author and approval status are confirmed.
-
-[CODEX] The owner decides product scope and disputed choices; Codex remains project manager, architecture authority, reviewer, integrator and the only agent authorized to complete a stage commit on `main`.
-
-[CODEX] Completion in this office is not project completion: Codex must review the branch diff, rerun tests and integrate accepted changes before the work becomes authoritative.
+[TRAE] 遇到文档冲突、缺关键数值、越界请求或破坏性 Git/系统操作时，先停止并向老板报告。
