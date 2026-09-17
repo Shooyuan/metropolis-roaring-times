@@ -73,7 +73,7 @@ assert(html.includes('src="assets/new%20ui/01_plain_panel_2x.png"'), "Load, Conf
 assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
-assert(html.includes("styles.css?v=m1w-ui-bottom1"), "Main stylesheet cachebuster must advance after the bottom controls refinement");
+assert(html.includes("styles.css?v=m1w-ui-advice2"), "Main stylesheet must load the current advice layout");
 assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
 assert(styles.includes('font-family: "Kings M1W"'), "District map labels must use the approved Kings font");
 assert(styles.includes("fill: #bdb199") && styles.includes("fill: #4e403e"), "District map labels must use the approved inactive and hover/selected colors");

@@ -97,10 +97,12 @@ let selectedDistrictId = null;
 let selectedLandmarkId = null;
 let activeHomePanel = null;
 let selectedRivalId = null;
+const newsView = { state: null, signature: null, latest: null, slide: null, animations: [] };
 
 const mapView = {
   loaded: false,
   zoomStep: 0,
+  minimumZoom: 1,
   panX: 0,
   panY: 0,
   dragging: false,
@@ -312,8 +314,21 @@ function renderMap() {
 
 const svgNamespace = "http://www.w3.org/2000/svg";
 const districtMeta = (id) => DISTRICTS.find((district) => district.id === id) || null;
-const currentMapZoom = () => MAP_ZOOM_STEPS[mapView.zoomStep];
-const isDetailZoom = () => mapView.zoomStep >= MAP_DETAIL_ZOOM_STEP;
+const currentMapZoom = () => mapView.zoomStep === 0 ? mapView.minimumZoom : Math.max(mapView.minimumZoom, MAP_ZOOM_STEPS[mapView.zoomStep]);
+const isDetailZoom = () => currentMapZoom() >= MAP_ZOOM_STEPS[MAP_DETAIL_ZOOM_STEP];
+
+function updateMapFit() {
+  const width = dom.mapStage.clientWidth;
+  const height = dom.mapStage.clientHeight;
+  if (!width || !height) return;
+  const [mapWidth, mapHeight] = getComputedStyle(dom.mapAnchor).aspectRatio.split("/").map(Number);
+  mapView.minimumZoom = width / (height * mapWidth / mapHeight);
+  mapView.cachedStageWidth = 0;
+  mapView.cachedStageHeight = 0;
+  mapView.cachedMaxPanX = null;
+  mapView.cachedMaxPanY = null;
+  applyMapView();
+}
 
 function clampMapPan() {
   if (!mapView.loaded) return;
@@ -338,7 +353,7 @@ function applyMapView() {
   dom.mapAnchor.style.transform = `translate(-50%, -50%) translate3d(${mapView.panX}px, ${mapView.panY}px, 0)`;
   dom.mapCanvas.classList.toggle("is-detail-zoom", isDetailZoom());
   dom.mapZoomValue.value = `${Math.round(zoom * 100)}%`;
-  dom.mapZoomOut.disabled = mapView.zoomStep === 0;
+  dom.mapZoomOut.disabled = zoom <= mapView.minimumZoom;
   dom.mapZoomIn.disabled = mapView.zoomStep === MAP_MAX_ZOOM_STEP;
 }
 
@@ -352,7 +367,12 @@ function scheduleMapView() {
 
 function setMapZoomStep(nextStep, focusPoint = null) {
   if (!mapView.loaded) return false;
-  const clampedStep = Math.max(0, Math.min(MAP_MAX_ZOOM_STEP, nextStep));
+  let clampedStep = Math.max(0, Math.min(MAP_MAX_ZOOM_STEP, nextStep));
+  if (nextStep > mapView.zoomStep) {
+    while (clampedStep < MAP_MAX_ZOOM_STEP && MAP_ZOOM_STEPS[clampedStep] <= currentMapZoom()) clampedStep++;
+  } else if (MAP_ZOOM_STEPS[clampedStep] <= mapView.minimumZoom) {
+    clampedStep = 0;
+  }
   if (clampedStep === mapView.zoomStep) return false;
   const oldZoom = currentMapZoom();
   const rect = dom.mapStage.getBoundingClientRect();
@@ -736,7 +756,7 @@ async function initializeProducerMap() {
   dom.mapLoading.hidden = true;
   dom.mapStatus.textContent = t("map.status_runtime", { districts: DISTRICTS.length, plots: PLOT_BLUEPRINTS.length, landmarks: LANDMARKS.length });
   dom.mapHint.textContent = t("map.hover_lock");
-  applyMapView();
+  updateMapFit();
   syncHomeLoadState();
 }
 
@@ -959,15 +979,23 @@ function cityMessage() {
   return { warning: false, text: t("market_message.opening") };
 }
 
-function renderNews() {
-  dom.newsList.replaceChildren();
-  const records = [
-    ...NEWS_ITEMS.filter((item) => item.turn <= state.turn).map((item) => ({ ...item, source: t(item.sourceKey), text: t(item.headlineKey) })),
-    ...state.log.map((entry) => ({ turn: entry.turn, type: entry.type || "Activity", source: t("news.source.operations_desk"), text: localizedEvent(entry) })),
-  ].sort((a, b) => b.turn - a.turn).slice(0, 18);
-  for (const record of records) {
-    const item = document.createElement("li");
-    item.className = "news-item";
+function fitNewsSlide() {
+  const slide = newsView.slide;
+  if (!slide || !slide.clientHeight) return;
+  const copy = slide.querySelector("p");
+  const heading = slide.firstElementChild;
+  const available = slide.clientHeight - 16 - heading.offsetHeight - 5;
+  let size = 13;
+  copy.style.fontSize = `${size}px`;
+  while ((copy.scrollHeight > available || copy.scrollWidth > copy.clientWidth) && size > 10) {
+    size -= .5;
+    copy.style.fontSize = `${size}px`;
+  }
+}
+
+function createNewsContent(record, element = "article") {
+  const item = document.createElement(element);
+  if (record) {
     const top = document.createElement("div");
     top.className = "news-meta";
     const badge = document.createElement("span");
@@ -975,12 +1003,79 @@ function renderNews() {
     badge.textContent = t(`news.type.${record.type.toLowerCase()}`);
     const source = document.createElement("span");
     source.textContent = t("news.meta", { turn: record.turn, source: record.source });
-    const copy = document.createElement("p");
-    copy.textContent = record.text;
+    source.title = source.textContent;
     top.append(badge, source);
-    item.append(top, copy);
-    dom.newsList.append(item);
+    item.append(top);
+  } else {
+    const title = document.createElement("strong");
+    title.textContent = window.M1WI18n.lookup("static.Market Brief.1");
+    item.append(title);
   }
+  const copy = document.createElement("p");
+  copy.textContent = record ? record.text : t("market_message.opening");
+  item.append(copy);
+  return item;
+}
+
+function setAdviceExpanded(expanded) {
+  dom.leftColumn.classList.toggle("is-advice-expanded", expanded);
+  dom.advicePanel.classList.toggle("is-expanded", expanded);
+  dom.adviceExpandButton.setAttribute("aria-expanded", String(expanded));
+  dom.newsList.hidden = !expanded;
+  dom.operationsPages.forEach((page) => { page.inert = expanded; });
+}
+
+function getNewsRecords() {
+  const activities = state.log.filter((entry) => entry.key !== "activity.match_entered");
+  return [
+    ...activities.map((entry, order) => ({ identity: entry, turn: entry.turn, order, type: entry.type || "Activity", source: t("news.source.operations_desk"), text: localizedEvent(entry) })),
+    ...NEWS_ITEMS.filter((item) => item.turn > 1 && item.turn <= state.turn).map((item) => {
+      // A turn's bulletin follows settlement, but later player actions take priority.
+      const settlement = activities.findIndex((entry) => entry.turn === item.turn && entry.key === "activity.operating_settlement");
+      return { ...item, identity: item, order: settlement < 0 ? activities.length : settlement - .5, source: t(item.sourceKey), text: t(item.headlineKey) };
+    }),
+  ].sort((a, b) => b.turn - a.turn || a.order - b.order).slice(0, 18);
+}
+
+function renderNews() {
+  const records = getNewsRecords();
+  const latest = records[0]?.identity || null;
+  const signature = JSON.stringify([locale(), records]);
+  if (newsView.state === state && newsView.signature === signature && newsView.latest === latest) return;
+  const previous = newsView.slide;
+  const slide = createNewsContent(records[0]);
+  slide.className = "news-slide";
+  const animate = newsView.state === state && previous && newsView.latest !== latest
+    && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  newsView.animations.forEach((animation) => animation.cancel());
+  newsView.animations = [];
+  dom.marketBrief.replaceChildren(slide);
+  if (newsView.state !== state) setAdviceExpanded(false);
+  newsView.state = state;
+  newsView.signature = signature;
+  newsView.latest = latest;
+  newsView.slide = slide;
+  fitNewsSlide();
+  if (animate) {
+    previous.setAttribute("aria-hidden", "true");
+    dom.marketBrief.prepend(previous);
+    const timing = { duration: 420, easing: "cubic-bezier(.22,.68,.2,1)", fill: "both" };
+    const outgoing = previous.animate([{ transform: "translateY(0)" }, { transform: "translateY(-100%)" }], timing);
+    const incoming = slide.animate([{ transform: "translateY(100%)" }, { transform: "translateY(0)" }], timing);
+    newsView.animations = [outgoing, incoming];
+    incoming.finished.then(() => {
+      previous.remove();
+      if (newsView.slide === slide) {
+        newsView.animations.forEach((animation) => animation.cancel());
+        newsView.animations = [];
+      }
+    }).catch(() => {});
+  }
+  dom.newsList.replaceChildren(...records.slice(1).map((record) => {
+    const item = createNewsContent(record, "li");
+    item.className = "news-item";
+    return item;
+  }));
 }
 
 function renderLoanBook() {
@@ -1044,9 +1139,6 @@ function renderOperations() {
   dom.rivalCondition.textContent = rivalCondition();
   dom.rivalWorth.textContent = money(participantWorth("ai"));
   dom.lawStatus.textContent = zoningActive() ? t("law.active") : state.turn >= 4 ? t("law.review") : t("law.none");
-  const message = cityMessage();
-  dom.marketBrief.classList.toggle("is-warning", message.warning);
-  dom.marketBrief.querySelector("p").textContent = message.text;
   dom.bankCredit.textContent = money(Math.max(0, economy.credit - outstandingPrincipal()));
   dom.bankRate.textContent = t("bank.rate", { rate: (economy.rate * 100).toFixed(2) });
   renderNews();
@@ -1340,6 +1432,7 @@ function endTurn() {
 
 function switchOperationsTab(tab) {
   if (!state || !["brief", "bank", "auction", "stocks"].includes(tab)) return false;
+  setAdviceExpanded(false);
   state.activeOperationsTab = tab;
   render();
   return true;
@@ -1506,7 +1599,7 @@ function restartFlow() {
 }
 
 function collectDom() {
-  const ids = ["home-screen", "home-panel", "home-panel-back", "home-panel-title", "home-load-panel", "home-load-save-button", "home-load-empty", "home-config-panel", "home-about-panel", "home-language-value", "toast", "plot-layer", "empty-property", "property-details", "plot-code", "plot-name", "plot-district", "plot-zone", "plot-tier", "plot-owner", "plot-price", "plot-building", "plot-income", "buy-button", "building-select", "build-button", "redevelop-select", "redevelop-preview", "redevelop-button", "sell-property-button", "sale-preview", "property-reason", "turn-value", "date-value", "economy-value", "cash-value", "debt-value", "credit-value", "worth-value", "ap-value", "turn-prompt", "end-turn-button", "rival-name", "rival-style", "rival-condition", "rival-worth", "law-status", "market-brief", "news-list", "bank-credit", "bank-rate", "borrow-button", "repay-button", "loan-list", "stock-order-amount", "stock-list", "save-button", "load-button", "restart-button", "title-button", "start-modal", "start-modal-back", "start-confirm-button", "start-load-button", "settings-modal", "language-select", "result-modal", "result-title", "result-summary", "result-player-worth", "result-rival-worth", "result-player-securities", "result-rival-securities", "result-restart-button", "settings-button", "operations-collapse-button", "advice-expand-button", "map-stage", "map-anchor", "map-canvas", "map-base", "district-overlay", "plot-overlay", "plot-mark-layer", "landmark-layer", "map-loading", "map-hint", "map-zoom-out", "map-zoom-value", "map-zoom-in", "map-reset", "map-status", "entity-file-title", "empty-district", "district-details", "district-close-button", "district-code", "district-name", "district-location", "district-plots", "district-apartments", "district-factories", "district-stores", "district-transit", "district-prosperity", "district-note", "landmark-details", "landmark-code", "landmark-name", "landmark-district", "landmark-short", "landmark-more", "landmark-long"];
+  const ids = ["home-screen", "home-panel", "home-panel-back", "home-panel-title", "home-load-panel", "home-load-save-button", "home-load-empty", "home-config-panel", "home-about-panel", "home-language-value", "toast", "plot-layer", "empty-property", "property-details", "plot-code", "plot-name", "plot-district", "plot-zone", "plot-tier", "plot-owner", "plot-price", "plot-building", "plot-income", "buy-button", "building-select", "build-button", "redevelop-select", "redevelop-preview", "redevelop-button", "sell-property-button", "sale-preview", "property-reason", "turn-value", "date-value", "economy-value", "cash-value", "debt-value", "credit-value", "worth-value", "ap-value", "turn-prompt", "end-turn-button", "rival-name", "rival-style", "rival-condition", "rival-worth", "law-status", "market-brief", "news-list", "bank-credit", "bank-rate", "borrow-button", "repay-button", "loan-list", "stock-order-amount", "stock-list", "save-button", "load-button", "restart-button", "title-button", "start-modal", "start-modal-back", "start-confirm-button", "start-load-button", "settings-modal", "language-select", "result-modal", "result-title", "result-summary", "result-player-worth", "result-rival-worth", "result-player-securities", "result-rival-securities", "result-restart-button", "settings-button", "advice-expand-button", "map-stage", "map-anchor", "map-canvas", "map-base", "district-overlay", "plot-overlay", "plot-mark-layer", "landmark-layer", "map-loading", "map-hint", "map-zoom-out", "map-zoom-value", "map-zoom-in", "map-reset", "map-status", "entity-file-title", "empty-district", "district-details", "district-close-button", "district-code", "district-name", "district-location", "district-plots", "district-apartments", "district-factories", "district-stores", "district-transit", "district-prosperity", "district-note", "landmark-details", "landmark-code", "landmark-name", "landmark-district", "landmark-short", "landmark-more", "landmark-long"];
   for (const id of ids) dom[id.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())] = document.getElementById(id);
   dom.homeActions = [...document.querySelectorAll("[data-home-action]")];
   dom.homeLanguageButtons = [...document.querySelectorAll("[data-home-language-step]")];
@@ -1514,6 +1607,7 @@ function collectDom() {
   dom.operationsPages = [...document.querySelectorAll("[data-operations-page]")];
   dom.operationsPanel = document.querySelector(".operations-panel");
   dom.advicePanel = document.querySelector(".advice-panel");
+  dom.leftColumn = document.querySelector(".left-column");
   dom.buildSection = document.querySelector(".build-section");
   dom.redevelopSection = document.querySelector(".redevelop-section");
   dom.saleSection = document.querySelector(".sale-section");
@@ -1560,14 +1654,8 @@ function bindEvents() {
   });
   dom.resultRestartButton.addEventListener("click", restartFlow);
   dom.settingsButton.addEventListener("click", () => dom.settingsModal.classList.add("is-open"));
-  dom.operationsCollapseButton.addEventListener("click", () => {
-    const isCollapsed = dom.operationsPanel.classList.toggle("is-collapsed");
-    dom.operationsCollapseButton.textContent = isCollapsed ? "+" : "−";
-    dom.operationsCollapseButton.setAttribute("aria-expanded", String(!isCollapsed));
-  });
   dom.adviceExpandButton.addEventListener("click", () => {
-    const expanded = dom.advicePanel.classList.toggle("is-expanded");
-    dom.adviceExpandButton.setAttribute("aria-expanded", String(expanded));
+    setAdviceExpanded(dom.adviceExpandButton.getAttribute("aria-expanded") !== "true");
   });
   dom.languageSelect.addEventListener("change", () => window.M1WI18n.setLocale(dom.languageSelect.value));
   window.addEventListener("m1w:locale-changed", () => {
@@ -1588,7 +1676,9 @@ function bindEvents() {
   dom.mapStage.addEventListener("pointercancel", mapPointerEnd);
   dom.mapStage.addEventListener("wheel", mapWheel, { passive: false });
   dom.mapStage.addEventListener("keydown", mapKeydown);
-  window.addEventListener("resize", applyMapView);
+  new ResizeObserver(updateMapFit).observe(dom.mapStage);
+  new ResizeObserver(fitNewsSlide).observe(dom.marketBrief);
+  document.fonts.ready.then(fitNewsSlide);
   dom.mapBase.addEventListener("error", () => failProducerMap(new Error("Map base SVG failed to load")), { once: true });
   document.querySelectorAll("[data-close-modal]").forEach((button) => button.addEventListener("click", () => document.getElementById(button.dataset.closeModal).classList.remove("is-open")));
   document.addEventListener("keydown", (event) => {

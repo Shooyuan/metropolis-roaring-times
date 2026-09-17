@@ -84,6 +84,7 @@ const zhCN = {
 };
 
 const staticText = {
+  "Investment Advice": "投资建议",
   "Settings": "设置", "Save": "保存", "Load": "读取", "New Match": "新对局",
   "Turn": "回合", "Economy": "经济阶段", "Cash": "现金", "Debt": "债务", "Credit Left": "剩余授信", "Net Worth": "净资产", "Action Points": "行动点", "Current Action": "当前操作", "End Turn": "结束回合", "Start a match": "开始一局游戏",
   "Operations Desk": "综合操作栏", "Game": "游戏", "Brief": "简报", "Investment": "投资", "Advice": "建议", "Bank": "银行", "Auction": "拍卖", "House": "场", "Stock": "股票", "Market": "市场",

@@ -7,7 +7,7 @@
   <title>Metropolis: Roaring Times — Map Demo</title>
   <link rel="icon" type="image/png" sizes="256x256" href="assets/metropolis-game-logo-256.png?v=1">
   <link rel="apple-touch-icon" href="assets/metropolis-game-logo-256.png?v=1">
-  <link rel="stylesheet" href="styles.css?v=m1w-ui-bottom1">
+  <link rel="stylesheet" href="styles.css?v=m1w-ui-advice2">
   <link rel="stylesheet" href="localization.css?v=m1w-label1">
 </head>
 <body>
@@ -85,7 +85,6 @@
         <aside class="operations-panel panel" aria-label="Operations Desk">
           <div class="panel-heading">
             <span>Operations Desk</span>
-            <button id="operations-collapse-button" class="panel-collapse-button" type="button" aria-label="Collapse operations panel" aria-expanded="true">−</button>
           </div>
           <div class="operations-tabs" role="tablist" aria-label="Operations pages">
             <button type="button" role="tab" data-operations-tab="brief" aria-controls="tab-brief">Game<br>Brief</button>
@@ -145,10 +144,9 @@
         </aside>
 
         <aside class="advice-panel panel" aria-label="Investment Advice">
-          <button id="advice-expand-button" class="advice-expand-button" type="button" aria-expanded="false">Investment Advice</button>
-          <div id="market-brief" class="event-card" aria-live="polite"><strong>Market Brief</strong><p>Choose a rival to begin.</p></div>
-          <div class="feed-key"><span>Historical</span><span>Fictional</span><span>Rumor</span><span>Activity</span></div>
-          <ol id="news-list" class="news-list" aria-live="polite"></ol>
+          <button id="advice-expand-button" class="advice-expand-button" type="button" aria-expanded="false" aria-controls="news-list">Investment Advice</button>
+          <div id="market-brief" class="news-viewport" aria-live="polite" aria-atomic="true"></div>
+          <ol id="news-list" class="news-list" hidden></ol>
         </aside>
       </section>
 
@@ -287,9 +285,9 @@
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="locales/en-US.js?v=m1w-i18n7"></script>
-  <script src="locales/zh-CN.js?v=m1w-i18n7"></script>
+  <script src="locales/zh-CN.js?v=m1w-ui-advice2"></script>
   <script src="landmark-content.js?v=m1w-copy1"></script>
   <script src="i18n.js?v=m1w-i18n7"></script>
-  <script src="app.js?v=m1w-ui-cleanup1"></script>
+  <script src="app.js?v=m1w-ui-advice2"></script>
 </body>
 </html>
