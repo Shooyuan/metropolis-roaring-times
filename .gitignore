@@ -8,3 +8,42 @@
 *.swp
 *~
 assets/source_handoffs/**/*.zip
+
+# Local source-art workbench and unapproved export drops.
+# Keep these files on disk, but do not upload them until their purpose,
+# source rights, and runtime role are recorded in docs/ASSET_MANIFEST.md.
+assets/bottom-bar-parts/
+assets/titlebar_parts_bright_v1/
+assets/title-bar-marquee-complete-*.png
+assets/CatChive Games logo.svg
+assets/animated-CaatChive logo.webm
+assets/credit available.png
+assets/current.png
+assets/debt.png
+docs/assets/in_game_ui_concept_u1_v*.png
+docs/assets/in_game_ui_review_v*.png
+m0_web/assets/00_BRAND.png
+m0_web/assets/fonts/SourceHanSerifCN-ExtraLight-3.otf
+m0_web/assets/fonts/SourceHanSerifCN-Heavy-4.otf
+m0_web/assets/fonts/SourceHanSerifCN-Light-5.otf
+m0_web/assets/fonts/SourceHanSerifCN-Regular-1.otf
+m0_web/assets/fonts/SourceHanSerifCN-SemiBold-7.otf
+m0_web/assets/home_png_complete/*icon*.png
+m0_web/assets/home_png_complete/*preview*.jpg
+m0_web/assets/home_png_complete/*.9slice.json
+m0_web/assets/home_png_complete/home-ui-v2-9slice-validation.png
+m0_web/assets/home_png_complete/option-button-frame-complete-v2-matte.png
+m0_web/assets/home_png_complete/pinned-documents-group-complete-v2.png
+m0_web/assets/home_png_complete/right-menu-panel-complete-v2-matte.png
+m0_web/assets/home_png_complete/right-menu-panel-complete-v3-simplified.png
+m0_web/assets/new ui/*.png
+references/20260806-155123.png
+references/InknutAntiqua-Regular.ttf
+references/buildings/
+references/d87d29d3-9ecb-4c3d-bf52-e97ef6f0f912.png
+references/generated/
+references/inknut-antiqua-font-reference.png
+references/manhattan_map_reference badge.png
+references/newyork skylines.png
+references/skylines
+ui_concept_v2/

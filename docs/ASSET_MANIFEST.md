@@ -37,6 +37,14 @@
 
 这两份 OTF 文件由老板指定为当前中文界面的权威字体。旧 `m0_web/fonts/SourceHanSerifSC-M1W.woff2` 和 `m0_web/fonts/SourceHanSansSC-M1W.woff2` 暂不删除，作为历史合版兼容资料保留；新实现不再把它们作为中文界面首选字体。
 
+## 英文正文字体 V002
+
+| 运行时文件 | 用途 |
+|---|---|
+| `m0_web/assets/fonts/Adobe-SongTi-Std-L-2.otf` | 英文正文、按钮、普通 UI 文案和弹窗正文 |
+
+这份 OTF 文件由老板指定为当前英文正文字体。装饰性大标题仍可继续使用 `Inknut Antiqua M1W`，以保留既有标题风格。
+
 ## 地图街区标签字体 V001
 
 | 运行时文件 | 用途 |

@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-M1W 在原有 M0.1 网页的状态栏、综合操作栏和八回合经济演示基础上，接入老板批准的 Figma 地图交付包 v004：
+M1W 在原有 M0.1 网页的状态栏、综合操作栏和 30 回合经济演示基础上，接入老板批准的 Figma 地图交付包 v004：
 
 - 正式独立 Brand：`assets/00_BRAND.svg`；
 - 正式地图底图：`assets/runtime_map_v001/base/metropolis_map_base.svg`；
@@ -29,7 +29,7 @@ M1W 在原有 M0.1 网页的状态栏、综合操作栏和八回合经济演示�
 > 历史原型说明：以下五页签与顶部结束回合布局描述的是当前已提交 M1W 网页事实。最终游戏内 UI 已由 `../docs/IN_GAME_UI_LAYOUT_SPEC.md` 改为五模块、左侧四页签和右下回合控制区；U1—U3 审批完成前不回写本网页。
 
 - 打开网页后先进入 Art Deco 风格启动页：老板指定的曼哈顿参考地图以 70% 不透明度在 60 秒内从底部向顶部循环浏览，四张票据独立定位，天际线等比铺满屏幕宽度；
-- 启动页英文菜单与弹窗正文使用 Inknut Antiqua Regular，弹窗标题与返回键使用 Inknut Antiqua Bold；Load、Config、About 与对手选择共同使用老板提供的 `assets/new ui/01_plain_panel_2x.png`，不由 CSS 重画；Load 存档项和 Config 语言项使用 `assets/home_png_complete/Vector.png`，语言通过左右三角切换而非系统下拉框；
+- 启动页英文菜单、弹窗正文和多数英文 UI 正文使用 `assets/fonts/Adobe-SongTi-Std-L-2.otf`；部分标题保留 Inknut Antiqua；Load、Config、About 与对手选择共同使用老板提供的 `assets/new ui/01_plain_panel_2x.png`，不由 CSS 重画；Load 存档项和 Config 语言项使用 `assets/home_png_complete/Vector.png`，语言通过左右三角切换而非系统下拉框；
 - 可从启动页选择开始新游戏、读取存档、设置语言或查看 About；
 - 选择 Tycoon、Landlady 或 Shark 作为 1v1 对手；
 - 查看 Game Brief、Investment Advice、Bank、Auction House 和 Stock Market 五个页签；
@@ -38,7 +38,7 @@ M1W 在原有 M0.1 网页的状态栏、综合操作栏和八回合经济演示�
 - 使用鼠标拖拽或方向键平移；
 - 查看街区、地块与历史地标三类右侧详情；
 - 在 `500%—1000%` 选择地块并演示购买、建造、改建和出售；
-- 运行原 M0.1 的八回合经济、借款、证券和存档演示。
+- 运行 30 回合经济、借款、证券和存档演示。
 
 ## 暂未包含
 
@@ -46,7 +46,7 @@ M1W 在原有 M0.1 网页的状态栏、综合操作栏和八回合经济演示�
 - 历史地标基于英文 Wikipedia 的正式短介绍、长介绍、逐项来源链接和双语译文；
 - 分区经济画像、可购地数量、大型交通设施与繁荣度公式；
 - 政府拍卖和紧急债务拍卖故事；
-- 最终20回合平衡、正式 AI、美术、音频和 Godot 架构。
+- 最终数值平衡、正式 AI、美术、音频和 Godot 架构。
 
 ## 本地运行与测试
 
