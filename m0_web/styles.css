@@ -51,6 +51,7 @@
   white-space: nowrap !important;
 }
 body {
+  display: flow-root;
   margin: 0;
   min-width: 1040px;
   min-height: 100vh;
@@ -812,11 +813,17 @@ html[lang="en-US"] .toast {
 }
 
 .game-shell {
+  display: flex;
+  flex-direction: column;
   width: min(1600px, calc(100vw - 28px));
+  height: calc(100vh - 32px);
+  height: calc(100dvh - 32px);
+  min-height: 0;
   margin: 12px auto 20px;
 }
 
 .masthead {
+  flex: 0 0 auto;
   min-height: 54px;
   margin-bottom: 8px;
   align-items: center;
@@ -906,9 +913,10 @@ html[lang="en-US"] .toast {
 .workspace {
   display: grid;
   grid-template-columns: minmax(260px, .78fr) minmax(640px, 2.24fr) minmax(270px, .82fr);
+  grid-template-rows: minmax(0, 1fr);
   gap: 10px;
-  height: calc(100vh - 102px);
-  min-height: 540px;
+  flex: 1 1 0;
+  min-height: 0;
   margin-bottom: 0;
   align-items: stretch;
 }
@@ -930,7 +938,7 @@ html[lang="en-US"] .toast {
 }
 
 .right-column {
-  grid-template-rows: minmax(330px, 1fr) 132px;
+  grid-template-rows: minmax(0, 1fr) 132px;
 }
 
 .operations-panel,
@@ -1216,7 +1224,11 @@ html[lang="en-US"] .toast {
 }
 
 @media (max-height: 820px) {
-  .game-shell { margin-top: 8px; }
+  .game-shell {
+    margin-top: 8px;
+    height: calc(100vh - 28px);
+    height: calc(100dvh - 28px);
+  }
   .masthead {
     min-height: 50px;
     padding: 5px 12px;
@@ -1232,14 +1244,14 @@ html[lang="en-US"] .toast {
     height: auto;
   }
   .workspace {
-    height: calc(100vh - 125px);
+    flex: 1 1 0;
     min-height: 0;
   }
   .left-column {
     --advice-height: 138px;
   }
   .right-column {
-    grid-template-rows: minmax(305px, 1fr) 128px;
+    grid-template-rows: minmax(0, 1fr) 128px;
   }
 }
 

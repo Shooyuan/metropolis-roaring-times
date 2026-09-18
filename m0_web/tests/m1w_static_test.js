@@ -73,7 +73,7 @@ assert(html.includes('src="assets/new%20ui/01_plain_panel_2x.png"'), "Load, Conf
 assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
-assert(html.includes("styles.css?v=m1w-ui-advice2"), "Main stylesheet must load the current advice layout");
+assert(html.includes("styles.css?v=m1w-viewport-fit1"), "Main stylesheet must load the viewport-bounded layout");
 assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
 assert(styles.includes('font-family: "Kings M1W"'), "District map labels must use the approved Kings font");
 assert(styles.includes("fill: #bdb199") && styles.includes("fill: #4e403e"), "District map labels must use the approved inactive and hover/selected colors");
@@ -109,7 +109,10 @@ assert(/\.map-toolbar\.map-legend \{[\s\S]*?gap: 10px;/.test(styles), "Map zoom 
 assert(/\.map-toolbar #map-reset \{[\s\S]*?margin-right: auto;/.test(styles), "Map reset must separate zoom controls from the legend");
 assert(/\.turn-panel \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\);[\s\S]*?grid-template-rows: auto 38px;/.test(styles), "Turn panel must use stacked rows to avoid metric and button overlap");
 assert(/\.turn-metrics div \{[\s\S]*?height: 46px;/.test(styles) && /\.turn-metrics small \{[\s\S]*?height: 14px;/.test(styles), "Turn metrics must stay compact enough to keep End Turn inside the panel");
-assert(styles.includes("grid-template-rows: minmax(330px, 1fr) 132px;"), "Right column must reserve enough height for the turn controls");
+assert(/\.game-shell \{[\s\S]*?height: calc\(100dvh - 32px\);[\s\S]*?min-height: 0;/.test(styles), "Game shell must be bounded to the viewport instead of growing the page");
+assert(/\.masthead \{[\s\S]*?flex: 0 0 auto;/.test(styles), "Top status bar must keep its own height while the workspace absorbs remaining space");
+assert(/\.workspace \{[\s\S]*?grid-template-rows: minmax\(0, 1fr\);[\s\S]*?flex: 1 1 0;[\s\S]*?min-height: 0;/.test(styles), "Workspace must fill the remaining viewport height without forcing page scroll");
+assert(styles.includes("grid-template-rows: minmax(0, 1fr) 132px;"), "Right column must let details scroll while reserving the turn controls");
 assert(styles.includes('color: #9b7242;'), "Rival explanations must use the approved brown text color");
 assert(styles.includes('background: url("assets/new%20ui/01_plain_panel_2x.png")'), "Rival cards must use the approved plain panel artwork");
 assert(styles.includes('background: url("assets/home_png_complete/button_frame_default.png")'), "Start must use the approved framed button artwork");
