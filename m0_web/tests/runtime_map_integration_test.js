@@ -45,12 +45,12 @@ const bannedEngineeringCopy = [
   /owner approval/i,
   /producer demo/i,
   /approval gate/i,
-  /老板/,
+  /项目负责人/,
   /制作人地图演示/,
   /本灰盒/,
-  /老板审核/,
-  /老板绘制/,
-  /老板定稿/,
+  /项目负责人审核/,
+  /项目负责人绘制/,
+  /项目负责人定稿/,
 ];
 for (const [file, source] of Object.entries(playerCopyFiles)) {
   for (const pattern of bannedEngineeringCopy) {

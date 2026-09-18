@@ -2,7 +2,7 @@
 
 ## 本阶段目标
 
-将简体中文界面的字体规则改为老板指定文件：
+将简体中文界面的字体规则改为项目负责人指定文件：
 
 - 中文标题：`m0_web/assets/fonts/SourceHanSerifCN-Bold-2.otf`
 - 中文正文：`m0_web/assets/fonts/SourceHanSerifCN-Medium-6.otf`
@@ -19,7 +19,7 @@
 ## 风险记录
 
 - 两份 Source Han Serif CN OTF 合计约 23MB，会增加网页下载体积；
-- 本阶段不做字体子集化，避免偏离老板“使用指定文件”的要求；
+- 本阶段不做字体子集化，避免偏离项目负责人“使用指定文件”的要求；
 - 旧 `m0_web/fonts/*.woff2` 暂时保留，不纳入清理，防止误删历史兼容资料。
 
 ## 验收标准

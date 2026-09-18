@@ -4,20 +4,20 @@
 
 ## 当前状态
 
-M1W 在原有 M0.1 网页的状态栏、综合操作栏和 30 回合经济演示基础上，接入老板批准的 Figma 地图交付包 v004：
+M1W 在原有 M0.1 网页的状态栏、综合操作栏和 30 回合经济演示基础上，接入项目负责人批准的 Figma 地图交付包 v004：
 
 - 正式独立 Brand：`assets/00_BRAND.svg`；
 - 正式地图底图：`assets/runtime_map_v001/base/metropolis_map_base.svg`；
 - 12 个权威街区：`assets/runtime_map_v001/geometry/metropolis_district_geometry.svg`；
-- 30 个老板绘制并批准的可购买地块及其稳定 ID、价格层级和固定基础地价；
-- 52 个老板放置的历史地标插画；地图上不再渲染历史地标英文横幅，名称与正文只在右侧 Historical File 中显示；
+- 30 个项目负责人绘制并批准的可购买地块及其稳定 ID、价格层级和固定基础地价；
+- 52 个项目负责人放置的历史地标插画；地图上不再渲染历史地标英文横幅，名称与正文只在右侧 Historical File 中显示；
 - 地图拖拽、固定倍率缩放、边界限制和禁止旋转；
 - SVG 按实际显示尺寸重新绘制，避免 Safari 把低分辨率合成层放大后出现模糊；
 - 街区悬停边框、点击锁定、关闭选择和双语街区详情；
 - 街区、地块、历史地标严格互斥选择，点击地图空白处清空右侧详情；
 - `100%—1500%` 十五级固定缩放：街区始终可选择；地块精细交互和历史地标点击从 `500%` 起开放；
 - 地块接入原 M0.1 的购买、建造、改建、经纪出售、银行、股票、AI 和回合流程；
-- Chelsea 保留老板批准的 Figma 矢量网络，并纳入真实浏览器命中专项测试。
+- Chelsea 保留项目负责人批准的 Figma 矢量网络，并纳入真实浏览器命中专项测试。
 - 英文与简体中文合并为同一个网页实现，在设置中即时切换且不重置对局状态；
 - 首次访问默认英文，`?lang=zh-CN` 可直接打开中文，旧 `/zh-CN/` 地址会兼容跳转；
 - 中英文使用统一存档键，并可只读迁移旧英文或旧中文存档。
@@ -28,8 +28,8 @@ M1W 在原有 M0.1 网页的状态栏、综合操作栏和 30 回合经济演示
 
 > 历史原型说明：以下五页签与顶部结束回合布局描述的是当前已提交 M1W 网页事实。最终游戏内 UI 已由 `../docs/IN_GAME_UI_LAYOUT_SPEC.md` 改为五模块、左侧四页签和右下回合控制区；U1—U3 审批完成前不回写本网页。
 
-- 打开网页后先进入 Art Deco 风格启动页：老板指定的曼哈顿参考地图以 70% 不透明度在 60 秒内从底部向顶部循环浏览，四张票据独立定位，天际线等比铺满屏幕宽度；
-- 启动页英文菜单、弹窗正文和多数英文 UI 正文使用 `assets/fonts/Adobe-SongTi-Std-L-2.otf`；部分标题保留 Inknut Antiqua；Load、Config、About 与对手选择共同使用老板提供的 `assets/new ui/01_plain_panel_2x.png`，不由 CSS 重画；Load 存档项和 Config 语言项使用 `assets/home_png_complete/Vector.png`，语言通过左右三角切换而非系统下拉框；
+- 打开网页后先进入 Art Deco 风格启动页：项目负责人指定的曼哈顿参考地图以 70% 不透明度在 60 秒内从底部向顶部循环浏览，四张票据独立定位，天际线等比铺满屏幕宽度；
+- 启动页英文菜单、弹窗正文和多数英文 UI 正文使用 `assets/fonts/Adobe-SongTi-Std-L-2.otf`；部分标题保留 Inknut Antiqua；Load、Config、About 与对手选择共同使用项目负责人提供的 `assets/new ui/01_plain_panel_2x.png`，不由 CSS 重画；Load 存档项和 Config 语言项使用 `assets/home_png_complete/Vector.png`，语言通过左右三角切换而非系统下拉框；
 - 可从启动页选择开始新游戏、读取存档、设置语言或查看 About；
 - 选择 Tycoon、Landlady 或 Shark 作为 1v1 对手；
 - 查看 Game Brief、Investment Advice、Bank、Auction House 和 Stock Market 五个页签；

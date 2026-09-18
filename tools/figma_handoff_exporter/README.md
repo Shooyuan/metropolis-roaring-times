@@ -74,7 +74,7 @@ README_ZH_CN.txt（中文内容）
 
 ## 当前约定的顶层图层
 
-插件尊重实际 Figma 顺序，不会重排图层。当前老板批准的顺序是：
+插件尊重实际 Figma 顺序，不会重排图层。当前项目负责人批准的顺序是：
 
 ```text
 08_PURCHASABLE_BLOCK_GEOMETRY
@@ -107,4 +107,4 @@ README_ZH_CN.txt（中文内容）
     └── illustration
 ```
 
-现有 `st-paul-the-apostle-church`、`title`、具体文字名和 `Rectangle 6` 不会导致卡顿，也不会阻止导出；插件会把父组名规范化为 `landmark_st_paul_the_apostle_church` 一类的运行时候选 ID，并在清单中同时保留原始 Figma 名称。改名只是便于后续检查，最终 ID 仍在接入验收时由老板审批。真正影响速度的是把所有含位图的地标一次性导成主画布尺寸的总 SVG，因此快速模式已经取消该步骤。
+现有 `st-paul-the-apostle-church`、`title`、具体文字名和 `Rectangle 6` 不会导致卡顿，也不会阻止导出；插件会把父组名规范化为 `landmark_st_paul_the_apostle_church` 一类的运行时候选 ID，并在清单中同时保留原始 Figma 名称。改名只是便于后续检查，最终 ID 仍在接入验收时由项目负责人审批。真正影响速度的是把所有含位图的地标一次性导成主画布尺寸的总 SVG，因此快速模式已经取消该步骤。

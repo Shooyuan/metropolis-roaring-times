@@ -1,6 +1,6 @@
 # Metropolis: Roaring Times — Vertical Slice Scope
 
-> 当前前置交付：现有 M1W 已接入并验证 v004 正式底图、12 个街区、30 个可购买地块和 52 个历史地标，包含固定缩放、互斥选择、双语详情及原 M0.1 地产经济演示。该网页仍是制作人验证层；老板验收前不启动 Godot 地图实现。
+> 当前前置交付：现有 M1W 已接入并验证 v004 正式底图、12 个街区、30 个可购买地块和 52 个历史地标，包含固定缩放、互斥选择、双语详情及原 M0.1 地产经济演示。该网页仍是制作人验证层；项目负责人验收前不启动 Godot 地图实现。
 
 > Document role: binding content and feature boundary for the first playable release
 >
@@ -49,7 +49,7 @@ The release is not considered complete when only isolated systems or a visual pr
 
 ### 3.1 Plot Collection
 
-- 地块数量不预设；完整集合等于老板在 `08_PURCHASABLE_BLOCK_GEOMETRY` 中实际绘制并批准的所有闭合地块。
+- 地块数量不预设；完整集合等于项目负责人在 `08_PURCHASABLE_BLOCK_GEOMETRY` 中实际绘制并批准的所有闭合地块。
 - Every plot has a unique stable ID and an irregular polygon.
 - Decorative shapes, water, roads and historical landmarks are not plots.
 - Every interactive plot must be inspectable and must have a defined owner, district, direct-sale state, auction eligibility, zoning state and adjacency list.
@@ -175,7 +175,7 @@ Required systems:
 - deterministic once-per-turn securities pricing and portfolio valuation;
 - securities excluded from property-backed credit capacity.
 
-开局地价层级为 `cheap $6,000–$10,000`、`medium $11,000–$18,000`、`expensive $19,000–$26,000`。层级来自老板在 Figma 中对每个地块的分组；精确价格在内容构建时按固定种子生成并版本化，不在每局开局时重抽。首批建筑收入基线见 `02_GAME_RULES.md`；经济、街区和事件倍率仍属于必须模拟校准的平衡数据。
+开局地价层级为 `cheap $6,000–$10,000`、`medium $11,000–$18,000`、`expensive $19,000–$26,000`。层级来自项目负责人在 Figma 中对每个地块的分组；精确价格在内容构建时按固定种子生成并版本化，不在每局开局时重抽。首批建筑收入基线见 `02_GAME_RULES.md`；经济、街区和事件倍率仍属于必须模拟校准的平衡数据。
 
 ## 7. Fixed Auction Scope
 

@@ -100,7 +100,7 @@ After M0, the project manager provides a more credible forecast based on Godot a
 | M0.1D | Synchronize approved M0.1 rules through every authoritative document | Medium | Cross-document contradiction |
 | M0.1W | Historical: revise the plain Web prototype for its then-approved five-tab layout | Large | Prototype scope expansion and balance |
 | M0G | Verified Godot environment, test runner and Web smoke build (complete) | Medium | Local Godot/Web capability |
-| M1W | 将老板 Figma 地图接入现有 M0 网页，形成制作人地图交互 Demo | Medium | Figma 交付完整性、SVG 坐标与浏览器性能 |
+| M1W | 将项目负责人 Figma 地图接入现有 M0 网页，形成制作人地图交互 Demo | Medium | Figma 交付完整性、SVG 坐标与浏览器性能 |
 | M1A | Validate the owner Figma package and integrate an owner-approved map overlay | Medium | Input completeness and conversion fidelity |
 | M1B | Complete owner-approved plot/landmark data, camera and geometry validation | Large | Polygon production and input accuracy |
 | U1 | English 1920×1080 full-screen game-UI style concept | Medium | Style fit without copying reference-game assets |
@@ -276,12 +276,12 @@ The original high environment risk is now reduced: the Steam executable, matchin
 
 ### 目标
 
-使用 `Metropolis Handoff Exporter` 按老板 Figma 实际矢量画布生成的一键交付 ZIP，升级现有 `m0_web`，让制作人能够在浏览器中看到正式 Brand 和地图，并操作拖拽、固定倍率缩放、分区悬停、点击保持与分区详情。
+使用 `Metropolis Handoff Exporter` 按项目负责人 Figma 实际矢量画布生成的一键交付 ZIP，升级现有 `m0_web`，让制作人能够在浏览器中看到正式 Brand 和地图，并操作拖拽、固定倍率缩放、分区悬停、点击保持与分区详情。
 
 ### 工作范围
 
 - 校验 `.fig` 本地副本与插件 ZIP 记录的实际画布宽高、图层树、图片、SVG `viewBox` 和位置关系；不以固定像素尺寸判退；
-- 从 ZIP 中提取网页专用衍生素材，不覆盖老板源文件；
+- 从 ZIP 中提取网页专用衍生素材，不覆盖项目负责人源文件；
 - 保留现有 M0 网页的状态栏、综合操作栏、金融/地产玩法说明和右侧详情结构；
 - 用正式地图替换占位曼哈顿轮廓；
 - 接入独立 Brand；
@@ -290,26 +290,26 @@ The original high environment risk is now reduced: the Steam executable, matchin
 - 将中英文审阅版合并为单一 `index.html`、单一玩法脚本和两份语言词典；在设置中即时切换语言并保留对局、地图与界面状态；
 - 从单一历史地标文案源接入 52 组中英文名称、单句短介绍、长介绍和英文 Wikipedia 链接；玩家界面不得暴露制作、审批或内部工程身份；
 - 使用新的统一存档键，并把旧英文与旧中文存档作为只读迁移来源，避免自动覆盖；
-- 对老板批准保留原样的 `district_chelsea` 矢量网络执行专项命中测试；若悬停、点击或选中保持范围错误，停止接入并报告，不擅自修改边界；
+- 对项目负责人批准保留原样的 `district_chelsea` 矢量网络执行专项命中测试；若悬停、点击或选中保持范围错误，停止接入并报告，不擅自修改边界；
 - 在 Chrome 中完成可视、交互、分辨率和性能检查。
 
 ### 不在本阶段
 
 - 不启动 Godot 地图实现；
-- 不擅自创建任何老板未在 Figma 中绘制的正式地块；
+- 不擅自创建任何项目负责人未在 Figma 中绘制的正式地块；
 - 不实现正式建筑插画、完整 AI 地图决策或最终经济平衡；
-- 不改变老板提交的分区边界。
+- 不改变项目负责人提交的分区边界。
 
 ### 门禁
 
 - `DOC-007B` 通过；
-- 老板审查网页中的地图对齐、Brand、缩放和分区交互；
+- 项目负责人审查网页中的地图对齐、Brand、缩放和分区交互；
 - 浏览器测试通过并创建独立 Git 提交；
 - 提交后停止，重新请求是否进入 Godot M1A。
 
 ## 9. M1A — Map Composition Prototype
 
-> 顺序调整：老板已明确当前先完成 M1W 制作人地图网页，暂不进入 Godot。M1W 验收并提交后，M1A 才重新请求授权。
+> 顺序调整：项目负责人已明确当前先完成 M1W 制作人地图网页，暂不进入 Godot。M1W 验收并提交后，M1A 才重新请求授权。
 
 ### 9.1 Objective
 
@@ -393,24 +393,24 @@ High due to geometry volume. Failed shapes are corrected individually; plot coun
 
 ### U1：全屏风格概念
 
-- 以老板布局和 `IN_GAME_UI_LAYOUT_SPEC.md` 为权威，制作英文 `1920×1080` 全屏概念图。
+- 以项目负责人布局和 `IN_GAME_UI_LAYOUT_SPEC.md` 为权威，制作英文 `1920×1080` 全屏概念图。
 - 使用 1920 年代纽约 Art Deco 高级酒店语言；只借鉴《Civilization VI》的信息层级、地图优先和环形控制原则，不复制其资产。
 - 明确五模块、四页签、灯箱、永久小地图、右下回合区及三种选择详情。
-- 不修改现有网页。老板批准概念图后单独测试文件完整性并提交 U1。
+- 不修改现有网页。项目负责人批准概念图后单独测试文件完整性并提交 U1。
 
 ### U2：模块与弹窗样式板
 
 - 分别展开顶部状态栏、左侧综合操作栏、中央地图控件、右侧详情/小地图、右下回合控制区。
 - 覆盖 Config、普通确认、债务处置、拍卖、法令新闻、来源、帮助和结果弹窗。
 - 明确英文/简体中文排版、行动点四状态、选中/悬停/禁用/危险状态和减少动态效果。
-- 老板逐项批准后测试清单完整性并提交 U2。
+- 项目负责人逐项批准后测试清单完整性并提交 U2。
 
 ### U3：组件与实现规格
 
 - 输出组件尺寸、约束、九宫格/矢量/位图格式、字体、色板、间距、层级、状态、动效和响应式规则。
 - 为 `1920×1080`、`1440×900`、`1366×768` 建立同一结构的布局合同。
-- 建立素材来源与许可记录；不把老板整张 Figma 拼图作为运行时背景。
-- 老板批准组件包后测试资产命名、尺寸、透明边缘与清单一致性，并提交 U3；之后另行申请 M2 实现许可。
+- 建立素材来源与许可记录；不把项目负责人整张 Figma 拼图作为运行时背景。
+- 项目负责人批准组件包后测试资产命名、尺寸、透明边缘与清单一致性，并提交 U3；之后另行申请 M2 实现许可。
 
 ## 11. M2 — Plot Interaction and UI Shell
 

@@ -25,7 +25,7 @@
 - `node scripts/sync_landmark_copy_from_draft.js`：通过，识别并校验 52 条草案；
 - `git diff --check`：通过，无空白错误。
 
-运行地图测试还会拒绝 `owner-authored`、`owner-approved`、`owner approval`、`producer demo`、`老板绘制`、`制作人地图演示` 等措辞重新进入玩家 HTML、语言包或历史正文。
+运行地图测试还会拒绝 `owner-authored`、`owner-approved`、`owner approval`、`producer demo`、`项目负责人绘制`、`制作人地图演示` 等措辞重新进入玩家 HTML、语言包或历史正文。
 
 ## 浏览器验收
 

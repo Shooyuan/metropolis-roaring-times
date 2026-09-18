@@ -337,14 +337,14 @@ Motion respects a reduced-motion setting where practical.
 
 - The map Figma source keeps the owner-approved top-to-bottom stacking order `08_PURCHASABLE_BLOCK_GEOMETRY`, `07_HISTORICAL_LANDMARKS`, `06_FRAME`, `05_NON_BUILDING_ORNAMENT`, `04_ROADS`, `03_DISTRICT_GEOMETRY`, `02_COASTLINE`, `01_WATER`; actual visual occlusion takes precedence over any superseded template.
 - The authoritative Brand is the separate `assets/00_BRAND.svg`; the map Figma file does not need an `00_BRAND` layer, and Brand remains excluded from the flattened map-base export.
-- 老板的 Figma 源稿拥有海岸、道路、街区、地块和地标的视觉几何权威；程序从同一几何派生命中/碰撞，拥有产权、价格、法规和状态覆盖层，但不得重画或修正老板的路径。
+- 项目负责人的 Figma 源稿拥有海岸、道路、街区、地块和地标的视觉几何权威；程序从同一几何派生命中/碰撞，拥有产权、价格、法规和状态覆盖层，但不得重画或修正项目负责人的路径。
 - SVG is preferred for icons, ornaments and simple line art that Godot imports reliably.
 - Transparent raster assets use lossless PNG during editing; optimized Web variants require visual comparison before replacement.
 - Source and export names use stable English `snake_case`.
 - Every final asset is listed in `docs/ASSET_MANIFEST.md` with source, author/tool, dimensions, license, generation prompt where applicable and import settings.
 - Generated assets remain drafts until visually reviewed in the actual map or UI context.
 - The original reference image remains in `references/` and is never packaged as the playable map background.
-- `08_PURCHASABLE_BLOCK_GEOMETRY` 下的 `cheap | medium | expensive` 是老板指定的初始价格层级；青绿色填充和描边仍只用于 Figma 审查，运行时视觉不能把三种层级误画成该审查色。
+- `08_PURCHASABLE_BLOCK_GEOMETRY` 下的 `cheap | medium | expensive` 是项目负责人指定的初始价格层级；青绿色填充和描边仍只用于 Figma 审查，运行时视觉不能把三种层级误画成该审查色。
 - 历史地标编辑源保留 PNG；运行包使用经过接触表审查的透明 `WebP` 插画与独立横幅 SVG。压缩不得移动地标、横幅或改变主地图坐标；当前 M1W 网页只渲染插画，不渲染横幅。
 
 ## 15. Accessibility and Clarity
