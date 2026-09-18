@@ -578,7 +578,7 @@
 | `static.Match Result` |  | 对局结果 |  |
 | `static.Game Settings` |  | 游戏设置 |  |
 | `static.These baskets are fictional aggregate instruments. Futures, short selling, broker margin and live prices are unavailable.` |  | 这些证券篮子是虚构的综合投资标的，不提供期货、做空、融资融券或实时行情。 |  |
-| `static.Read more` |  | 查看更多 |  |
+| `static.Read less` |  | 收起 |  |
 | `static.Redevelop` |  | 改建 |  |
 | `static.Redevelop into a higher-cost building` |  | 改建为成本更高的建筑 |  |
 | `static.Redevelop only into a higher-cost legal building. The old building contributes a 120% upgrade credit, but never pays cash back.` |  | 只能改建为成本更高且符合法令的建筑。旧建筑提供建造费 120% 的升级抵扣，但不会返还现金。 |  |
