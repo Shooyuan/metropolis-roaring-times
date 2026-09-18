@@ -527,10 +527,10 @@
 | `static.Every securities buy or sell costs one action point and a 1% fee.` |  | 每次买入或卖出证券消耗 1 点行动点，并收取 1% 手续费。 |  |
 | `static.Factory — $15,000` |  | 工厂 — $15,000 |  |
 | `static.Fictional` |  | 虚构 |  |
-| `static.Finish turn 8 with the highest net worth.` |  | 在第 8 回合结束时取得最高净资产。 |  |
+| `static.Finish turn 30 with the highest net worth.` |  | 在第 30 回合结束时取得最高净资产。 |  |
 | `static.Follows device preference` |  | 跟随设备偏好 |  |
 | `static.Game` |  | 游戏 |  |
-| `static.Highest net worth after turn 8 wins.` |  | 第 8 回合结束时净资产最高者获胜。 |  |
+| `static.Highest net worth after turn 30 wins.` |  | 第 30 回合结束时净资产最高者获胜。 |  |
 | `static.Historical` |  | 史实 |  |
 | `static.House` |  | 场 |  |
 | `static.Hover border` |  | 悬停边框 |  |
@@ -541,7 +541,7 @@
 | `static.Investment` |  | 投资 |  |
 | `static.Landlady` |  | 房东 |  |
 | `static.Language` |  | 语言 |  |
-| `static.Lead after turn 8` |  | 第 8 回合结束时领先 |  |
+| `static.Lead after turn 30` |  | 第 30 回合结束时领先 |  |
 | `static.Load` |  | 读取 |  |
 | `static.Loading Manhattan…` |  | 正在载入曼哈顿… |  |
 | `static.Loan Book` |  | 贷款账簿 |  |

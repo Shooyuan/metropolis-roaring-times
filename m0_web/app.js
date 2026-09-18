@@ -1,6 +1,6 @@
 "use strict";
 
-const MAX_TURN = 8;
+const MAX_TURN = 30;
 const SAVE_KEY = "metropolis_roaring_times_m1w_unified_save_v4";
 const LEGACY_SAVE_KEYS = [
   "metropolis_roaring_times_m1w_unified_save_v3",
@@ -11,7 +11,11 @@ const LEGACY_SAVE_KEYS = [
 const t = (key, values = {}) => window.M1WI18n.t(key, values);
 const locale = () => window.M1WI18n.getLocale();
 const HOME_LANGUAGE_NAMES = { "en-US": "English", "zh-CN": "中文（简体）" };
-const TURN_DATES = ["APR 14, 1926", "MAY 14, 1926", "JUN 14, 1926", "JUL 14, 1926", "AUG 14, 1926", "SEP 14, 1926", "OCT 14, 1926", "NOV 14, 1926"];
+const MONTH_NAMES = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+const turnDate = (turn) => {
+  const monthIndex = 3 + turn - 1;
+  return `${MONTH_NAMES[monthIndex % 12]} 14, ${1926 + Math.floor(monthIndex / 12)}`;
+};
 
 const RIVALS = {
   tycoon: { name: "Tycoon", style: "Industry & transport", preferredPlots: ["plot_027", "plot_028"], building: "factory", reserve: 8000, security: "industrial_shares" },
@@ -35,9 +39,9 @@ const BUILDING_ASSETS = {
 };
 
 const SECURITIES = {
-  municipal_bonds: { name: "Municipal & Railroad Bonds", ticker: "BONDS", risk: "Low", opens: 1, prices: [100, 101, 101, 100, 99, 98, 99, 100] },
-  industrial_shares: { name: "Industrial Shares Basket", ticker: "IND", risk: "Medium–High", opens: 1, prices: [100, 103, 108, 116, 122, 112, 87, 80] },
-  investment_trust: { name: "Metropolitan Investment Trust", ticker: "TRUST", risk: "High", opens: 3, prices: [null, null, 100, 112, 126, 105, 72, 65] },
+  municipal_bonds: { name: "Municipal & Railroad Bonds", ticker: "BONDS", risk: "Low", opens: 1, prices: [100, 101, 101, 100, 99, 98, 99, 100, 101, 102, 102, 101, 100, 100, 99, 98, 97, 98, 99, 100, 101, 102, 101, 100, 99, 98, 99, 100, 101, 102] },
+  industrial_shares: { name: "Industrial Shares Basket", ticker: "IND", risk: "Medium–High", opens: 1, prices: [100, 103, 108, 116, 122, 112, 87, 80, 84, 91, 99, 108, 116, 123, 128, 120, 106, 92, 83, 78, 82, 88, 97, 107, 118, 126, 121, 109, 95, 88] },
+  investment_trust: { name: "Metropolitan Investment Trust", ticker: "TRUST", risk: "High", opens: 3, prices: [null, null, 100, 112, 126, 105, 72, 65, 70, 82, 96, 112, 130, 145, 138, 118, 92, 70, 58, 62, 74, 90, 110, 132, 150, 142, 120, 96, 76, 68] },
 };
 
 const NEWS_ITEMS = [
@@ -150,15 +154,15 @@ const landmarkCopy = (landmark) => window.M1W_LANDMARK_COPY?.[landmark?.id]?.[lo
 const landmarkName = (landmark) => landmarkCopy(landmark)?.name || landmark?.displayName || landmark?.sourceName || landmark?.id || "";
 
 function economyForTurn(turn) {
-  if (turn <= 2) return { id: "opening", market: 1, income: 1, credit: 100000, rate: 0.0025 };
-  if (turn <= 4) return { id: "prosperity", market: 1.12, income: 1.18, credit: 110000, rate: 0.0025 };
-  if (turn <= 6) return { id: "overheating", market: 1.22, income: 1.08, credit: 80000, rate: 0.006 };
+  if (turn <= 6) return { id: "opening", market: 1, income: 1, credit: 100000, rate: 0.0025 };
+  if (turn <= 14) return { id: "prosperity", market: 1.12, income: 1.18, credit: 110000, rate: 0.0025 };
+  if (turn <= 22) return { id: "overheating", market: 1.22, income: 1.08, credit: 80000, rate: 0.006 };
   return { id: "adjustment", market: 0.9, income: 0.78, credit: 60000, rate: 0.0075 };
 }
 
 const blankHoldings = () => Object.fromEntries(Object.keys(SECURITIES).map((id) => [id, 0]));
 const securityPriceForTurn = (id, turn) => SECURITIES[id].prices[turn - 1];
-const zoningActive = () => Boolean(state && state.turn >= 6);
+const zoningActive = () => Boolean(state && state.turn >= 14);
 
 function clonePlots() {
   return PLOT_BLUEPRINTS.map((plot) => ({ ...plot, owner: "unowned", building: null, invested: 0, salePending: null }));
@@ -504,7 +508,7 @@ function renderLandmarkDetails() {
   dom.landmarkLong.textContent = copy?.long || t("landmark.long_unavailable");
   dom.landmarkSource.href = copy?.sourceUrl || "https://en.wikipedia.org/";
   dom.landmarkSourceText.textContent = t("landmark.source", { title: copy?.sourceTitle || "English Wikipedia" });
-  dom.landmarkMore.open = false;
+  dom.landmarkMore.open = true;
   dom.mapHint.textContent = t("map.landmark_selected", { landmark: landmarkName(landmark) });
 }
 
@@ -1040,9 +1044,9 @@ function rivalCondition() {
 }
 
 function cityMessage() {
-  if (state.turn === 4) return { warning: true, text: t("market_message.turn_4") };
-  if (state.turn === 5) return { warning: true, text: t("market_message.turn_5") };
-  if (state.turn >= 6) return { warning: true, text: t("market_message.zoning_active") };
+  if (state.turn === 10) return { warning: true, text: t("market_message.turn_4") };
+  if (state.turn === 12) return { warning: true, text: t("market_message.turn_5") };
+  if (state.turn >= 14) return { warning: true, text: t("market_message.zoning_active") };
   if (economyForTurn(state.turn).id === "prosperity") return { warning: false, text: t("market_message.prosperity") };
   return { warning: false, text: t("market_message.opening") };
 }
@@ -1206,7 +1210,7 @@ function renderOperations() {
   dom.rivalStyle.textContent = rivalStyle(state.rivalId);
   dom.rivalCondition.textContent = rivalCondition();
   dom.rivalWorth.textContent = money(participantWorth("ai"));
-  dom.lawStatus.textContent = zoningActive() ? t("law.active") : state.turn >= 4 ? t("law.review") : t("law.none");
+  dom.lawStatus.textContent = zoningActive() ? t("law.active") : state.turn >= 10 ? t("law.review") : t("law.none");
   dom.bankCredit.textContent = money(Math.max(0, economy.credit - outstandingPrincipal()));
   dom.bankRate.textContent = t("bank.rate", { rate: (economy.rate * 100).toFixed(2) });
   renderNews();
@@ -1219,7 +1223,7 @@ function renderStatus() {
   const currentIncome = state.plots.filter((plot) => plot.owner === "player").reduce((sum, plot) => sum + operationalIncome(plot), 0);
   const incomeText = `${currentIncome >= 0 ? "+" : "-"}${moneyK(currentIncome, false).replace("-", "")}`;
   dom.turnValue.textContent = `${state.turn} / ${MAX_TURN}`;
-  if (dom.dateValue) dom.dateValue.textContent = TURN_DATES[Math.max(0, Math.min(TURN_DATES.length - 1, state.turn - 1))];
+  if (dom.dateValue) dom.dateValue.textContent = turnDate(state.turn);
   dom.economyValue.textContent = t(`economy.${economy.id}`);
   dom.cashValue.textContent = `${money(state.cash)}（${incomeText}）`;
   dom.debtValue.textContent = money(currentDebt());
@@ -1517,7 +1521,7 @@ async function endTurn() {
     addLog("activity.operating_settlement", { playerIncome, rivalIncome: aiIncome });
     if (!settleLoans()) return;
     state.ap = 3;
-    if (state.turn === 6) addLog("activity.zoning_active", {}, "Rumor");
+    if (state.turn === 14) addLog("activity.zoning_active", {}, "Rumor");
     setToast(t("toast.turn_begins", { turn: state.turn }));
   });
 }
