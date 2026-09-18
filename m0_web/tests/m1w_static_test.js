@@ -112,7 +112,7 @@ assert(/\.turn-metrics div \{[\s\S]*?height: 46px;/.test(styles) && /\.turn-metr
 assert(/\.game-shell \{[\s\S]*?height: calc\(100dvh - 32px\);[\s\S]*?min-height: 0;/.test(styles), "Game shell must be bounded to the viewport instead of growing the page");
 assert(/\.masthead \{[\s\S]*?flex: 0 0 auto;/.test(styles), "Top status bar must keep its own height while the workspace absorbs remaining space");
 assert(/\.workspace \{[\s\S]*?grid-template-rows: minmax\(0, 1fr\);[\s\S]*?flex: 1 1 0;[\s\S]*?min-height: 0;/.test(styles), "Workspace must fill the remaining viewport height without forcing page scroll");
-assert(styles.includes("grid-template-rows: minmax(0, 1fr) 132px;"), "Right column must let details scroll while reserving the turn controls");
+assert(styles.includes("grid-template-rows: minmax(0, 1fr) 148px;"), "Right column must let details scroll while reserving a comfortable turn control block");
 assert(styles.includes('color: #9b7242;'), "Rival explanations must use the approved brown text color");
 assert(styles.includes('background: url("assets/new%20ui/01_plain_panel_2x.png")'), "Rival cards must use the approved plain panel artwork");
 assert(styles.includes('background: url("assets/home_png_complete/button_frame_default.png")'), "Start must use the approved framed button artwork");
