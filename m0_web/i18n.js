@@ -57,8 +57,6 @@
     for (const element of document.querySelectorAll("[data-i18n-html]")) element.innerHTML = t(element.dataset.i18nHtml);
     for (const element of document.querySelectorAll("[data-i18n-aria]")) element.setAttribute("aria-label", t(element.dataset.i18nAria));
     for (const element of document.querySelectorAll("[data-i18n-alt]")) element.setAttribute("alt", t(element.dataset.i18nAlt));
-    const select = document.getElementById("language-select");
-    if (select) select.value = locale;
   }
 
   function persist() {

@@ -53,6 +53,9 @@ for (const id of ["map-stage", "map-anchor", "map-canvas", "district-overlay", "
 for (const id of ["home-screen", "home-panel", "home-load-panel", "home-config-panel", "home-about-panel", "home-language-value", "start-modal-back", "start-confirm-button"]) {
   assert(html.includes(`id="${id}"`), `Missing home screen DOM contract: ${id}`);
 }
+for (const id of ["language-choice-button", "building-choice-button", "redevelop-choice-button", "confirm-modal", "confirm-ok-button", "confirm-cancel-button"]) {
+  assert(html.includes(`id="${id}"`), `Missing in-game control replacement: ${id}`);
+}
 for (const asset of ["right-menu-panel-complete.png", "1.png", "2.png", "3.png", "4.png", "nyc-skyline-from-reference-v3-expanded-sides 1.png", "manhattan_map_reference.png", "Vector.png", "button_frame_default.png"]) {
   assert(html.includes(`assets/home_png_complete/${asset}`) || styles.includes(`assets/home_png_complete/${asset}`), `Home screen must reference ${asset}`);
   assert(fs.existsSync(path.join(webRoot, "assets", "home_png_complete", asset)), `Missing home screen asset: ${asset}`);
@@ -73,7 +76,7 @@ assert(html.includes('src="assets/new%20ui/01_plain_panel_2x.png"'), "Load, Conf
 assert(fs.existsSync(homePanel), "Missing owner-provided center panel asset");
 assert(styles.includes("animation: home-map-bottom-to-top 60s linear infinite"), "Home map must use the approved 60-second bottom-to-top loop");
 assert(styles.includes("width: 100vw") && styles.includes("opacity: .7"), "Home map and skyline sizing/opacity contract must remain explicit");
-assert(html.includes("styles.css?v=m1w-viewport-fit1"), "Main stylesheet must load the viewport-bounded layout");
+assert(html.includes("styles.css?v=m1w-system-frame1"), "Main stylesheet must load the in-game system-frame controls");
 assert(styles.includes('font-family: "Inknut Antiqua M1W"'), "Home typography must use Inknut Antiqua");
 assert(styles.includes('font-family: "Kings M1W"'), "District map labels must use the approved Kings font");
 assert(styles.includes("fill: #bdb199") && styles.includes("fill: #4e403e"), "District map labels must use the approved inactive and hover/selected colors");
@@ -81,11 +84,13 @@ assert(script.includes('district_upper_east", name: "Upper East Side", label: ["
 assert(script.includes('district_west_village", name: "West Village", label: ["WEST", "VILLAGE"]'), "Village map labels must be split one word per line");
 assert(script.includes("const DISTRICT_LABEL_LAYOUT = {"), "District labels must use per-district layout controls instead of one global size");
 assert(styles.includes('html[lang="en-US"] .game-shell'), "English in-game UI must be explicitly scoped to Inknut Antiqua");
-assert(html.includes("localization.css?v=m1w-label1"), "Localization stylesheet cachebuster must advance after the district-label font override");
+assert(html.includes("localization.css?v=m1w-system-frame1"), "Localization stylesheet cachebuster must advance after the in-game system-frame controls");
 assert(localization.includes('html[lang] .district-label-text') && localization.includes('font-family: "Kings M1W", Georgia, serif !important;'), "Localization must not override map labels away from the approved Kings font");
 assert(/\.home-menu-actions button \{[\s\S]*?font-weight: 400;/.test(styles), "Home menu must use Inknut Antiqua Regular without changing its size");
 assert(styles.includes("top: 3.7%") && styles.includes("left: 34.8%") && styles.includes("top: 50.2%") && styles.includes("left: 35.5%"), "Home documents must retain the approved Group 11 composition anchors");
 assert(!html.includes('id="home-language-select"'), "Home Config must not use a native language selector");
+assert(!html.includes("<select"), "Game UI must not expose native browser select popups");
+assert(!script.includes("window.confirm"), "Game UI must not use native browser confirmation dialogs");
 assert((html.match(/data-home-language-step=/g) || []).length === 2, "Home Config must expose left and right language arrows");
 assert(script.includes("function stepHomeLanguage(direction)"), "Home language arrows must have a shared cycling implementation");
 assert(styles.includes('background: url("assets/home_png_complete/Vector.png")'), "Load and Config choices must use the approved Vector frame");

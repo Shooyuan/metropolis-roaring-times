@@ -26,9 +26,8 @@ const missingChineseKeys = dynamicEnglishKeys.filter((key) => !(key in zh));
 assert.deepEqual(missingChineseKeys, [], `Chinese dictionary is missing dynamic keys: ${missingChineseKeys.join(", ")}`);
 
 for (const fragment of [
-  'id="language-select"',
-  '<option value="en-US">English</option>',
-  '<option value="zh-CN">简体中文</option>',
+  'id="language-choice-button"',
+  'id="language-choice-list"',
   'src="locales/en-US.js',
   'src="locales/zh-CN.js',
   'src="i18n.js',
@@ -47,7 +46,9 @@ for (const legacyKey of ["metropolis_roaring_times_m01_save_v2", "metropolis_roa
   assert(app.includes(`"${legacyKey}"`), `Missing read-only legacy save migration source: ${legacyKey}`);
 }
 assert(app.includes('key: "activity.match_entered"'), "New activity records must store localization keys instead of rendered prose");
-assert(app.includes("renderBuildingSelectLabels();"), "Language switching must localize static select options");
+assert(app.includes("renderBuildingSelectLabels();"), "Language switching must localize custom choice options");
+assert(!html.includes("<select"), "Unified page must not expose native browser select popups");
+assert(!app.includes("window.confirm"), "Gameplay confirmations must use the in-game modal instead of browser dialogs");
 
 assert(redirect.includes("../?lang=zh-CN"), "Old Chinese URL must redirect to the unified page");
 assert(!fs.existsSync(path.join(webRoot, "zh-CN", "app.js")), "Duplicate Chinese gameplay code must be removed");

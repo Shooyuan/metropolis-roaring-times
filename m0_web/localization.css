@@ -62,8 +62,3 @@ html[lang] .district-label-text {
 
 html[lang="zh-CN"] .operations-tabs button { font-size: .61rem; }
 html[lang="zh-CN"] .masthead h1 { letter-spacing: -.03em; line-height: 1.08; }
-
-#language-select {
-  min-width: 118px;
-  padding: .25rem .35rem;
-}
