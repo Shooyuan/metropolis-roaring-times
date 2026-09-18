@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/metropolis%20game%20logo.png" width="168" alt="Metropolis: Roaring Times logo">
+  <img src="assets/00_BRAND.svg" width="168" alt="Metropolis: Roaring Times logo">
 </p>
 
 <h1 align="center">Metropolis: Roaring Times</h1>
@@ -12,8 +12,6 @@
 <p align="center">
   <a href="https://shooyuan.github.io/metropolis-roaring-times/"><b>在线试玩 Live Demo</b></a>
 </p>
-
-![游戏界面概览](docs/assets/in_game_ui_layout_owner_v001.png)
 
 ## 项目简介
 
