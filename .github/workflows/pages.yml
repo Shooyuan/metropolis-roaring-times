@@ -1,5 +1,6 @@
 name: Deploy GitHub Pages
 
+# Publishes the browser demo in m0_web.
 on:
   push:
     branches: [main]
