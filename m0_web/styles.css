@@ -1074,12 +1074,19 @@ html[lang="en-US"] .toast {
 
 .operations-tabs {
   flex: 0 0 var(--desk-tabs-height);
+  height: var(--desk-tabs-height);
   grid-template-columns: repeat(4, 1fr);
+  align-items: stretch;
 }
 
 .operations-tabs button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
   min-height: 0;
   font-size: .5rem;
+  line-height: 1.08;
 }
 
 .operations-page {

@@ -112,6 +112,8 @@ assert(/\.header-actions \.quiet-button \{[\s\S]*?min-width: 88px;[\s\S]*?paddin
 assert(html.includes('id="map-status" class="visually-hidden"') && !html.includes("12 districts · 30 plots · 52 landmarks</span>"), "Map count status must not remain visible in the toolbar");
 assert(/\.map-toolbar\.map-legend \{[\s\S]*?gap: 10px;/.test(styles), "Map zoom controls must keep enough spacing");
 assert(/\.map-toolbar #map-reset \{[\s\S]*?margin-right: auto;/.test(styles), "Map reset must separate zoom controls from the legend");
+assert(/\.operations-tabs \{[\s\S]*?height: var\(--desk-tabs-height\);[\s\S]*?align-items: stretch;/.test(styles), "Operations tab strip must have a fixed height without a blank lower band");
+assert(/\.operations-tabs button \{[\s\S]*?display: flex;[\s\S]*?height: 100%;/.test(styles), "Operations tabs must fill the whole tab strip height");
 assert(/\.turn-panel \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\);[\s\S]*?grid-template-rows: auto 38px;/.test(styles), "Turn panel must use stacked rows to avoid metric and button overlap");
 assert(/\.turn-metrics div \{[\s\S]*?height: 46px;/.test(styles) && /\.turn-metrics small \{[\s\S]*?height: 14px;/.test(styles), "Turn metrics must stay compact enough to keep End Turn inside the panel");
 assert(/\.game-shell \{[\s\S]*?height: calc\(100dvh - 32px\);[\s\S]*?min-height: 0;/.test(styles), "Game shell must be bounded to the viewport instead of growing the page");
